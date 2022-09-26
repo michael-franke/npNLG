@@ -7,6 +7,8 @@ structured.
 Here is a note!
 :::
 
+Some LaTeX $e = mc^{2}$
+
 And here is a code block:
 
 ```
