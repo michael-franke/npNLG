@@ -1,0 +1,44 @@
+#+title:     Trying out org & Python
+
+This is some text.
+
+#+begin_src jupyter-python :session py :tangle yes
+import numpy as np
+import sys
+import os
+#+end_src
+
+#+RESULTS:
+
+So, now I can write a notebook, it seems. It also includes the results. How good is that?
+
+#+BEGIN_SRC jupyter-python :session py
+x = 'foo'
+y = 'bar'
+x + ' ' + y
+#+END_SRC
+
+#+RESULTS:
+: foo bar
+
+#+begin_src jupyter-python :session mf :results both :tangle yes :comments link
+x = 7
+y = x + 1
+x = y + 1
+print(x)
+#+end_src
+
+#+RESULTS:
+: 9
+
+And some more text. And using `numpy`
+
+#+begin_src jupyter-python :results both :session mf :tangle yes
+z = [i+1 for i in range(x)]
+print(np.array(z))
+print(z)
+#+end_src
+
+#+RESULTS:
+: [1 2 3 4 5 6]
+: [1, 2, 3, 4, 5, 6]
