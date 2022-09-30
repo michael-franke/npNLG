@@ -2,6 +2,7 @@
 
 Course notes.
 
+Live version of the book: https://michael-franke.github.io/npNLG/
 
 ## Credits
 
