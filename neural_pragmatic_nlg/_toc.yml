@@ -7,3 +7,4 @@ chapters:
 - file: markdown
 - file: notebooks
 - file: test
+- file: pytorch-intro
