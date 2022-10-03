@@ -3,7 +3,18 @@
 
 format: jb-book
 root: 00-intro
-chapters:
-- file: 01-overview
-- file: test
-- file: pytorch-intro
+
+parts:
+- caption: organization
+  chapters:
+  - file: 01a-overview
+  - file: 01b-learning-goals
+  - file: 01c-grading
+
+- caption: Pragmatic Language Generation
+  chapters:
+    - file: test
+
+- caption: Neural Language Models
+  chapters:
+    - file: pytorch-intro
