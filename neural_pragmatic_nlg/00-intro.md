@@ -3,5 +3,3 @@
 
 Let&rsquo;s see &#x2026;
 
-    (setq org-export-with-toc nil)
-
