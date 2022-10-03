@@ -1,15 +1,4 @@
 Traceback (most recent call last):
-  File "/opt/hostedtoolcache/Python/3.8.14/x64/lib/python3.8/site-packages/nbclient/client.py", line 730, in _async_poll_for_reply
-    msg = await ensure_async(self.kc.shell_channel.get_msg(timeout=new_timeout))
-  File "/opt/hostedtoolcache/Python/3.8.14/x64/lib/python3.8/site-packages/nbclient/util.py", line 96, in ensure_async
-    result = await obj
-  File "/opt/hostedtoolcache/Python/3.8.14/x64/lib/python3.8/site-packages/jupyter_client/channels.py", line 230, in get_msg
-    raise Empty
-_queue.Empty
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
   File "/opt/hostedtoolcache/Python/3.8.14/x64/lib/python3.8/site-packages/jupyter_cache/executors/utils.py", line 51, in single_nb_execution
     executenb(
   File "/opt/hostedtoolcache/Python/3.8.14/x64/lib/python3.8/site-packages/nbclient/client.py", line 1204, in execute
@@ -22,17 +11,29 @@ Traceback (most recent call last):
     return future.result()
   File "/opt/hostedtoolcache/Python/3.8.14/x64/lib/python3.8/site-packages/nbclient/client.py", line 663, in async_execute
     await self.async_execute_cell(
-  File "/opt/hostedtoolcache/Python/3.8.14/x64/lib/python3.8/site-packages/nbclient/client.py", line 949, in async_execute_cell
-    exec_reply = await self.task_poll_for_reply
-  File "/opt/hostedtoolcache/Python/3.8.14/x64/lib/python3.8/site-packages/nbclient/client.py", line 754, in _async_poll_for_reply
-    await self._async_handle_timeout(timeout, cell)
-  File "/opt/hostedtoolcache/Python/3.8.14/x64/lib/python3.8/site-packages/nbclient/client.py", line 801, in _async_handle_timeout
-    raise CellTimeoutError.error_from_timeout_and_cell(
-nbclient.exceptions.CellTimeoutError: A cell timed out while it was being executed, after 30 seconds.
-The message was: Cell execution timed out.
-Here is a preview of the cell contents:
--------------------
-#runnable installation example: 
-!pip3 install torch torchvision torchaudio
--------------------
+  File "/opt/hostedtoolcache/Python/3.8.14/x64/lib/python3.8/site-packages/nbclient/client.py", line 965, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/opt/hostedtoolcache/Python/3.8.14/x64/lib/python3.8/site-packages/nbclient/client.py", line 862, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+tensor_1 = torch.tensor([[1, 2], [3, 4], [3, 4]])
+tensor_2 = torch.tensor([[5, 6], [7, 8], [9, 10]])
+
+product = torch.mm(tensor_1, tensor_2)
+
+print(product)
+
+------------------
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mRuntimeError[0m                              Traceback (most recent call last)
+Cell [0;32mIn [25], line 4[0m
+[1;32m      1[0m tensor_1 [38;5;241m=[39m torch[38;5;241m.[39mtensor([[[38;5;241m1[39m, [38;5;241m2[39m], [[38;5;241m3[39m, [38;5;241m4[39m], [[38;5;241m3[39m, [38;5;241m4[39m]])
+[1;32m      2[0m tensor_2 [38;5;241m=[39m torch[38;5;241m.[39mtensor([[[38;5;241m5[39m, [38;5;241m6[39m], [[38;5;241m7[39m, [38;5;241m8[39m], [[38;5;241m9[39m, [38;5;241m10[39m]])
+[0;32m----> 4[0m product [38;5;241m=[39m torch[38;5;241m.[39mmm(tensor_1, tensor_2)
+[1;32m      6[0m [38;5;28mprint[39m(product)
+
+[0;31mRuntimeError[0m: mat1 and mat2 shapes cannot be multiplied (3x2 and 3x2)
+RuntimeError: mat1 and mat2 shapes cannot be multiplied (3x2 and 3x2)
 
