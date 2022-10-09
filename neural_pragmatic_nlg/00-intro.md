@@ -1,5 +1,5 @@
 
 # Pragmatic Natural Language Generation with Neural Language Models
 
-Let&rsquo;s see &#x2026;
+This website contains material for a course on natural language generation with neural networks which integrate basic architectural principles from probabilistic pragmatics.
 
