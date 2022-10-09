@@ -31,7 +31,7 @@ print(product)
 Cell [0;32mIn [25], line 4[0m
 [1;32m      1[0m tensor_1 [38;5;241m=[39m torch[38;5;241m.[39mtensor([[[38;5;241m1[39m, [38;5;241m2[39m], [[38;5;241m3[39m, [38;5;241m4[39m], [[38;5;241m3[39m, [38;5;241m4[39m]])
 [1;32m      2[0m tensor_2 [38;5;241m=[39m torch[38;5;241m.[39mtensor([[[38;5;241m5[39m, [38;5;241m6[39m], [[38;5;241m7[39m, [38;5;241m8[39m], [[38;5;241m9[39m, [38;5;241m10[39m]])
-[0;32m----> 4[0m product [38;5;241m=[39m torch[38;5;241m.[39mmm(tensor_1, tensor_2)
+[0;32m----> 4[0m product [38;5;241m=[39m [43mtorch[49m[38;5;241;43m.[39;49m[43mmm[49m[43m([49m[43mtensor_1[49m[43m,[49m[43m [49m[43mtensor_2[49m[43m)[49m
 [1;32m      6[0m [38;5;28mprint[39m(product)
 
 [0;31mRuntimeError[0m: mat1 and mat2 shapes cannot be multiplied (3x2 and 3x2)
