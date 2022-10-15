@@ -1,0 +1,18 @@
+* Neural Pragmatic NLG
+
+Material for course (University of Tübingen, winter term 2022/23)
+
+Live version of the book: https://michael-franke.github.io/npNLG/
+
+Build and view locally:
+
+#+begin_src shell
+cd neural_pragmatics_nlp
+jupyter-book build .
+open _build/html/index.html
+#+end_src
+
+** Credits
+
+This project is created with the [Jupyter Book project](https://jupyterbook.org/), using the [executablebooks/cookiecutter-jupyter-book template](https://github.com/executablebooks/cookiecutter-jupyter-book).
+open _build/html/index.html
