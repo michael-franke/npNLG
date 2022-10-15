@@ -10,6 +10,7 @@ parts:
   - file: 01a-overview
   - file: 01b-learning-goals
   - file: 01c-grading
+  - file: 01e-schedule
 
 - caption: Pragmatic Language Generation
   chapters:
