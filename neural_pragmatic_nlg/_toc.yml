@@ -5,18 +5,18 @@ format: jb-book
 root: 00-intro
 
 parts:
-- caption: 00: organization
+- caption: 00 organization
   chapters:
-  - file: 00a-overview
-  - file: 00b-learning-goals
-  - file: 00c-grading
-  - file: 00d-schedule
+  - file: 01a-overview
+  - file: 01b-learning-goals
+  - file: 01c-grading
+  - file: 01d-schedule
 
-- caption: 01: Probabilistic pragmatics
+- caption: 01 Probabilistic pragmatics
   chapters:
   - file: 02-prob-prag
 
-- caption: 02: Neural Language Models
+- caption: 02 ANNs in PyTorch
   chapters:
-    - file: 03a-ANNs
-    - file: 03b-pytorch-intro
+  - file: 03a-ANNs
+  - file: 03b-pytorch-intro

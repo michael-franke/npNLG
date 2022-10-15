@@ -82,13 +82,15 @@ Caveat: Schedule is bound to change. See change stamps below.
 </tbody>
 </table>
 
-**References**
+
+## References
 
 Gatt, A., & Krahmer, E. (2018). Survey of the state of the art in natural language generation: core tasks, applications and evaluation. Journal of Artificial Intelligence Research, 61, 65–170. <http://dx.doi.org/10.1613/jair.5477>
 
 Scontras, G., Tessler, M. H., & Franke, M. (2021). A practical introduction to the rational speech act modeling framework. <https://arxiv.org/abs/2105.09867>
 
-**List of change stamps**
+
+## List of change stamps
 
 Last change: <span class="timestamp-wrapper"><span class="timestamp">[2022-10-15 Sat]</span></span>
 
