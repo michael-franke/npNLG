@@ -2,10 +2,16 @@
 
 Caveat: Schedule is bound to change. See change stamps below.
 
-| session |       date | topic                    | reading                           |
-|       1 | 2022-10-26 | overview (course & NLG)  | Gatt & Kramer (2018)              |
-|       2 | 2022-11-02 | probabilistic pragmatics | Scontras, Tessler & Franke (2021) |
-|       3 | 2022-11-09 | PyTorch & ANNs           |                                   |
+
+| session | date   | topic                            | resource               |
+|---------+--------+----------------------------------+------------------------|
+|       1 | Oct 26 | overview: course & NLG           | Gatt & Krahmer (2018)  |
+|       2 | Nov 2  | pragmatics, reference games, RSA | Scontras et al. (2021) |
+|       3 | Nov 9  | ANNs, PyTorch                    | [[https://pytorch.org/tutorials/beginner/basics/intro.html][PyTorch tutorial]]       |
+|       4 | Nov 16 | simple LMs                       |                        |
+|       5 | Nov 23 | complex LMs, evaluation measures |                        |
+|       6 | Nov 30 | decoding strategies              |                        |
+|       7 | Dec 7  | visually grounded LMs            |                        |
 
 
 *References*
@@ -14,7 +20,7 @@ Gatt, A., & Krahmer, E. (2018). Survey of the state of the art in natural langua
 
 Scontras, G., Tessler, M. H., & Franke, M. (2021). A practical introduction to the rational speech act modeling framework. [[https://arxiv.org/abs/2105.09867]]
 
-*List of changes*
+*List of change stamps*
 
 Last change: [2022-10-15 Sat]
 
