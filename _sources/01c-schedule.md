@@ -14,6 +14,8 @@ Caveat: Schedule is bound to change. See change stamps below.
 <col  class="org-left" />
 
 <col  class="org-left" />
+
+<col  class="org-left" />
 </colgroup>
 <thead>
 <tr>
@@ -21,6 +23,7 @@ Caveat: Schedule is bound to change. See change stamps below.
 <th scope="col" class="org-left">date</th>
 <th scope="col" class="org-left">topic</th>
 <th scope="col" class="org-left">resource</th>
+<th scope="col" class="org-left">&#xa0;</th>
 </tr>
 </thead>
 
@@ -29,7 +32,8 @@ Caveat: Schedule is bound to change. See change stamps below.
 <td class="org-right">1</td>
 <td class="org-left">Oct 26</td>
 <td class="org-left">overview: course &amp; NLG</td>
-<td class="org-left">Gatt &amp; Krahmer (2018)</td>
+<td class="org-left"><a href="http://dx.doi.org/10.1613/jair.5477">Gatt &amp; Krahmer (2018)</a></td>
+<td class="org-left">&#xa0;</td>
 </tr>
 
 
@@ -37,7 +41,8 @@ Caveat: Schedule is bound to change. See change stamps below.
 <td class="org-right">2</td>
 <td class="org-left">Nov 2</td>
 <td class="org-left">pragmatics, reference games, RSA</td>
-<td class="org-left">Scontras et al. (2021)</td>
+<td class="org-left"><a href="https://arxiv.org/abs/2105.09867">Scontras et al. (2021)</a></td>
+<td class="org-left">&#xa0;</td>
 </tr>
 
 
@@ -46,6 +51,7 @@ Caveat: Schedule is bound to change. See change stamps below.
 <td class="org-left">Nov 9</td>
 <td class="org-left">ANNs, PyTorch</td>
 <td class="org-left"><a href="https://pytorch.org/tutorials/beginner/basics/intro.html">PyTorch tutorial</a></td>
+<td class="org-left">&#xa0;</td>
 </tr>
 
 
@@ -53,6 +59,7 @@ Caveat: Schedule is bound to change. See change stamps below.
 <td class="org-right">4</td>
 <td class="org-left">Nov 16</td>
 <td class="org-left">simple LMs</td>
+<td class="org-left">&#xa0;</td>
 <td class="org-left">&#xa0;</td>
 </tr>
 
@@ -62,6 +69,7 @@ Caveat: Schedule is bound to change. See change stamps below.
 <td class="org-left">Nov 23</td>
 <td class="org-left">complex LMs, evaluation measures</td>
 <td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
 </tr>
 
 
@@ -70,6 +78,7 @@ Caveat: Schedule is bound to change. See change stamps below.
 <td class="org-left">Nov 30</td>
 <td class="org-left">decoding strategies</td>
 <td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
 </tr>
 
 
@@ -77,6 +86,7 @@ Caveat: Schedule is bound to change. See change stamps below.
 <td class="org-right">7</td>
 <td class="org-left">Dec 7</td>
 <td class="org-left">visually grounded LMs</td>
+<td class="org-left">&#xa0;</td>
 <td class="org-left">&#xa0;</td>
 </tr>
 </tbody>
