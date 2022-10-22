@@ -8,9 +8,8 @@ parts:
 - caption: 00 organization
   chapters:
   - file: 01a-overview
-  - file: 01b-learning-goals
-  - file: 01c-grading
-  - file: 01d-schedule
+  - file: 01b-practicalities
+  - file: 01c-schedule
 
 - caption: 01 Probabilistic pragmatics
   chapters:
