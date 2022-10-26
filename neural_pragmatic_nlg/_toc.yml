@@ -10,6 +10,7 @@ parts:
   - file: 01a-overview
   - file: 01b-practicalities
   - file: 01c-schedule
+  - file: 01d-slides
 
 - caption: 01 Probabilistic pragmatics
   chapters:

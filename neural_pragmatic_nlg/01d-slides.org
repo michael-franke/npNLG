@@ -1,0 +1,5 @@
+* Slides from session 1
+
+Slides from session 1 as [[file:slides/00-NLG-overview.pdf][PDF]].
+
+[[./pics/00-cover-NLG-overview.png]]
