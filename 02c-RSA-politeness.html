@@ -1,0 +1,675 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>RSA with politeness &#8212; Neural Pragmatic Natural Language Generation</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Artificial neural networks" href="03a-ANNs.html" />
+    <link rel="prev" title="Vanilla RSA for reference games" href="02b-RSA-vanilla.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="_static/npNLG-logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Neural Pragmatic Natural Language Generation</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="00-intro.html">
+                    Pragmatic Natural Language Generation with Neural Language Models
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  00 organization
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="01a-overview.html">
+   Course overview
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="01b-practicalities.html">
+   Practicalities
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="01c-schedule.html">
+   Schedule
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  01 Probabilistic pragmatics
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="02a-prob-prag.html">
+   Probabilistic pragmatics
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="02b-RSA-vanilla.html">
+   Vanilla RSA for reference games
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   RSA with politeness
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  02 ANNs in PyTorch
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="03a-ANNs.html">
+   Artificial neural networks
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="03b-pytorch-intro.html">
+   <strong>
+    PyTorch introduction
+   </strong>
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/michael-franke/npNLG/main?urlpath=tree/neural_pragmatic_nlg/02c-RSA-politeness.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://colab.research.google.com/github/michael-franke/npNLG/blob/main/neural_pragmatic_nlg/02c-RSA-politeness.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Colab"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="_static/images/logo_colab.png">
+  </span>
+<span class="headerbtn__text-container">Colab</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/michael-franke/npNLG"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/michael-franke/npNLG/issues/new?title=Issue%20on%20page%20%2F02c-RSA-politeness.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="_sources/02c-RSA-politeness.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>RSA with politeness</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section class="tex2jax_ignore mathjax_ignore" id="rsa-with-politeness">
+<h1>RSA with politeness<a class="headerlink" href="#rsa-with-politeness" title="Permalink to this headline">#</a></h1>
+<p><strong>NB: preliminary placeholder version; still under construction</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="c1">##################################################</span>
+<span class="c1">## helper functions</span>
+<span class="c1">##################################################</span>
+
+<span class="k">def</span> <span class="nf">softmax</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Softmax function in numpy</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x: array</span>
+<span class="sd">        An array with any dimensionality</span>
+<span class="sd">    axis: int</span>
+<span class="sd">        The axis along which to apply the softmax</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    array</span>
+<span class="sd">        Same shape as x</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">e_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">e_x</span> <span class="o">/</span> <span class="n">e_x</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">normalize</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Normalize arr along axis</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">arr</span> <span class="o">/</span> <span class="n">arr</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1">##################################################</span>
+<span class="c1">## model parameters</span>
+<span class="c1">##################################################</span>
+
+<span class="n">alpha</span>        <span class="o">=</span> <span class="mi">10</span>
+<span class="n">phi</span>          <span class="o">=</span> <span class="mf">0.99</span>
+<span class="n">social_value</span> <span class="o">=</span> <span class="mf">1.25</span>
+
+<span class="c1">##################################################</span>
+<span class="c1">## RSA model set up</span>
+<span class="c1">##################################################</span>
+
+<span class="n">states</span>     <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">]</span>
+<span class="n">utterances</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;terrible&quot;</span><span class="p">,</span><span class="s2">&quot;bad&quot;</span><span class="p">,</span><span class="s2">&quot;okay&quot;</span><span class="p">,</span><span class="s2">&quot;good&quot;</span><span class="p">,</span><span class="s2">&quot;amazing&quot;</span><span class="p">]</span>
+
+<span class="n">semantic_meaning</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+    <span class="p">[[</span><span class="mf">.95</span> <span class="p">,</span><span class="mf">.85</span> <span class="p">,</span><span class="mf">.02</span> <span class="p">,</span><span class="mf">.02</span><span class="p">,</span><span class="mf">.02</span><span class="p">],</span>    <span class="c1"># terrible</span>
+     <span class="p">[</span><span class="mf">.85</span> <span class="p">,</span><span class="mf">.95</span> <span class="p">,</span><span class="mf">.02</span> <span class="p">,</span><span class="mf">.02</span><span class="p">,</span><span class="mf">.02</span><span class="p">],</span>    <span class="c1"># bad</span>
+     <span class="p">[</span><span class="mf">.02</span> <span class="p">,</span><span class="mf">.25</span> <span class="p">,</span><span class="mf">.95</span> <span class="p">,</span><span class="mf">.65</span><span class="p">,</span><span class="mf">.35</span><span class="p">],</span>    <span class="c1"># okay</span>
+     <span class="p">[</span><span class="mf">.02</span> <span class="p">,</span><span class="mf">.05</span> <span class="p">,</span><span class="mf">.55</span> <span class="p">,</span><span class="mf">.95</span><span class="p">,</span><span class="mf">.93</span><span class="p">],</span>    <span class="c1"># good</span>
+     <span class="p">[</span><span class="mf">.02</span> <span class="p">,</span><span class="mf">.02</span> <span class="p">,</span><span class="mf">.02</span> <span class="p">,</span><span class="mf">.65</span><span class="p">,</span><span class="mf">.95</span><span class="p">]]</span>    <span class="c1"># amazing</span>
+<span class="p">)</span>
+
+<span class="c1">##################################################</span>
+<span class="c1">## RSA speaker with politeness</span>
+<span class="c1">##################################################</span>
+
+<span class="k">def</span> <span class="nf">RSA_polite_speaker</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">phi</span><span class="p">,</span> <span class="n">social_value</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    predictions of an RSA model with politeness (speaker part)</span>
+<span class="sd">    (following: http://www.problang.org/chapters/09-politeness.html)</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    alpha: float</span>
+<span class="sd">        Optimality parameter</span>
+<span class="sd">    phi: float</span>
+<span class="sd">        Relative weight of epistemic utility component</span>
+<span class="sd">    social_value: float</span>
+<span class="sd">        Social value factor (how much more &quot;socially valuable&quot; is one more star?)</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    array</span>
+<span class="sd">        probability that speaker chooses utterance for each state</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">literal_listener</span>   <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">semantic_meaning</span><span class="p">)</span>
+    <span class="n">epistemic_utility</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">literal_listener</span><span class="p">))</span>
+    <span class="n">social_utility</span>     <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">literal_listener</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">states</span><span class="p">])</span> <span class="o">*</span> <span class="n">social_value</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">util_speaker</span>       <span class="o">=</span> <span class="n">phi</span> <span class="o">*</span> <span class="n">epistemic_utility</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">phi</span><span class="p">)</span> <span class="o">*</span> <span class="n">social_utility</span>
+    <span class="n">pragmatic_speaker</span>  <span class="o">=</span> <span class="n">softmax</span><span class="p">(</span><span class="n">alpha</span> <span class="o">*</span> <span class="n">util_speaker</span><span class="p">)</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">pragmatic_speaker</span><span class="p">)</span>
+
+<span class="n">RSA_speaker_predictions</span> <span class="o">=</span> <span class="n">RSA_polite_speaker</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">phi</span><span class="p">,</span> <span class="n">social_value</span><span class="p">)</span>
+
+<span class="n">speaker</span>  <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span>    <span class="o">=</span> <span class="n">RSA_speaker_predictions</span><span class="p">,</span>
+                        <span class="n">index</span>   <span class="o">=</span> <span class="n">states</span><span class="p">,</span>
+                        <span class="n">columns</span> <span class="o">=</span> <span class="n">utterances</span><span class="p">)</span>
+<span class="n">speaker</span><span class="p">[</span><span class="s1">&#39;object&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">speaker</span><span class="o">.</span><span class="n">index</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">speaker</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+
+<span class="n">speaker_long</span> <span class="o">=</span> <span class="n">speaker</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">id_vars</span>      <span class="o">=</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span>
+                            <span class="n">var_name</span>     <span class="o">=</span> <span class="s2">&quot;utterance&quot;</span><span class="p">,</span>
+                            <span class="n">value_name</span>   <span class="o">=</span> <span class="s2">&quot;probability&quot;</span><span class="p">,</span>
+                            <span class="n">ignore_index</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+<span class="n">speaker_plot</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">FacetGrid</span><span class="p">(</span><span class="n">speaker_long</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="s2">&quot;object&quot;</span><span class="p">)</span>
+<span class="n">speaker_plot</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">,</span> <span class="s2">&quot;utterance&quot;</span><span class="p">,</span> <span class="s2">&quot;probability&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Exercises:</span>
+<span class="c1"># - Change the call to the speaker to make it so that it only cares about making the listener feel good.</span>
+<span class="c1"># - Change the call to the speaker to make it so that it cares about both making the listener feel good and conveying information.</span>
+<span class="c1"># - Change the value of the social_value and examine the results.</span>
+
+<span class="c1">##################################################</span>
+<span class="c1">## pragmatic listener infers politeness level</span>
+<span class="c1">##################################################</span>
+
+<span class="c1"># which phi-values to consider</span>
+<span class="n">phi_marks</span>     <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">stop</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
+<span class="n">phi_prior_flt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>   <span class="c1"># flat</span>
+<span class="n">phi_prior_bsd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">11</span><span class="p">])</span> <span class="c1"># biased towards politeness</span>
+
+<span class="k">def</span> <span class="nf">RSA_polite_listener</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">phi_prior</span><span class="p">,</span> <span class="n">social_value</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    predictions of an RSA model with politeness (listener part)</span>
+<span class="sd">    (following: http://www.problang.org/chapters/09-politeness.html)</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    alpha: float</span>
+<span class="sd">        Optimality parameter</span>
+<span class="sd">    phi_priors: float</span>
+<span class="sd">        Prior over degree of politeness (phi-parameter)</span>
+<span class="sd">    social_value: float</span>
+<span class="sd">        Social value factor (how much more &quot;socially valuable&quot; is one more star?)</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    array</span>
+<span class="sd">         for each message: listener posterior over state-phi pairs</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">phi_prior</span> <span class="o">=</span> <span class="n">phi_prior</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">phi_prior</span><span class="p">)</span> <span class="c1"># make sure priors are normalized</span>
+    <span class="n">posterior</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">phi_marks</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">utterances</span><span class="p">),</span><span class="nb">len</span><span class="p">(</span><span class="n">states</span><span class="p">)))</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">phi_marks</span><span class="p">)):</span>
+        <span class="n">pragmatic_speaker</span>  <span class="o">=</span> <span class="n">RSA_polite_speaker</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">phi_marks</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">social_value</span><span class="p">)</span>
+        <span class="n">posterior</span><span class="p">[</span><span class="n">i</span><span class="p">,:,:]</span>   <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">pragmatic_speaker</span><span class="p">)</span> <span class="o">*</span> <span class="n">phi_prior</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">normalize</span><span class="p">(</span><span class="n">posterior</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)))</span>
+
+<span class="n">RSA_listener_predictions</span> <span class="o">=</span> <span class="n">RSA_polite_listener</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">phi_prior_flt</span><span class="p">,</span> <span class="n">social_value</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;listener posterior over states after hearing &#39;amazing&#39;:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+      <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">RSA_listener_predictions</span><span class="p">[:,:,</span><span class="mi">4</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+
+<span class="c1"># TODO: why are the values numerically slightly off wrt to the WebPPL implementation?</span>
+<span class="c1"># TODO: cast the 3D array into DataFrame for plotting</span>
+
+<span class="n">iterables</span><span class="o">=</span><span class="p">[</span><span class="n">phi_marks</span><span class="p">,</span> <span class="n">utterances</span><span class="p">,</span> <span class="n">states</span><span class="p">]</span>
+<span class="n">index</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">MultiIndex</span><span class="o">.</span><span class="n">from_product</span><span class="p">(</span><span class="n">iterables</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;phi&#39;</span><span class="p">,</span><span class="s1">&#39;utterance&#39;</span><span class="p">,</span><span class="s1">&#39;state&#39;</span><span class="p">])</span>
+
+<span class="n">listener</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">RSA_listener_predictions</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">RSA_listener_predictions</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+                        <span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">)</span>
+<span class="n">listener</span> <span class="o">=</span> <span class="n">listener</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+
+<span class="c1">##################################################</span>
+<span class="c1">## plotting the results</span>
+<span class="c1">##################################################</span>
+
+<span class="k">def</span> <span class="nf">plot_listener</span><span class="p">(</span><span class="n">utterance_index</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;plotting listener posterior for utterance:&quot;</span><span class="p">,</span> <span class="n">utterances</span><span class="p">[</span><span class="n">utterance_index</span><span class="p">])</span>
+    <span class="n">predictions</span> <span class="o">=</span> <span class="n">RSA_listener_predictions</span><span class="p">[:,</span><span class="n">utterance_index</span><span class="p">,:]</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">plot_listener</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="c1"># Exercises:</span>
+<span class="c1"># 1. Use the plotting function for different indeces (0-4). What is plotted here?</span>
+<span class="c1">#    What&#39;s on the x-axis, the y-axis, and what do the colors mean?</span>
+<span class="c1"># 2. Plot the results for the utterance &quot;good&quot;. Describe the result in your own words.</span>
+<span class="c1">#    Comment on whether this makes sense to you, i.e., is the result an intuitive / natural</span>
+<span class="c1">#    interpretation of such an utterance (in the context we assume here)?</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   terrible   bad  okay  good  amazing  object
+1      0.75  0.25  0.00  0.00     0.00       1
+2      0.25  0.75  0.00  0.00     0.00       2
+3      0.00  0.00  1.00  0.00     0.00       3
+4      0.00  0.00  0.03  0.40     0.57       4
+5      0.00  0.00  0.00  0.01     0.99       5
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/hostedtoolcache/Python/3.8.14/x64/lib/python3.8/site-packages/seaborn/axisgrid.py:712: UserWarning: Using the barplot function without specifying `order` is likely to produce an incorrect plot.
+  warnings.warn(warning)
+</pre></div>
+</div>
+<img alt="_images/02c-RSA-politeness_2_2.png" src="_images/02c-RSA-politeness_2_2.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>listener posterior over states after hearing &#39;amazing&#39;:
+ [3.46911215e-17 5.82652542e-17 2.63857307e-06 9.06568167e-03
+ 9.90931680e-01]
+plotting listener posterior for utterance: good
+</pre></div>
+</div>
+<img alt="_images/02c-RSA-politeness_2_4.png" src="_images/02c-RSA-politeness_2_4.png" />
+</div>
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="02b-RSA-vanilla.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Vanilla RSA for reference games</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="03a-ANNs.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Artificial neural networks</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Michael Franke<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>
