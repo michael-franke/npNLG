@@ -3,3 +3,5 @@ matplotlib
 numpy
 ghp-import
 torch
+pandas
+seaborn

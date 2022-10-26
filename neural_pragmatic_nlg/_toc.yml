@@ -13,7 +13,9 @@ parts:
 
 - caption: 01 Probabilistic pragmatics
   chapters:
-  - file: 02-prob-prag
+  - file: 02a-prob-prag
+  - file: 02b-RSA-vanilla
+  - file: 02c-RSA-politeness
 
 - caption: 02 ANNs in PyTorch
   chapters:

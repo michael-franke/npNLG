@@ -10,7 +10,7 @@ The learning goals of this course are:
 2.  Ability to reproduce (simpler) simulations from the literature.
 3.  Confidence in critically assessing the methodology and manner of reporting in research papers.
 
-For more on reproducibility (in CL), see [Wieling et al. (2018)](http://dx.doi.org/10.1162/coli_a_00330).
+For more on reproducibility in CL, see [Wieling et al. (2018)](http://dx.doi.org/10.1162/coli_a_00330).
 
 
 ## Course requirements
@@ -19,7 +19,9 @@ The course is not intended as a first introduction to programming, Python, or ne
 It is recommended that you bring the following:
 
 -   prior experience in programming in Python
--   some prior knowledge in statistical modeling and neural networks
+    -   prior knowledge of PyTorch is not required
+-   some prior knowledge in statistical modeling, maybe even neural networks
+    -   linear algebra, probability calculus, (simple) linear regression modeling
 
 
 ## Grading
@@ -55,9 +57,9 @@ First meeting: October 26 2022
 
 Venue: Wilhelmstraße 19, room 0.01
 
-Some lectures will be delivered online, via Zoom, in this room: [zoom room](https://zoom.us/my/michael.franke.tuebingen).
+Some lectures will be delivered online, via Zoom, in this [zoom room](https://zoom.us/my/michael.franke.tuebingen).
 
-Homework submission and information sharing via email requires signing up for this course on [Moodle](https://moodle.zdv.uni-tuebingen.de/course/view.php?id=2875).
+In order to submit your homework and receive information for this course (by emaiil), please sign up for this course on [Moodle](https://moodle.zdv.uni-tuebingen.de/course/view.php?id=2875).
 
 
 ## References
