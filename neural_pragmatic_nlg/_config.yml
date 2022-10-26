@@ -24,6 +24,10 @@ latex:
 bibtex_bibfiles:
   - references.bib
 
+sphinx:
+  config:
+    html_extra_path: ['slides']
+
 # Information about where the book exists on the web
 repository:
   url: https://github.com/michael-franke/npNLG  # Online location of your book
