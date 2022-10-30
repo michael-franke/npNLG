@@ -2,6 +2,8 @@
 
 This is a (numpy-based) Python implementation of a vanilla Rational Speech Act model for a reference game.
 
+*NB: preliminary placeholder version; still under construction*
+
 #+begin_src jupyter-python :session py
 import numpy as np
 import seaborn as sns

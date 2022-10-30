@@ -50,9 +50,9 @@ First meeting: October 26 2022
 
 Venue: Wilhelmstraße 19, room 0.01
 
-Some lectures will be delivered online, via Zoom, in this room: [[https://zoom.us/my/michael.franke.tuebingen][zoom room]].
+Some lectures will be delivered online, via Zoom, in this [[https://zoom.us/my/michael.franke.tuebingen][zoom room]].
 
-Homework submission and information sharing via email requires signing up for this course on [[https://moodle.zdv.uni-tuebingen.de/course/view.php?id=2875][Moodle]].
+In order to submit your homework and receive information for this course (by emaiil), please sign up for this course on [[https://moodle.zdv.uni-tuebingen.de/course/view.php?id=2875][Moodle]].
 
 ** References
 
