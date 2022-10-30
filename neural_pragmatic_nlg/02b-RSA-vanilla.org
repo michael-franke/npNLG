@@ -237,6 +237,7 @@ square          0.0           0.4          0.6    square
 :END:
 
 > <strong><span style="color:#D83D2B;">Exercise 1.1.3: Explore the vanilla RSA model</span></strong>
+>
 > 0. [for your own sake only; no written answer required] Go through the whole last code block. Try to understand every single line in the function `RSA_predictions`. Ask if anything is unclear. (It is muss less important to understand the details of the subsequent data wrangling and plotting.)
 > 1. Explore what happens if you make the speaker more optimal. Does that also affect the listener's inferences? Why? Is that intuitive?
 > 2. Add another object to the context, namely a red triangle. Add any relevant utterances, their semantics and costs as well. What do you predict will happen to the model's predictions for the "old" objects and utterances? Test your predictions (= understanding of the model) and report the results.
