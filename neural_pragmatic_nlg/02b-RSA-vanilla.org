@@ -8,12 +8,16 @@ The `numpy` package is used here in order to implement the RSA model using vecto
 Additionally, we use the `seaborn` package for visualizing the model's predictions.
 The input for the `seaborn` plots are Data Frames from the `pandas` package.
 We also might need `matplotlib` to produce (render) the plots.
+Finally, this notebook uses the `warnings` package to suppress all warning messages (not necessarily best practice in general, but acceptable here, as not all warnings are critical and could just distract).
+
 
 #+begin_src jupyter-python :session py
 import numpy as np
 import seaborn as sns
 import pandas as pd
 import matplotlib.pyplot as plt
+import warnings
+warnings.filterwarnings('ignore')
 #+end_src
 
 #+RESULTS:
@@ -95,11 +99,6 @@ def normalize(arr, axis=1):
 
 #+RESULTS:
 
-> <strong><span style="color:#D83D2B;">Exercise 1.1.1: Apply the helper functions</span></strong>
-> 1. Compute the soft-max and the normalized stochastic vector for the vector $[1,2,3]$.
-> 2. Normalize the following matrix to a row-stochastic and a column-stochastic matrix for the matrix: $[[1,2], [3,4]]$.
-> 3. Apply softmax to the following matrix to obtain a row-stochastic and a column-stochastic matrix:  $[[1,2], [3,4], [5,6]]$.
-
 #+begin_src jupyter-python :session py
 ##################################################
 ## add solutions here for exercise 1.1.1
@@ -108,6 +107,11 @@ def normalize(arr, axis=1):
 # softmax(np.hurray([1,1,1,1]), axis=0815)
 
 #+end_src
+
+> <strong><span style="color:#D83D2B;">Exercise 1.1.1: Apply the helper functions</span></strong>
+> 1. Normalize the following matrix to a row-stochastic and a column-stochastic matrix for the matrix: $[[1,2], [3,4]]$.
+> 2. Apply softmax to the following matrix to obtain a row-stochastic and a column-stochastic matrix:  $[[1,2], [3,4], [5,6]]$.
+> 3. Compute the soft-max and the normalized stochastic vector for the vector $[1,2,3]$. (NB: the definitions do /not/ expect vector input, so ... what do you do?)
 
 * The model and its parameters
 
