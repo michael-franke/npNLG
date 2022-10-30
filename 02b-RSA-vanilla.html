@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Vanilla RSA for reference games &#8212; Neural Pragmatic Natural Language Generation</title>
+    <title>Sheet 1.1: Vanilla RSA for reference games &#8212; Neural Pragmatic Natural Language Generation</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -50,6 +50,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="RSA with politeness" href="02c-RSA-politeness.html" />
@@ -153,7 +155,7 @@ const thebe_selector_output = ".output, .cell_output"
  </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   Vanilla RSA for reference games
+   Sheet 1.1: Vanilla RSA for reference games
   </a>
  </li>
  <li class="toctree-l1">
@@ -382,23 +384,100 @@ title="Print to PDF"
     </ul>
   </div>
 </div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
 
     </div>
 </div>
 
 <!-- Table of contents -->
 <div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#packages">
+   Packages
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#running-example">
+   Running example
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#helper-functions">
+   Helper functions.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-model-and-its-parameters">
+   The model and its parameters
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#implementation-and-visualization">
+   Implementation and visualization
+  </a>
+ </li>
+</ul>
+
+    </nav>
 </div>
     </div>
     <div class="article row">
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Vanilla RSA for reference games</h1>
+                <h1>Sheet 1.1: Vanilla RSA for reference games</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
                         
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#packages">
+   Packages
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#running-example">
+   Running example
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#helper-functions">
+   Helper functions.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-model-and-its-parameters">
+   The model and its parameters
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#implementation-and-visualization">
+   Implementation and visualization
+  </a>
+ </li>
+</ul>
+
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -406,18 +485,63 @@ title="Print to PDF"
                 
               <div>
                 
-  <section class="tex2jax_ignore mathjax_ignore" id="vanilla-rsa-for-reference-games">
-<h1>Vanilla RSA for reference games<a class="headerlink" href="#vanilla-rsa-for-reference-games" title="Permalink to this headline">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="sheet-1-1-vanilla-rsa-for-reference-games">
+<h1>Sheet 1.1: Vanilla RSA for reference games<a class="headerlink" href="#sheet-1-1-vanilla-rsa-for-reference-games" title="Permalink to this headline">#</a></h1>
 <p>This is a (numpy-based) Python implementation of a vanilla Rational Speech Act model for a reference game.</p>
-<p><strong>NB: preliminary placeholder version; still under construction</strong></p>
+<section id="packages">
+<h2>Packages<a class="headerlink" href="#packages" title="Permalink to this headline">#</a></h2>
+<p>The `numpy` package is used here in order to implement the RSA model using vector and matrix computation.
+Additionally, we use the `seaborn` package for visualizing the model’s predictions.
+The input for the `seaborn` plots are Data Frames from the `pandas` package.
+We also might need `matplotlib` to produce (render) the plots.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="running-example">
+<h2>Running example<a class="headerlink" href="#running-example" title="Permalink to this headline">#</a></h2>
+<p>We will use a single running example here.
+The reference game in question is show below.</p>
+<p><img alt="img" src="_images/02-reference-game.png" /></p>
+<p>There are three objects, all of which could be the speaker’s intended referent.
+The set of utterances consists of the expressions: ’blue’, ’green’, ’circle’ and ’square’.</p>
+<p>In python code, we can represent this context as follows:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##################################################</span>
+<span class="c1">## defining the context</span>
 <span class="c1">##################################################</span>
+
+<span class="n">object_names</span>    <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;blue_circle&#39;</span><span class="p">,</span> <span class="s1">&#39;green_square&#39;</span><span class="p">,</span> <span class="s1">&#39;blue_square&#39;</span><span class="p">]</span>
+<span class="n">utterance_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="s1">&#39;circle&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="s1">&#39;square&#39;</span><span class="p">]</span>
+
+<span class="n">semantic_meaning</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+    <span class="c1"># blue circle, green square, blue square</span>
+    <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>  <span class="c1"># blue</span>
+     <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>  <span class="c1"># circle</span>
+     <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>  <span class="c1"># green</span>
+     <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>  <span class="c1"># square,</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="helper-functions">
+<h2>Helper functions.<a class="headerlink" href="#helper-functions" title="Permalink to this headline">#</a></h2>
+<p>Two helper functions will come in handy:
+one for normalizing vectors and matrices;
+another for computing soft-max.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##################################################</span>
 <span class="c1">## helper functions</span>
 <span class="c1">##################################################</span>
 
@@ -444,8 +568,56 @@ title="Print to PDF"
 <span class="sd">    Normalize arr along axis</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">arr</span> <span class="o">/</span> <span class="n">arr</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
+</pre></div>
+</div>
+</div>
+</div>
+<blockquote>
+<div><p><strong><span style=&ldquo;color:#D83D2B;&rdquo;>Exercise 1.1.1: Apply the helper functions</span></strong></p>
+<ol class="simple">
+<li><p>Compute the soft-max and the normalized stochastic vector for the vector <span class="math notranslate nohighlight">\([1,2,3]\)</span>.</p></li>
+<li><p>Normalize the following matrix to a row-stochastic and a column-stochastic matrix for the matrix: <span class="math notranslate nohighlight">\([[1,2], [3,4]]\)</span>.</p></li>
+<li><p>Apply softmax to the following matrix to obtain a row-stochastic and a column-stochastic matrix:  <span class="math notranslate nohighlight">\([[1,2], [3,4], [5,6]]\)</span>.</p></li>
+</ol>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##################################################</span>
+<span class="c1">## add solutions here for exercise 1.1.1</span>
 <span class="c1">##################################################</span>
+
+<span class="c1"># softmax(np.hurray([1,1,1,1]), axis=0815)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="the-model-and-its-parameters">
+<h2>The model and its parameters<a class="headerlink" href="#the-model-and-its-parameters" title="Permalink to this headline">#</a></h2>
+<p>The model we want to implement is defined as follows:</p>
+<p>\begin{align*}
+P_{lit}(s \mid u) &amp; \propto L(u,s) \
+P_S( u \mid s) &amp;= \mathrm{SoftMax}  \left ( \alpha \left ( \log P_{lit}(s \mid u)  - \mathrm{C}(u) \right ) \right ) \
+P_L( s \mid u) &amp; \propto P_{sal}(s) \ P_S( u \mid s)
+\end{align*}</p>
+<p>Here, <span class="math notranslate nohighlight">\(L\)</span> is a <em>lexicon</em>, which assigns a truth-value (usually 0 or 1) to each pair of utterance and state.
+The sign <span class="math notranslate nohighlight">\(\propto\)</span> is to be read as “proportional to” and implies proper normalization of the to-be-defined (conditional) distributions.
+The parameter <span class="math notranslate nohighlight">\(\alpha\)</span> is the usual “optimality” or “inverse temperature” parameter of the soft-max function.
+The cost function <span class="math notranslate nohighlight">\(C\)</span> assigns a real number to each utterance, representing the relative effort or dispreference for that utterance.
+(NB: Since soft-max is only sensitive to (additive) differences, only differences in cost between utterances matter.)
+The salience prior <span class="math notranslate nohighlight">\(P_{sal}\)</span> provides a relative weight of accessibility, salience or <em>a priori</em> bias for each object.</p>
+<p>The model’s free parameters are: the optimality parameter <span class="math notranslate nohighlight">\(\alpha\)</span>, the relative cost <span class="math notranslate nohighlight">\(C(u_{\text{ajd}})\)</span> of using an adjective (rather than a noun, where <span class="math notranslate nohighlight">\(C(u_{\text{noun}})=0\)</span>), and the salience prior <span class="math notranslate nohighlight">\(P_{sal}\)</span>.</p>
+<blockquote>
+<div><p><strong><span style=&ldquo;color:#D83D2B;&rdquo;>Exercise 1.1.2: Paraphrase the definitions</span></strong></p>
+<p>Provide a short, intuitive and explanatory paraphrase for each of the three conditional probability distributions that define the RSA model above. I.e., formulate a sentence or two for each, so that a person can understand the purpose or gist of the definition. The less technical jargon you use, the better. The more insightful to a novice, the better.</p>
+</div></blockquote>
+<blockquote>
+<div><p><strong><span style=&ldquo;color:#D83D2B;&rdquo;>Solutions for Exercise 1.1.2</span></strong></p>
+<p>… add your solution here …</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##################################################</span>
 <span class="c1">## model parameters</span>
 <span class="c1">##################################################</span>
 
@@ -453,21 +625,19 @@ title="Print to PDF"
 <span class="n">cost_adjectives</span>    <span class="o">=</span> <span class="mf">0.1</span>
 <span class="n">salience_prior_flt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>     <span class="c1"># flat</span>
 <span class="n">salience_prior_emp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">71</span><span class="p">,</span><span class="mi">139</span><span class="p">,</span><span class="mi">30</span><span class="p">])</span> <span class="c1"># empirical</span>
-
-<span class="c1">##################################################</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="implementation-and-visualization">
+<h2>Implementation and visualization<a class="headerlink" href="#implementation-and-visualization" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##################################################</span>
 <span class="c1">## RSA model predictions</span>
 <span class="c1">##################################################</span>
 
-<span class="n">object_names</span>    <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;blue_circle&#39;</span><span class="p">,</span> <span class="s1">&#39;green_square&#39;</span><span class="p">,</span> <span class="s1">&#39;blue_square&#39;</span><span class="p">]</span>
-<span class="n">utterance_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="s1">&#39;circle&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="s1">&#39;square&#39;</span><span class="p">]</span>
-
-<span class="n">semantic_meaning</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
-    <span class="c1"># blue circle, green square, blue square</span>
-    <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>  <span class="c1"># blue</span>
-     <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>  <span class="c1"># circle</span>
-     <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>  <span class="c1"># green</span>
-     <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>  <span class="c1"># square,</span>
-    <span class="p">)</span>
 
 <span class="k">def</span> <span class="nf">RSA</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">cost_adjectives</span><span class="p">,</span> <span class="n">salience_prior</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -514,12 +684,14 @@ title="Print to PDF"
 <span class="c1">## plotting the results</span>
 <span class="c1">##################################################</span>
 
-<span class="n">speaker_long</span> <span class="o">=</span> <span class="n">speaker</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">id_vars</span> <span class="o">=</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span> <span class="n">var_name</span> <span class="o">=</span> <span class="s2">&quot;utterance&quot;</span><span class="p">,</span> <span class="n">value_name</span> <span class="o">=</span> <span class="s2">&quot;probability&quot;</span><span class="p">,</span> <span class="n">ignore_index</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+<span class="n">speaker_long</span> <span class="o">=</span> <span class="n">speaker</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">id_vars</span> <span class="o">=</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span> <span class="n">var_name</span> <span class="o">=</span> <span class="s2">&quot;utterance&quot;</span><span class="p">,</span>
+                            <span class="n">value_name</span> <span class="o">=</span> <span class="s2">&quot;probability&quot;</span><span class="p">,</span> <span class="n">ignore_index</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
 <span class="n">speaker_plot</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">FacetGrid</span><span class="p">(</span><span class="n">speaker_long</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="s2">&quot;object&quot;</span><span class="p">)</span>
 <span class="n">speaker_plot</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">,</span> <span class="s2">&quot;utterance&quot;</span><span class="p">,</span> <span class="s2">&quot;probability&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
-<span class="n">listener_long</span> <span class="o">=</span> <span class="n">listener</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">id_vars</span> <span class="o">=</span> <span class="s2">&quot;utterance&quot;</span><span class="p">,</span> <span class="n">var_name</span> <span class="o">=</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span> <span class="n">value_name</span> <span class="o">=</span> <span class="s2">&quot;probability&quot;</span><span class="p">,</span> <span class="n">ignore_index</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+<span class="n">listener_long</span> <span class="o">=</span> <span class="n">listener</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">id_vars</span> <span class="o">=</span> <span class="s2">&quot;utterance&quot;</span><span class="p">,</span> <span class="n">var_name</span> <span class="o">=</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span>
+                              <span class="n">value_name</span> <span class="o">=</span> <span class="s2">&quot;probability&quot;</span><span class="p">,</span> <span class="n">ignore_index</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
 <span class="n">listener_plot</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">FacetGrid</span><span class="p">(</span><span class="n">listener_long</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="s2">&quot;utterance&quot;</span><span class="p">)</span>
 <span class="n">listener_plot</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">,</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span> <span class="s2">&quot;probability&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
@@ -527,10 +699,8 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_1796/1544816738.py:76: RuntimeWarning: divide by zero encountered in log
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_1804/2920170491.py:24: RuntimeWarning: divide by zero encountered in log
   util_speaker       = np.log(np.transpose(literal_listener)) - costs
-/opt/hostedtoolcache/Python/3.8.14/x64/lib/python3.8/site-packages/seaborn/axisgrid.py:712: UserWarning: Using the barplot function without specifying `order` is likely to produce an incorrect plot.
-  warnings.warn(warning)
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>              blue  circle  green  square        object
@@ -544,14 +714,29 @@ green           0.0           1.0          0.0     green
 square          0.0           0.4          0.6    square
 </pre></div>
 </div>
-<img alt="_images/02b-RSA-vanilla_2_2.png" src="_images/02b-RSA-vanilla_2_2.png" />
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/hostedtoolcache/Python/3.8.14/x64/lib/python3.8/site-packages/seaborn/axisgrid.py:712: UserWarning: Using the barplot function without specifying `order` is likely to produce an incorrect plot.
   warnings.warn(warning)
 </pre></div>
 </div>
-<img alt="_images/02b-RSA-vanilla_2_4.png" src="_images/02b-RSA-vanilla_2_4.png" />
+<img alt="_images/02b-RSA-vanilla_17_3.png" src="_images/02b-RSA-vanilla_17_3.png" />
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/hostedtoolcache/Python/3.8.14/x64/lib/python3.8/site-packages/seaborn/axisgrid.py:712: UserWarning: Using the barplot function without specifying `order` is likely to produce an incorrect plot.
+  warnings.warn(warning)
+</pre></div>
+</div>
+<img alt="_images/02b-RSA-vanilla_17_5.png" src="_images/02b-RSA-vanilla_17_5.png" />
 </div>
 </div>
+<blockquote>
+<div><p><strong><span style=&ldquo;color:#D83D2B;&rdquo;>Exercise 1.1.3: Explore the vanilla RSA model</span></strong>
+0. [for your own sake only; no written answer required] Go through the whole last code block. Try to understand every single line in the function `RSA<sub>predictions</sub>`. Ask if anything is unclear. (It is muss less important to understand the details of the subsequent data wrangling and plotting.)</p>
+<ol class="simple">
+<li><p>Explore what happens if you make the speaker more optimal. Does that also affect the listener’s inferences? Why? Is that intuitive?</p></li>
+<li><p>Add another object to the context, namely a red triangle. Add any relevant utterances, their semantics and costs as well. What do you predict will happen to the model’s predictions for the “old” objects and utterances? Test your predictions (= understanding of the model) and report the results.</p></li>
+<li><p>Run the model with different values for the cost parameter `cost<sub>adjectives</sub>`. Which effect does this have on the speaker prediction? Which effect does that have on the predictions for listener interpretation? Explain these observation in your own non-technical terms (e.g., for an interested outsider).</p></li>
+<li><p>Is there any way to get “blue” to refer to something green? I.e., is it possible (if so: how?; else: why not?) to change the context or model in such a way that <span class="math notranslate nohighlight">\(P_{L}(\text{green square} \mid \text{blue}) &gt; 0\)</span>, ideally in a way that might also be defensible in that it makes conceptual sense (not just by some technical trick that no reviewer of your work would accept as anything but a hack)?</p></li>
+</ol>
+</div></blockquote>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
