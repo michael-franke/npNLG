@@ -2,6 +2,8 @@
 
 This is a (numpy-based) Python implementation of a vanilla Rational Speech Act model for a reference game.
 
+The same model is also covered in [[http://www.problang.org/chapters/01-introduction.html][chapter 1 of problang.org]].
+
 * Packages
 
 The `numpy` package is used here in order to implement the RSA model using vector and matrix computation.
@@ -11,7 +13,7 @@ We also might need `matplotlib` to produce (render) the plots.
 Finally, this notebook uses the `warnings` package to suppress all warning messages (not necessarily best practice in general, but acceptable here, as not all warnings are critical and could just distract).
 
 
-#+begin_src jupyter-python :session py
+#+begin_src jupyter-python :session py :tange yes
 import numpy as np
 import seaborn as sns
 import pandas as pd
@@ -38,7 +40,7 @@ The set of utterances consists of the expressions: 'blue', 'green', 'circle' and
 
 In python code, we can represent this context as follows:
 
-#+begin_src jupyter-python :session py
+#+begin_src jupyter-python :session py :tange yes
 
 ##################################################
 ## defining the context
@@ -59,13 +61,13 @@ semantic_meaning = np.array(
 
 #+RESULTS:
 
-* Helper functions.
+* Helper functions
 
 Two helper functions will come in handy:
 one for normalizing vectors and matrices;
 another for computing soft-max.
 
-#+begin_src jupyter-python :session py
+#+begin_src jupyter-python :session py :tange yes
 
 ##################################################
 ## helper functions
@@ -99,7 +101,7 @@ def normalize(arr, axis=1):
 
 #+RESULTS:
 
-#+begin_src jupyter-python :session py
+#+begin_src jupyter-python :session py :tange yes
 ##################################################
 ## add solutions here for exercise 1.1.1
 ##################################################
@@ -140,7 +142,7 @@ The model's free parameters are: the optimality parameter $\alpha$, the relative
 >
 > ... add your solution here ...
 
-#+begin_src jupyter-python :session py
+#+begin_src jupyter-python :session py :tange yes
 
 ##################################################
 ## model parameters
@@ -158,7 +160,7 @@ salience_prior_emp = np.array([71,139,30]) # empirical
 * Implementation and visualization
 
 
-#+begin_src jupyter-python :session py
+#+begin_src jupyter-python :session py :tange yes
 
 ##################################################
 ## RSA model predictions
@@ -247,3 +249,9 @@ square          0.0           0.4          0.6    square
 > 2. Add another object to the context, namely a red triangle. Add any relevant utterances, their semantics and costs as well. What do you predict will happen to the model's predictions for the "old" objects and utterances? Test your predictions (= understanding of the model) and report the results.
 > 3. Run the model with different values for the cost parameter `cost_adjectives`. Which effect does this have on the speaker prediction? Which effect does that have on the predictions for listener interpretation? Explain these observation in your own non-technical terms (e.g., for an interested outsider).
 > 4. Is there any way to get “blue” to refer to something green? I.e., is it possible (if so: how?; else: why not?) to change the context or model in such a way that $P_{L}(\text{green square} \mid \text{blue}) > 0$, ideally in a way that might also be defensible in that it makes conceptual sense (not just by some technical trick that no reviewer of your work would accept as anything but a hack)?
+
+* References
+
+Frank, M. C., & Goodman, N. D. (2012). Predicting pragmatic reasoning in language games. Science, 336(6084), 998. http://dx.doi.org/10.1126/science.1218633
+
+Scontras, G., Tessler, M. H., & Franke, M. (2018). [[problang.org][Probabilistic language understanding: An introduction to the Rational Speech Act framework]].
