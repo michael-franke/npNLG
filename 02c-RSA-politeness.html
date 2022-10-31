@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>RSA with politeness &#8212; Neural Pragmatic Natural Language Generation</title>
+    <title>Sheet 1.2: RSA with politeness &#8212; Neural Pragmatic Natural Language Generation</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -158,7 +158,7 @@ const thebe_selector_output = ".output, .cell_output"
  </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   RSA with politeness
+   Sheet 1.2: RSA with politeness
   </a>
  </li>
 </ul>
@@ -382,23 +382,100 @@ title="Print to PDF"
     </ul>
   </div>
 </div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
 
     </div>
 </div>
 
 <!-- Table of contents -->
 <div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#packages-helper-functions">
+   Packages &amp; helper functions
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#running-example">
+   Running example
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-model-and-its-parameters">
+   The model and its parameters
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#model-definition">
+   Model definition
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#references">
+   References
+  </a>
+ </li>
+</ul>
+
+    </nav>
 </div>
     </div>
     <div class="article row">
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>RSA with politeness</h1>
+                <h1>Sheet 1.2: RSA with politeness</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
                         
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#packages-helper-functions">
+   Packages &amp; helper functions
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#running-example">
+   Running example
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-model-and-its-parameters">
+   The model and its parameters
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#model-definition">
+   Model definition
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#references">
+   References
+  </a>
+ </li>
+</ul>
+
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -406,17 +483,33 @@ title="Print to PDF"
                 
               <div>
                 
-  <section class="tex2jax_ignore mathjax_ignore" id="rsa-with-politeness">
-<h1>RSA with politeness<a class="headerlink" href="#rsa-with-politeness" title="Permalink to this headline">#</a></h1>
-<p><strong>NB: preliminary placeholder version; still under construction</strong></p>
+  <section class="tex2jax_ignore mathjax_ignore" id="sheet-1-2-rsa-with-politeness">
+<h1>Sheet 1.2: RSA with politeness<a class="headerlink" href="#sheet-1-2-rsa-with-politeness" title="Permalink to this headline">#</a></h1>
+<p>This is a (numpy-based) Python implementation of an RSA model with a speaker who has two weighted objectives:
+(i) being informative about the true world state and
+(ii) being polite.
+The latter is taken to mean that the speaker wants to increase the listener’s degrees of beliefs in particular world states even if they are not true.</p>
+<p>The same model is also covered in <a class="reference external" href="http://www.problang.org/chapters/09-politeness.html">chapter 9 of problang.org</a> (Scontras et. al 2018).
+The model covered here is essentially that of <a class="reference external" href="http://langcog.stanford.edu/papers_new/yoon-2016-cogsci.pdf">Yoon et al. (2016)</a>.</p>
+<section id="packages-helper-functions">
+<h2>Packages &amp; helper functions<a class="headerlink" href="#packages-helper-functions" title="Permalink to this headline">#</a></h2>
+<p>We use the same kinds of packages as before.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-
-<span class="c1">##################################################</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Also, we use the same helper functions as in Sheet 1.1 for computing soft-max and normalization of array dimensions.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##################################################</span>
 <span class="c1">## helper functions</span>
 <span class="c1">##################################################</span>
 
@@ -443,17 +536,23 @@ title="Print to PDF"
 <span class="sd">    Normalize arr along axis</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">arr</span> <span class="o">/</span> <span class="n">arr</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-<span class="c1">##################################################</span>
-<span class="c1">## model parameters</span>
-<span class="c1">##################################################</span>
-
-<span class="n">alpha</span>        <span class="o">=</span> <span class="mi">10</span>
-<span class="n">phi</span>          <span class="o">=</span> <span class="mf">0.99</span>
-<span class="n">social_value</span> <span class="o">=</span> <span class="mf">1.25</span>
-
-<span class="c1">##################################################</span>
-<span class="c1">## RSA model set up</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="running-example">
+<h2>Running example<a class="headerlink" href="#running-example" title="Permalink to this headline">#</a></h2>
+<p>As a running example, we consider a context in which the speaker reports on their impression of the quality of the listener’s self-baked cookies.</p>
+<p>We assume that there are five world states, represented as increasing integers.
+These numbers represent the true quality of the cookies (as perceived by the speaker).</p>
+<p>We also assume that there are five expressions the speaker might want to use to report their quality assessment.
+The semantic meaning we use for these expressions is a “soft-semantics” (truth-values are not confined to 0 and 1), which are derived from an experiment designed to elicit participants intuitions about the relevant semantic meanings (<a class="reference external" href="http://langcog.stanford.edu/papers_new/yoon-2016-cogsci.pdf">Yoon et al. 2016</a>).</p>
+<p>[Q: does only the ordering or also the equally-spaced distance matter to the model?]</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##################################################</span>
+<span class="c1">## defining the context</span>
 <span class="c1">##################################################</span>
 
 <span class="n">states</span>     <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">]</span>
@@ -466,6 +565,33 @@ title="Print to PDF"
      <span class="p">[</span><span class="mf">.02</span> <span class="p">,</span><span class="mf">.05</span> <span class="p">,</span><span class="mf">.55</span> <span class="p">,</span><span class="mf">.95</span><span class="p">,</span><span class="mf">.93</span><span class="p">],</span>    <span class="c1"># good</span>
      <span class="p">[</span><span class="mf">.02</span> <span class="p">,</span><span class="mf">.02</span> <span class="p">,</span><span class="mf">.02</span> <span class="p">,</span><span class="mf">.65</span><span class="p">,</span><span class="mf">.95</span><span class="p">]]</span>    <span class="c1"># amazing</span>
 <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<blockquote>
+<div><p><strong><span style=&ldquo;color:#D83D2B;&rdquo;>Exercise 1.2.1: Check experiment and your intuitions</span></strong></p>
+<ol class="simple">
+<li><p>Consult the original paper (<a class="reference external" href="http://langcog.stanford.edu/papers_new/yoon-2016-cogsci.pdf">Yoon et al. 2016</a>) to find the description of the experiment that was used to get these semantic values. Describe this experiment in at most three simple sentences: what was the question participants had to answer and how were answers recorded?</p></li>
+<li><p>Comment on whether you find the obtained values intuitive <strong>as values of the semantic meaning of these expression</strong>.</p></li>
+<li><p>Do you think that the experiment was well-designed for the task of eliciting information about semantic meaning of expressions?</p></li>
+</ol>
+</div></blockquote>
+</section>
+<section id="the-model-and-its-parameters">
+<h2>The model and its parameters<a class="headerlink" href="#the-model-and-its-parameters" title="Permalink to this headline">#</a></h2>
+</section>
+<section id="model-definition">
+<h2>Model definition<a class="headerlink" href="#model-definition" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##################################################</span>
+<span class="c1">## model parameters</span>
+<span class="c1">##################################################</span>
+
+<span class="n">alpha</span>        <span class="o">=</span> <span class="mi">10</span>
+<span class="n">phi</span>          <span class="o">=</span> <span class="mf">0.99</span>
+<span class="n">social_value</span> <span class="o">=</span> <span class="mf">1.25</span>
 
 <span class="c1">##################################################</span>
 <span class="c1">## RSA speaker with politeness</span>
@@ -595,20 +721,22 @@ title="Print to PDF"
 5      0.00  0.00  0.00  0.01     0.99       5
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/hostedtoolcache/Python/3.8.14/x64/lib/python3.8/site-packages/seaborn/axisgrid.py:712: UserWarning: Using the barplot function without specifying `order` is likely to produce an incorrect plot.
-  warnings.warn(warning)
-</pre></div>
-</div>
-<img alt="_images/02c-RSA-politeness_2_2.png" src="_images/02c-RSA-politeness_2_2.png" />
+<img alt="_images/02c-RSA-politeness_13_1.png" src="_images/02c-RSA-politeness_13_1.png" />
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>listener posterior over states after hearing &#39;amazing&#39;:
  [3.46911215e-17 5.82652542e-17 2.63857307e-06 9.06568167e-03
  9.90931680e-01]
 plotting listener posterior for utterance: good
 </pre></div>
 </div>
-<img alt="_images/02c-RSA-politeness_2_4.png" src="_images/02c-RSA-politeness_2_4.png" />
+<img alt="_images/02c-RSA-politeness_13_3.png" src="_images/02c-RSA-politeness_13_3.png" />
 </div>
 </div>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">#</a></h2>
+<p>Scontras, G., Tessler, M. H., &amp; Franke, M. (2018). <a class="reference external" href="http://www.problang.org">Probabilistic language understanding: An introduction to the Rational Speech Act framework</a>.</p>
+<p>Yoon, E. J., Tessler, M. H., Goodman, N. D., &amp; Frank, M. C. (2016). <a class="reference external" href="http://langcog.stanford.edu/papers_new/yoon-2016-cogsci.pdf">Talking with tact: polite language as a balance between kindness and informativity</a>. In: <em>Proceedings of CogSci</em> 38.</p>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
