@@ -21,6 +21,8 @@ import warnings
 warnings.filterwarnings('ignore')
 #+end_src
 
+#+RESULTS:
+
 Also, we use the same helper functions as in Sheet 1.1 for computing soft-max and normalization of array dimensions.
 
 #+begin_src jupyter-python :session py :tangle yes
@@ -54,6 +56,8 @@ def normalize(arr, axis=1):
     return arr / arr.sum(axis, keepdims=True)
 #+end_src
 
+#+RESULTS:
+
 * Running example
 
 As a running example, we consider a context in which the speaker reports on their impression of the quality of the listener's self-baked cookies.
@@ -84,6 +88,8 @@ semantic_meaning = np.array(
 
 #+end_src
 
+#+RESULTS:
+
 > <strong><span style="color:#D83D2B;">Exercise 1.2.1: Check experiment and your intuitions</span></strong>
 >
 > 1. Consult the original paper ([[http://langcog.stanford.edu/papers_new/yoon-2016-cogsci.pdf][Yoon et al. 2016]]) to find the description of the experiment that was used to get these semantic values. Describe this experiment in at most three simple sentences: what was the question participants had to answer and how were answers recorded?
@@ -92,7 +98,20 @@ semantic_meaning = np.array(
 
 * The model and its parameters
 
-* Model definition
+The polite-language model is defined as follows:
+
+\begin{align*}
+P_{lit}(s \mid u) & \propto L(u,s) \\
+P_{S}( u \mid s, {\color{3F9786}{\varphi}}) & = \mathrm{SoftMax}\left ( \alpha  U (s, u,  {\color{3F9786}{\varphi}}) \right) \\
+U (s, u,  {\color{3F9786}{\varphi}}) & = {\color{3F9786}{\varphi}} \ \log P_{lit}(s \mid u) + (1-{\color{3F9786}{\varphi}}) \sum_{s'} P_{lit}(s' \mid u) \ V(s') \\
+P_{L}( s, {\color{3F9786}{\varphi}} \mid u) & \propto P(s) \ P({\color{3F9786}{\varphi}}) \ P_{S_1}( u \mid s, {\color{3F9786}{\varphi}})
+\end{align*}
+
+
+The key novelty is a composite utility function for the speaker, which is defined as a weighted sum (with weight $\varphi$) over two components: epistemic and social utility.
+We assume here that the value function $V(s)$ is a linear function of the star rating: $V(s) = v s$, where $v$ is a model parameter called "social value".
+
+In sum, this model has free parameters $\alpha$, $\varphi$ and $v$.
 
 #+begin_src jupyter-python :session py :tangle yes
 
@@ -103,6 +122,18 @@ semantic_meaning = np.array(
 alpha        = 10
 phi          = 0.99
 social_value = 1.25
+
+#+end_src
+
+#+RESULTS:
+
+* Implementation and visualization
+
+Let's look at the speaker and listener part separately.
+
+** Polite speakers
+
+#+begin_src jupyter-python :session py :tangle yes
 
 ##################################################
 ## RSA speaker with politeness
@@ -134,6 +165,10 @@ def RSA_polite_speaker(alpha, phi, social_value):
 
 RSA_speaker_predictions = RSA_polite_speaker(alpha, phi, social_value)
 
+##################################################
+## showing and plotting the results
+##################################################
+
 speaker  = pd.DataFrame(data    = RSA_speaker_predictions,
                         index   = states,
                         columns = utterances)
@@ -149,10 +184,35 @@ speaker_plot = sns.FacetGrid(speaker_long, col="object")
 speaker_plot.map(sns.barplot, "utterance", "probability")
 plt.show()
 
-# Exercises:
-# - Change the call to the speaker to make it so that it only cares about making the listener feel good.
-# - Change the call to the speaker to make it so that it cares about both making the listener feel good and conveying information.
-# - Change the value of the social_value and examine the results.
+#+end_src
+
+#+RESULTS:
+:RESULTS:
+:    terrible   bad  okay  good  amazing  object
+: 1      0.75  0.25  0.00  0.00     0.00       1
+: 2      0.25  0.75  0.00  0.00     0.00       2
+: 3      0.00  0.00  1.00  0.00     0.00       3
+: 4      0.00  0.00  0.03  0.40     0.57       4
+: 5      0.00  0.00  0.00  0.01     0.99       5
+[[file:./.ob-jupyter/96eab4006b0494d7d57b612ed2c75c99eb3ca4f0.png]]
+:END:
+
+> <strong><span style="color:#D83D2B;">Exercise 1.2.2: Explore the polite speaker model</span></strong>
+>
+> 0. For yourself, in order to understand the model, go through each line of the definition of the function `RSA_polite_speaker` and make sure that you understand what is happening.
+> 1. Change the call to the speaker to make it so that it only cares about making the listener feel good. What parameter value(s) did you choose?
+> 2. Change the call to the speaker to make it so that it cares about both making the listener feel good /and/ conveying information. What parameter value(s) did you choose?
+> 3. If we set $\varphi=1$, and choose a very high $\alpha$, the speaker behavior is quite regular. Is this kind of behavior intuitive? Do you think it happens in real life?
+> 4. Is there a parameter setting for this model, such that the speaker would also at most choose when category higher when trying to polite? For example, when they should informatively say 'okay', they would say 'good', but never 'amazing'. Which parameters achieve this? Or, how could the model be changed to achieve this behavior?
+
+** Pragmatic listener reasoning about politeness
+
+The pragmatic listener is more complicated for this model.
+This is a form of /joint-inference/ where more than one variable of interest is inferred.
+Concretely, the pragmatic listener jointly infers the world state and the degree of honesty/politeness.
+For ease of implementation, we discretize the set of possible values for $\varphi$.
+
+#+begin_src jupyter-python :session py :tangle yes
 
 ##################################################
 ## pragmatic listener infers politeness level
@@ -160,6 +220,7 @@ plt.show()
 
 # which phi-values to consider
 phi_marks     = np.linspace(start=0, stop=1, num=11)
+# priors over phi-values
 phi_prior_flt = np.array([1,1,1,1,1,1,1,1,1,1,1])   # flat
 phi_prior_bsd = np.array([1,2,3,4,5,6,7,8,9,10,11]) # biased towards politeness
 
@@ -192,9 +253,6 @@ RSA_listener_predictions = RSA_polite_listener(alpha, phi_prior_flt, social_valu
 print("listener posterior over states after hearing 'amazing':\n",
       np.sum(RSA_listener_predictions[:,:,4], axis=0))
 
-# TODO: why are the values numerically slightly off wrt to the WebPPL implementation?
-# TODO: cast the 3D array into DataFrame for plotting
-
 iterables=[phi_marks, utterances, states]
 index = pd.MultiIndex.from_product(iterables, names=['phi','utterance','state'])
 
@@ -212,18 +270,24 @@ def plot_listener(utterance_index):
     sns.heatmap(predictions)
     plt.show()
 
-plot_listener(3)
-
-# Exercises:
-# 1. Use the plotting function for different indeces (0-4). What is plotted here?
-#    What's on the x-axis, the y-axis, and what do the colors mean?
-# 2. Plot the results for the utterance "good". Describe the result in your own words.
-#    Comment on whether this makes sense to you, i.e., is the result an intuitive / natural
-#    interpretation of such an utterance (in the context we assume here)?
-#
-# [Q: does only the ordering or also the equally-spaced distance matter to the model?]
+plot_listener(2)
 
 #+end_src
+
+#+RESULTS:
+:RESULTS:
+: listener posterior over states after hearing 'amazing':
+:  [3.46911215e-17 5.82652542e-17 2.63857307e-06 9.06568167e-03
+:  9.90931680e-01]
+: plotting listener posterior for utterance: okay
+[[file:./.ob-jupyter/087cc703bef41abcd735167c0f22cfdf7b5e92e6.png]]
+:END:
+
+> <strong><span style="color:#D83D2B;">Exercise 1.2.3: Explore the pragmatic listener</span></strong>
+>
+> 0. For yourself, in order to understand the model, go through each line of the definition of the function `RSA_polite_listener` and make sure that you understand what is happening.
+> 1. What does the heatmap show? What's on the x-axis, what's on the y-axis, and what do the colors mean?
+> 2. Compare the interpretation of the utterance 'amazing' with that of the other utterances (for the parameter values used originally). You will probably see a difference in brightness in the picture. Explain the sense in which this is a difference in entropy (or, if you are not familiar with the term, the degree to which the pragmatic listener considers many logical possibilities reasonably likely). Explain how this result follows from the model's setup.
 
 * References
 
