@@ -8,7 +8,7 @@ In simplified terms: the listener uses Bayes rule to infer (abduct) the most lik
 
 We will cover two models: one is vanilla RSA applied to a reference game; the other is an extension of the vanilla model to include reasoning about politeness.
 
-The main learning goal is to see more clearly how we can define speaker behavior in terms of an optimization of different components in a numeric measure of &ldquo;utility&rdquo; of an expression
+The main learning goal is to see more clearly how we can define speaker behavior in terms of an optimization of different components in a numeric measure of &ldquo;utility&rdquo; of an expression:
 
 ![img](./pics/02-speaker-utility.png)
 
@@ -16,6 +16,9 @@ It is this idea (&ldquo;numeric measures of pragmatic utilities&rdquo;) that we 
 
 
 ## Slides
+
+Here are the [slides on vanilla RSA](<https://michael-franke.github.io/npNLG/02a-RSA.pdf>).
+And here the [slides on RSA with politeness](<https://michael-franke.github.io/npNLG/02b-politeness.pdf>).
 
 
 ## Practical exercises
