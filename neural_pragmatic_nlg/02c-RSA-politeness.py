@@ -2,6 +2,8 @@ import numpy as np
 import seaborn as sns
 import pandas as pd
 import matplotlib.pyplot as plt
+import warnings
+warnings.filterwarnings('ignore')
 
 ##################################################
 ## helper functions
@@ -32,15 +34,7 @@ def normalize(arr, axis=1):
     return arr / arr.sum(axis, keepdims=True)
 
 ##################################################
-## model parameters
-##################################################
-
-alpha        = 10
-phi          = 0.99
-social_value = 1.25
-
-##################################################
-## RSA model set up
+## defining the context
 ##################################################
 
 states     = [1,2,3,4,5]
@@ -53,6 +47,14 @@ semantic_meaning = np.array(
      [.02 ,.05 ,.55 ,.95,.93],    # good
      [.02 ,.02 ,.02 ,.65,.95]]    # amazing
 )
+
+##################################################
+## model parameters
+##################################################
+
+alpha        = 10
+phi          = 0.99
+social_value = 1.25
 
 ##################################################
 ## RSA speaker with politeness
@@ -84,6 +86,10 @@ def RSA_polite_speaker(alpha, phi, social_value):
 
 RSA_speaker_predictions = RSA_polite_speaker(alpha, phi, social_value)
 
+##################################################
+## showing and plotting the results
+##################################################
+
 speaker  = pd.DataFrame(data    = RSA_speaker_predictions,
                         index   = states,
                         columns = utterances)
@@ -98,11 +104,6 @@ speaker_long = speaker.melt(id_vars      = "object",
 speaker_plot = sns.FacetGrid(speaker_long, col="object")
 speaker_plot.map(sns.barplot, "utterance", "probability")
 plt.show()
-
-# Exercises:
-# - Change the call to the speaker to make it so that it only cares about making the listener feel good.
-# - Change the call to the speaker to make it so that it cares about both making the listener feel good and conveying information.
-# - Change the value of the social_value and examine the results.
 
 ##################################################
 ## pragmatic listener infers politeness level
@@ -143,9 +144,6 @@ RSA_listener_predictions = RSA_polite_listener(alpha, phi_prior_bsd, social_valu
 print("listener posterior over states after hearing 'good':\n",
       np.sum(RSA_listener_predictions[3,:,:], axis=1))
 
-# TODO: why are the values numerically slightly off wrt to the WebPPL implementation?
-# TODO: cast the 3D array into DataFrame for plotting
-
 iterables=[utterances, states, phi_marks]
 index = pd.MultiIndex.from_product(iterables, names=['utterances','states','phi'])
 
@@ -164,10 +162,3 @@ def plot_listener(utterance_index):
     plt.show()
 
 plot_listener(3)
-
-# Exercises:
-# 1. Use the plotting function for different indeces (0-4). What is plotted here?
-#    What's on the x-axis, the y-axis, and what do the colors mean?
-# 2. Plot the results for the utterance "good". Describe the result in your own words.
-#    Comment on whether this makes sense to you, i.e., is the result an intuitive / natural
-#    interpretation of such an utterance (in the context we assume here)?

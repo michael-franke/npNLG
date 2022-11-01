@@ -14,7 +14,7 @@ We also might need `matplotlib` to produce (render) the plots.
 Finally, this notebook uses the `warnings` package to suppress all warning messages (not necessarily best practice in general, but acceptable here, as not all warnings are critical and could just distract).
 
 
-#+begin_src jupyter-python :session py :tange yes
+#+begin_src jupyter-python :session py :tangle yes
 import numpy as np
 import seaborn as sns
 import pandas as pd
@@ -41,7 +41,7 @@ The set of utterances consists of the expressions: 'blue', 'green', 'circle' and
 
 In python code, we can represent this context as follows:
 
-#+begin_src jupyter-python :session py :tange yes
+#+begin_src jupyter-python :session py :tangle yes
 
 ##################################################
 ## defining the context
@@ -68,7 +68,7 @@ Two helper functions will come in handy:
 one for normalizing vectors and matrices;
 another for computing soft-max.
 
-#+begin_src jupyter-python :session py :tange yes
+#+begin_src jupyter-python :session py :tangle yes
 
 ##################################################
 ## helper functions
@@ -102,7 +102,7 @@ def normalize(arr, axis=1):
 
 #+RESULTS:
 
-#+begin_src jupyter-python :session py :tange yes
+#+begin_src jupyter-python :session py :tangle no
 ##################################################
 ## add solutions here for exercise 1.1.1
 ##################################################
@@ -143,7 +143,7 @@ The model's free parameters are: the optimality parameter $\alpha$, the relative
 >
 > ... add your solution here ...
 
-#+begin_src jupyter-python :session py :tange yes
+#+begin_src jupyter-python :session py :tangle yes
 
 ##################################################
 ## model parameters
@@ -161,7 +161,7 @@ salience_prior_emp = np.array([71,139,30]) # empirical
 * Implementation and visualization
 
 
-#+begin_src jupyter-python :session py :tange yes
+#+begin_src jupyter-python :session py :tangle yes
 
 ##################################################
 ## RSA model predictions

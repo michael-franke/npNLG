@@ -1,4 +1,5 @@
 #+title:     Sheet 1.2: RSA with politeness
+#+author:    Michael Franke
 
 This is a (numpy-based) Python implementation of an RSA model with a speaker who has two weighted objectives:
 (i) being informative about the true world state and
@@ -253,9 +254,6 @@ RSA_listener_predictions = RSA_polite_listener(alpha, phi_prior_bsd, social_valu
 print("listener posterior over states after hearing 'good':\n",
       np.sum(RSA_listener_predictions[3,:,:], axis=1))
 
-# TODO: why are the values numerically slightly off wrt to the WebPPL implementation?
-# TODO: cast the 3D array into DataFrame for plotting
-
 iterables=[utterances, states, phi_marks]
 index = pd.MultiIndex.from_product(iterables, names=['utterances','states','phi'])
 
@@ -273,7 +271,7 @@ def plot_listener(utterance_index):
     sns.heatmap(predictions)
     plt.show()
 
-plot_listener(4)
+plot_listener(3)
 
 #+end_src
 

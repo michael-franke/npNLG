@@ -2,6 +2,23 @@ import numpy as np
 import seaborn as sns
 import pandas as pd
 import matplotlib.pyplot as plt
+import warnings
+warnings.filterwarnings('ignore')
+
+##################################################
+## defining the context
+##################################################
+
+object_names    = ['blue_circle', 'green_square', 'blue_square']
+utterance_names = ['blue', 'circle', 'green', 'square']
+
+semantic_meaning = np.array(
+    # blue circle, green square, blue square
+    [[1, 0, 1],  # blue
+     [1, 0, 0],  # circle
+     [0, 1, 0],  # green
+     [0, 1, 1]]  # square,
+    )
 
 ##################################################
 ## helper functions
@@ -44,16 +61,6 @@ salience_prior_emp = np.array([71,139,30]) # empirical
 ## RSA model predictions
 ##################################################
 
-object_names    = ['blue_circle', 'green_square', 'blue_square']
-utterance_names = ['blue', 'circle', 'green', 'square']
-
-semantic_meaning = np.array(
-    # blue circle, green square, blue square
-    [[1, 0, 1],  # blue
-     [1, 0, 0],  # circle
-     [0, 1, 0],  # green
-     [0, 1, 1]]  # square,
-    )
 
 def RSA(alpha, cost_adjectives, salience_prior):
     """
@@ -100,12 +107,14 @@ print(listener.round(2))
 ## plotting the results
 ##################################################
 
-speaker_long = speaker.melt(id_vars = "object", var_name = "utterance", value_name = "probability", ignore_index = False)
+speaker_long = speaker.melt(id_vars = "object", var_name = "utterance",
+                            value_name = "probability", ignore_index = False)
 speaker_plot = sns.FacetGrid(speaker_long, col="object")
 speaker_plot.map(sns.barplot, "utterance", "probability")
 plt.show()
 
-listener_long = listener.melt(id_vars = "utterance", var_name = "object", value_name = "probability", ignore_index = False)
+listener_long = listener.melt(id_vars = "utterance", var_name = "object",
+                              value_name = "probability", ignore_index = False)
 listener_plot = sns.FacetGrid(listener_long, col="utterance")
 listener_plot.map(sns.barplot, "object", "probability")
 plt.show()
