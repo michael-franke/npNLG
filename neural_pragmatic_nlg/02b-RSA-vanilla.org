@@ -1,4 +1,4 @@
-#+title:     Sheet 1.1: Vanilla RSA for reference games
+#+title:     Sheet 1.1: Vanilla RSA
 #+author:    Michael Franke
 
 This is a (numpy-based) Python implementation of a vanilla Rational Speech Act model for a reference game.
