@@ -511,6 +511,7 @@ title="Print to PDF"
                 
   <section class="tex2jax_ignore mathjax_ignore" id="sheet-1-2-rsa-with-politeness">
 <h1>Sheet 1.2: RSA with politeness<a class="headerlink" href="#sheet-1-2-rsa-with-politeness" title="Permalink to this headline">#</a></h1>
+<p><strong>Author:</strong> Michael Franke</p>
 <p>This is a (numpy-based) Python implementation of an RSA model with a speaker who has two weighted objectives:
 (i) being informative about the true world state and
 (ii) being polite.
@@ -724,7 +725,6 @@ For ease of implementation, we discretize the set of possible values for <span c
 
 <span class="c1"># which phi-values to consider</span>
 <span class="n">phi_marks</span>     <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">stop</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
-<span class="c1"># priors over phi-values</span>
 <span class="n">phi_prior_flt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>   <span class="c1"># flat</span>
 <span class="n">phi_prior_bsd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">11</span><span class="p">])</span> <span class="c1"># biased towards politeness</span>
 
@@ -746,19 +746,23 @@ For ease of implementation, we discretize the set of possible values for <span c
 <span class="sd">         for each message: listener posterior over state-phi pairs</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">phi_prior</span> <span class="o">=</span> <span class="n">phi_prior</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">phi_prior</span><span class="p">)</span> <span class="c1"># make sure priors are normalized</span>
-    <span class="n">posterior</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">phi_marks</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">utterances</span><span class="p">),</span><span class="nb">len</span><span class="p">(</span><span class="n">states</span><span class="p">)))</span>
+    <span class="n">posterior</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">utterances</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">states</span><span class="p">),</span><span class="nb">len</span><span class="p">(</span><span class="n">phi_marks</span><span class="p">)))</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">phi_marks</span><span class="p">)):</span>
-        <span class="n">pragmatic_speaker</span>  <span class="o">=</span> <span class="n">RSA_polite_speaker</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">phi_marks</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">social_value</span><span class="p">)</span>
-        <span class="n">posterior</span><span class="p">[</span><span class="n">i</span><span class="p">,:,:]</span>   <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">pragmatic_speaker</span><span class="p">)</span> <span class="o">*</span> <span class="n">phi_prior</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-    <span class="k">return</span><span class="p">(</span><span class="n">normalize</span><span class="p">(</span><span class="n">posterior</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)))</span>
+        <span class="n">pragmatic_speaker</span>   <span class="o">=</span> <span class="n">RSA_polite_speaker</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">phi_marks</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">social_value</span><span class="p">)</span>
+        <span class="n">posterior_given_phi</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">pragmatic_speaker</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">posterior</span><span class="p">[:,:,</span><span class="n">i</span><span class="p">]</span>    <span class="o">=</span> <span class="n">posterior_given_phi</span> <span class="o">*</span> <span class="n">phi_prior</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">posterior</span><span class="p">)</span>
 
-<span class="n">RSA_listener_predictions</span> <span class="o">=</span> <span class="n">RSA_polite_listener</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">phi_prior_flt</span><span class="p">,</span> <span class="n">social_value</span><span class="p">)</span>
+<span class="n">RSA_listener_predictions</span> <span class="o">=</span> <span class="n">RSA_polite_listener</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">phi_prior_bsd</span><span class="p">,</span> <span class="n">social_value</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;listener posterior over states after hearing &#39;amazing&#39;:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
-      <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">RSA_listener_predictions</span><span class="p">[:,:,</span><span class="mi">4</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;listener posterior over states after hearing &#39;good&#39;:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+      <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">RSA_listener_predictions</span><span class="p">[</span><span class="mi">3</span><span class="p">,:,:],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
 
-<span class="n">iterables</span><span class="o">=</span><span class="p">[</span><span class="n">phi_marks</span><span class="p">,</span> <span class="n">utterances</span><span class="p">,</span> <span class="n">states</span><span class="p">]</span>
-<span class="n">index</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">MultiIndex</span><span class="o">.</span><span class="n">from_product</span><span class="p">(</span><span class="n">iterables</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;phi&#39;</span><span class="p">,</span><span class="s1">&#39;utterance&#39;</span><span class="p">,</span><span class="s1">&#39;state&#39;</span><span class="p">])</span>
+<span class="c1"># TODO: why are the values numerically slightly off wrt to the WebPPL implementation?</span>
+<span class="c1"># TODO: cast the 3D array into DataFrame for plotting</span>
+
+<span class="n">iterables</span><span class="o">=</span><span class="p">[</span><span class="n">utterances</span><span class="p">,</span> <span class="n">states</span><span class="p">,</span> <span class="n">phi_marks</span><span class="p">]</span>
+<span class="n">index</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">MultiIndex</span><span class="o">.</span><span class="n">from_product</span><span class="p">(</span><span class="n">iterables</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;utterances&#39;</span><span class="p">,</span><span class="s1">&#39;states&#39;</span><span class="p">,</span><span class="s1">&#39;phi&#39;</span><span class="p">])</span>
 
 <span class="n">listener</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">RSA_listener_predictions</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">RSA_listener_predictions</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
                         <span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">)</span>
@@ -770,19 +774,18 @@ For ease of implementation, we discretize the set of possible values for <span c
 
 <span class="k">def</span> <span class="nf">plot_listener</span><span class="p">(</span><span class="n">utterance_index</span><span class="p">):</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;plotting listener posterior for utterance:&quot;</span><span class="p">,</span> <span class="n">utterances</span><span class="p">[</span><span class="n">utterance_index</span><span class="p">])</span>
-    <span class="n">predictions</span> <span class="o">=</span> <span class="n">RSA_listener_predictions</span><span class="p">[:,</span><span class="n">utterance_index</span><span class="p">,:]</span>
+    <span class="n">predictions</span> <span class="o">=</span> <span class="n">RSA_listener_predictions</span><span class="p">[</span><span class="n">utterance_index</span><span class="p">,:,:]</span>
     <span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
-<span class="n">plot_listener</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plot_listener</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>listener posterior over states after hearing &#39;amazing&#39;:
- [3.46911215e-17 5.82652542e-17 2.63857307e-06 9.06568167e-03
- 9.90931680e-01]
-plotting listener posterior for utterance: okay
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>listener posterior over states after hearing &#39;good&#39;:
+ [0.00588069 0.01970965 0.40323864 0.53989896 0.03127205]
+plotting listener posterior for utterance: amazing
 </pre></div>
 </div>
 <img alt="_images/02c-RSA-politeness_21_1.png" src="_images/02c-RSA-politeness_21_1.png" />
@@ -793,7 +796,8 @@ plotting listener posterior for utterance: okay
 <ol class="simple">
 <li><p>For yourself, in order to understand the model, go through each line of the definition of the function `RSA<sub>polite</sub><sub>listener</sub>` and make sure that you understand what is happening.</p></li>
 <li><p>What does the heatmap show? What’s on the x-axis, what’s on the y-axis, and what do the colors mean?</p></li>
-<li><p>Compare the interpretation of the utterance ’amazing’ with that of the other utterances (for the parameter values used originally). You will probably see a difference in brightness in the picture. Explain the sense in which this is a difference in entropy (or, if you are not familiar with the term, the degree to which the pragmatic listener considers many logical possibilities reasonably likely). Explain how this result follows from the model’s setup.</p></li>
+<li><p>Add a function that takes an utterance index (0, …, 4) and outputs three things: (i) a print out of the <a class="reference external" href="https://en.wikipedia.org/wiki/Marginal_distribution">marginal distribution</a> over states, (ii) a print out of the marginal distribution over <span class="math notranslate nohighlight">\(\varphi\)</span> values, and (iii) the heatmap visualizing the joint-distribution of both.</p></li>
+<li><p>Compare the interpretation of the utterance ’amazing’ with that of the other utterances (for the parameter values used originally). Explain in what sense the distribution shown for ’amazing’ is a <a class="reference external" href="https://en.wikipedia.org/wiki/Multimodal_distribution">multimodal distribution</a>. Explain why the model makes this multi-modal prediction for ’amazing’. Does it also predict multi-modality for ’good’? What about ’terrible’?</p></li>
 </ol>
 </div></blockquote>
 </section>
