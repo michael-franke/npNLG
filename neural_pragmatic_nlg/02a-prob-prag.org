@@ -15,7 +15,8 @@ It is this idea ("numeric measures of pragmatic utilities") that we will want to
 
 ** Slides
 
-
+Here are the [slides on vanilla RSA](https://michael-franke.github.io/npNLG/02a-RSA.pdf).
+And here the [slides on RSA with politeness](https://michael-franke.github.io/npNLG/02b-politeness.pdf).
 
 ** Practical exercises
 
