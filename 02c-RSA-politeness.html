@@ -758,9 +758,6 @@ For ease of implementation, we discretize the set of possible values for <span c
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;listener posterior over states after hearing &#39;good&#39;:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
       <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">RSA_listener_predictions</span><span class="p">[</span><span class="mi">3</span><span class="p">,:,:],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
 
-<span class="c1"># TODO: why are the values numerically slightly off wrt to the WebPPL implementation?</span>
-<span class="c1"># TODO: cast the 3D array into DataFrame for plotting</span>
-
 <span class="n">iterables</span><span class="o">=</span><span class="p">[</span><span class="n">utterances</span><span class="p">,</span> <span class="n">states</span><span class="p">,</span> <span class="n">phi_marks</span><span class="p">]</span>
 <span class="n">index</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">MultiIndex</span><span class="o">.</span><span class="n">from_product</span><span class="p">(</span><span class="n">iterables</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;utterances&#39;</span><span class="p">,</span><span class="s1">&#39;states&#39;</span><span class="p">,</span><span class="s1">&#39;phi&#39;</span><span class="p">])</span>
 
@@ -778,14 +775,14 @@ For ease of implementation, we discretize the set of possible values for <span c
     <span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
-<span class="n">plot_listener</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">plot_listener</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>listener posterior over states after hearing &#39;good&#39;:
  [0.00588069 0.01970965 0.40323864 0.53989896 0.03127205]
-plotting listener posterior for utterance: amazing
+plotting listener posterior for utterance: good
 </pre></div>
 </div>
 <img alt="_images/02c-RSA-politeness_21_1.png" src="_images/02c-RSA-politeness_21_1.png" />
