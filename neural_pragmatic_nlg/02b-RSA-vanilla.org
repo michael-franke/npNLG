@@ -1,4 +1,5 @@
 #+title:     Sheet 1.1: Vanilla RSA for reference games
+#+author:    Michael Franke
 
 This is a (numpy-based) Python implementation of a vanilla Rational Speech Act model for a reference game.
 
@@ -254,4 +255,4 @@ square          0.0           0.4          0.6    square
 
 Frank, M. C., & Goodman, N. D. (2012). Predicting pragmatic reasoning in language games. Science, 336(6084), 998. http://dx.doi.org/10.1126/science.1218633
 
-Scontras, G., Tessler, M. H., & Franke, M. (2018). [[problang.org][Probabilistic language understanding: An introduction to the Rational Speech Act framework]].
+Scontras, G., Tessler, M. H., & Franke, M. (2018). [[http://www.problang.org/][Probabilistic language understanding: An introduction to the Rational Speech Act framework]].

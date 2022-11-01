@@ -131,22 +131,23 @@ def RSA_polite_listener(alpha, phi_prior, social_value):
          for each message: listener posterior over state-phi pairs
     """
     phi_prior = phi_prior / np.sum(phi_prior) # make sure priors are normalized
-    posterior = np.zeros((len(phi_marks), len(utterances),len(states)))
+    posterior = np.zeros((len(utterances), len(states),len(phi_marks)))
     for i in range(len(phi_marks)):
-        pragmatic_speaker  = RSA_polite_speaker(alpha, phi_marks[i], social_value)
-        posterior[i,:,:]   = np.transpose(pragmatic_speaker) * phi_prior[i]
-    return(normalize(posterior, axis=(0,1)))
+        pragmatic_speaker   = RSA_polite_speaker(alpha, phi_marks[i], social_value)
+        posterior_given_phi = normalize(np.transpose(pragmatic_speaker), axis=1)
+        posterior[:,:,i]    = posterior_given_phi * phi_prior[i]
+    return(posterior)
 
-RSA_listener_predictions = RSA_polite_listener(alpha, phi_prior_flt, social_value)
+RSA_listener_predictions = RSA_polite_listener(alpha, phi_prior_bsd, social_value)
 
-print("listener posterior over states after hearing 'amazing':\n",
-      np.sum(RSA_listener_predictions[:,:,4], axis=0))
+print("listener posterior over states after hearing 'good':\n",
+      np.sum(RSA_listener_predictions[3,:,:], axis=1))
 
 # TODO: why are the values numerically slightly off wrt to the WebPPL implementation?
 # TODO: cast the 3D array into DataFrame for plotting
 
-iterables=[phi_marks, utterances, states]
-index = pd.MultiIndex.from_product(iterables, names=['phi','utterance','state'])
+iterables=[utterances, states, phi_marks]
+index = pd.MultiIndex.from_product(iterables, names=['utterances','states','phi'])
 
 listener = pd.DataFrame(RSA_listener_predictions.reshape(RSA_listener_predictions.size, 1),
                         index=index)
@@ -158,7 +159,7 @@ listener = listener.reset_index()
 
 def plot_listener(utterance_index):
     print("plotting listener posterior for utterance:", utterances[utterance_index])
-    predictions = RSA_listener_predictions[:,utterance_index,:]
+    predictions = RSA_listener_predictions[utterance_index,:,:]
     sns.heatmap(predictions)
     plt.show()
 
