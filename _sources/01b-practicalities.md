@@ -24,7 +24,9 @@ It is recommended that you bring the following:
     -   linear algebra, probability calculus, (simple) linear regression modeling
 
 
-## Grading
+## Credits & Grading
+
+The course is worth 6 credit points.
 
 There are two things necessary for course completion:
 
