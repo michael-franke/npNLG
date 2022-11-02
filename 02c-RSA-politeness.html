@@ -607,15 +607,16 @@ The semantic meaning we use for these expressions is a “soft-semantics” (tru
 <section id="the-model-and-its-parameters">
 <h2>The model and its parameters<a class="headerlink" href="#the-model-and-its-parameters" title="Permalink to this headline">#</a></h2>
 <p>The polite-language model is defined as follows:</p>
-<p>\begin{align*}
-P_{lit}(s \mid u) &amp; \propto L(u,s) \
-P_{S}( u \mid s, {\color{3F9786}{\varphi}}) &amp; = \mathrm{SoftMax}\left ( \alpha  U (s, u,  {\color{3F9786}{\varphi}}) \right) \
-U (s, u,  {\color{3F9786}{\varphi}}) &amp; = {\color{3F9786}{\varphi}} \ \log P_{lit}(s \mid u) + (1-{\color{3F9786}{\varphi}}) \sum_{s’} P_{lit}(s’ \mid u) \ V(s’) \
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+P_{lit}(s \mid u) &amp; \propto L(u,s) \\
+P_{S}( u \mid s, {\color{3F9786}{\varphi}}) &amp; = \mathrm{SoftMax}\left ( \alpha  U (s, u,  {\color{3F9786}{\varphi}}) \right) \\
+U (s, u,  {\color{3F9786}{\varphi}}) &amp; = {\color{3F9786}{\varphi}} \ \log P_{lit}(s \mid u) + (1-{\color{3F9786}{\varphi}}) \sum_{s'} P_{lit}(s' \mid u) \ V(s') \\
 P_{L}( s, {\color{3F9786}{\varphi}} \mid u) &amp; \propto P(s) \ P({\color{3F9786}{\varphi}}) \ P_{S_1}( u \mid s, {\color{3F9786}{\varphi}})
-\end{align*}</p>
-<p>The key novelty is a composite utility function for the speaker, which is defined as a weighted sum (with weight <span class="math notranslate nohighlight">\(\varphi\)</span>) over two components: epistemic and social utility.
-We assume here that the value function <span class="math notranslate nohighlight">\(V(s)\)</span> is a linear function of the star rating: <span class="math notranslate nohighlight">\(V(s) = v s\)</span>, where <span class="math notranslate nohighlight">\(v\)</span> is a model parameter called “social value”.</p>
-<p>In sum, this model has free parameters <span class="math notranslate nohighlight">\(\alpha\)</span>, <span class="math notranslate nohighlight">\(\varphi\)</span> and <span class="math notranslate nohighlight">\(v\)</span>.</p>
+\end{align*}\]</div>
+<p>The key novelty is a composite utility function for the speaker, which is defined as a weighted sum (with weight $\varphi$) over two components: epistemic and social utility.
+We assume here that the value function $V(s)$ is a linear function of the star rating: $V(s) = v s$, where $v$ is a model parameter called “social value”.</p>
+<p>In sum, this model has free parameters $\alpha$, $\varphi$ and $v$.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##################################################</span>
@@ -706,7 +707,7 @@ We assume here that the value function <span class="math notranslate nohighlight
 <li><p>For yourself, in order to understand the model, go through each line of the definition of the function `RSA<sub>polite</sub><sub>speaker</sub>` and make sure that you understand what is happening.</p></li>
 <li><p>Change the call to the speaker to make it so that it only cares about making the listener feel good. What parameter value(s) did you choose?</p></li>
 <li><p>Change the call to the speaker to make it so that it cares about both making the listener feel good <em>and</em> conveying information. What parameter value(s) did you choose?</p></li>
-<li><p>If we set <span class="math notranslate nohighlight">\(\varphi=1\)</span>, and choose a very high <span class="math notranslate nohighlight">\(\alpha\)</span>, the speaker behavior is quite regular. Is this kind of behavior intuitive? Do you think it happens in real life?</p></li>
+<li><p>If we set $\varphi=1$, and choose a very high $\alpha$, the speaker behavior is quite regular. Is this kind of behavior intuitive? Do you think it happens in real life?</p></li>
 <li><p>Is there a parameter setting for this model, such that the speaker would also at most choose when category higher when trying to polite? For example, when they should informatively say ’okay’, they would say ’good’, but never ’amazing’. Which parameters achieve this? Or, how could the model be changed to achieve this behavior?</p></li>
 </ol>
 </div></blockquote>
@@ -716,7 +717,7 @@ We assume here that the value function <span class="math notranslate nohighlight
 <p>The pragmatic listener is more complicated for this model.
 This is a form of <em>joint-inference</em> where more than one variable of interest is inferred.
 Concretely, the pragmatic listener jointly infers the world state and the degree of honesty/politeness.
-For ease of implementation, we discretize the set of possible values for <span class="math notranslate nohighlight">\(\varphi\)</span>.</p>
+For ease of implementation, we discretize the set of possible values for $\varphi$.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##################################################</span>
@@ -793,7 +794,7 @@ plotting listener posterior for utterance: good
 <ol class="simple">
 <li><p>For yourself, in order to understand the model, go through each line of the definition of the function `RSA<sub>polite</sub><sub>listener</sub>` and make sure that you understand what is happening.</p></li>
 <li><p>What does the heatmap show? What’s on the x-axis, what’s on the y-axis, and what do the colors mean?</p></li>
-<li><p>Add a function that takes an utterance index (0, …, 4) and outputs three things: (i) a print out of the <a class="reference external" href="https://en.wikipedia.org/wiki/Marginal_distribution">marginal distribution</a> over states, (ii) a print out of the marginal distribution over <span class="math notranslate nohighlight">\(\varphi\)</span> values, and (iii) the heatmap visualizing the joint-distribution of both.</p></li>
+<li><p>Add a function that takes an utterance index (0, …, 4) and outputs three things: (i) a print out of the <a class="reference external" href="https://en.wikipedia.org/wiki/Marginal_distribution">marginal distribution</a> over states, (ii) a print out of the marginal distribution over $\varphi$ values, and (iii) the heatmap visualizing the joint-distribution of both.</p></li>
 <li><p>Compare the interpretation of the utterance ’amazing’ with that of the other utterances (for the parameter values used originally). Explain in what sense the distribution shown for ’amazing’ is a <a class="reference external" href="https://en.wikipedia.org/wiki/Multimodal_distribution">multimodal distribution</a>. Explain why the model makes this multi-modal prediction for ’amazing’. Does it also predict multi-modality for ’good’? What about ’terrible’?</p></li>
 </ol>
 </div></blockquote>

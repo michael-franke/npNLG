@@ -50,8 +50,6 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
-    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="prev" title="Artificial neural networks" href="03a-ANNs.html" />
@@ -504,7 +502,7 @@ title="Print to PDF"
                 
   <section class="tex2jax_ignore mathjax_ignore" id="pytorch-introduction">
 <h1><strong>PyTorch introduction</strong><a class="headerlink" href="#pytorch-introduction" title="Permalink to this headline">#</a></h1>
-<p>If you want to install PyTorch locally on your machine, follow these instructions: <a class="reference external" href="https://pytorch.org/get-started/locally/">https://pytorch.org/get-started/locally/</a></p>
+<p>If you want to install PyTorch locally on your machine, follow these instructions: https://pytorch.org/get-started/locally/</p>
 <p>If installed, import the library to make it usable:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -518,15 +516,15 @@ title="Print to PDF"
 <h1><strong>Tensors</strong><a class="headerlink" href="#tensors" title="Permalink to this headline">#</a></h1>
 <p>Tensors are the default data structure used for the representation of numbers in PyTorch.
 In mathematics (algebra), a tensor is a generalization of the concept of a matrix.
-For our purposes, let’s think of a tensor as basically an <span class="math notranslate nohighlight">\(n\)</span>-dimensional array of numbers.</p>
+For our purposes, let’s think of a tensor as basically an $n$-dimensional array of numbers.</p>
 <p>For example, a single scalar (a single number) is a zero-dimensional array.
-An <span class="math notranslate nohighlight">\(n\)</span>-dimensional vector is a one-dimensional array of <span class="math notranslate nohighlight">\(n\)</span> numbers.
-An <span class="math notranslate nohighlight">\(n \times m\)</span> matrix is a two-dimensional array with <span class="math notranslate nohighlight">\(n\)</span> rows and <span class="math notranslate nohighlight">\(m\)</span> columns.
+An $n$-dimensional vector is a one-dimensional array of $n$ numbers.
+An $n \times m$ matrix is a two-dimensional array with $n$ rows and $m$ columns.
 All of these -scalars, vectors and matrices- are tensors.
 But <em>tensors also include even more high-dimensional objects</em>.
-For instance, an <span class="math notranslate nohighlight">\(k \times n \times m\)</span> tensor is a three-dimensional array, which includes <span class="math notranslate nohighlight">\(k\)</span> matrices, each of which has <span class="math notranslate nohighlight">\(n\)</span> rows and <span class="math notranslate nohighlight">\(m\)</span> columns.
+For instance, an $k \times n \times m$ tensor is a three-dimensional array, which includes $k$ matrices, each of which has $n$ rows and $m$ columns.
 And so on.</p>
-<p>Full documetation for torch.Tensor class: <a class="reference external" href="https://pytorch.org/docs/stable/tensors.html">https://pytorch.org/docs/stable/tensors.html</a></p>
+<p>Full documetation for torch.Tensor class: https://pytorch.org/docs/stable/tensors.html</p>
 <div>
 <img src="https://raw.githubusercontent.com/michael-franke/npNLG/main/neural_pragmatic_nlg/pics/scalars-vectors-matrices-tensors.png" alt="scalars-vectors-matrices-tensors" width="400" height="300" />
 </div>
@@ -535,11 +533,11 @@ And so on.</p>
 <div><p><strong><span style="color:#D83D2B;">Exercise 1: Dimensions of tensors</span></strong></p>
 <p>What are the dimensions of the following tensors?</p>
 <ol class="simple">
-<li><p><span class="math notranslate nohighlight">\(1\)</span></p></li>
-<li><p><span class="math notranslate nohighlight">\([1,2,3]\)</span></p></li>
-<li><p><span class="math notranslate nohighlight">\([[1,2], [3,4]]\)</span></p></li>
-<li><p><span class="math notranslate nohighlight">\([[1,2], [3,4], [5,6]]\)</span></p></li>
-<li><p><span class="math notranslate nohighlight">\([[[1,2], [3,4], [5,6]]]\)</span></p></li>
+<li><p>$1$</p></li>
+<li><p>$[1,2,3]$</p></li>
+<li><p>$[[1,2], [3,4]]$</p></li>
+<li><p>$[[1,2], [3,4], [5,6]]$</p></li>
+<li><p>$[[[1,2], [3,4], [5,6]]]$</p></li>
 </ol>
 </div></blockquote>
 <hr class="docutils" />
@@ -913,7 +911,7 @@ Device tensor is stored on: cpu
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="matrix-multiplication">
 <h1>Matrix Multiplication<a class="headerlink" href="#matrix-multiplication" title="Permalink to this headline">#</a></h1>
-<p>To perform a matrix multiplications on tensors, we use the method:               <strong><a class="reference external" href="http://torch.mm">torch.mm</a>(tensor1, tensor2)</strong></p>
+<p>To perform a matrix multiplications on tensors, we use the method:               <strong>torch.mm(tensor1, tensor2)</strong></p>
 <p>If tensor1 is a <strong>(n×m)</strong> tensor, and tensor2 is a <strong>(m×p)</strong> tensor, the output will be a <strong>(n×p)</strong> tensor.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
