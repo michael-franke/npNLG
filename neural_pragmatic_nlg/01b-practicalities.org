@@ -20,7 +20,9 @@ It is recommended that you bring the following:
 - some prior knowledge in statistical modeling, maybe even neural networks
  + linear algebra, probability calculus, (simple) linear regression modeling
 
-** Grading
+** Credits & Grading
+
+The course is worth 6 credit points.
 
 There are two things necessary for course completion:
 
