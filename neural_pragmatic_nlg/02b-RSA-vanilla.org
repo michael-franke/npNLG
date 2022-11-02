@@ -109,7 +109,19 @@ def normalize(arr, axis=1):
 
 # softmax(np.hurray([1,1,1,1]), axis=0815)
 
+m = np.array([[1,2], [3,4], [5,6]])
+print(m)
+print(softmax(m, axis=0))
+
 #+end_src
+
+#+RESULTS:
+: [[1 2]
+:  [3 4]
+:  [5 6]]
+: [[0.01587624 0.01587624]
+:  [0.11731043 0.11731043]
+:  [0.86681333 0.86681333]]
 
 > <strong><span style="color:#D83D2B;">Exercise 1.1.1: Apply the helper functions</span></strong>
 > 1. Normalize the following matrix to a row-stochastic and a column-stochastic matrix for the matrix: $[[1,2], [3,4]]$.
