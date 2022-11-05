@@ -1,0 +1,233 @@
+#+title:     Sheet 2.2: ML-estimate of a Gaussian mean
+#+author:    Michael Franke
+
+This tutorial is meant to introduce some basics of PyTorch by looking at a simple case study: how to find the best-fitting parameter for the mean of a normal (Gaussian) distribution.
+The training data is a set of samples from a "true" distribution.
+The loss function is the negative likelihood that a candidate parameter value for the "true mean" assigns to the training data.
+By using stochastic gradient descent to minimize the loss, we seek the parameter value that maximizes the likelihood of the training data.
+This is, therefore, a *maximum likelihood estimation*.
+
+* Packages
+
+We will need to import the `torch` package for the main functionality.
+We also will use `seaborn` for plotting, and `matplotlib` for showing the plots.
+Finally, we use the `warnings` package to suppress all warning messages in the notebook.
+
+#+begin_src jupyter-python
+import torch
+import seaborn as sns
+import matplotlib.pyplot as plt
+import warnings
+warnings.filterwarnings('ignore')
+#+end_src
+
+#+RESULTS:
+
+* True distribution & training data
+
+The "true distribution" that generates the data is a normal distribution with a mean (location) stored in the variable `trueLocation`.
+(We keep the scale parameter (standard deviation) fixed at a known value of 1.)
+The `torch.distributions` package contains ready-made probability distributions for sampling.
+So, here we define the true distribution, and take `nObs` samples from it, the set of which we call "training data".
+
+#+begin_src jupyter-python
+nObs           = 10000
+trueLocation   = 0
+trueDist       = torch.distributions.Normal(loc=trueLocation, scale=1.0)
+trainData      = trueDist.sample([nObs])
+#+end_src
+
+#+RESULTS:
+
+The mean of the training data is the so-called *empirical mean*.
+The empirical mean need not be identical to the true mean!
+
+#+begin_src jupyter-python
+empirical_mean = torch.mean(trainData)
+print('Empirical mean (mean of training data): %.5f' % empirical_mean.item())
+#+end_src
+
+#+RESULTS:
+: Empirical mean (mean of training data): 0.00504
+
+Here is a density plot of the training data:
+
+#+begin_src jupyter-python
+sns.kdeplot(trainData)
+plt.show()
+#+end_src
+
+#+RESULTS:
+[[file:./.ob-jupyter/a113513b59b62b6c7846819e3a55862810815bc2.png]]
+
+* Optimizing a parameter: gradients, optimizers, loss & backprop
+
+We want an estimate of the true mean of the training data.
+For that, we define a "trainable" parameter in PyTorch, which we set to some initial value.
+Subsequently, we will update the value of this parameter in a series of training steps, so that it will become "better" over time.
+Being "good" means having a small "loss".
+The loss function we are interested in is the likelihood of the training data.
+
+To being with, we define the parameter which is to be trained.
+Since we want to "massage it" through updating, we must tell PyTorch that it should compute the gradient for this parameter (and the ones derived from it).
+
+#+begin_src jupyter-python
+location = torch.tensor(1.0, requires_grad=True)
+print( location )
+#+end_src
+
+#+RESULTS:
+: tensor(1., requires_grad=True)
+
+To prepare for training, we first instantiate an *optimizer*, which will do the updating behind the scenes.
+Here, we choose the stochastic gradient descent (SGD) optimizer.
+To instantiate it, we need to tell it two things:
+
+1. which parameters to optimize;
+2. how aggressively to update (=> the so-called *learning rate*)
+
+#+begin_src jupyter-python
+learningRate = 0.0000001
+opt          = torch.optim.SGD([location], lr=learningRate)
+#+end_src
+
+#+RESULTS:
+
+Let us now go manually through a single training step.
+A training step consists of the following parts:
+
+1. compute the predictions for the current parameter(s)
+   - what do we predict in the current state?
+2. compute the loss for this prediction
+   - how good is this prediction (for the training data)?
+3. backpropagate the error (using the gradients)
+   - in which direction would we need to change the relevant parameters to make the prediction better?
+4. update step
+   - change the parameters (to a certain degree, the so-called learning rate) in the direction that should make them better
+5. zero the gradient
+   - reset the information about "which direction to tune" for the next training step
+
+** Part 1: Compute the predictions for current parameter value
+
+The prediction for the current parameter value is a Gaussian with the location parameter set to our current parameter value.
+We obtain our "current best model" by instantiating a distribution like so:
+
+#+begin_src jupyter-python
+prediction = torch.distributions.Normal(loc=location, scale=1.0)
+#+end_src
+
+#+RESULTS:
+
+** Part 2: Computing the loss for the current prediction
+
+How good is our current model?
+Goodness can be measured in many ways.
+Here we consider the likelihood: how likely is the training data under the current model?
+
+#+begin_src jupyter-python
+loss     = -torch.sum(prediction.log_prob(trainData))
+print(loss)
+#+end_src
+
+#+RESULTS:
+: tensor(19167.8750, grad_fn=<NegBackward0>)
+
+Notice that the `loss` variable is a single-numbered tensor (containing the information how bad (we want to minimize it) the current parameter value is).
+Notice that PyTorch has also added information on how to compute gradients, i.e., it keeps track of way in which values for the variable `location` influence the values for the variable `loss`.
+
+** Part 3: Backpropagate the error signal
+
+In the next step, we will use the information stored about the functional relation between `location` and `loss` to infer how the `location` parameter would need to be changed to make `loss` higher or lower.
+This is the so-called backpropagation step.
+
+Concretely, at the outset, the gradient information for `location` is "NONE".
+
+#+begin_src jupyter-python
+print(f"Value (initial)                = { location.item()}")
+print(f"Gradient information (initial) = { location.grad}")
+#+end_src
+
+#+RESULTS:
+: Value (initial)                = 1.0
+: Gradient information (initial) = None
+
+We must actively tell the system to backpropagate the information in the gradients, like so:
+
+#+begin_src jupyter-python
+loss.backward()
+print(f"Value (after backprop)                = { location.item()}")
+print(f"Gradient information (after backprop) = { location.grad}")
+#+end_src
+
+#+RESULTS:
+: Value (after backprop)                = 1.0
+: Gradient information (after backprop) = 9949.55859375
+
+** Part 4: Update the parameter values
+
+Next, we use the information in the gradient to actually update the trainable parameter values.
+This is what the optimizer does.
+It knows which parameters to update (we told it), so the relevant update function is one associated with the optimizer itself.
+
+#+begin_src jupyter-python
+opt.step()
+print(f"Value (after step)                = { location.item()}")
+print(f"Gradient information (after step) = { location.grad}")
+#+end_src
+
+#+RESULTS:
+: Value (after step)                = 0.9890552163124084
+: Gradient information (after step) = 9949.55859375
+
+
+** Part 5: Reset the gradient information
+
+If we want to repeat the updating process, we need to erase information about gradients for the last prediction.
+This is because otherwise information would just accumulate in the gradients.
+This zero-ing of the gradients is again something we do holistically (for all parameters to train) through the optimizer object:
+
+#+begin_src jupyter-python
+opt.zero_grad()
+print(f"Value (after zero-ing)                = { location.item()}")
+print(f"Gradient information (after zero-ing) = { location.grad}")
+#+end_src
+
+#+RESULTS:
+: Value (after zero-ing)                = 0.9890552163124084
+: Gradient information (after zero-ing) = 0.0
+
+* Training loop
+
+After having gone through our cycle of parameter updating step-by-step, let's iterate this in a training loop consisting of `nTrainingSteps`.
+
+#+begin_src jupyter-python
+nTrainingSteps= 10000
+for i in range(nTrainingSteps):
+    prediction = torch.distributions.Normal(loc=location, scale=1.0)
+    loss = -torch.sum(prediction.log_prob(trainData))
+    loss.backward()
+    if (i+1) % 500 == 0:
+        print('Step: %5d, Loss: %10.3f, Estimate: %3.5f, diff. target: %3.5f' %
+              (i + 1, loss.item(), location.item(), abs(location.item() - empirical_mean) ) )
+        opt.step()
+        opt.zero_grad()
+#+end_src
+
+
+
+
+
+#+begin_src jupyter-python
+
+# 1. Change the true mean (location) to 10e6. Is training still successful?
+#    What would you change?
+#    Answer: a few more optimization steps
+# 2. Revert to initial conditions. Change the initial value of the parameter
+#    we'd like to fit to -5000. Does training work? How'd you fix it?
+# 3. Rerun the script with only 100 samples (using variable `nObs`).
+#    Does the training work? What's the problem? How would you fix it?
+#    Answer: we don't have a strong training signal (less data);
+#            we can change the learning rate (e.g., to 0.00001);
+#            we might also take a lot more training steps
+
+#+end_src
