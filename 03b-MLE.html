@@ -1,0 +1,922 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Sheet 2.2: ML-estimate of a Gaussian mean &#8212; Neural Pragmatic Natural Language Generation</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="_static/npNLG-logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Neural Pragmatic Natural Language Generation</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="00-intro.html">
+                    Pragmatic Natural Language Generation with Neural Language Models
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  00 organization
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="01a-overview.html">
+   Course overview
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="01b-practicalities.html">
+   Practicalities
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="01c-schedule.html">
+   Schedule
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="01d-slides.html">
+   Slides from session 1
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  01 Probabilistic pragmatics
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="02a-prob-prag.html">
+   Probabilistic pragmatics
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="02b-RSA-vanilla.html">
+   Sheet 1.1: Vanilla RSA
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="02c-RSA-politeness.html">
+   Sheet 1.2: RSA with politeness
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  02 ANNs in PyTorch
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="03a-ANNs.html">
+   Artificial neural networks
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="03b-pytorch-intro.html">
+   <strong>
+    PyTorch introduction
+   </strong>
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/michael-franke/npNLG/main?urlpath=tree/neural_pragmatic_nlg/03b-MLE.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://colab.research.google.com/github/michael-franke/npNLG/blob/main/neural_pragmatic_nlg/03b-MLE.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Colab"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="_static/images/logo_colab.png">
+  </span>
+<span class="headerbtn__text-container">Colab</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/michael-franke/npNLG"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/michael-franke/npNLG/issues/new?title=Issue%20on%20page%20%2F03b-MLE.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="_sources/03b-MLE.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#packages">
+   Packages
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#true-distribution-training-data">
+   True distribution &amp; training data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#optimizing-a-parameter-gradients-optimizers-loss-backprop">
+   Optimizing a parameter: gradients, optimizers, loss &amp; backprop
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#part-1-compute-the-predictions-for-current-parameter-value">
+     Part 1: Compute the predictions for current parameter value
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#part-2-computing-the-loss-for-the-current-prediction">
+     Part 2: Computing the loss for the current prediction
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#part-3-backpropagate-the-error-signal">
+     Part 3: Backpropagate the error signal
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#part-4-update-the-parameter-values">
+     Part 4: Update the parameter values
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#part-5-reset-the-gradient-information">
+     Part 5: Reset the gradient information
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#training-loop">
+   Training loop
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Sheet 2.2: ML-estimate of a Gaussian mean</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#packages">
+   Packages
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#true-distribution-training-data">
+   True distribution &amp; training data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#optimizing-a-parameter-gradients-optimizers-loss-backprop">
+   Optimizing a parameter: gradients, optimizers, loss &amp; backprop
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#part-1-compute-the-predictions-for-current-parameter-value">
+     Part 1: Compute the predictions for current parameter value
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#part-2-computing-the-loss-for-the-current-prediction">
+     Part 2: Computing the loss for the current prediction
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#part-3-backpropagate-the-error-signal">
+     Part 3: Backpropagate the error signal
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#part-4-update-the-parameter-values">
+     Part 4: Update the parameter values
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#part-5-reset-the-gradient-information">
+     Part 5: Reset the gradient information
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#training-loop">
+   Training loop
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section class="tex2jax_ignore mathjax_ignore" id="sheet-2-2-ml-estimate-of-a-gaussian-mean">
+<h1>Sheet 2.2: ML-estimate of a Gaussian mean<a class="headerlink" href="#sheet-2-2-ml-estimate-of-a-gaussian-mean" title="Permalink to this headline">#</a></h1>
+<p><strong>Author:</strong> Michael Franke</p>
+<p>This tutorial is meant to introduce some basics of PyTorch by looking at a simple case study: how to find the best-fitting parameter for the mean of a normal (Gaussian) distribution.
+The training data is a set of samples from a “true” distribution.
+The loss function is the negative likelihood that a candidate parameter value for the “true mean” assigns to the training data.
+By using stochastic gradient descent to minimize the loss, we seek the parameter value that maximizes the likelihood of the training data.
+This is, therefore, a <strong>maximum likelihood estimation</strong>.</p>
+<section id="packages">
+<h2>Packages<a class="headerlink" href="#packages" title="Permalink to this headline">#</a></h2>
+<p>We will need to import the `torch` package for the main functionality.
+We also will use `seaborn` for plotting, and `matplotlib` for showing the plots.
+Finally, we use the `warnings` package to suppress all warning messages in the notebook.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="true-distribution-training-data">
+<h2>True distribution &amp; training data<a class="headerlink" href="#true-distribution-training-data" title="Permalink to this headline">#</a></h2>
+<p>The “true distribution” that generates the data is a normal distribution with a mean (location) stored in the variable `trueLocation`.
+(We keep the scale parameter (standard deviation) fixed at a known value of 1.)
+The `torch.distributions` package contains ready-made probability distributions for sampling.
+So, here we define the true distribution, and take `nObs` samples from it, the set of which we call “training data”.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nObs</span>           <span class="o">=</span> <span class="mi">10000</span>
+<span class="n">trueLocation</span>   <span class="o">=</span> <span class="mi">0</span>
+<span class="n">trueDist</span>       <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">distributions</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">trueLocation</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="n">trainData</span>      <span class="o">=</span> <span class="n">trueDist</span><span class="o">.</span><span class="n">sample</span><span class="p">([</span><span class="n">nObs</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The mean of the training data is the so-called <strong>empirical mean</strong>.
+The empirical mean need not be identical to the true mean!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">empirical_mean</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">trainData</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Empirical mean (mean of training data): </span><span class="si">%.5f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">empirical_mean</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Empirical mean (mean of training data): 0.00149
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here is a density plot of the training data:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">kdeplot</span><span class="p">(</span><span class="n">trainData</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/03b-MLE_11_0.png" src="_images/03b-MLE_11_0.png" />
+</div>
+</div>
+</section>
+<section id="optimizing-a-parameter-gradients-optimizers-loss-backprop">
+<h2>Optimizing a parameter: gradients, optimizers, loss &amp; backprop<a class="headerlink" href="#optimizing-a-parameter-gradients-optimizers-loss-backprop" title="Permalink to this headline">#</a></h2>
+<p>We want an estimate of the true mean of the training data.
+For that, we define a “trainable” parameter in PyTorch, which we set to some initial value.
+Subsequently, we will update the value of this parameter in a series of training steps, so that it will become “better” over time.
+Being “good” means having a small “loss”.
+The loss function we are interested in is the likelihood of the training data.</p>
+<p>To being with, we define the parameter which is to be trained.
+Since we want to “massage it” through updating, we must tell PyTorch that it should compute the gradient for this parameter (and the ones derived from it).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">location</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span> <span class="n">location</span> <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor(1., requires_grad=True)
+</pre></div>
+</div>
+</div>
+</div>
+<p>To prepare for training, we first instantiate an <strong>optimizer</strong>, which will do the updating behind the scenes.
+Here, we choose the stochastic gradient descent (SGD) optimizer.
+To instantiate it, we need to tell it two things:</p>
+<ol class="simple">
+<li><p>which parameters to optimize;</p></li>
+<li><p>how aggressively to update (=&gt; the so-called <strong>learning rate</strong>)</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">learningRate</span> <span class="o">=</span> <span class="mf">0.0000001</span>
+<span class="n">opt</span>          <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">SGD</span><span class="p">([</span><span class="n">location</span><span class="p">],</span> <span class="n">lr</span><span class="o">=</span><span class="n">learningRate</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let us now go manually through a single training step.
+A training step consists of the following parts:</p>
+<ol class="simple">
+<li><p>compute the predictions for the current parameter(s)</p>
+<ul class="simple">
+<li><p>what do we predict in the current state?</p></li>
+</ul>
+</li>
+<li><p>compute the loss for this prediction</p>
+<ul class="simple">
+<li><p>how good is this prediction (for the training data)?</p></li>
+</ul>
+</li>
+<li><p>backpropagate the error (using the gradients)</p>
+<ul class="simple">
+<li><p>in which direction would we need to change the relevant parameters to make the prediction better?</p></li>
+</ul>
+</li>
+<li><p>update step</p>
+<ul class="simple">
+<li><p>change the parameters (to a certain degree, the so-called learning rate) in the direction that should make them better</p></li>
+</ul>
+</li>
+<li><p>zero the gradient</p>
+<ul class="simple">
+<li><p>reset the information about “which direction to tune” for the next training step</p></li>
+</ul>
+</li>
+</ol>
+<section id="part-1-compute-the-predictions-for-current-parameter-value">
+<h3>Part 1: Compute the predictions for current parameter value<a class="headerlink" href="#part-1-compute-the-predictions-for-current-parameter-value" title="Permalink to this headline">#</a></h3>
+<p>The prediction for the current parameter value is a Gaussian with the location parameter set to our current parameter value.
+We obtain our “current best model” by instantiating a distribution like so:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">prediction</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">distributions</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">location</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="part-2-computing-the-loss-for-the-current-prediction">
+<h3>Part 2: Computing the loss for the current prediction<a class="headerlink" href="#part-2-computing-the-loss-for-the-current-prediction" title="Permalink to this headline">#</a></h3>
+<p>How good is our current model?
+Goodness can be measured in many ways.
+Here we consider the likelihood: how likely is the training data under the current model?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">loss</span>     <span class="o">=</span> <span class="o">-</span><span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">prediction</span><span class="o">.</span><span class="n">log_prob</span><span class="p">(</span><span class="n">trainData</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">loss</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor(19240.4434, grad_fn=&lt;NegBackward0&gt;)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Notice that the `loss` variable is a single-numbered tensor (containing the information how bad (we want to minimize it) the current parameter value is).
+Notice that PyTorch has also added information on how to compute gradients, i.e., it keeps track of way in which values for the variable `location` influence the values for the variable `loss`.</p>
+</section>
+<section id="part-3-backpropagate-the-error-signal">
+<h3>Part 3: Backpropagate the error signal<a class="headerlink" href="#part-3-backpropagate-the-error-signal" title="Permalink to this headline">#</a></h3>
+<p>In the next step, we will use the information stored about the functional relation between `location` and `loss` to infer how the `location` parameter would need to be changed to make `loss` higher or lower.
+This is the so-called backpropagation step.</p>
+<p>Concretely, at the outset, the gradient information for `location` is “NONE”.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Value (initial)                = </span><span class="si">{</span> <span class="n">location</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Gradient information (initial) = </span><span class="si">{</span> <span class="n">location</span><span class="o">.</span><span class="n">grad</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Value (initial)                = 1.0
+Gradient information (initial) = None
+</pre></div>
+</div>
+</div>
+</div>
+<p>We must actively tell the system to backpropagate the information in the gradients, like so:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Value (after backprop)                = </span><span class="si">{</span> <span class="n">location</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Gradient information (after backprop) = </span><span class="si">{</span> <span class="n">location</span><span class="o">.</span><span class="n">grad</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Value (after backprop)                = 1.0
+Gradient information (after backprop) = 9985.142578125
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="part-4-update-the-parameter-values">
+<h3>Part 4: Update the parameter values<a class="headerlink" href="#part-4-update-the-parameter-values" title="Permalink to this headline">#</a></h3>
+<p>Next, we use the information in the gradient to actually update the trainable parameter values.
+This is what the optimizer does.
+It knows which parameters to update (we told it), so the relevant update function is one associated with the optimizer itself.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">opt</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Value (after step)                = </span><span class="si">{</span> <span class="n">location</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Gradient information (after step) = </span><span class="si">{</span> <span class="n">location</span><span class="o">.</span><span class="n">grad</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Value (after step)                = 0.9990015029907227
+Gradient information (after step) = 9985.142578125
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="part-5-reset-the-gradient-information">
+<h3>Part 5: Reset the gradient information<a class="headerlink" href="#part-5-reset-the-gradient-information" title="Permalink to this headline">#</a></h3>
+<p>If we want to repeat the updating process, we need to erase information about gradients for the last prediction.
+This is because otherwise information would just accumulate in the gradients.
+This zero-ing of the gradients is again something we do holistically (for all parameters to train) through the optimizer object:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">opt</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Value (after zero-ing)                = </span><span class="si">{</span> <span class="n">location</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Gradient information (after zero-ing) = </span><span class="si">{</span> <span class="n">location</span><span class="o">.</span><span class="n">grad</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Value (after zero-ing)                = 0.9990015029907227
+Gradient information (after zero-ing) = 0.0
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="training-loop">
+<h2>Training loop<a class="headerlink" href="#training-loop" title="Permalink to this headline">#</a></h2>
+<p>After having gone through our cycle of parameter updating step-by-step, let’s iterate this in a training loop consisting of `nTrainingSteps`.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nTrainingSteps</span><span class="o">=</span> <span class="mi">10000</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nTrainingSteps</span><span class="p">):</span>
+    <span class="n">prediction</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">distributions</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">location</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="o">-</span><span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">prediction</span><span class="o">.</span><span class="n">log_prob</span><span class="p">(</span><span class="n">trainData</span><span class="p">))</span>
+    <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">500</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Step: </span><span class="si">%5d</span><span class="s1">, Loss: </span><span class="si">%10.3f</span><span class="s1">, Estimate: </span><span class="si">%3.5f</span><span class="s1">, diff. target: </span><span class="si">%3.5f</span><span class="s1">&#39;</span> <span class="o">%</span>
+              <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span> <span class="n">location</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span> <span class="nb">abs</span><span class="p">(</span><span class="n">location</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="o">-</span> <span class="n">empirical_mean</span><span class="p">)</span> <span class="p">)</span> <span class="p">)</span>
+        <span class="c1"># print(f&quot;Iteration: {i}, Loss: {loss.item():0.2f}, Loc: {loc.item():0.2f}&quot;)</span>
+        <span class="n">opt</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+        <span class="n">opt</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Step:   500, Loss:  19230.477, Estimate: 0.99900, diff. target: 0.99752
+Step:  1000, Loss:  15499.084, Estimate: 0.50024, diff. target: 0.49876
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Step:  1500, Loss:  14566.236, Estimate: 0.25086, diff. target: 0.24938
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Step:  2000, Loss:  14333.025, Estimate: 0.12617, diff. target: 0.12469
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Step:  2500, Loss:  14274.724, Estimate: 0.06383, diff. target: 0.06234
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Step:  3000, Loss:  14260.146, Estimate: 0.03266, diff. target: 0.03117
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Step:  3500, Loss:  14256.504, Estimate: 0.01707, diff. target: 0.01559
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Step:  4000, Loss:  14255.593, Estimate: 0.00928, diff. target: 0.00779
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Step:  4500, Loss:  14255.364, Estimate: 0.00538, diff. target: 0.00390
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Step:  5000, Loss:  14255.309, Estimate: 0.00343, diff. target: 0.00195
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Step:  5500, Loss:  14255.293, Estimate: 0.00246, diff. target: 0.00097
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Step:  6000, Loss:  14255.290, Estimate: 0.00197, diff. target: 0.00049
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Step:  6500, Loss:  14255.289, Estimate: 0.00173, diff. target: 0.00024
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Step:  7000, Loss:  14255.288, Estimate: 0.00161, diff. target: 0.00012
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Step:  7500, Loss:  14255.288, Estimate: 0.00155, diff. target: 0.00006
+Step:  8000, Loss:  14255.289, Estimate: 0.00152, diff. target: 0.00003
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Step:  8500, Loss:  14255.289, Estimate: 0.00150, diff. target: 0.00002
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Step:  9000, Loss:  14255.289, Estimate: 0.00149, diff. target: 0.00001
+Step:  9500, Loss:  14255.289, Estimate: 0.00149, diff. target: 0.00000
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Step: 10000, Loss:  14255.289, Estimate: 0.00149, diff. target: 0.00000
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1. Change the true mean (location) to 10e6. Is training still successful?</span>
+<span class="c1">#    What would you change?</span>
+<span class="c1">#    Answer: a few more optimization steps</span>
+<span class="c1"># 2. Revert to initial conditions. Change the initial value of the parameter</span>
+<span class="c1">#    we&#39;d like to fit to -5000. Does training work? How&#39;d you fix it?</span>
+<span class="c1"># 3. Rerun the script with only 100 samples (using variable `nObs`).</span>
+<span class="c1">#    Does the training work? What&#39;s the problem? How would you fix it?</span>
+<span class="c1">#    Answer: we don&#39;t have a strong training signal (less data);</span>
+<span class="c1">#            we can change the learning rate (e.g., to 0.00001);</span>
+<span class="c1">#            we might also take a lot more training steps</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Michael Franke<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>
