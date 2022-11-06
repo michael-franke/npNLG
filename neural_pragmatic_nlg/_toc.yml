@@ -18,7 +18,7 @@ parts:
   - file: 02b-RSA-vanilla
   - file: 02c-RSA-politeness
 
-- caption: 02 Basics of PyTorch
+- caption: 02 PyTorch
   chapters:
   - file: 03a-pytorch-basics
   - file: 03b-pytorch-intro
