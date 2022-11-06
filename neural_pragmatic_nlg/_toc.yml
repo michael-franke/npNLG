@@ -18,7 +18,8 @@ parts:
   - file: 02b-RSA-vanilla
   - file: 02c-RSA-politeness
 
-- caption: 02 ANNs in PyTorch
+- caption: 02 Basics of PyTorch
   chapters:
-  - file: 03a-ANNs
+  - file: 03a-pytorch-basics
   - file: 03b-pytorch-intro
+  - file: 03c-MLE

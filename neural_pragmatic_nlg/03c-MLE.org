@@ -1,4 +1,4 @@
-#+title:     Sheet 2.2: ML-estimate of a Gaussian mean
+#+title:     Sheet 2.2: ML-estimation
 #+author:    Michael Franke
 
 This tutorial is meant to introduce some basics of PyTorch by looking at a simple case study: how to find the best-fitting parameter for the mean of a normal (Gaussian) distribution.
@@ -48,7 +48,7 @@ print('Empirical mean (mean of training data): %.5f' % empirical_mean.item())
 #+end_src
 
 #+RESULTS:
-: Empirical mean (mean of training data): 0.00504
+: Empirical mean (mean of training data): 0.00586
 
 Here is a density plot of the training data:
 
@@ -202,32 +202,51 @@ After having gone through our cycle of parameter updating step-by-step, let's it
 
 #+begin_src jupyter-python
 nTrainingSteps= 10000
+print('\n%5s %24s %15s %15s' %
+      ("step", "loss", "estimate", "diff. target") )
 for i in range(nTrainingSteps):
     prediction = torch.distributions.Normal(loc=location, scale=1.0)
     loss = -torch.sum(prediction.log_prob(trainData))
     loss.backward()
     if (i+1) % 500 == 0:
-        print('Step: %5d, Loss: %10.3f, Estimate: %3.5f, diff. target: %3.5f' %
-              (i + 1, loss.item(), location.item(), abs(location.item() - empirical_mean) ) )
+        print('%5d %24.3f %15.5f %15.5f' %
+              (i + 1, loss.item(), location.item(),
+               abs(location.item() - empirical_mean) ) )
         opt.step()
         opt.zero_grad()
 #+end_src
 
+#+RESULTS:
+#+begin_example
+
+ step                     loss        estimate    diff. target
+  500                19081.939         1.00000         0.99414
+ 1000                15375.717         0.50293         0.49707
+ 1500                14449.172         0.25439         0.24853
+ 2000                14217.538         0.13012         0.12427
+ 2500                14159.631         0.06799         0.06213
+ 3000                14145.154         0.03692         0.03107
+ 3500                14141.534         0.02139         0.01553
+ 4000                14140.630         0.01362         0.00777
+ 4500                14140.402         0.00974         0.00388
+ 5000                14140.345         0.00780         0.00194
+ 5500                14140.332         0.00683         0.00097
+ 6000                14140.329         0.00634         0.00049
+ 6500                14140.328         0.00610         0.00024
+ 7000                14140.328         0.00598         0.00012
+ 7500                14140.328         0.00592         0.00006
+ 8000                14140.327         0.00589         0.00003
+ 8500                14140.327         0.00587         0.00002
+ 9000                14140.328         0.00586         0.00001
+ 9500                14140.328         0.00586         0.00000
+10000                14140.328         0.00586         0.00000
+#+end_example
 
 
 
+> <strong><span style="color:#D83D2B;">Exercise 2.2.1: Explore the optimization process</span></strong>
+> 1. Change the true mean (location) to 10e6. Is training still successful?  What would you change?
+> 2. Revert to initial conditions. Change the initial value of the parameter `trueLocation` to -5000. Does training work? What's the problem? How would you fix it?
+> 3. Revert to initial conditions. Rerun the script with only 100 samples (using variable `nObs`). Does the training work? What's the problem? How would you fix it?
 
-#+begin_src jupyter-python
 
-# 1. Change the true mean (location) to 10e6. Is training still successful?
-#    What would you change?
-#    Answer: a few more optimization steps
-# 2. Revert to initial conditions. Change the initial value of the parameter
-#    we'd like to fit to -5000. Does training work? How'd you fix it?
-# 3. Rerun the script with only 100 samples (using variable `nObs`).
-#    Does the training work? What's the problem? How would you fix it?
-#    Answer: we don't have a strong training signal (less data);
-#            we can change the learning rate (e.g., to 0.00001);
-#            we might also take a lot more training steps
-
-#+end_src
