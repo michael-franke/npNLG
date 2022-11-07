@@ -371,23 +371,32 @@ With the usual arithmetic operations, a row vector will be recycled in the obvio
 row_vector = torch.tensor([1,10])
 matrix     = torch.tensor([[1,2], [3,4]])
 print("multiplication:\n", matrix * row_vector)
-print("division:\n"      , matrix / row_vector)
-print("addition:\n"      , matrix + row_vector)
-print("subtraction:\n"   , matrix - row_vector)
 #+end_src
 
 #+RESULTS:
-#+begin_example
-multiplication:
- tensor([[ 1, 20],
-        [ 3, 40]])
-division:
- tensor([[1.0000, 0.2000],
-        [3.0000, 0.4000]])
-addition:
- tensor([[ 2, 12],
-        [ 4, 14]])
-subtraction:
- tensor([[ 0, -8],
-        [ 2, -6]])
-#+end_example
+: multiplication:
+:  tensor([[ 1, 20],
+:         [ 3, 40]])
+
+#+begin_src jupyter-python
+print("division:\n" , matrix / row_vector)
+#+end_src
+
+
+#+RESULTS:
+: division:
+:  tensor([[1.0000, 0.2000],
+:         [3.0000, 0.4000]])
+
+#+begin_src jupyter-python
+print("addition:\n"    , matrix + row_vector)
+print("subtraction:\n" , matrix - row_vector)
+#+end_src
+
+#+RESULTS:
+: addition:
+:  tensor([[ 2, 12],
+:         [ 4, 14]])
+: subtraction:
+:  tensor([[ 0, -8],
+:         [ 2, -6]])
