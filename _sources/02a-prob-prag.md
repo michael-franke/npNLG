@@ -47,7 +47,7 @@ Here are other overview papers (with different emphasis):
     -   Goodman, N. D., & Frank, M. C. (2016). Pragmatic language interpretation as probabilistic inference. Trends in Cognitive Sciences, 20(11), 818–829. <http://dx.doi.org/10.1016/j.tics.2016.08.005Au>
 
 -   overview papers targeting a linguistic audience:
-    -   Franke, M., & Gerhard Jäger (2016). Probabilistic pragmatics, or why Bayes&rsquo; rule is probably important for pragmatics. Zeitschrift f\\&ldquo;{u}r Sprachwissenschaft, 35(1), 3–44. <http://dx.doi.org/10.1515/zfs-2016-0002>
+    -   Franke, M., & Gerhard Jäger (2016). Probabilistic pragmatics, or why Bayes&rsquo; rule is probably important for pragmatics. Zeitschrift für Sprachwissenschaft, 35(1), 3–44. <http://dx.doi.org/10.1515/zfs-2016-0002>
     -   Stevens, J., & Benz, A. (2018). Game-theoretic approaches to pragmatics. Annual Review of Linguistics, 4(), 173–191. <http://dx.doi.org/10.1146/annurev-linguistics-011817-045641>
 
 -   overview paper covering related game-theoretic approaches (with R code):
