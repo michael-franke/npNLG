@@ -423,6 +423,11 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#row-column-vectors">
+   Row &amp; column vectors
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#tensor-data-types">
    Tensor data types
   </a>
@@ -438,18 +443,13 @@ title="Print to PDF"
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#slicing-and-indexing">
-     Slicing and indexing
+    <a class="reference internal nav-link" href="#indexing-and-slicing">
+     Indexing and slicing
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#joining-tensors">
      Joining tensors
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#assessing-just-the-values-of-a-tensor">
-     Assessing just the values of a tensor
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
@@ -463,13 +463,23 @@ title="Print to PDF"
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#tensor-arithmetic">
+     Tensor arithmetic
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#broadcasting">
+     Broadcasting
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#matrix-multiplication">
      Matrix Multiplication
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#tensor-arithmetic">
-     Tensor arithmetic
+    <a class="reference internal nav-link" href="#assessing-just-the-values-of-a-tensor">
+     Assessing just the values of a tensor
     </a>
    </li>
   </ul>
@@ -504,6 +514,11 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#row-column-vectors">
+   Row &amp; column vectors
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#tensor-data-types">
    Tensor data types
   </a>
@@ -519,18 +534,13 @@ title="Print to PDF"
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#slicing-and-indexing">
-     Slicing and indexing
+    <a class="reference internal nav-link" href="#indexing-and-slicing">
+     Indexing and slicing
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#joining-tensors">
      Joining tensors
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#assessing-just-the-values-of-a-tensor">
-     Assessing just the values of a tensor
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
@@ -544,13 +554,23 @@ title="Print to PDF"
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#tensor-arithmetic">
+     Tensor arithmetic
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#broadcasting">
+     Broadcasting
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#matrix-multiplication">
      Matrix Multiplication
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#tensor-arithmetic">
-     Tensor arithmetic
+    <a class="reference internal nav-link" href="#assessing-just-the-values-of-a-tensor">
+     Assessing just the values of a tensor
     </a>
    </li>
   </ul>
@@ -592,11 +612,11 @@ tensors. But <em>tensors also include even more high-dimensional objects</em>.
 For instance, an $k \times n \times m$ tensor is a three-dimensional
 array, which includes $k$ matrices, each of which has $n$ rows and
 $m$ columns. And so on.</p>
-<p>Full documetation for torch.Tensor class:
+<p>Full documetation for the `torch.Tensor` class can be found here:
 <a class="reference external" href="https://pytorch.org/docs/stable/tensors.html">https://pytorch.org/docs/stable/tensors.html</a></p>
 <p><img alt="img" src="_images/03-scalars-vectors-matrices-tensors.png" /></p>
 <blockquote>
-<div><p><strong><span style=&ldquo;color:#D83D2B;&rdquo;>Exercise 1: Dimensions of tensors</span></strong></p>
+<div><p><strong><span style=&ldquo;color:#D83D2B;&rdquo;>Exercise 2.1.1: Dimensions of tensors</span></strong></p>
 <p>What are the dimensions of the following tensors?</p>
 <ol class="simple">
 <li><p>$1$</p></li>
@@ -732,6 +752,71 @@ passed to it:</p>
 </div>
 </div>
 </div>
+<p>Often we might also want to fill tensors with random numbers.
+The function `torch.rand()` populates a tensor of the given size with random numbers drawn uniformly from the unit interval.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[0.3304, 0.9937, 0.0039],
+        [0.0719, 0.8611, 0.0997]])
+</pre></div>
+</div>
+</div>
+</div>
+<blockquote>
+<div><p><strong><span style=&ldquo;color:#D83D2B;&rdquo;>Exercise 2.1.2: Creating tensors</span></strong></p>
+<ol class="simple">
+<li><p>Create a PyTorch tensor storing the following matrices:</p></li>
+</ol>
+<p>a. $[[1,2], [3,4], [5,6]]$</p>
+<p>b. $[[[1,2], [3,4], [5,6]], [[10,20], [30,40], [50,60]]]$</p>
+<ol class="simple">
+<li><p>Create a PyTorch tensor of size $3 \times 2 \times 4$ filled with the number 3.</p></li>
+<li><p>Create a PyTorch vector with 6 random numbers (lying between 0 and 1).</p></li>
+</ol>
+</div></blockquote>
+</section>
+<section id="row-column-vectors">
+<h2>Row &amp; column vectors<a class="headerlink" href="#row-column-vectors" title="Permalink to this headline">#</a></h2>
+<p>A one-dimensional tensor is a row-vector:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">row_vector</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">100</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">row_vector</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">row_vector</span><span class="o">.</span><span class="n">size</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([  1,  10, 100])
+torch.Size([3])
+</pre></div>
+</div>
+</div>
+</div>
+<p>Strictly speaking, there are no column vectors in PyTorch.
+A column vector would be a matrix with one column:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">col_vector</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">1</span><span class="p">],[</span><span class="mi">10</span><span class="p">],[</span><span class="mi">100</span><span class="p">]])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">col_vector</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">col_vector</span><span class="o">.</span><span class="n">size</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[  1],
+        [ 10],
+        [100]])
+torch.Size([3, 1])
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="tensor-data-types">
 <h2>Tensor data types<a class="headerlink" href="#tensor-data-types" title="Permalink to this headline">#</a></h2>
@@ -741,53 +826,78 @@ passed to it:</p>
 <li><p>boolean</p></li>
 <li><p>complex numbers</p></li>
 </ul>
+<p>We can retrieve the type of a tensor with `.dtype`.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">2.1</span><span class="p">])</span><span class="o">.</span><span class="n">dtype</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>torch.float32
+</pre></div>
+</div>
+</div>
+</div>
+<p>If we construct a tensor with an integer, its type will be integer.
+Compare:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">5.0</span><span class="p">)</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>torch.int64
+torch.float32
+</pre></div>
+</div>
+</div>
+</div>
+<p>It is possible to declare the type explicitly, when constructing a tensor:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span>   <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">bool</span><span class="p">)</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>torch.float64
+torch.bool
+</pre></div>
+</div>
+</div>
+</div>
 <p>All the values in the same tensor are of the same data type.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">true</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">])</span>
-<span class="n">true</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">true</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">true</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([True, True])
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([True, True])
+torch.bool
 </pre></div>
 </div>
 </div>
 </div>
+<p>Careful: PyTorch will implicitly cast data types.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">true</span><span class="o">.</span><span class="n">dtype</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mix</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">mix</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">mix</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>torch.bool
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">true</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
-<span class="n">true</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([1, 1])
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">true</span><span class="o">.</span><span class="n">dtype</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>torch.int64
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([1, 1])
+torch.int64
 </pre></div>
 </div>
 </div>
@@ -815,55 +925,58 @@ type support.</p>
 Here are some important examples:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Shape of tensor: </span><span class="si">{</span><span class="n">hello_tensor</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Datatype of tensor: </span><span class="si">{</span><span class="n">hello_tensor</span><span class="o">.</span><span class="n">dtype</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Device tensor is stored on: </span><span class="si">{</span><span class="n">hello_tensor</span><span class="o">.</span><span class="n">device</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Datatype of tensor         : </span><span class="si">{</span><span class="n">hello_tensor</span><span class="o">.</span><span class="n">dtype</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Shape of tensor            : </span><span class="si">{</span><span class="n">hello_tensor</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Device tensor is stored on : </span><span class="si">{</span><span class="n">hello_tensor</span><span class="o">.</span><span class="n">device</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Shape of tensor: torch.Size([12])
-Datatype of tensor: torch.int64
-Device tensor is stored on: cpu
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Datatype of tensor         : torch.int64
+Shape of tensor            : torch.Size([12])
+Device tensor is stored on : cpu
 </pre></div>
 </div>
 </div>
 </div>
-<p>The latter property assessed with `.device` tells us where the tensor is stored and manipulated.
+<p>We have seen `dtype` already.
+The property `shape` gives equal output as a call to function `.size()`.
+The property assessed with `.device` tells us where the tensor is stored and manipulated.
 The default is the CPU.
 If your machine allows you can also shift all your tensors to a GPU.
 The syntax for doing this is slightly different on different machines.</p>
+<blockquote>
+<div><p><strong><span style=&ldquo;color:#D83D2B;&rdquo;>Exercise 2.1.3: Tensor attributes &amp; types </span></strong></p>
+<ol class="simple">
+<li><p>Inspect the tensor type with `.dtype` for tensors created from a list containing two different data types supported by PyTorch (int, float, Boolean).</p></li>
+<li><p>Use `.shape` or `.size()` to inspect the shape of a (row) vector, a single column matrix, and a $2 \times 3$ matrix.</p></li>
+</ol>
+</div></blockquote>
 </section>
 <section id="operations-on-tensors">
 <h2>Operations on tensors<a class="headerlink" href="#operations-on-tensors" title="Permalink to this headline">#</a></h2>
-<section id="slicing-and-indexing">
-<h3>Slicing and indexing<a class="headerlink" href="#slicing-and-indexing" title="Permalink to this headline">#</a></h3>
-<p>The same slicing method used on arrays and numpy arrays can be used on
-tensors as well. The returned result will also be a tensor.</p>
+<section id="indexing-and-slicing">
+<h3>Indexing and slicing<a class="headerlink" href="#indexing-and-slicing" title="Permalink to this headline">#</a></h3>
+<p>Indexing &amp; slicing works in the way familiar from numpy.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bigger_tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],[</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">],[</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">],[</span><span class="mi">10</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">12</span><span class="p">]])</span>
-<span class="n">first_row</span>     <span class="o">=</span> <span class="n">bigger_tensor</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">last_row</span>      <span class="o">=</span> <span class="n">bigger_tensor</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
-<span class="n">first_row</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">matrix</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">],</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">]])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">matrix</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>   <span class="c1"># single element</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">matrix</span><span class="p">[</span><span class="mi">2</span><span class="p">,:])</span>   <span class="c1"># third row</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">matrix</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>     <span class="c1"># third row (alternative)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">matrix</span><span class="p">[:,</span><span class="mi">1</span><span class="p">])</span>   <span class="c1"># second column</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([1, 2, 3])
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">first_column</span> <span class="o">=</span> <span class="n">bigger_tensor</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">first_column</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([ 1,  4,  7, 10])
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[1, 2, 3],
+        [4, 5, 6],
+        [7, 8, 9]])
+tensor(6)
+tensor([7, 8, 9])
+tensor([7, 8, 9])
+tensor([2, 5, 8])
 </pre></div>
 </div>
 </div>
@@ -871,15 +984,18 @@ tensors as well. The returned result will also be a tensor.</p>
 </section>
 <section id="joining-tensors">
 <h3>Joining tensors<a class="headerlink" href="#joining-tensors" title="Permalink to this headline">#</a></h3>
+<p>We can concatenate tensor like so:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">head_and_tail</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">first_row</span><span class="p">,</span> <span class="n">last_row</span><span class="p">])</span>
-<span class="n">head_and_tail</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">head</span>          <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
+<span class="n">tail</span>          <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">])</span>
+<span class="n">head_and_tail</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">head</span><span class="p">,</span> <span class="n">tail</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">head_and_tail</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([ 1,  2,  3, 10, 11, 12])
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([1, 2, 3, 4, 5, 6])
 </pre></div>
 </div>
 </div>
@@ -887,59 +1003,13 @@ tensors as well. The returned result will also be a tensor.</p>
 <p>What if we want to add a dimension?</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">head_and_tail</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">first_row</span><span class="p">,</span> <span class="n">last_row</span><span class="p">])</span>
-<span class="n">head_and_tail</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">head</span><span class="p">,</span> <span class="n">tail</span><span class="p">]))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[ 1,  2,  3],
-        [10, 11, 12]])
-</pre></div>
-</div>
-</div>
-</div>
-</section>
-<section id="assessing-just-the-values-of-a-tensor">
-<h3>Assessing just the values of a tensor<a class="headerlink" href="#assessing-just-the-values-of-a-tensor" title="Permalink to this headline">#</a></h3>
-<p>Accessing a single value output with indices:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">value</span> <span class="o">=</span> <span class="n">bigger_tensor</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span>
-<span class="n">value</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor(6)
-</pre></div>
-</div>
-</div>
-</div>
-<p>The `tensor.item()` function returns the value of a single-item tensor without any further information, which is often useful for inspection or plotting of results:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">value</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6
-</pre></div>
-</div>
-</div>
-</div>
-<p>To convert a larger tensor back to numpy (e.g., for plotting) you can do this:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">another_tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">]])</span>
-<span class="n">another_tensor</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[1, 2, 3],
-       [4, 5, 6]])
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[1, 2, 3],
+        [4, 5, 6]])
 </pre></div>
 </div>
 </div>
@@ -973,10 +1043,15 @@ tensor([[1],
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]])</span>
-<span class="n">b</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+                  <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]])</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,))</span>      <span class="c1"># to (row) vector</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>    <span class="c1"># to one col matrix (~ col vector)</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>    <span class="c1"># to one row matrix</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -984,6 +1059,11 @@ tensor([[1],
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[0, 1],
         [2, 3]])
 tensor([0, 1, 2, 3])
+tensor([[0],
+        [1],
+        [2],
+        [3]])
+tensor([[0, 1, 2, 3]])
 </pre></div>
 </div>
 </div>
@@ -991,7 +1071,7 @@ tensor([0, 1, 2, 3])
 </section>
 <section id="transposing">
 <h3>Transposing<a class="headerlink" href="#transposing" title="Permalink to this headline">#</a></h3>
-<p>It is possible to transpose a tensor by specified dimesions using the
+<p>It is possible to transpose a tensor (with a dimension at least 2) by specified dimesions using the
 function: `torch.transpose()`,
 This function takes the dimensions which are to be transposed as an argument.</p>
 <div class="cell docutils container">
@@ -1024,47 +1104,52 @@ tensor([[[10, 40, 70],
 </div>
 </div>
 </section>
-<section id="matrix-multiplication">
-<h3>Matrix Multiplication<a class="headerlink" href="#matrix-multiplication" title="Permalink to this headline">#</a></h3>
-<p>To perform a matrix multiplications on tensors, we use the function
-`torch.mm(tensor1, tensor2)`.</p>
-<p>If `tensor1` is an $(n×m)$ tensor, and `tensor2` is an $(m×p)$ tensor, the
-output will be an $(n×p)$ tensor.</p>
+<section id="tensor-arithmetic">
+<h3>Tensor arithmetic<a class="headerlink" href="#tensor-arithmetic" title="Permalink to this headline">#</a></h3>
+<p>The usual infix notation for arithmetic functions works element-wise on tensors:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tensor_1</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]])</span>
-<span class="n">tensor_2</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">]])</span>
-<span class="n">product</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">mm</span><span class="p">(</span><span class="n">tensor_1</span><span class="p">,</span> <span class="n">tensor_2</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">product</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">8</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">y</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">x</span> <span class="o">/</span> <span class="n">y</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">y</span> <span class="o">**</span> <span class="n">x</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[ 12, 200],
-        [ 34, 400],
-        [ 56, 600]])
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([ 2,  6, 11])
+tensor([ 0, -2, -5])
+tensor([ 1,  8, 24])
+tensor([1.0000, 0.5000, 0.3750])
+tensor([  1,  16, 512])
 </pre></div>
 </div>
 </div>
 </div>
 </section>
-<section id="tensor-arithmetic">
-<h3>Tensor arithmetic<a class="headerlink" href="#tensor-arithmetic" title="Permalink to this headline">#</a></h3>
-<p>A one-dimensional tensor is a row-vector:</p>
+<section id="broadcasting">
+<h3>Broadcasting<a class="headerlink" href="#broadcasting" title="Permalink to this headline">#</a></h3>
+<p>When we apply these operations to tensors of different sizes, PyTorch will try to broadcast the input.</p>
+<p>For example, if we multiply a vector with a scalar, the scalar is broadcasted (extended) to a vector of the same length.
+The result is that each element in the vector is multiplied by that scalar.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">row_vector</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">100</span><span class="p">])</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">row_vector</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="mi">4</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([  1,  10, 100])
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([ 4,  8, 12])
 </pre></div>
 </div>
 </div>
 </div>
-<p>With the usual arithmetic operations, a row vector will be recycled in the obvious way:</p>
+<p>Similarly, for higher dimensions.
+With the usual arithmetic operations, a row vector will be recycled in the obvious way.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">row_vector</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="p">])</span>
@@ -1113,6 +1198,102 @@ subtraction:
 </div>
 </div>
 </div>
+<p>The precise documentation of broadcasting is <a class="reference external" href="https://pytorch.org/docs/stable/notes/broadcasting.html#broadcasting-semantics">here</a>.</p>
+</section>
+<section id="matrix-multiplication">
+<h3>Matrix Multiplication<a class="headerlink" href="#matrix-multiplication" title="Permalink to this headline">#</a></h3>
+<p>To perform a matrix multiplications on tensors, we use the function
+`torch.matmmul(tensor1, tensor2)`, or its short-form notation `tensor1 &#64; tensor2`.
+If `tensor1` is an $(n×m)$ tensor, and `tensor2` is an $(m×p)$ tensor, the
+output will be an $(n×p)$ tensor.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tensor1</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]])</span>
+<span class="n">tensor2</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">]])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">tensor1</span><span class="p">,</span> <span class="n">tensor2</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tensor1</span> <span class="o">@</span> <span class="n">tensor2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[ 12, 200],
+        [ 34, 400],
+        [ 56, 600]])
+tensor([[ 12, 200],
+        [ 34, 400],
+        [ 56, 600]])
+</pre></div>
+</div>
+</div>
+</div>
+<p>Notice that the function `torch.matmul()` implicitly converts and broadcasts and so also flexibly applies yields a matrix-vector product or a dot products.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">matrix</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]])</span>
+<span class="n">vector</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">vector</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">matrix</span> <span class="o">@</span> <span class="n">vector</span><span class="p">)</span>  <span class="c1"># matrix-vector product</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">vector</span> <span class="o">@</span> <span class="n">vector</span><span class="p">)</span>  <span class="c1"># dot prodcut</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[1, 2],
+        [3, 4],
+        [5, 6]])
+tensor([ 1, 10])
+tensor([21, 43, 65])
+tensor(101)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Full documentation of `torch.matmul()` is <a class="reference external" href="https://pytorch.org/docs/stable/generated/torch.matmul.html">here</a>.</p>
+</section>
+<section id="assessing-just-the-values-of-a-tensor">
+<h3>Assessing just the values of a tensor<a class="headerlink" href="#assessing-just-the-values-of-a-tensor" title="Permalink to this headline">#</a></h3>
+<p>The `tensor.item()` function returns the value of a single-item tensor without any further information, which is often useful for inspection or plotting of results:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">value</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span> <span class="p">[</span><span class="mi">33</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">value</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+
+<span class="ne">NameError</span>: name &#39;value&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+<p>To convert a larger tensor back to numpy (e.g., for plotting) you can do this:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">another_tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">]])</span>
+<span class="n">another_tensor</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[1, 2, 3],
+       [4, 5, 6]])
+</pre></div>
+</div>
+</div>
+</div>
+<blockquote>
+<div><p><strong><span style=&ldquo;color:#D83D2B;&rdquo;>Exercise 2.1.4: Operations on tensors</span></strong></p>
+<ol class="simple">
+<li><p>Define a tensor for matrix $[[[1,2], [3,4], [5,6]]]$. Create new tensors obtained by Reshaping this matrix into a vector (row vector), a one-column matrix. Also, create its transpose.</p></li>
+<li><p>Compute the dot product between $[1,3,5]$ and $[1,10,100]$.</p></li>
+<li><p>Compute the matrix product between PyTorch tensors $[[1], [2], [3]]$ and $[[1,10,100]]$. Convert the result to a numpy array.</p></li>
+</ol>
+</div></blockquote>
 </section>
 </section>
 </section>
