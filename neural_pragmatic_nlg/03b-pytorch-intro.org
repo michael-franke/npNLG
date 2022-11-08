@@ -558,11 +558,14 @@ Full documentation of `torch.matmul()` is [[https://pytorch.org/docs/stable/gene
 The `tensor.item()` function returns the value of a single-item tensor without any further information, which is often useful for inspection or plotting of results:
 
 #+begin_src jupyter-python
-value.item()
+tensor = torch.tensor([[1, 2], [3, 4], [5, 6]])
+print(tensor[1,1])
+print(tensor[1,1].item())
 #+end_src
 
 #+RESULTS:
-: 6
+: tensor(4)
+: 4
 
 To convert a larger tensor back to numpy (e.g., for plotting) you can do this:
 

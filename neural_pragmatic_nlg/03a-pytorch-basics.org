@@ -1,3 +1,14 @@
 * Basics of PyTorch
 
-... fill me ...
+PyTorch is a high-level framework for machine learning based on [[http://torch.ch/][torch]].
+Modern ML techniques, such as artificial neural networks, require efficient computations of algebraic operations on large and high-dimensional tensors.
+PyTorch offers a tensor-based computing framework that is optimized for exactly these kinds of computations.
+Moreover, PyTorch offers ready-made modules for building complex ANNs.
+A powerful automatic differentiation system, makes training these networks possible.
+
+There are other similar libraries on the market (e.g., tensorflow), but PyTorch has been particularly popular in the NLP community.
+
+** Resources
+
+- [[https://pytorch.org/][Official PyTorch website]] for information on installation
+- [[https://pytorch.org/tutorials/][Official PyTorch tutorials]]
