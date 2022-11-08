@@ -387,6 +387,22 @@ print(d)
 :         [3]])
 : tensor([[0, 1, 2, 3]])
 
+There is also the function `.flatten()` which returns all elements of a tensor.
+
+#+begin_src jupyter-python
+a = torch.tensor([ [[0, 1], [2, 3]], [[4, 5], [6, 7]]] )
+print(a)
+print(torch.flatten(a))
+#+end_src
+
+#+RESULTS:
+: tensor([[[0, 1],
+:          [2, 3]],
+:
+:         [[4, 5],
+:          [6, 7]]])
+: tensor([0, 1, 2, 3, 4, 5, 6, 7])
+
 ** Transposing
 
 It is possible to transpose a tensor (with a dimension at least 2) by specified dimesions using the
