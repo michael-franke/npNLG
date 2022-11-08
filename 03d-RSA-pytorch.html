@@ -50,6 +50,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="prev" title="Sheet 2.2: ML-estimation" href="03c-MLE.html" />
@@ -631,7 +633,7 @@ The data from the speaker production and the listener interpretation tasks is ou
 </section>
 <section id="parameters-to-optimize">
 <h2>Parameters to optimize<a class="headerlink" href="#parameters-to-optimize" title="Permalink to this headline">#</a></h2>
-<p>The vanilla RSA model has two free parameters: the optimality parameter $\alpha$ and the parameter for the cost of utterance, here restricted to a single number for the cost of an adjective (relative to a noun).
+<p>The vanilla RSA model has two free parameters: the optimality parameter <span class="math notranslate nohighlight">\(\alpha\)</span> and the parameter for the cost of utterance, here restricted to a single number for the cost of an adjective (relative to a noun).
 Since we want to optimize the value of these variables, we require PyTorch to compute gradients.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -746,8 +748,8 @@ The we iterate the training cycle, each time calling the RSA model (feed-forward
 <blockquote>
 <div><p><strong><span style=&ldquo;color:#D83D2B;&rdquo;>Exercise 2.3.1: Comparing model variants </span></strong></p>
 <ol class="simple">
-<li><p>We have so far implemented the literal listener as $P_{lit}(s \mid u) \propto L_{ij}$. But some RSA models also include the salience prior, which we have so far only used in the pragmatic listener part into the literal listener model. Under this alternative construction the literal listener would be defined as $P_{lit}(s \mid u) \propto P_{sal}(s) \ L_{ij}$. Change the `RSA` function to implement this alternative definition. (Hint: you only need to add this string somewhere in the code: `* salience<sub>prior</sub>`.) Run the model otherwise as is. Inspect the output of the optimization loop. Use this information to draw conclusions about which of the two model variants is a better predictor of the data.</p></li>
-<li><p>Go back to the original model. We now want to address whether we actually need the cost parameter. Run the original model (w/ a literal listener w/o salience prior information), but optimize only the $\alpha$ parameter. The cost parameter should be initialized to 0 and stay this way. Fit the model and use the output information to draw conclusions about which model is better: with or without a flexible cost parameter.</p></li>
+<li><p>We have so far implemented the literal listener as <span class="math notranslate nohighlight">\(P_{lit}(s \mid u) \propto L_{ij}\)</span>. But some RSA models also include the salience prior, which we have so far only used in the pragmatic listener part into the literal listener model. Under this alternative construction the literal listener would be defined as <span class="math notranslate nohighlight">\(P_{lit}(s \mid u) \propto P_{sal}(s) \ L_{ij}\)</span>. Change the `RSA` function to implement this alternative definition. (Hint: you only need to add this string somewhere in the code: `* salience<sub>prior</sub>`.) Run the model otherwise as is. Inspect the output of the optimization loop. Use this information to draw conclusions about which of the two model variants is a better predictor of the data.</p></li>
+<li><p>Go back to the original model. We now want to address whether we actually need the cost parameter. Run the original model (w/ a literal listener w/o salience prior information), but optimize only the <span class="math notranslate nohighlight">\(\alpha\)</span> parameter. The cost parameter should be initialized to 0 and stay this way. Fit the model and use the output information to draw conclusions about which model is better: with or without a flexible cost parameter.</p></li>
 </ol>
 </div></blockquote>
 </section>

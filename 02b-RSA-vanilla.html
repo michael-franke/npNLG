@@ -623,9 +623,9 @@ another for computing soft-max.</p>
 <blockquote>
 <div><p><strong><span style=&ldquo;color:#D83D2B;&rdquo;>Exercise 1.1.1: Apply the helper functions</span></strong></p>
 <ol class="simple">
-<li><p>Normalize the following matrix to a row-stochastic and a column-stochastic matrix for the matrix: $[[1,2], [3,4]]$.</p></li>
-<li><p>Apply softmax to the following matrix to obtain a row-stochastic and a column-stochastic matrix:  $[[1,2], [3,4], [5,6]]$.</p></li>
-<li><p>Compute the soft-max and the normalized stochastic vector for the vector $[1,2,3]$. (NB: the definitions do <em>not</em> expect vector input, so … what do you do?)</p></li>
+<li><p>Normalize the following matrix to a row-stochastic and a column-stochastic matrix for the matrix: <span class="math notranslate nohighlight">\([[1,2], [3,4]]\)</span>.</p></li>
+<li><p>Apply softmax to the following matrix to obtain a row-stochastic and a column-stochastic matrix:  <span class="math notranslate nohighlight">\([[1,2], [3,4], [5,6]]\)</span>.</p></li>
+<li><p>Compute the soft-max and the normalized stochastic vector for the vector <span class="math notranslate nohighlight">\([1,2,3]\)</span>. (NB: the definitions do <em>not</em> expect vector input, so … what do you do?)</p></li>
 </ol>
 </div></blockquote>
 </section>
@@ -638,13 +638,13 @@ P_{lit}(s \mid u) &amp; \propto L(u,s) \\
 P_S( u \mid s) &amp;= \mathrm{SoftMax}  \left ( \alpha \left ( \log P_{lit}(s \mid u)  - \mathrm{C}(u) \right ) \right ) \\
 P_L( s \mid u) &amp; \propto P_{sal}(s) \ P_S( u \mid s)
 \end{align*}\]</div>
-<p>Here, $L$ is a <em>lexicon</em>, which assigns a truth-value (usually 0 or 1) to each pair of utterance and state.
-The sign $\propto$ is to be read as “proportional to” and implies proper normalization of the to-be-defined (conditional) distributions.
-The parameter $\alpha$ is the usual “optimality” or “inverse temperature” parameter of the soft-max function.
-The cost function $C$ assigns a real number to each utterance, representing the relative effort or dispreference for that utterance.
+<p>Here, <span class="math notranslate nohighlight">\(L\)</span> is a <em>lexicon</em>, which assigns a truth-value (usually 0 or 1) to each pair of utterance and state.
+The sign <span class="math notranslate nohighlight">\(\propto\)</span> is to be read as “proportional to” and implies proper normalization of the to-be-defined (conditional) distributions.
+The parameter <span class="math notranslate nohighlight">\(\alpha\)</span> is the usual “optimality” or “inverse temperature” parameter of the soft-max function.
+The cost function <span class="math notranslate nohighlight">\(C\)</span> assigns a real number to each utterance, representing the relative effort or dispreference for that utterance.
 (NB: Since soft-max is only sensitive to (additive) differences, only differences in cost between utterances matter.)
-The salience prior $P_{sal}$ provides a relative weight of accessibility, salience or <em>a priori</em> bias for each object.</p>
-<p>The model’s free parameters are: the optimality parameter $\alpha$, the relative cost $C(u_{\text{ajd}})$ of using an adjective (rather than a noun, where $C(u_{\text{noun}})=0$), and the salience prior $P_{sal}$.</p>
+The salience prior <span class="math notranslate nohighlight">\(P_{sal}\)</span> provides a relative weight of accessibility, salience or <em>a priori</em> bias for each object.</p>
+<p>The model’s free parameters are: the optimality parameter <span class="math notranslate nohighlight">\(\alpha\)</span>, the relative cost <span class="math notranslate nohighlight">\(C(u_{\text{ajd}})\)</span> of using an adjective (rather than a noun, where <span class="math notranslate nohighlight">\(C(u_{\text{noun}})=0\)</span>), and the salience prior <span class="math notranslate nohighlight">\(P_{sal}\)</span>.</p>
 <blockquote>
 <div><p><strong><span style=&ldquo;color:#D83D2B;&rdquo;>Exercise 1.1.2: Paraphrase the definitions</span></strong></p>
 <p>Provide a short, intuitive and explanatory paraphrase for each of the three conditional probability distributions that define the RSA model above. I.e., formulate a sentence or two for each, so that a person can understand the purpose or gist of the definition. The less technical jargon you use, the better. The more insightful to a novice, the better.</p>
@@ -759,7 +759,7 @@ square          0.0           0.4          0.6    square
 <li><p>Explore what happens if you make the speaker more optimal. Does that also affect the listener’s inferences? Why? Is that intuitive?</p></li>
 <li><p>Add another object to the context, namely a red triangle. Add any relevant utterances, their semantics and costs as well. What do you predict will happen to the model’s predictions for the “old” objects and utterances? Test your predictions (= understanding of the model) and report the results.</p></li>
 <li><p>Run the model with different values for the cost parameter `cost<sub>adjectives</sub>`. Which effect does this have on the speaker prediction? Which effect does that have on the predictions for listener interpretation? Explain these observation in your own non-technical terms (e.g., for an interested outsider).</p></li>
-<li><p>Is there any way to get “blue” to refer to something green? I.e., is it possible (if so: how?; else: why not?) to change the context or model in such a way that $P_{L}(\text{green square} \mid \text{blue}) &gt; 0$, ideally in a way that might also be defensible in that it makes conceptual sense (not just by some technical trick that no reviewer of your work would accept as anything but a hack)?</p></li>
+<li><p>Is there any way to get “blue” to refer to something green? I.e., is it possible (if so: how?; else: why not?) to change the context or model in such a way that <span class="math notranslate nohighlight">\(P_{L}(\text{green square} \mid \text{blue}) &gt; 0\)</span>, ideally in a way that might also be defensible in that it makes conceptual sense (not just by some technical trick that no reviewer of your work would accept as anything but a hack)?</p></li>
 </ol>
 </div></blockquote>
 </section>

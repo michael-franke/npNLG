@@ -50,6 +50,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Sheet 2.2: ML-estimation" href="03c-MLE.html" />
@@ -603,15 +605,15 @@ If installed, import the library to make it usable:</p>
 <p>Tensors are the default data structure used for the representation of
 numbers in PyTorch. In mathematics (algebra), a tensor is a
 generalization of the concept of a matrix. For our purposes, let’s think
-of a tensor as basically an $n$-dimensional array of numbers.</p>
+of a tensor as basically an <span class="math notranslate nohighlight">\(n\)</span>-dimensional array of numbers.</p>
 <p>For example, a single scalar (a single number) is a zero-dimensional
-array. An $n$-dimensional vector is a one-dimensional array of $n$
-numbers. An $n \times m$ matrix is a two-dimensional array with $n$
-rows and $m$ columns. All of these -scalars, vectors and matrices- are
+array. An <span class="math notranslate nohighlight">\(n\)</span>-dimensional vector is a one-dimensional array of <span class="math notranslate nohighlight">\(n\)</span>
+numbers. An <span class="math notranslate nohighlight">\(n \times m\)</span> matrix is a two-dimensional array with <span class="math notranslate nohighlight">\(n\)</span>
+rows and <span class="math notranslate nohighlight">\(m\)</span> columns. All of these -scalars, vectors and matrices- are
 tensors. But <em>tensors also include even more high-dimensional objects</em>.
-For instance, an $k \times n \times m$ tensor is a three-dimensional
-array, which includes $k$ matrices, each of which has $n$ rows and
-$m$ columns. And so on.</p>
+For instance, an <span class="math notranslate nohighlight">\(k \times n \times m\)</span> tensor is a three-dimensional
+array, which includes <span class="math notranslate nohighlight">\(k\)</span> matrices, each of which has <span class="math notranslate nohighlight">\(n\)</span> rows and
+<span class="math notranslate nohighlight">\(m\)</span> columns. And so on.</p>
 <p>Full documetation for the `torch.Tensor` class can be found here:
 <a class="reference external" href="https://pytorch.org/docs/stable/tensors.html">https://pytorch.org/docs/stable/tensors.html</a></p>
 <p><img alt="img" src="_images/03-scalars-vectors-matrices-tensors.png" /></p>
@@ -619,11 +621,11 @@ $m$ columns. And so on.</p>
 <div><p><strong><span style=&ldquo;color:#D83D2B;&rdquo;>Exercise 2.1.1: Dimensions of tensors</span></strong></p>
 <p>What are the dimensions of the following tensors?</p>
 <ol class="simple">
-<li><p>$1$</p></li>
-<li><p>$[1,2,3]$</p></li>
-<li><p>$[[1,2], [3,4]]$</p></li>
-<li><p>$[[1,2], [3,4], [5,6]]$</p></li>
-<li><p>$[[[1,2], [3,4], [5,6]]]$</p></li>
+<li><p><span class="math notranslate nohighlight">\(1\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\([1,2,3]\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\([[1,2], [3,4]]\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\([[1,2], [3,4], [5,6]]\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\([[[1,2], [3,4], [5,6]]]\)</span></p></li>
 </ol>
 </div></blockquote>
 </section>
@@ -761,8 +763,8 @@ The function `torch.rand()` populates a tensor of the given size with random num
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[0.3304, 0.9937, 0.0039],
-        [0.0719, 0.8611, 0.0997]])
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[0.0962, 0.6587, 0.8755],
+        [0.4133, 0.3722, 0.7021]])
 </pre></div>
 </div>
 </div>
@@ -772,10 +774,10 @@ The function `torch.rand()` populates a tensor of the given size with random num
 <ol class="simple">
 <li><p>Create a PyTorch tensor storing the following matrices:</p></li>
 </ol>
-<p>a. $[[1,2], [3,4], [5,6]]$</p>
-<p>b. $[[[1,2], [3,4], [5,6]], [[10,20], [30,40], [50,60]]]$</p>
+<p>a. <span class="math notranslate nohighlight">\([[1,2], [3,4], [5,6]]\)</span></p>
+<p>b. <span class="math notranslate nohighlight">\([[[1,2], [3,4], [5,6]], [[10,20], [30,40], [50,60]]]\)</span></p>
 <ol class="simple">
-<li><p>Create a PyTorch tensor of size $3 \times 2 \times 4$ filled with the number 3.</p></li>
+<li><p>Create a PyTorch tensor of size <span class="math notranslate nohighlight">\(3 \times 2 \times 4\)</span> filled with the number 3.</p></li>
 <li><p>Create a PyTorch vector with 6 random numbers (lying between 0 and 1).</p></li>
 </ol>
 </div></blockquote>
@@ -949,7 +951,7 @@ The syntax for doing this is slightly different on different machines.</p>
 <div><p><strong><span style=&ldquo;color:#D83D2B;&rdquo;>Exercise 2.1.3: Tensor attributes &amp; types </span></strong></p>
 <ol class="simple">
 <li><p>Inspect the tensor type with `.dtype` for tensors created from a list containing two different data types supported by PyTorch (int, float, Boolean).</p></li>
-<li><p>Use `.shape` or `.size()` to inspect the shape of a (row) vector, a single column matrix, and a $2 \times 3$ matrix.</p></li>
+<li><p>Use `.shape` or `.size()` to inspect the shape of a (row) vector, a single column matrix, and a <span class="math notranslate nohighlight">\(2 \times 3\)</span> matrix.</p></li>
 </ol>
 </div></blockquote>
 </section>
@@ -1204,8 +1206,8 @@ subtraction:
 <h3>Matrix Multiplication<a class="headerlink" href="#matrix-multiplication" title="Permalink to this headline">#</a></h3>
 <p>To perform a matrix multiplications on tensors, we use the function
 `torch.matmmul(tensor1, tensor2)`, or its short-form notation `tensor1 &#64; tensor2`.
-If `tensor1` is an $(n×m)$ tensor, and `tensor2` is an $(m×p)$ tensor, the
-output will be an $(n×p)$ tensor.</p>
+If `tensor1` is an <span class="math notranslate nohighlight">\((n×m)\)</span> tensor, and `tensor2` is an <span class="math notranslate nohighlight">\((m×p)\)</span> tensor, the
+output will be an <span class="math notranslate nohighlight">\((n×p)\)</span> tensor.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tensor1</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]])</span>
@@ -1289,9 +1291,9 @@ tensor(101)
 <blockquote>
 <div><p><strong><span style=&ldquo;color:#D83D2B;&rdquo;>Exercise 2.1.4: Operations on tensors</span></strong></p>
 <ol class="simple">
-<li><p>Define a tensor for matrix $[[[1,2], [3,4], [5,6]]]$. Create new tensors obtained by Reshaping this matrix into a vector (row vector), a one-column matrix. Also, create its transpose.</p></li>
-<li><p>Compute the dot product between $[1,3,5]$ and $[1,10,100]$.</p></li>
-<li><p>Compute the matrix product between PyTorch tensors $[[1], [2], [3]]$ and $[[1,10,100]]$. Convert the result to a numpy array.</p></li>
+<li><p>Define a tensor for matrix <span class="math notranslate nohighlight">\([[[1,2], [3,4], [5,6]]]\)</span>. Create new tensors obtained by Reshaping this matrix into a vector (row vector), a one-column matrix. Also, create its transpose.</p></li>
+<li><p>Compute the dot product between <span class="math notranslate nohighlight">\([1,3,5]\)</span> and <span class="math notranslate nohighlight">\([1,10,100]\)</span>.</p></li>
+<li><p>Compute the matrix product between PyTorch tensors <span class="math notranslate nohighlight">\([[1], [2], [3]]\)</span> and <span class="math notranslate nohighlight">\([[1,10,100]]\)</span>. Convert the result to a numpy array.</p></li>
 </ol>
 </div></blockquote>
 </section>
