@@ -1,0 +1,27 @@
+* Schedule
+
+Caveat: Schedule is bound to change. See change stamps below.
+
+| session | date   | topic                            | resource               |   |
+|---------+--------+----------------------------------+------------------------+---|
+|       1 | Oct 26 | overview: course & NLG           | [[http://dx.doi.org/10.1613/jair.5477][Gatt & Krahmer (2018)]]  |   |
+|       2 | Nov 2  | pragmatics, reference games, RSA | [[https://arxiv.org/abs/2105.09867][Scontras et al. (2021)]] |   |
+|       3 | Nov 9  | PyTorch basics                   | [[https://pytorch.org/tutorials/beginner/basics/intro.html][PyTorch tutorial]]       |   |
+|       4 | Nov 16 | Optimization                     |                        |   |
+|       5 | Nov 23 | ANNs                             |                        |   |
+|       6 | Nov 30 | simple LMs                       |                        |   |
+|       7 | Dec 7  | complex LMs, evaluation measures |                        |   |
+|       8 | Dec 14 | decoding strategies              |                        |   |
+|       9 | Dec 21 | visually grounded LMs            |                        |   |
+
+** References
+
+Gatt, A., & Krahmer, E. (2018). Survey of the state of the art in natural language generation: core tasks, applications and evaluation. Journal of Artificial Intelligence Research, 61, 65–170. http://dx.doi.org/10.1613/jair.5477
+
+Scontras, G., Tessler, M. H., & Franke, M. (2021). A practical introduction to the rational speech act modeling framework. [[https://arxiv.org/abs/2105.09867]]
+
+** List of change stamps
+
+Last change: [2022-11-09 Wed]
+
+Previous changes:  [2022-11-01 Tue], [2022-10-15 Sat]
