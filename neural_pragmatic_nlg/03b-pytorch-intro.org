@@ -513,7 +513,7 @@ The precise documentation of broadcasting is [[https://pytorch.org/docs/stable/n
 ** Matrix Multiplication
 
 To perform a matrix multiplications on tensors, we use the function
-`torch.matmmul(tensor1, tensor2)`, or its short-form notation `tensor1 @ tensor2`.
+`torch.matmul(tensor1, tensor2)`, or its short-form notation `tensor1 @ tensor2`.
 If `tensor1` is an $(n×m)$ tensor, and `tensor2` is an $(m×p)$ tensor, the
 output will be an $(n×p)$ tensor.
 

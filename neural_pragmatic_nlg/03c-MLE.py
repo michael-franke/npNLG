@@ -5,7 +5,7 @@ import warnings
 warnings.filterwarnings('ignore')
 
 nObs           = 10000
-trueLocation   = 0
+trueLocation   = 0 # mean of a normal
 trueDist       = torch.distributions.Normal(loc=trueLocation, scale=1.0)
 trainData      = trueDist.sample([nObs])
 
@@ -15,7 +15,7 @@ print('Empirical mean (mean of training data): %.5f' % empirical_mean.item())
 sns.kdeplot(trainData)
 plt.show()
 
-location = torch.tensor(1.0, requires_grad=True)
+location = torch.tensor(1.0, requires_grad=True) # random initial value
 print( location )
 
 learningRate = 0.0000001
@@ -46,10 +46,11 @@ print('\n%5s %24s %15s %15s' %
       ("step", "loss", "estimate", "diff. target") )
 for i in range(nTrainingSteps):
     prediction = torch.distributions.Normal(loc=location, scale=1.0)
-    loss = -torch.sum(prediction.log_prob(trainData))
+    loss       = -torch.sum(prediction.log_prob(trainData))
     loss.backward()
     if (i+1) % 500 == 0:
         print('%5d %24.3f %15.5f %15.5f' %
-              (i + 1, loss.item(), location.item(), abs(location.item() - empirical_mean) ) )
-        opt.step()
-        opt.zero_grad()
+              (i + 1, loss.item(), location.item(),
+               abs(location.item() - empirical_mean) ) )
+    opt.step()
+    opt.zero_grad()

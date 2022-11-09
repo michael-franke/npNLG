@@ -35,11 +35,9 @@ nObs           = 10000
 trueLocation   = 0 # mean of a normal
 trueDist       = torch.distributions.Normal(loc=trueLocation, scale=1.0)
 trainData      = trueDist.sample([nObs])
-print(trainData)
 #+end_src
 
 #+RESULTS:
-: tensor([-2.7541, -0.1136, -0.6435,  ..., -0.1871, -0.3822, -0.1319])
 
 The mean of the training data is the so-called *empirical mean*.
 The empirical mean need not be identical to the true mean!
@@ -50,7 +48,7 @@ print('Empirical mean (mean of training data): %.5f' % empirical_mean.item())
 #+end_src
 
 #+RESULTS:
-: Empirical mean (mean of training data): -0.01449
+: Empirical mean (mean of training data): 0.00001
 
 Here is a density plot of the training data:
 
@@ -60,7 +58,7 @@ plt.show()
 #+end_src
 
 #+RESULTS:
-[[file:./.ob-jupyter/9b062ed691956b5ca43c5f8924b33e5330f1980c.png]]
+[[file:./.ob-jupyter/758bb9a818eff81538a64a6091fd42508e1ccec7.png]]
 
 * Optimizing a parameter: gradients, optimizers, loss & backprop
 
@@ -74,7 +72,7 @@ To being with, we define the parameter which is to be trained.
 Since we want to "massage it" through updating, we must tell PyTorch that it should compute the gradient for this parameter (and the ones derived from it).
 
 #+begin_src jupyter-python
-location = torch.tensor(1.0, requires_grad=True) # random initial starting point
+location = torch.tensor(1.0, requires_grad=True) # random initial value
 print( location )
 #+end_src
 
@@ -208,7 +206,7 @@ print('\n%5s %24s %15s %15s' %
       ("step", "loss", "estimate", "diff. target") )
 for i in range(nTrainingSteps):
     prediction = torch.distributions.Normal(loc=location, scale=1.0)
-    loss = -torch.sum(prediction.log_prob(trainData))
+    loss       = -torch.sum(prediction.log_prob(trainData))
     loss.backward()
     if (i+1) % 500 == 0:
         print('%5d %24.3f %15.5f %15.5f' %
@@ -222,33 +220,34 @@ for i in range(nTrainingSteps):
 #+begin_example
 
  step                     loss        estimate    diff. target
-  500                16103.394         0.60129         0.61578
- 1000                14904.594         0.35891         0.37339
- 1500                14463.803         0.21193         0.22642
- 2000                14301.727         0.12281         0.13730
- 2500                14242.131         0.06877         0.08325
- 3000                14220.219         0.03600         0.05048
- 3500                14212.161         0.01613         0.03061
- 4000                14209.197         0.00408         0.01856
- 4500                14208.109        -0.00323         0.01126
- 5000                14207.709        -0.00766         0.00683
- 5500                14207.562        -0.01035         0.00414
- 6000                14207.507        -0.01198         0.00251
- 6500                14207.487        -0.01296         0.00152
- 7000                14207.480        -0.01356         0.00092
- 7500                14207.478        -0.01393         0.00056
- 8000                14207.477        -0.01415         0.00034
- 8500                14207.477        -0.01428         0.00021
- 9000                14207.476        -0.01436         0.00012
- 9500                14207.477        -0.01441         0.00008
-10000                14207.477        -0.01444         0.00005
+  500                16027.112         0.60699         0.60698
+ 1000                14862.321         0.36807         0.36806
+ 1500                14434.033         0.22319         0.22318
+ 2000                14276.555         0.13534         0.13533
+ 2500                14218.649         0.08207         0.08206
+ 3000                14197.358         0.04977         0.04976
+ 3500                14189.528         0.03018         0.03017
+ 4000                14186.650         0.01830         0.01830
+ 4500                14185.593         0.01110         0.01110
+ 5000                14185.203         0.00673         0.00673
+ 5500                14185.061         0.00409         0.00408
+ 6000                14185.007         0.00248         0.00247
+ 6500                14184.988         0.00151         0.00150
+ 7000                14184.981         0.00092         0.00091
+ 7500                14184.979         0.00056         0.00055
+ 8000                14184.978         0.00034         0.00033
+ 8500                14184.977         0.00021         0.00020
+ 9000                14184.977         0.00013         0.00012
+ 9500                14184.978         0.00008         0.00007
+10000                14184.977         0.00005         0.00005
 #+end_example
 
-
-
 > <strong><span style="color:#D83D2B;">Exercise 2.2.1: Explore the optimization process</span></strong>
-> 1. Change the true mean (parameter `trueLocation`) to 10e6. Is training still successful?  What would you change?
-> 2. Revert to initial conditions. Change the initial value of the parameter `location` to -5000. Does training work? What's the problem? How would you fix it?
-> 3. Revert to initial conditions. Rerun the script with only 100 samples (using variable `nObs`). Does the training work? What's the problem? How would you fix it?
-
-
+>
+> This exercise is intended to make you play around with the parameters of the training procedure, namely `learningRate` and `nTrainingSteps`, and to develop a feeling for what they do. There is not necessarily a single "true" solution. Report the values that you found to work best for each of the following cases:
+>
+> 1. Change the initial value of the parameter `location` to -5000.
+>
+> 2. Revert to initial conditions. Change the true mean (parameter `trueLocation`) to 5000.
+>
+> 3. Revert to initial conditions. Use only 100 samples for the training set (using variable `nObs`).
