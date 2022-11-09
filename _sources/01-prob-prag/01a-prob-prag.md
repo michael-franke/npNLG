@@ -4,13 +4,13 @@
 Probabilistic pragmatics is an approach to modelling a speaker&rsquo;s choice of expression and a listener&rsquo;s interpretation thereof, using tools from Bayesian decision theory.
 In simplified terms: the listener uses Bayes rule to infer (abduct) the most likely state that could have led the speaker to act in the way they did; the speaker chooses an expression that increases the chance that the listener (usually, to avoid circularity: under a literal interpretation) comes to belief the things that the speaker wants the listener to belief.
 
-![img](./pics/02-RSA-iteration.png)
+![img](./../pics/02-RSA-iteration.png)
 
 We will cover two models: one is vanilla RSA applied to a reference game; the other is an extension of the vanilla model to include reasoning about politeness.
 
 The main learning goal is to see more clearly how we can define speaker behavior in terms of an optimization of different components in a numeric measure of &ldquo;utility&rdquo; of an expression:
 
-![img](./pics/02-speaker-utility.png)
+![img](./../pics/02-speaker-utility.png)
 
 It is this idea (&ldquo;numeric measures of pragmatic utilities&rdquo;) that we will want to carry over to look at loss functions for training, decoding objectives, or experimental evaluation later on in the context of neural language models.
 
