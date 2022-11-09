@@ -20,10 +20,10 @@ parts:
 
 - caption: 02 PyTorch Basics
   chapters:
-  - file: 02a-pytorch-basics
-  - file: 02b-pytorch-intro
-  - file: 02c-MLE
+  - file: 02-pytorch/02a-pytorch-basics
+  - file: 02-pytorch/02b-pytorch-intro
+  - file: 02-pytorch/02c-MLE
 
 - caption: 03 Optimization (cont.)
   chapters:
-  - file: 03b-RSA-pytorch
+  - file: 03-optimization/03b-RSA-pytorch
