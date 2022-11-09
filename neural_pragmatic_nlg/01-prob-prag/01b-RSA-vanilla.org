@@ -34,7 +34,7 @@ The reference game in question is show below.
 #+ATTR_HTML: :width 500px
 #+ATTR_LATEX: :width 500px
 #+ATTR_JUPYTER: :width 500px
-[[file:pics/02-reference-game.png]]
+[[file:../pics/02-reference-game.png]]
 
 There are three objects, all of which could be the speaker's intended referent.
 The set of utterances consists of the expressions: 'blue', 'green', 'circle' and 'square'.

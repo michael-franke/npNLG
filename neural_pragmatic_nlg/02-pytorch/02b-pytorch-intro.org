@@ -32,7 +32,7 @@ Full documetation for the `torch.Tensor` class can be found here:
 #+ATTR_HTML: :width 500px
 #+ATTR_LATEX: :width 500px
 #+ATTR_JUPYTER: :width 500px
-[[./pics/03-scalars-vectors-matrices-tensors.png]]
+[[./../pics/03-scalars-vectors-matrices-tensors.png]]
 
 
 > <strong><span style="color:#D83D2B;">Exercise 2.1.1: Dimensions of tensors</span></strong>
