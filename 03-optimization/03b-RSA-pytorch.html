@@ -6,55 +6,54 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Sheet 2.3: Optimizing an RSA model &#8212; Neural Pragmatic Natural Language Generation</title>
+    <title>Sheet 3.1: Optimizing an RSA model &#8212; Neural Pragmatic Natural Language Generation</title>
     
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-<link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 
     
   <link rel="stylesheet"
-    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
   <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
   <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
 
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
-    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
-    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
     
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
 
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/clipboard.min.js"></script>
-    <script src="_static/copybutton.js"></script>
-    <script src="_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="_static/togglebutton.js"></script>
+    <script src="../_static/togglebutton.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="_static/design-tabs.js"></script>
+    <script src="../_static/design-tabs.js"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
 const thebe_selector = ".thebe,.cell"
 const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
-    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="Sheet 2.2: ML-estimation" href="03c-MLE.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -89,19 +88,19 @@ const thebe_selector_output = ".output, .cell_output"
 <div class="bd-sidebar noprint" id="site-navigation">
     <div class="bd-sidebar__content">
         <div class="bd-sidebar__top"><div class="navbar-brand-box">
-    <a class="navbar-brand text-wrap" href="index.html">
+    <a class="navbar-brand text-wrap" href="../index.html">
       
         <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
         
       
       
-      <img src="_static/npNLG-logo.png" class="logo" alt="logo">
+      <img src="../_static/npNLG-logo.png" class="logo" alt="logo">
       
       
       <h1 class="site-logo" id="site-title">Neural Pragmatic Natural Language Generation</h1>
       
     </a>
-</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
   <i class="icon fas fa-search"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
@@ -109,88 +108,12 @@ const thebe_selector_output = ".output, .cell_output"
         
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1">
-                <a class="reference internal" href="00-intro.html">
+                <a class="reference internal" href="../000-intro.html">
                     Pragmatic Natural Language Generation with Neural Language Models
                 </a>
             </li>
         </ul>
-        <p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  00 organization
- </span>
-</p>
-<ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="01a-overview.html">
-   Course overview
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="01b-practicalities.html">
-   Practicalities
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="01c-schedule.html">
-   Schedule
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="01d-slides.html">
-   Slides from session 1
-  </a>
- </li>
-</ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  01 Probabilistic pragmatics
- </span>
-</p>
-<ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="02a-prob-prag.html">
-   Probabilistic pragmatics
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="02b-RSA-vanilla.html">
-   Sheet 1.1: Vanilla RSA
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="02c-RSA-politeness.html">
-   Sheet 1.2: RSA with politeness
-  </a>
- </li>
-</ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  02 PyTorch
- </span>
-</p>
-<ul class="current nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="03a-pytorch-basics.html">
-   Basics of PyTorch
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="03b-pytorch-intro.html">
-   Sheet 2.1: PyTorch essentials
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="03c-MLE.html">
-   Sheet 2.2: ML-estimation
-  </a>
- </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
-   Sheet 2.3: Optimizing an RSA model
-  </a>
- </li>
-</ul>
-
+        
     </div>
 </nav></div>
         <div class="bd-sidebar__bottom">
@@ -248,7 +171,7 @@ title="Toggle navigation"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="https://mybinder.org/v2/gh/michael-franke/npNLG/main?urlpath=tree/neural_pragmatic_nlg/03d-RSA-pytorch.ipynb"
+        <a href="https://mybinder.org/v2/gh/michael-franke/npNLG/main?urlpath=tree/neural_pragmatic_nlg/03-optimization/03b-RSA-pytorch.ipynb"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -258,7 +181,7 @@ title="Launch on Binder"
 
 <span class="headerbtn__icon-container">
   
-    <img src="_static/images/logo_binder.svg">
+    <img src="../_static/images/logo_binder.svg">
   </span>
 <span class="headerbtn__text-container">Binder</span>
 </a>
@@ -266,7 +189,7 @@ title="Launch on Binder"
       </li>
       
       <li>
-        <a href="https://colab.research.google.com/github/michael-franke/npNLG/blob/main/neural_pragmatic_nlg/03d-RSA-pytorch.ipynb"
+        <a href="https://colab.research.google.com/github/michael-franke/npNLG/blob/main/neural_pragmatic_nlg/03-optimization/03b-RSA-pytorch.ipynb"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -276,7 +199,7 @@ title="Launch on Colab"
 
 <span class="headerbtn__icon-container">
   
-    <img src="_static/images/logo_colab.png">
+    <img src="../_static/images/logo_colab.png">
   </span>
 <span class="headerbtn__text-container">Colab</span>
 </a>
@@ -326,7 +249,7 @@ title="Source repository"
       </li>
       
       <li>
-        <a href="https://github.com/michael-franke/npNLG/issues/new?title=Issue%20on%20page%20%2F03d-RSA-pytorch.html&body=Your%20issue%20content%20here."
+        <a href="https://github.com/michael-franke/npNLG/issues/new?title=Issue%20on%20page%20%2F03-optimization/03b-RSA-pytorch.html&body=Your%20issue%20content%20here."
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -354,7 +277,7 @@ title="Open an issue"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="_sources/03d-RSA-pytorch.ipynb"
+        <a href="../_sources/03-optimization/03b-RSA-pytorch.ipynb"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -457,7 +380,7 @@ title="Print to PDF"
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Sheet 2.3: Optimizing an RSA model</h1>
+                <h1>Sheet 3.1: Optimizing an RSA model</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -512,8 +435,8 @@ title="Print to PDF"
                 
               <div>
                 
-  <section class="tex2jax_ignore mathjax_ignore" id="sheet-2-3-optimizing-an-rsa-model">
-<h1>Sheet 2.3: Optimizing an RSA model<a class="headerlink" href="#sheet-2-3-optimizing-an-rsa-model" title="Permalink to this headline">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="sheet-3-1-optimizing-an-rsa-model">
+<h1>Sheet 3.1: Optimizing an RSA model<a class="headerlink" href="#sheet-3-1-optimizing-an-rsa-model" title="Permalink to this headline">#</a></h1>
 <p><strong>Author:</strong> Michael Franke</p>
 <p>Here we will explore how to use PyTorch to find optimized values for the parameters of a vanilla RSA model for reference games.
 This serves several purposes: (i) it provides a chance to exercise with the basics of parameter optimization in PyTorch; and (ii) we learn to think about models as objects that can (and must!) be critically tested with respect to their predictive ability.</p>
@@ -704,10 +627,10 @@ The we iterate the training cycle, each time calling the RSA model (feed-forward
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  750                 15.55774         2.58906         0.15650
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 1000                 15.50401         2.62389         0.15597
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 1000                 15.50400         2.62389         0.15597
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 1250                 15.49874         2.63481         0.15582
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 1250                 15.49873         2.63481         0.15582
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 1500                 15.49818         2.63825         0.15577
@@ -719,28 +642,28 @@ The we iterate the training cycle, each time calling the RSA model (feed-forward
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 2000                 15.49815         2.63966         0.15575
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 2250                 15.49814         2.63977         0.15575
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 2250                 15.49813         2.63977         0.15575
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 2500                 15.49814         2.63979         0.15575
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 2500                 15.49815         2.63979         0.15575
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 2750                 15.49814         2.63979         0.15575
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 2750                 15.49815         2.63979         0.15575
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 3000                 15.49814         2.63979         0.15575
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 3000                 15.49815         2.63979         0.15575
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 3250                 15.49814         2.63979         0.15575
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 3250                 15.49815         2.63979         0.15575
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 3500                 15.49814         2.63979         0.15575
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 3500                 15.49815         2.63979         0.15575
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 3750                 15.49814         2.63979         0.15575
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 3750                 15.49815         2.63979         0.15575
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 4000                 15.49814         2.63979         0.15575
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 4000                 15.49815         2.63979         0.15575
 </pre></div>
 </div>
 </div>
@@ -772,7 +695,7 @@ The we iterate the training cycle, each time calling the RSA model (feed-forward
         },
         kernelOptions: {
             kernelName: "python3",
-            path: "./."
+            path: "./03-optimization"
         },
         predefinedOutput: true
     }
@@ -786,13 +709,6 @@ The we iterate the training cycle, each time calling the RSA model (feed-forward
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="03c-MLE.html" title="previous page">
-        <i class="fas fa-angle-left"></i>
-        <div class="prev-next-info">
-            <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Sheet 2.2: ML-estimation</p>
-        </div>
-    </a>
 </div>
             </footer>
         </div>
@@ -814,7 +730,7 @@ The we iterate the training cycle, each time calling the RSA model (feed-forward
     </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
 
 
   </body>

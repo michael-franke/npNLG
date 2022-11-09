@@ -6,54 +6,52 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Sheet 2.2: ML-estimation &#8212; Neural Pragmatic Natural Language Generation</title>
+    <title>Sheet 2.2: ML-estimate of a Gaussian mean &#8212; Neural Pragmatic Natural Language Generation</title>
     
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-<link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 
     
   <link rel="stylesheet"
-    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
   <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
   <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
 
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
-    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
-    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
     
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
 
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/clipboard.min.js"></script>
-    <script src="_static/copybutton.js"></script>
-    <script src="_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="_static/togglebutton.js"></script>
+    <script src="../_static/togglebutton.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="_static/design-tabs.js"></script>
+    <script src="../_static/design-tabs.js"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
 const thebe_selector = ".thebe,.cell"
 const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
-    <script async="async" src="_static/sphinx-thebe.js"></script>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Sheet 2.3: Optimizing an RSA model" href="03d-RSA-pytorch.html" />
-    <link rel="prev" title="Sheet 2.1: PyTorch essentials" href="03b-pytorch-intro.html" />
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -88,19 +86,19 @@ const thebe_selector_output = ".output, .cell_output"
 <div class="bd-sidebar noprint" id="site-navigation">
     <div class="bd-sidebar__content">
         <div class="bd-sidebar__top"><div class="navbar-brand-box">
-    <a class="navbar-brand text-wrap" href="index.html">
+    <a class="navbar-brand text-wrap" href="../index.html">
       
         <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
         
       
       
-      <img src="_static/npNLG-logo.png" class="logo" alt="logo">
+      <img src="../_static/npNLG-logo.png" class="logo" alt="logo">
       
       
       <h1 class="site-logo" id="site-title">Neural Pragmatic Natural Language Generation</h1>
       
     </a>
-</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
   <i class="icon fas fa-search"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
@@ -108,88 +106,12 @@ const thebe_selector_output = ".output, .cell_output"
         
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1">
-                <a class="reference internal" href="00-intro.html">
+                <a class="reference internal" href="../000-intro.html">
                     Pragmatic Natural Language Generation with Neural Language Models
                 </a>
             </li>
         </ul>
-        <p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  00 organization
- </span>
-</p>
-<ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="01a-overview.html">
-   Course overview
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="01b-practicalities.html">
-   Practicalities
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="01c-schedule.html">
-   Schedule
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="01d-slides.html">
-   Slides from session 1
-  </a>
- </li>
-</ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  01 Probabilistic pragmatics
- </span>
-</p>
-<ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="02a-prob-prag.html">
-   Probabilistic pragmatics
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="02b-RSA-vanilla.html">
-   Sheet 1.1: Vanilla RSA
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="02c-RSA-politeness.html">
-   Sheet 1.2: RSA with politeness
-  </a>
- </li>
-</ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  02 PyTorch
- </span>
-</p>
-<ul class="current nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="03a-pytorch-basics.html">
-   Basics of PyTorch
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="03b-pytorch-intro.html">
-   Sheet 2.1: PyTorch essentials
-  </a>
- </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
-   Sheet 2.2: ML-estimation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="03d-RSA-pytorch.html">
-   Sheet 2.3: Optimizing an RSA model
-  </a>
- </li>
-</ul>
-
+        
     </div>
 </nav></div>
         <div class="bd-sidebar__bottom">
@@ -247,7 +169,7 @@ title="Toggle navigation"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="https://mybinder.org/v2/gh/michael-franke/npNLG/main?urlpath=tree/neural_pragmatic_nlg/03c-MLE.ipynb"
+        <a href="https://mybinder.org/v2/gh/michael-franke/npNLG/main?urlpath=tree/neural_pragmatic_nlg/02-pytorch/02b-MLE.ipynb"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -257,7 +179,7 @@ title="Launch on Binder"
 
 <span class="headerbtn__icon-container">
   
-    <img src="_static/images/logo_binder.svg">
+    <img src="../_static/images/logo_binder.svg">
   </span>
 <span class="headerbtn__text-container">Binder</span>
 </a>
@@ -265,7 +187,7 @@ title="Launch on Binder"
       </li>
       
       <li>
-        <a href="https://colab.research.google.com/github/michael-franke/npNLG/blob/main/neural_pragmatic_nlg/03c-MLE.ipynb"
+        <a href="https://colab.research.google.com/github/michael-franke/npNLG/blob/main/neural_pragmatic_nlg/02-pytorch/02b-MLE.ipynb"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -275,7 +197,7 @@ title="Launch on Colab"
 
 <span class="headerbtn__icon-container">
   
-    <img src="_static/images/logo_colab.png">
+    <img src="../_static/images/logo_colab.png">
   </span>
 <span class="headerbtn__text-container">Colab</span>
 </a>
@@ -325,7 +247,7 @@ title="Source repository"
       </li>
       
       <li>
-        <a href="https://github.com/michael-franke/npNLG/issues/new?title=Issue%20on%20page%20%2F03c-MLE.html&body=Your%20issue%20content%20here."
+        <a href="https://github.com/michael-franke/npNLG/issues/new?title=Issue%20on%20page%20%2F02-pytorch/02b-MLE.html&body=Your%20issue%20content%20here."
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -353,7 +275,7 @@ title="Open an issue"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="_sources/03c-MLE.ipynb"
+        <a href="../_sources/02-pytorch/02b-MLE.ipynb"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -468,7 +390,7 @@ title="Print to PDF"
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Sheet 2.2: ML-estimation</h1>
+                <h1>Sheet 2.2: ML-estimate of a Gaussian mean</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -535,8 +457,8 @@ title="Print to PDF"
                 
               <div>
                 
-  <section class="tex2jax_ignore mathjax_ignore" id="sheet-2-2-ml-estimation">
-<h1>Sheet 2.2: ML-estimation<a class="headerlink" href="#sheet-2-2-ml-estimation" title="Permalink to this headline">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="sheet-2-2-ml-estimate-of-a-gaussian-mean">
+<h1>Sheet 2.2: ML-estimate of a Gaussian mean<a class="headerlink" href="#sheet-2-2-ml-estimate-of-a-gaussian-mean" title="Permalink to this headline">#</a></h1>
 <p><strong>Author:</strong> Michael Franke</p>
 <p>This tutorial is meant to introduce some basics of PyTorch by looking at a simple case study: how to find the best-fitting parameter for the mean of a normal (Gaussian) distribution.
 The training data is a set of samples from a “true” distribution.
@@ -569,7 +491,7 @@ So, here we define the true distribution, and take `nObs` samples from it, the s
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nObs</span>           <span class="o">=</span> <span class="mi">10000</span>
-<span class="n">trueLocation</span>   <span class="o">=</span> <span class="mi">0</span> <span class="c1"># mean of a normal</span>
+<span class="n">trueLocation</span>   <span class="o">=</span> <span class="mi">0</span>
 <span class="n">trueDist</span>       <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">distributions</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">trueLocation</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
 <span class="n">trainData</span>      <span class="o">=</span> <span class="n">trueDist</span><span class="o">.</span><span class="n">sample</span><span class="p">([</span><span class="n">nObs</span><span class="p">])</span>
 </pre></div>
@@ -586,7 +508,7 @@ The empirical mean need not be identical to the true mean!</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Empirical mean (mean of training data): 0.00215
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Empirical mean (mean of training data): 0.00205
 </pre></div>
 </div>
 </div>
@@ -600,7 +522,7 @@ The empirical mean need not be identical to the true mean!</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/03c-MLE_11_0.png" src="_images/03c-MLE_11_0.png" />
+<img alt="../_images/02b-MLE_11_0.png" src="../_images/02b-MLE_11_0.png" />
 </div>
 </div>
 </section>
@@ -615,7 +537,7 @@ The loss function we are interested in is the likelihood of the training data.</
 Since we want to “massage it” through updating, we must tell PyTorch that it should compute the gradient for this parameter (and the ones derived from it).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">location</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1"># random initial value</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">location</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span> <span class="n">location</span> <span class="p">)</span>
 </pre></div>
 </div>
@@ -695,7 +617,7 @@ Here we consider the likelihood: how likely is the training data under the curre
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor(19183.4375, grad_fn=&lt;NegBackward0&gt;)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor(19214.0566, grad_fn=&lt;NegBackward0&gt;)
 </pre></div>
 </div>
 </div>
@@ -733,7 +655,7 @@ Gradient information (initial) = None
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Value (after backprop)                = 1.0
-Gradient information (after backprop) = 9978.45703125
+Gradient information (after backprop) = 9979.4677734375
 </pre></div>
 </div>
 </div>
@@ -753,8 +675,8 @@ It knows which parameters to update (we told it), so the relevant update functio
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Value (after step)                = 0.9990021586418152
-Gradient information (after step) = 9978.45703125
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Value (after step)                = 0.9990020394325256
+Gradient information (after step) = 9979.4677734375
 </pre></div>
 </div>
 </div>
@@ -774,7 +696,7 @@ This zero-ing of the gradients is again something we do holistically (for all pa
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Value (after zero-ing)                = 0.9990021586418152
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Value (after zero-ing)                = 0.9990020394325256
 Gradient information (after zero-ing) = 0.0
 </pre></div>
 </div>
@@ -792,14 +714,13 @@ Gradient information (after zero-ing) = 0.0
       <span class="p">(</span><span class="s2">&quot;step&quot;</span><span class="p">,</span> <span class="s2">&quot;loss&quot;</span><span class="p">,</span> <span class="s2">&quot;estimate&quot;</span><span class="p">,</span> <span class="s2">&quot;diff. target&quot;</span><span class="p">)</span> <span class="p">)</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nTrainingSteps</span><span class="p">):</span>
     <span class="n">prediction</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">distributions</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">location</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
-    <span class="n">loss</span>       <span class="o">=</span> <span class="o">-</span><span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">prediction</span><span class="o">.</span><span class="n">log_prob</span><span class="p">(</span><span class="n">trainData</span><span class="p">))</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="o">-</span><span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">prediction</span><span class="o">.</span><span class="n">log_prob</span><span class="p">(</span><span class="n">trainData</span><span class="p">))</span>
     <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">500</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%5d</span><span class="s1"> </span><span class="si">%24.3f</span><span class="s1"> </span><span class="si">%15.5f</span><span class="s1"> </span><span class="si">%15.5f</span><span class="s1">&#39;</span> <span class="o">%</span>
-              <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span> <span class="n">location</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span>
-               <span class="nb">abs</span><span class="p">(</span><span class="n">location</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="o">-</span> <span class="n">empirical_mean</span><span class="p">)</span> <span class="p">)</span> <span class="p">)</span>
-    <span class="n">opt</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
-    <span class="n">opt</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+              <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span> <span class="n">location</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span> <span class="nb">abs</span><span class="p">(</span><span class="n">location</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="o">-</span> <span class="n">empirical_mean</span><span class="p">)</span> <span class="p">)</span> <span class="p">)</span>
+        <span class="n">opt</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+        <span class="n">opt</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -807,75 +728,74 @@ Gradient information (after zero-ing) = 0.0
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> step                     loss        estimate    diff. target
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  500                16035.520         0.60723         0.60507
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  500                19204.105         0.99900         0.99695
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 1000                14878.047         0.36906         0.36690
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 1000                15476.951         0.50053         0.49847
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 1500                14452.448         0.22464         0.22248
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 1500                14545.165         0.25129         0.24924
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 2000                14295.957         0.13706         0.13491
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 2000                14312.219         0.12667         0.12462
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 2500                14238.417         0.08396         0.08181
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 2500                14253.981         0.06436         0.06231
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 3000                14217.260         0.05176         0.04961
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 3000                14239.423         0.03321         0.03115
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 3500                14209.480         0.03223         0.03008
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 3500                14235.785         0.01763         0.01558
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 4000                14206.619         0.02039         0.01824
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 4000                14234.874         0.00984         0.00779
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 4500                14205.566         0.01321         0.01106
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 4500                14234.646         0.00595         0.00389
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 5000                14205.180         0.00886         0.00671
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 5000                14234.590         0.00400         0.00195
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 5500                14205.038         0.00622         0.00407
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 5500                14234.574         0.00303         0.00097
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 6000                14204.987         0.00462         0.00247
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 6000                14234.572         0.00254         0.00049
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 6500                14204.968         0.00365         0.00150
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 6500                14234.571         0.00230         0.00024
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 7000                14204.960         0.00306         0.00091
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 7000                14234.571         0.00217         0.00012
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 7500                14204.957         0.00270         0.00055
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 7500                14234.569         0.00211         0.00006
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 8000                14204.957         0.00249         0.00033
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 8000                14234.571         0.00208         0.00003
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 8500                14204.955         0.00236         0.00020
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 8500                14234.570         0.00207         0.00002
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 9000                14204.957         0.00228         0.00012
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 9000                14234.570         0.00206         0.00001
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 9500                14204.957         0.00223         0.00007
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 9500                14234.571         0.00206         0.00000
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>10000                14204.955         0.00220         0.00005
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>10000                14234.571         0.00206         0.00000
 </pre></div>
 </div>
 </div>
 </div>
 <blockquote>
 <div><p><strong><span style=&ldquo;color:#D83D2B;&rdquo;>Exercise 2.2.1: Explore the optimization process</span></strong></p>
-<p>This exercise is intended to make you play around with the parameters of the training procedure, namely `learningRate` and `nTrainingSteps`, and to develop a feeling for what they do. There is not necessarily a single “true” solution. Report the values that you found to work best for each of the following cases:</p>
 <ol class="simple">
-<li><p>Change the initial value of the parameter `location` to -5000.</p></li>
-<li><p>Revert to initial conditions. Change the true mean (parameter `trueLocation`) to 5000.</p></li>
-<li><p>Revert to initial conditions. Use only 100 samples for the training set (using variable `nObs`).</p></li>
+<li><p>Change the true mean (location) to 10e6. Is training still successful?  What would you change?</p></li>
+<li><p>Revert to initial conditions. Change the initial value of the parameter `trueLocation` to -5000. Does training work? What’s the problem? How would you fix it?</p></li>
+<li><p>Revert to initial conditions. Rerun the script with only 100 samples (using variable `nObs`). Does the training work? What’s the problem? How would you fix it?</p></li>
 </ol>
 </div></blockquote>
 </section>
@@ -894,7 +814,7 @@ Gradient information (after zero-ing) = 0.0
         },
         kernelOptions: {
             kernelName: "python3",
-            path: "./."
+            path: "./02-pytorch"
         },
         predefinedOutput: true
     }
@@ -908,20 +828,6 @@ Gradient information (after zero-ing) = 0.0
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="03b-pytorch-intro.html" title="previous page">
-        <i class="fas fa-angle-left"></i>
-        <div class="prev-next-info">
-            <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Sheet 2.1: PyTorch essentials</p>
-        </div>
-    </a>
-    <a class='right-next' id="next-link" href="03d-RSA-pytorch.html" title="next page">
-    <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Sheet 2.3: Optimizing an RSA model</p>
-    </div>
-    <i class="fas fa-angle-right"></i>
-    </a>
 </div>
             </footer>
         </div>
@@ -943,7 +849,7 @@ Gradient information (after zero-ing) = 0.0
     </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
 
 
   </body>
