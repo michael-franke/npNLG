@@ -1,4 +1,4 @@
-#+title:     Sheet 2.3: Optimizing an RSA model
+#+title:     Sheet 3.1: Optimizing an RSA model
 #+author:    Michael Franke
 
 Here we will explore how to use PyTorch to find optimized values for the parameters of a vanilla RSA model for reference games.

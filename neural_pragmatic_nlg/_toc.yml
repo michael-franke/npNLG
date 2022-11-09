@@ -2,25 +2,28 @@
 # Learn more at https://jupyterbook.org/customize/toc.html
 
 format: jb-book
-root: 00-intro
+root: 000-intro
 
 parts:
 - caption: 00 organization
   chapters:
-  - file: 01a-overview
-  - file: 01b-practicalities
-  - file: 01c-schedule
-  - file: 01d-slides
+  - file: 00-organization/00a-overview
+  - file: 00-organization/00b-practicalities
+  - file: 00-organization/00c-schedule
+  - file: 00-organization/00d-slides
 
 - caption: 01 Probabilistic pragmatics
   chapters:
-  - file: 02a-prob-prag
-  - file: 02b-RSA-vanilla
-  - file: 02c-RSA-politeness
+  - file: 01-prob-prag/01a-prob-prag
+  - file: 01-prob-prag/01b-RSA-vanilla
+  - file: 01-prob-prag/01c-RSA-politeness
 
-- caption: 02 PyTorch
+- caption: 02 PyTorch Basics
   chapters:
-  - file: 03a-pytorch-basics
-  - file: 03b-pytorch-intro
-  - file: 03c-MLE
-  - file: 03d-RSA-pytorch
+  - file: 02a-pytorch-basics
+  - file: 02b-pytorch-intro
+  - file: 02c-MLE
+
+- caption: 03 Optimization (cont.)
+  chapters:
+  - file: 03b-RSA-pytorch
