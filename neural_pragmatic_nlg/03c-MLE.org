@@ -32,12 +32,14 @@ So, here we define the true distribution, and take `nObs` samples from it, the s
 
 #+begin_src jupyter-python
 nObs           = 10000
-trueLocation   = 0
+trueLocation   = 0 # mean of a normal
 trueDist       = torch.distributions.Normal(loc=trueLocation, scale=1.0)
 trainData      = trueDist.sample([nObs])
+print(trainData)
 #+end_src
 
 #+RESULTS:
+: tensor([-2.7541, -0.1136, -0.6435,  ..., -0.1871, -0.3822, -0.1319])
 
 The mean of the training data is the so-called *empirical mean*.
 The empirical mean need not be identical to the true mean!
@@ -48,7 +50,7 @@ print('Empirical mean (mean of training data): %.5f' % empirical_mean.item())
 #+end_src
 
 #+RESULTS:
-: Empirical mean (mean of training data): 0.00586
+: Empirical mean (mean of training data): -0.01449
 
 Here is a density plot of the training data:
 
@@ -58,7 +60,7 @@ plt.show()
 #+end_src
 
 #+RESULTS:
-[[file:./.ob-jupyter/a113513b59b62b6c7846819e3a55862810815bc2.png]]
+[[file:./.ob-jupyter/9b062ed691956b5ca43c5f8924b33e5330f1980c.png]]
 
 * Optimizing a parameter: gradients, optimizers, loss & backprop
 
@@ -72,7 +74,7 @@ To being with, we define the parameter which is to be trained.
 Since we want to "massage it" through updating, we must tell PyTorch that it should compute the gradient for this parameter (and the ones derived from it).
 
 #+begin_src jupyter-python
-location = torch.tensor(1.0, requires_grad=True)
+location = torch.tensor(1.0, requires_grad=True) # random initial starting point
 print( location )
 #+end_src
 
@@ -130,7 +132,8 @@ print(loss)
 #+end_src
 
 #+RESULTS:
-: tensor(19167.8750, grad_fn=<NegBackward0>)
+: tensor([-1.6429, -2.2677, -0.9448,  ..., -1.3587, -0.9517, -0.9194],
+:        grad_fn=<SubBackward0>)
 
 Notice that the `loss` variable is a single-numbered tensor (containing the information how bad (we want to minimize it) the current parameter value is).
 Notice that PyTorch has also added information on how to compute gradients, i.e., it keeps track of way in which values for the variable `location` influence the values for the variable `loss`.
@@ -161,7 +164,7 @@ print(f"Gradient information (after backprop) = { location.grad}")
 
 #+RESULTS:
 : Value (after backprop)                = 1.0
-: Gradient information (after backprop) = 9949.55859375
+: Gradient information (after backprop) = 9800.26171875
 
 ** Part 4: Update the parameter values
 
@@ -176,9 +179,8 @@ print(f"Gradient information (after step) = { location.grad}")
 #+end_src
 
 #+RESULTS:
-: Value (after step)                = 0.9890552163124084
-: Gradient information (after step) = 9949.55859375
-
+: Value (after step)                = 0.999019980430603
+: Gradient information (after step) = 9800.26171875
 
 ** Part 5: Reset the gradient information
 
@@ -193,7 +195,7 @@ print(f"Gradient information (after zero-ing) = { location.grad}")
 #+end_src
 
 #+RESULTS:
-: Value (after zero-ing)                = 0.9890552163124084
+: Value (after zero-ing)                = 0.999019980430603
 : Gradient information (after zero-ing) = 0.0
 
 * Training loop
@@ -212,41 +214,41 @@ for i in range(nTrainingSteps):
         print('%5d %24.3f %15.5f %15.5f' %
               (i + 1, loss.item(), location.item(),
                abs(location.item() - empirical_mean) ) )
-        opt.step()
-        opt.zero_grad()
+    opt.step()
+    opt.zero_grad()
 #+end_src
 
 #+RESULTS:
 #+begin_example
 
  step                     loss        estimate    diff. target
-  500                19081.939         1.00000         0.99414
- 1000                15375.717         0.50293         0.49707
- 1500                14449.172         0.25439         0.24853
- 2000                14217.538         0.13012         0.12427
- 2500                14159.631         0.06799         0.06213
- 3000                14145.154         0.03692         0.03107
- 3500                14141.534         0.02139         0.01553
- 4000                14140.630         0.01362         0.00777
- 4500                14140.402         0.00974         0.00388
- 5000                14140.345         0.00780         0.00194
- 5500                14140.332         0.00683         0.00097
- 6000                14140.329         0.00634         0.00049
- 6500                14140.328         0.00610         0.00024
- 7000                14140.328         0.00598         0.00012
- 7500                14140.328         0.00592         0.00006
- 8000                14140.327         0.00589         0.00003
- 8500                14140.327         0.00587         0.00002
- 9000                14140.328         0.00586         0.00001
- 9500                14140.328         0.00586         0.00000
-10000                14140.328         0.00586         0.00000
+  500                16103.394         0.60129         0.61578
+ 1000                14904.594         0.35891         0.37339
+ 1500                14463.803         0.21193         0.22642
+ 2000                14301.727         0.12281         0.13730
+ 2500                14242.131         0.06877         0.08325
+ 3000                14220.219         0.03600         0.05048
+ 3500                14212.161         0.01613         0.03061
+ 4000                14209.197         0.00408         0.01856
+ 4500                14208.109        -0.00323         0.01126
+ 5000                14207.709        -0.00766         0.00683
+ 5500                14207.562        -0.01035         0.00414
+ 6000                14207.507        -0.01198         0.00251
+ 6500                14207.487        -0.01296         0.00152
+ 7000                14207.480        -0.01356         0.00092
+ 7500                14207.478        -0.01393         0.00056
+ 8000                14207.477        -0.01415         0.00034
+ 8500                14207.477        -0.01428         0.00021
+ 9000                14207.476        -0.01436         0.00012
+ 9500                14207.477        -0.01441         0.00008
+10000                14207.477        -0.01444         0.00005
 #+end_example
 
 
 
 > <strong><span style="color:#D83D2B;">Exercise 2.2.1: Explore the optimization process</span></strong>
-> 1. Change the true mean (location) to 10e6. Is training still successful?  What would you change?
-> 2. Revert to initial conditions. Change the initial value of the parameter `trueLocation` to -5000. Does training work? What's the problem? How would you fix it?
+> 1. Change the true mean (parameter `trueLocation`) to 10e6. Is training still successful?  What would you change?
+> 2. Revert to initial conditions. Change the initial value of the parameter `location` to -5000. Does training work? What's the problem? How would you fix it?
 > 3. Revert to initial conditions. Rerun the script with only 100 samples (using variable `nObs`). Does the training work? What's the problem? How would you fix it?
 
 
