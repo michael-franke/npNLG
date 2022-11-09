@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Basics of PyTorch &#8212; Neural Pragmatic Natural Language Generation</title>
+    <title>Probabilistic pragmatics &#8212; Neural Pragmatic Natural Language Generation</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -52,6 +52,8 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Sheet 1.1: Vanilla RSA" href="01b-RSA-vanilla.html" />
+    <link rel="prev" title="Slides from session 1" href="../00-organization/00d-slides.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -143,19 +145,19 @@ const thebe_selector_output = ".output, .cell_output"
   01 Probabilistic pragmatics
  </span>
 </p>
-<ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../01-prob-prag/01a-prob-prag.html">
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
    Probabilistic pragmatics
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../01-prob-prag/01b-RSA-vanilla.html">
+  <a class="reference internal" href="01b-RSA-vanilla.html">
    Sheet 1.1: Vanilla RSA
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../01-prob-prag/01c-RSA-politeness.html">
+  <a class="reference internal" href="01c-RSA-politeness.html">
    Sheet 1.2: RSA with politeness
   </a>
  </li>
@@ -249,7 +251,7 @@ title="Source repository"
       </li>
       
       <li>
-        <a href="https://github.com/michael-franke/npNLG/issues/new?title=Issue%20on%20page%20%2F02-pytorch/02a-pytorch-basics.html&body=Your%20issue%20content%20here."
+        <a href="https://github.com/michael-franke/npNLG/issues/new?title=Issue%20on%20page%20%2F01-prob-prag/01a-prob-prag.html&body=Your%20issue%20content%20here."
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -277,7 +279,7 @@ title="Open an issue"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="../_sources/02-pytorch/02a-pytorch-basics.md"
+        <a href="../_sources/01-prob-prag/01a-prob-prag.md"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -337,8 +339,18 @@ title="Print to PDF"
     <nav id="bd-toc-nav" aria-label="Page">
         <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#resources">
-   Resources
+  <a class="reference internal nav-link" href="#slides">
+   Slides
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#practical-exercises">
+   Practical exercises
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#further-reading">
+   Further reading
   </a>
  </li>
 </ul>
@@ -350,7 +362,7 @@ title="Print to PDF"
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Basics of PyTorch</h1>
+                <h1>Probabilistic pragmatics</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -361,8 +373,18 @@ title="Print to PDF"
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#resources">
-   Resources
+  <a class="reference internal nav-link" href="#slides">
+   Slides
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#practical-exercises">
+   Practical exercises
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#further-reading">
+   Further reading
   </a>
  </li>
 </ul>
@@ -375,19 +397,57 @@ title="Print to PDF"
                 
               <div>
                 
-  <section class="tex2jax_ignore mathjax_ignore" id="basics-of-pytorch">
-<h1>Basics of PyTorch<a class="headerlink" href="#basics-of-pytorch" title="Permalink to this headline">#</a></h1>
-<p>PyTorch is a high-level framework for machine learning based on <a class="reference external" href="http://torch.ch/">torch</a>.
-Modern ML techniques, such as artificial neural networks, require efficient computations of algebraic operations on large and high-dimensional tensors.
-PyTorch offers a tensor-based computing framework that is optimized for exactly these kinds of computations.
-Moreover, PyTorch offers ready-made modules for building complex ANNs.
-A powerful automatic differentiation system, makes training these networks possible.</p>
-<p>There are other similar libraries on the market (e.g., tensorflow), but PyTorch has been particularly popular in the NLP community.</p>
-<section id="resources">
-<h2>Resources<a class="headerlink" href="#resources" title="Permalink to this headline">#</a></h2>
+  <section class="tex2jax_ignore mathjax_ignore" id="probabilistic-pragmatics">
+<h1>Probabilistic pragmatics<a class="headerlink" href="#probabilistic-pragmatics" title="Permalink to this headline">#</a></h1>
+<p>Probabilistic pragmatics is an approach to modelling a speaker’s choice of expression and a listener’s interpretation thereof, using tools from Bayesian decision theory.
+In simplified terms: the listener uses Bayes rule to infer (abduct) the most likely state that could have led the speaker to act in the way they did; the speaker chooses an expression that increases the chance that the listener (usually, to avoid circularity: under a literal interpretation) comes to belief the things that the speaker wants the listener to belief.</p>
+<p><img alt="img" src="01-prob-prag/pics/02-RSA-iteration.png" /></p>
+<p>We will cover two models: one is vanilla RSA applied to a reference game; the other is an extension of the vanilla model to include reasoning about politeness.</p>
+<p>The main learning goal is to see more clearly how we can define speaker behavior in terms of an optimization of different components in a numeric measure of “utility” of an expression:</p>
+<p><img alt="img" src="01-prob-prag/pics/02-speaker-utility.png" /></p>
+<p>It is this idea (“numeric measures of pragmatic utilities”) that we will want to carry over to look at loss functions for training, decoding objectives, or experimental evaluation later on in the context of neural language models.</p>
+<section id="slides">
+<h2>Slides<a class="headerlink" href="#slides" title="Permalink to this headline">#</a></h2>
+<p>Here are the <a class="reference external" href="https://michael-franke.github.io/npNLG/02a-RSA.pdf">slides on vanilla RSA</a>.
+And here the <a class="reference external" href="https://michael-franke.github.io/npNLG/02b-politeness.pdf">slides on RSA with politeness</a>.</p>
+</section>
+<section id="practical-exercises">
+<h2>Practical exercises<a class="headerlink" href="#practical-exercises" title="Permalink to this headline">#</a></h2>
+<p>There are two notebooks for exercises: one on <a class="reference external" href="https://michael-franke.github.io/npNLG/02b-RSA-vanilla.html">vanilla RSA</a>, the other on <a class="reference external" href="https://michael-franke.github.io/npNLG/02c-RSA-politeness.html">RSA with politeness</a>.
+You can also find the extracted Python code for both notebooks on the <a class="reference external" href="https://github.com/michael-franke/npNLG">GitHub repository</a> for this web-book.</p>
+</section>
+<section id="further-reading">
+<h2>Further reading<a class="headerlink" href="#further-reading" title="Permalink to this headline">#</a></h2>
+<p>The key reference for the Rational Speech Act model (applied to reference games) is this paper:</p>
 <ul class="simple">
-<li><p><a class="reference external" href="https://pytorch.org/">Official PyTorch website</a> for information on installation</p></li>
-<li><p><a class="reference external" href="https://pytorch.org/tutorials/">Official PyTorch tutorials</a></p></li>
+<li><p>Frank, M. C., &amp; Goodman, N. D. (2012). Predicting pragmatic reasoning in language games. Science, 336(6084), 998. <a class="reference external" href="http://dx.doi.org/10.1126/science.1218633">http://dx.doi.org/10.1126/science.1218633</a></p></li>
+</ul>
+<p>If you like to explore RSA models computationally, using probabilistic programming language <a class="reference external" href="http://webppl.org/">webPPL</a>, check out this online resource:</p>
+<ul class="simple">
+<li><p>Scontras, G., Tessler, M. H., &amp; Franke, M. (2018). <a class="reference external" href="http://www.problang.org">Probabilistic language understanding: An introduction to the Rational Speech Act framework</a>.</p></li>
+</ul>
+<p>This web-book comes with a companion paper (providing better high-level overview, discussion recent applications, including those in computational linguistics):</p>
+<ul class="simple">
+<li><p>Scontras, G., Tessler, M. H., &amp; Franke, M. (2021). <a class="reference external" href="https://arxiv.org/abs/2105.09867">A practical introduction to the rational speech act modeling framework.</a></p></li>
+</ul>
+<p>Here are other overview papers (with different emphasis):</p>
+<ul class="simple">
+<li><p>overview paper targeting a psych / cog-sci audience:</p>
+<ul>
+<li><p>Goodman, N. D., &amp; Frank, M. C. (2016). Pragmatic language interpretation as probabilistic inference. Trends in Cognitive Sciences, 20(11), 818–829. <a class="reference external" href="http://dx.doi.org/10.1016/j.tics.2016.08.005Au">http://dx.doi.org/10.1016/j.tics.2016.08.005Au</a></p></li>
+</ul>
+</li>
+<li><p>overview papers targeting a linguistic audience:</p>
+<ul>
+<li><p>Franke, M., &amp; Gerhard Jäger (2016). Probabilistic pragmatics, or why Bayes’ rule is probably important for pragmatics. Zeitschrift für Sprachwissenschaft, 35(1), 3–44. <a class="reference external" href="http://dx.doi.org/10.1515/zfs-2016-0002">http://dx.doi.org/10.1515/zfs-2016-0002</a></p></li>
+<li><p>Stevens, J., &amp; Benz, A. (2018). Game-theoretic approaches to pragmatics. Annual Review of Linguistics, 4(), 173–191. <a class="reference external" href="http://dx.doi.org/10.1146/annurev-linguistics-011817-045641">http://dx.doi.org/10.1146/annurev-linguistics-011817-045641</a></p></li>
+</ul>
+</li>
+<li><p>overview paper covering related game-theoretic approaches (with R code):</p>
+<ul>
+<li><p>Franke, M. (2017). <a class="reference external" href="https://doi.org/10.1093/acrefore/9780199384655.013.202">Game theory in pragmatics: evolution, rationality &amp; reasoning</a>. In:  Oxford Research Encyclopedia of Linguistics. Oxford University Press.</p></li>
+</ul>
+</li>
 </ul>
 </section>
 </section>
@@ -405,7 +465,7 @@ A powerful automatic differentiation system, makes training these networks possi
         },
         kernelOptions: {
             kernelName: "python3",
-            path: "./02-pytorch"
+            path: "./01-prob-prag"
         },
         predefinedOutput: true
     }
@@ -419,6 +479,20 @@ A powerful automatic differentiation system, makes training these networks possi
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="../00-organization/00d-slides.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Slides from session 1</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="01b-RSA-vanilla.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Sheet 1.1: Vanilla RSA</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
 </div>
             </footer>
         </div>
