@@ -70,10 +70,11 @@ The loss function we are interested in is the likelihood of the training data.
 
 To being with, we define the parameter which is to be trained.
 Since we want to "massage it" through updating, we must tell PyTorch that it should compute the gradient for this parameter (and the ones derived from it).
+(NB: For numerical stability we require this parameter to be a 64 bit float. You may try out the exercises below with the default float32 format and compare.)
 
 #+begin_src jupyter-python
-location = torch.tensor(1.0, requires_grad=True) # random initial value
-print( location )
+location = torch.tensor(1.0, requires_grad=True, dtype=torch.float64)
+print( location)
 #+end_src
 
 #+RESULTS:

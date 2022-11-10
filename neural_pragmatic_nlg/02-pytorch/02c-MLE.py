@@ -15,8 +15,8 @@ print('Empirical mean (mean of training data): %.5f' % empirical_mean.item())
 sns.kdeplot(trainData)
 plt.show()
 
-location = torch.tensor(1.0, requires_grad=True) # random initial value
-print( location )
+location = torch.tensor(1.0, requires_grad=True, dtype=torch.float64)
+print( location)
 
 learningRate = 0.0000001
 opt          = torch.optim.SGD([location], lr=learningRate)
