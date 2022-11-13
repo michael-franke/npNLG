@@ -26,4 +26,6 @@ parts:
 
 - caption: 03 Optimization (cont.)
   chapters:
-  - file: 03-optimization/03b-RSA-pytorch
+  - file: 03-optimization/03a-optimization
+  - file: 03-optimization/03b-gradient-descent
+  - file: 03-optimization/03c-RSA-pytorch

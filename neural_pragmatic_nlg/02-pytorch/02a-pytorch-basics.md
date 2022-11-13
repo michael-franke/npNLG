@@ -32,7 +32,7 @@ You can also find the extracted Python code for both notebooks on the [GitHub re
 
 ## Slides
 
-Here are the [slides on vanilla RSA](<https://michael-franke.github.io/npNLG/02-PyTorch.pdf>).
+Here are the [slides for this session](<https://michael-franke.github.io/npNLG/02-PyTorch.pdf>).
 
 
 ## Resources
