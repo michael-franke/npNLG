@@ -593,7 +593,7 @@ The empirical mean need not be identical to the true mean!</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Empirical mean (mean of training data): -0.01038
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Empirical mean (mean of training data): 0.00904
 </pre></div>
 </div>
 </div>
@@ -703,7 +703,7 @@ Here we consider the likelihood: how likely is the training data under the curre
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor(19396.3750, grad_fn=&lt;NegBackward0&gt;)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor(19135.8184, grad_fn=&lt;NegBackward0&gt;)
 </pre></div>
 </div>
 </div>
@@ -741,7 +741,7 @@ Gradient information (initial) = None
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Value (after backprop)                = 1.0
-Gradient information (after backprop) = 10103.794921875
+Gradient information (after backprop) = 9909.6044921875
 </pre></div>
 </div>
 </div>
@@ -761,8 +761,8 @@ It knows which parameters to update (we told it), so the relevant update functio
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Value (after step)                = 0.9989896205078125
-Gradient information (after step) = 10103.794921875
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Value (after step)                = 0.9990090395507812
+Gradient information (after step) = 9909.6044921875
 </pre></div>
 </div>
 </div>
@@ -782,7 +782,7 @@ This zero-ing of the gradients is again something we do holistically (for all pa
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Value (after zero-ing)                = 0.9989896205078125
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Value (after zero-ing)                = 0.9990090395507812
 Gradient information (after zero-ing) = 0.0
 </pre></div>
 </div>
@@ -815,64 +815,64 @@ Gradient information (after zero-ing) = 0.0
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> step                     loss        estimate    diff. target
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  500                16168.882         0.60229         0.61267
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  500                16031.195         0.60994         0.60090
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 1000                14982.146         0.36113         0.37151
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 1000                14889.638         0.37341         0.36437
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 1500                14545.791         0.21490         0.22528
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 1500                14469.893         0.22999         0.22095
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 2000                14385.343         0.12622         0.13660
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 2000                14315.555         0.14302         0.13398
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 2500                14326.347         0.07245         0.08283
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 2500                14258.806         0.09028         0.08124
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 3000                14304.655         0.03985         0.05023
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 3000                14237.938         0.05830         0.04926
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 3500                14296.680         0.02008         0.03046
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 3500                14230.266         0.03891         0.02987
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 4000                14293.746         0.00809         0.01847
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 4000                14227.445         0.02715         0.01811
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 4500                14292.668         0.00082         0.01120
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 4500                14226.407         0.02002         0.01098
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 5000                14292.271        -0.00359         0.00679
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 5000                14226.027         0.01570         0.00666
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 5500                14292.126        -0.00626         0.00412
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 5500                14225.886         0.01308         0.00404
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 6000                14292.070        -0.00788         0.00250
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 6000                14225.835         0.01149         0.00245
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 6500                14292.052        -0.00887         0.00151
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 6500                14225.816         0.01052         0.00149
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 7000                14292.045        -0.00946         0.00092
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 7000                14225.809         0.00994         0.00090
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 7500                14292.042        -0.00982         0.00056
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 7500                14225.807         0.00959         0.00055
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 8000                14292.042        -0.01004         0.00034
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 8000                14225.805         0.00937         0.00033
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 8500                14292.041        -0.01017         0.00020
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 8500                14225.805         0.00924         0.00020
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 9000                14292.040        -0.01026         0.00012
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 9000                14225.805         0.00916         0.00012
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 9500                14292.041        -0.01030         0.00008
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 9500                14225.805         0.00911         0.00007
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>10000                14292.040        -0.01033         0.00005
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>10000                14225.804         0.00908         0.00004
 </pre></div>
 </div>
 </div>
