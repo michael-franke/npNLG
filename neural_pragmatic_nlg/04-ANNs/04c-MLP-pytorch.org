@@ -1,4 +1,4 @@
-#+title:     Sheet 3.1: Non-linear regression (MLP w/ PyTorch modules)
+#+title:     Sheet 3.2: Non-linear regression (MLP w/ PyTorch modules)
 #+author:    Michael Franke
 
 In this tutorial, we will fit a non-linear regression, implemented as a multi-layer perceptron.
