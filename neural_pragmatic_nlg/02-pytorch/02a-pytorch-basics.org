@@ -8,6 +8,27 @@ A powerful automatic differentiation system, makes training these networks possi
 
 There are other similar libraries on the market (e.g., tensorflow), but PyTorch has been particularly popular in the NLP community.
 
+** Learning goals for this session
+
+1. Understand what PyTorch is good for.
+2. Ability to create, access and manipulate tensors.
+3. Understand parameterized model predictions.
+4. Understand of what ‘parameter optimization’ is.
+5. Ability to use stochastic gradient descent to optimize parameters in PyTorch.
+
+** Slides
+
+Here are the [slides for this session](https://michael-franke.github.io/npNLG/02-PyTorch.pdf).
+
+** Practical exercises
+
+There are two notebooks for exercises: one on [[https://michael-franke.github.io/npNLG/02b-pytorch-intro.html][basics of PyTorch]], the other on [[https://michael-franke.github.io/npNLG/02c-MLE.html][maximum likelihood estimation]].
+You can also find the extracted Python code for both notebooks on the [[https://github.com/michael-franke/npNLG][GitHub repository]] for this web-book.
+
+** Slides
+
+Here are the [slides on vanilla RSA](https://michael-franke.github.io/npNLG/02-PyTorch.pdf).
+
 ** Resources
 
 - [[https://pytorch.org/][Official PyTorch website]] for information on installation
