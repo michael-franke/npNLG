@@ -24,7 +24,7 @@ parts:
   - file: 02-pytorch/02b-pytorch-intro
   - file: 02-pytorch/02c-MLE
 
-- caption: 03 Optimization (cont.)
+- caption: 03 Optimization
   chapters:
   - file: 03-optimization/03a-optimization
   - file: 03-optimization/03b-gradient-descent
