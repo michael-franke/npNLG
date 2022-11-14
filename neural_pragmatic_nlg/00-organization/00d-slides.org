@@ -1,5 +1,5 @@
 * Slides from session 1
 
-Slides from session 1 as [[https://michael-franke.github.io/npNLG/01-NLG-overview.pdf][PDF]].
+Slides from session 1 as [[https://michael-franke.github.io/npNLG/00-NLG-overview.pdf][PDF]].
 
-[[./../pics/00-cover-NLG-overview.png]]
+[[../pics/01-cover-NLG-overview.png]]
