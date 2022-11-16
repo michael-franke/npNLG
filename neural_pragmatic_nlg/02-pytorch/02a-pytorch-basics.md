@@ -30,11 +30,6 @@ There are two notebooks for exercises: one on [basics of PyTorch](https://michae
 You can also find the extracted Python code for both notebooks on the [GitHub repository](https://github.com/michael-franke/npNLG) for this web-book.
 
 
-## Slides
-
-Here are the [slides for this session](<https://michael-franke.github.io/npNLG/02-PyTorch.pdf>).
-
-
 ## Resources
 
 -   [Official PyTorch website](https://pytorch.org/) for information on installation

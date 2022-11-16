@@ -25,10 +25,6 @@ Here are the [slides for this session](https://michael-franke.github.io/npNLG/02
 There are two notebooks for exercises: one on [[https://michael-franke.github.io/npNLG/02b-pytorch-intro.html][basics of PyTorch]], the other on [[https://michael-franke.github.io/npNLG/02c-MLE.html][maximum likelihood estimation]].
 You can also find the extracted Python code for both notebooks on the [[https://github.com/michael-franke/npNLG][GitHub repository]] for this web-book.
 
-** Slides
-
-Here are the [slides for this session](https://michael-franke.github.io/npNLG/02-PyTorch.pdf).
-
 ** Resources
 
 - [[https://pytorch.org/][Official PyTorch website]] for information on installation
