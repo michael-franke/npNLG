@@ -20,13 +20,13 @@ print('\n%5s %15s %15s %15s' %
 for i in range(nTrainingSteps):
 
     # manual computation
-    prediction = torch.distributions.Normal(loc=location2, scale=1.0)
+    prediction = torch.distributions.Normal(loc=location, scale=1.0)
     loss       = -torch.sum(prediction.log_prob(trainData))
     loss.backward()
     with torch.no_grad():
         # we must embedd this under 'torch.no_grad()' b/c we
         # do not want this update state to affect the gradients
-        location -= learningRate + location.grad
+        location  -= learningRate * location.grad
     location.grad = torch.tensor(1.0)
 
     # using PyTorch optimizer
