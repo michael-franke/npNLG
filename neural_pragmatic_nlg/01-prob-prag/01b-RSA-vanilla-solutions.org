@@ -253,8 +253,8 @@ plt.show()
 : circle          1.0           0.0          0.0    circle
 : green           0.0           1.0          0.0     green
 : square          0.0           0.4          0.6    square
-[[file:./.ob-jupyter/0d7b429d0527044091a2d885b1ea2a8bf11fd34b.png]]
-[[file:./.ob-jupyter/5cfef8f19b5bcf22b46d1e7315d5b3ad1de68775.png]]
+[[file:./.ob-jupyter/a215099dfe376e104694c773651a45eecc9d9ccb.png]]
+[[file:./.ob-jupyter/a1d5df06211aa4d658c684bf9d083f86fc97b659.png]]
 :END:
 
 > <strong><span style="color:#D83D2B;">Exercise 1.1.3: Explore the vanilla RSA model</span></strong>
@@ -262,7 +262,7 @@ plt.show()
 > 0. [for your own sake only; no written answer required] Go through the whole last code block. Try to understand every single line in the function `RSA_predictions`. Ask if anything is unclear. (It is muss less important to understand the details of the subsequent data wrangling and plotting.)
 > 1. Explore what happens if you make the speaker more optimal. Does that also affect the listener's inferences? Why? Is that intuitive?
 > 2. Add another object to the context, namely a red triangle. Add any relevant utterances, their semantics and costs as well. What do you predict will happen to the model's predictions for the "old" objects and utterances? Test your predictions (= understanding of the model) and report the results.
-> 3. Run the model with different values for the cost parameter `cost_adjectives`. Which effect does this have on the speaker prediction? Which effect does that have on the predictions for listener interpretation? Explain these observation in your own non-technical terms (e.g., for an interested outsider).
+> 3. Run the model with different values for the cost parameter `cost_adjectives`. Which effect does this have on the speaker prediction? Which effect does that have on the predictions for listener interpretation? Explain these observations in your own non-technical terms (e.g., for an interested outsider).
 > 4. Is there any way to get “blue” to refer to something green? I.e., is it possible (if so: how?; else: why not?) to change the context or model in such a way that $P_{L}(\text{green square} \mid \text{blue}) > 0$, ideally in a way that might also be defensible in that it makes conceptual sense (not just by some technical trick that no reviewer of your work would accept as anything but a hack)?
 
 > <strong><span style="color:#D83D2B;">Solutions for Exercise 1.1.3</span></strong>
@@ -359,7 +359,7 @@ red              0.00          0.00         0.00           1.0
 triangle         0.00          0.00         0.00           1.0
 #+end_example
 
-> 3. Increasing the cost parameter makes the speaker prefer nouns more strongly over adjectives. If we set it to negative values, the pattern is reversed. This parameter does not affect the listener part, because it will only change the relative utility (and therefore speaker choice probabilities) for messages, but not the relative strength with which any given message is associated with a state. In other words, increasing the costs of a message will make that message overall less likely, but does not change its relative likely for different states.
+> 3. Increasing the cost parameter makes the speaker prefer nouns more strongly over adjectives. If we set it to negative values, the pattern is reversed. This parameter also affects the listener part. For example, if costs of adjectives are very high, the speaker will prefer to also choose "square" for the green square, thus overriding the pressure to be informative. As a result, when the listener hears "square" they will think that it is (roughly) equally likely that the speaker is referring to the "green square" or the "blue square".
 >
 > 4. A simple way to achieve this result is to use what is sometimes called a "soft-semantics", where truth values are not 0 or 1, but something close to these extremes. For example:
 
