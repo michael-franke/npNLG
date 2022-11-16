@@ -23,7 +23,7 @@ And here the [slides on RSA with politeness](<https://michael-franke.github.io/n
 
 ## Practical exercises
 
-There are two notebooks for exercises: one on [vanilla RSA](https://michael-franke.github.io/npNLG/02b-RSA-vanilla.html), the other on [RSA with politeness](https://michael-franke.github.io/npNLG/02c-RSA-politeness.html).
+There are two notebooks for exercises: one on [vanilla RSA](https://michael-franke.github.io/npNLG/02b-RSA-vanilla.html) (here are [solutions to exercises](https://github.com/michael-franke/npNLG/blob/main/neural_pragmatic_nlg/01-prob-prag/01b-RSA-vanilla-solutions.ipynb)), the other on [RSA with politeness](https://michael-franke.github.io/npNLG/02c-RSA-politeness.html).
 You can also find the extracted Python code for both notebooks on the [GitHub repository](https://github.com/michael-franke/npNLG) for this web-book.
 
 

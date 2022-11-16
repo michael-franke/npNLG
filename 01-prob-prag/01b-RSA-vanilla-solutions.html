@@ -692,7 +692,7 @@ square          0.0           0.4          0.6    square
 <li><p>[for your own sake only; no written answer required] Go through the whole last code block. Try to understand every single line in the function `RSA<sub>predictions</sub>`. Ask if anything is unclear. (It is muss less important to understand the details of the subsequent data wrangling and plotting.)</p></li>
 <li><p>Explore what happens if you make the speaker more optimal. Does that also affect the listener’s inferences? Why? Is that intuitive?</p></li>
 <li><p>Add another object to the context, namely a red triangle. Add any relevant utterances, their semantics and costs as well. What do you predict will happen to the model’s predictions for the “old” objects and utterances? Test your predictions (= understanding of the model) and report the results.</p></li>
-<li><p>Run the model with different values for the cost parameter `cost<sub>adjectives</sub>`. Which effect does this have on the speaker prediction? Which effect does that have on the predictions for listener interpretation? Explain these observation in your own non-technical terms (e.g., for an interested outsider).</p></li>
+<li><p>Run the model with different values for the cost parameter `cost<sub>adjectives</sub>`. Which effect does this have on the speaker prediction? Which effect does that have on the predictions for listener interpretation? Explain these observations in your own non-technical terms (e.g., for an interested outsider).</p></li>
 <li><p>Is there any way to get “blue” to refer to something green? I.e., is it possible (if so: how?; else: why not?) to change the context or model in such a way that <span class="math notranslate nohighlight">\(P_{L}(\text{green square} \mid \text{blue}) &gt; 0\)</span>, ideally in a way that might also be defensible in that it makes conceptual sense (not just by some technical trick that no reviewer of your work would accept as anything but a hack)?</p></li>
 </ol>
 </div></blockquote>
@@ -793,7 +793,7 @@ triangle         0.00          0.00         0.00           1.0
 </div>
 <blockquote>
 <div><ol class="simple">
-<li><p>Increasing the cost parameter makes the speaker prefer nouns more strongly over adjectives. If we set it to negative values, the pattern is reversed. This parameter does not affect the listener part, because it will only change the relative utility (and therefore speaker choice probabilities) for messages, but not the relative strength with which any given message is associated with a state. In other words, increasing the costs of a message will make that message overall less likely, but does not change its relative likely for different states.</p></li>
+<li><p>Increasing the cost parameter makes the speaker prefer nouns more strongly over adjectives. If we set it to negative values, the pattern is reversed. This parameter also affects the listener part. For example, if costs of adjectives are very high, the speaker will prefer to also choose “square” for the green square, thus overriding the pressure to be informative. As a result, when the listener hears “square” they will think that it is (roughly) equally likely that the speaker is referring to the “green square” or the “blue square”.</p></li>
 <li><p>A simple way to achieve this result is to use what is sometimes called a “soft-semantics”, where truth values are not 0 or 1, but something close to these extremes. For example:</p></li>
 </ol>
 </div></blockquote>
