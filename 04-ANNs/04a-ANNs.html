@@ -358,12 +358,46 @@ title="Print to PDF"
     </ul>
   </div>
 </div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
 
     </div>
 </div>
 
 <!-- Table of contents -->
 <div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#learning-goals-for-this-session">
+   Learning goals for this session
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#slides">
+   Slides
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#practical-exercises">
+   Practical exercises
+  </a>
+ </li>
+</ul>
+
+    </nav>
 </div>
     </div>
     <div class="article row">
@@ -375,6 +409,29 @@ title="Print to PDF"
                 <div id="print-main-content">
                     <div id="jb-print-toc">
                         
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#learning-goals-for-this-session">
+   Learning goals for this session
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#slides">
+   Slides
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#practical-exercises">
+   Practical exercises
+  </a>
+ </li>
+</ul>
+
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -384,7 +441,32 @@ title="Print to PDF"
                 
   <section class="tex2jax_ignore mathjax_ignore" id="artificial-neural-networks">
 <h1>Artificial neural networks<a class="headerlink" href="#artificial-neural-networks" title="Permalink to this headline">#</a></h1>
-<p>fill me</p>
+<p>In this session we learn about artificial neural networks.</p>
+<section id="learning-goals-for-this-session">
+<h2>Learning goals for this session<a class="headerlink" href="#learning-goals-for-this-session" title="Permalink to this headline">#</a></h2>
+<ol class="simple">
+<li><p>Become familiar with ANNs:</p>
+<ol class="simple">
+<li><p>mathematical notation in matrix-vector form</p></li>
+<li><p>weights &amp; biases (slopes &amp; intercepts), score, activation function, hidden layers, prediction</p></li>
+</ol>
+</li>
+<li><p>Be able to use PyTorch to implement a feed-forward ANN:</p>
+<ol class="simple">
+<li><p>building the model by hand</p></li>
+<li><p>using built-in helper functions (nn.Module, DataLoader …)</p></li>
+</ol>
+</li>
+</ol>
+</section>
+<section id="slides">
+<h2>Slides<a class="headerlink" href="#slides" title="Permalink to this headline">#</a></h2>
+<p>Here are the <a class="reference external" href="https://michael-franke.github.io/npNLG/04-neural-basics.pdf">slides for this session</a>.</p>
+</section>
+<section id="practical-exercises">
+<h2>Practical exercises<a class="headerlink" href="#practical-exercises" title="Permalink to this headline">#</a></h2>
+<p>There are two notebooks for exercises. First, we will implement a multi-layer feed-forward network “<a class="reference external" href="https://michael-franke.github.io/npNLG/04c-MLP-custom.html">by hand</a>”. Then, we will implement the same model (for the same training data) by <a class="reference external" href="https://michael-franke.github.io/npNLG/04d-MLP-pytorch.html">using PyTorch’s helper functions</a>.</p>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
