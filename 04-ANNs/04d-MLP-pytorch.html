@@ -54,6 +54,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Sheet 4.1: Non-linear regression (custom MLP)" href="04c-MLP-custom.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -203,6 +204,33 @@ const thebe_selector_output = ".output, .cell_output"
  <li class="toctree-l1">
   <a class="reference internal" href="../03-optimization/03c-RSA-pytorch.html">
    Sheet 3.2: Optimizing an RSA model
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  04 ANNs in PyTorch
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="04a-ANNs.html">
+   Artificial neural networks
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="04b-algebra.html">
+   Linear algebra
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="04c-MLP-custom.html">
+   Sheet 4.1: Non-linear regression (custom MLP)
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Sheet 4.2: Non-linear regression (MLP w/ PyTorch modules)
   </a>
  </li>
 </ul>
@@ -443,6 +471,18 @@ title="Print to PDF"
   <a class="reference internal nav-link" href="#defining-the-mlp-using-pytorchs-built-in-modules">
    Defining the MLP using PyTorch’s built-in modules
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#more-explicit-definition-nn-module">
+     More explicit definition NN module
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#more-concise-definition-of-nn-module">
+     More concise definition of NN module
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#preparing-the-training-data">
@@ -487,6 +527,18 @@ title="Print to PDF"
   <a class="reference internal nav-link" href="#defining-the-mlp-using-pytorchs-built-in-modules">
    Defining the MLP using PyTorch’s built-in modules
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#more-explicit-definition-nn-module">
+     More explicit definition NN module
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#more-concise-definition-of-nn-module">
+     More concise definition of NN module
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#preparing-the-training-data">
@@ -516,8 +568,7 @@ We will see how the use of modules from PyTorch’s neural network package `torc
 <section id="packages-global-parameters">
 <h2>Packages &amp; global parameters<a class="headerlink" href="#packages-global-parameters" title="Permalink to this headline">#</a></h2>
 <p>We will need to import the `torch` package for the main functionality.
-In order to have a convenient handle, we load the `torch.nn.functional` package into variable `F`.
-On top of that, we will use PyTorch’s `DataLoader` and `Dataset` in order to feed our training data to the model.</p>
+In addition to the previous sheet, In order to have a convenient, we will use PyTorch’s `DataLoader` and `Dataset` in order to feed our training data to the model.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
@@ -616,9 +667,13 @@ We use a 3-layer MLP, each hidden layer with dimension 10:</p>
 Below, we define our feed-forward neural network as a class extending `nn.Module`.
 Minimally, we have to define two functions for this to work:</p>
 <ol class="simple">
-<li><p>the <strong>initialization</strong> function `_<sub>init</sub>__` which defines which variables (parameters) our model has (using `nn.Linear` instantiates a linear layer with all the trainable parameters (slopes and intercepts) implicitly)</p></li>
-<li><p>the <strong>forward pass</strong> which takes the models input as input and computes a single forward pass; (recall the function `singleForwardPass` from sheet 4.1; PyTorch automatically batches the computation implicitly).</p></li>
+<li><p>the <strong>initialization</strong> function `_<sub>init</sub>__` which defines which variables (mostly, but not exclusively: parameters) our model has (using `nn.Linear` instantiates a linear layer with all the trainable parameters (weights and biases) implicitly);</p></li>
+<li><p>the <strong>forward pass</strong> which takes the model’s input and computes the corresponding prediction given the current parameter values (recall the function `singleForwardPass` from sheet 4.1; PyTorch automatically batches the computation implicitly).</p></li>
 </ol>
+<p>Since PyTorch allows flexibility in how to define neural network modules, we look at two variants below, one explicit and one more concise.
+They should implement the exact same model and work the same way eventually.</p>
+<section id="more-explicit-definition-nn-module">
+<h3>More explicit definition NN module<a class="headerlink" href="#more-explicit-definition-nn-module" title="Permalink to this headline">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##################################################</span>
@@ -662,65 +717,65 @@ Minimally, we have to define two functions for this to work:</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[-0.6507]
- [-0.4436]
- [-0.005 ]
- [ 0.2057]
- [-0.4448]
- [-0.0617]
- [-0.5434]
- [-0.8242]
- [-0.4394]
- [ 0.0572]]
-[ 0.4893  0.2299 -0.38    0.5002 -0.6601 -0.5067  0.2195  0.1294  0.1397
- -0.9254]
-[[-5.500e-03 -1.473e-01  8.800e-02  3.930e-02 -9.740e-02 -1.652e-01
-   3.000e-02 -1.179e-01  2.816e-01 -3.470e-02]
- [-2.688e-01 -2.744e-01 -7.950e-02  2.424e-01  2.910e-01  1.962e-01
-   2.656e-01  1.577e-01  1.762e-01  1.224e-01]
- [ 1.900e-03  3.400e-03  2.000e-04  1.979e-01 -2.198e-01  2.610e-02
-  -1.402e-01  1.544e-01 -6.320e-02  5.960e-02]
- [-7.900e-03 -1.659e-01 -1.385e-01  4.350e-02 -7.780e-02 -2.593e-01
-  -2.905e-01 -8.590e-02 -7.930e-02 -1.003e-01]
- [ 1.860e-01  1.723e-01  9.410e-02 -5.220e-02 -1.386e-01 -8.770e-02
-   1.964e-01  2.620e-02  7.600e-02  1.087e-01]
- [-1.246e-01 -3.089e-01 -1.935e-01  2.675e-01  2.056e-01  2.578e-01
-  -1.620e-02 -8.680e-02 -5.700e-03 -1.857e-01]
- [ 1.933e-01  1.959e-01 -7.240e-02  1.925e-01  2.480e-01  1.390e-01
-  -1.763e-01  9.800e-03  2.590e-02 -9.010e-02]
- [-1.062e-01  1.645e-01  5.530e-02 -2.381e-01 -1.940e-01 -6.110e-02
-  -1.649e-01 -2.234e-01  1.237e-01 -2.621e-01]
- [-1.705e-01  3.123e-01  2.740e-02  2.480e-02  1.040e-01 -1.087e-01
-   3.033e-01 -3.067e-01 -2.223e-01 -6.600e-02]
- [ 6.530e-02  8.910e-02  2.604e-01  2.531e-01 -3.073e-01  8.880e-02
-  -2.289e-01  3.950e-02 -2.335e-01 -6.890e-02]]
-[ 0.0797 -0.0393 -0.3143 -0.034  -0.0813  0.2755  0.1425 -0.0057 -0.2325
- -0.1118]
-[[-0.2367 -0.0612  0.0127 -0.009  -0.0478 -0.2547 -0.136  -0.2286  0.2459
-   0.2991]
- [-0.2926 -0.2243  0.0273  0.0056  0.0843  0.1149 -0.1903 -0.3038  0.2003
-  -0.0554]
- [ 0.1687 -0.2995  0.1402 -0.1991  0.0748 -0.256  -0.0662  0.289  -0.1546
-   0.2146]
- [-0.1563  0.007   0.1421  0.2312  0.0477 -0.0908  0.1186 -0.286   0.1657
-   0.1666]
- [ 0.2566 -0.1603  0.1558 -0.1761 -0.0991 -0.0833 -0.0489  0.0021  0.2229
-   0.1717]
- [-0.1933  0.0774 -0.299  -0.0288  0.2313  0.2938 -0.0679 -0.0776  0.141
-  -0.0257]
- [ 0.2103  0.2754 -0.3131  0.2612  0.1809 -0.1075  0.2853  0.3011  0.1351
-  -0.1252]
- [-0.0988 -0.1372  0.0754  0.2938 -0.2652  0.2971  0.2703 -0.0149 -0.2343
-   0.0307]
- [-0.1387  0.1013 -0.1759 -0.28    0.2376 -0.2106 -0.008  -0.0122  0.0475
-   0.2186]
- [ 0.0298  0.2004  0.2231  0.1153  0.0241 -0.1844 -0.0611  0.0686  0.0606
-   0.2194]]
-[ 0.0931  0.2886  0.2405  0.2698 -0.2728 -0.2767 -0.1654  0.0204  0.207
- -0.0122]
-[[ 0.2332  0.2812  0.0851 -0.1945 -0.2881  0.1539 -0.22   -0.2595 -0.0338
-  -0.076 ]]
-[-0.0691]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[-0.7551]
+ [-0.683 ]
+ [ 0.6809]
+ [-0.2352]
+ [ 0.9072]
+ [ 0.7188]
+ [ 0.9235]
+ [-0.8928]
+ [-0.8581]
+ [ 0.5067]]
+[ 0.5768  0.0238  0.0763 -0.8875 -0.3416  0.686   0.6674 -0.9709  0.2301
+ -0.9155]
+[[-0.0446  0.18    0.0956 -0.0898 -0.2185  0.287  -0.1887  0.0225  0.2914
+  -0.2184]
+ [ 0.0527  0.1153 -0.099   0.0141 -0.1764 -0.1498  0.0018  0.0494  0.1477
+  -0.2908]
+ [ 0.0499 -0.1238 -0.0281 -0.0423 -0.1277  0.27   -0.0778 -0.2887 -0.2767
+  -0.1634]
+ [-0.1027 -0.0148  0.0096  0.0463  0.1481 -0.2647  0.1969 -0.3032  0.1288
+   0.29  ]
+ [ 0.0952  0.0652 -0.3071  0.112   0.3084  0.2194 -0.0528 -0.2203 -0.0886
+  -0.2219]
+ [-0.0397 -0.1168  0.2499 -0.0998  0.1726 -0.0227  0.2264 -0.0116  0.2099
+   0.2604]
+ [-0.2032 -0.2717  0.0976 -0.1494 -0.0196  0.0067 -0.0783 -0.1461  0.2889
+  -0.1349]
+ [ 0.155   0.1542 -0.2893  0.0227 -0.061   0.1559 -0.0745  0.0237 -0.2879
+   0.2992]
+ [ 0.0462 -0.0759  0.2698  0.2691 -0.1393  0.1579  0.0607  0.0835 -0.2505
+  -0.21  ]
+ [-0.1225  0.2475 -0.316   0.2977 -0.0374  0.1587 -0.1211 -0.12    0.2201
+   0.2029]]
+[-0.1576 -0.2822  0.1129  0.2623 -0.1514 -0.2832 -0.3096  0.1612  0.0858
+  0.1689]
+[[ 0.0345  0.0231  0.182  -0.2917 -0.0309  0.2025 -0.1213 -0.1973 -0.0384
+   0.0344]
+ [ 0.2583  0.14    0.06    0.2288 -0.1247 -0.1619 -0.2532  0.3037  0.2466
+  -0.0623]
+ [ 0.1983 -0.0691 -0.0548  0.1932  0.2965  0.1649  0.0598  0.1626  0.2629
+  -0.0324]
+ [ 0.1021 -0.1272  0.2113 -0.1681 -0.1074  0.0298  0.2696 -0.215   0.2043
+  -0.1781]
+ [-0.1258  0.2154  0.1412 -0.2408  0.0859 -0.0858 -0.1493 -0.241  -0.0625
+   0.2622]
+ [ 0.2108 -0.0838 -0.1202 -0.3087 -0.1614  0.1169 -0.2189  0.2449  0.1661
+  -0.1636]
+ [-0.0041  0.1903  0.0324  0.2078  0.2026  0.0787  0.2103  0.2363 -0.2814
+  -0.1286]
+ [-0.1123 -0.2175  0.0931  0.0509 -0.1329 -0.1096  0.2818 -0.2452  0.28
+  -0.1537]
+ [-0.0912  0.0941  0.1169  0.0931 -0.0112 -0.2784  0.1492  0.0027 -0.1937
+  -0.0969]
+ [-0.1599 -0.1541 -0.2223 -0.1763  0.0145  0.0177 -0.1256 -0.0918  0.2695
+  -0.2113]]
+[ 0.2477 -0.1181 -0.0544  0.0663 -0.0823 -0.1969 -0.282  -0.0845 -0.3108
+ -0.2237]
+[[ 0.12   -0.2644  0.0751 -0.1926 -0.2294 -0.2694  0.2547 -0.2964 -0.2744
+  -0.2912]]
+[-0.0725]
 </pre></div>
 </div>
 </div>
@@ -732,8 +787,10 @@ Minimally, we have to define two functions for this to work:</p>
 <li><p>Guess how the weights of the slope matrices are initialized (roughly). Same for the intercept vectors.</p></li>
 </ol>
 </div></blockquote>
-<p>There are several ways in which we can define our ANNs in PyTorch.
-Here is another, more condensed representation which uses the `nn.Sequantial` function to neatly chain components, thus defining the model parameters and the forward pass in one swoop.</p>
+</section>
+<section id="more-concise-definition-of-nn-module">
+<h3>More concise definition of NN module<a class="headerlink" href="#more-concise-definition-of-nn-module" title="Permalink to this headline">#</a></h3>
+<p>Here is another, more condensed definition of the same NN model, which uses the `nn.Sequantial` function to neatly chain components, thus defining the model parameters and the forward pass in one swoop.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##################################################</span>
@@ -765,7 +822,7 @@ Here is another, more condensed representation which uses the `nn.Sequantial` fu
 </div>
 </div>
 </div>
-<p>Here you can select which one to use.</p>
+<p>Here you can select which one to use in the following.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># which model to use from here onwards</span>
@@ -776,16 +833,20 @@ Here is another, more condensed representation which uses the `nn.Sequantial` fu
 </div>
 </div>
 </section>
+</section>
 <section id="preparing-the-training-data">
 <h2>Preparing the training data<a class="headerlink" href="#preparing-the-training-data" title="Permalink to this headline">#</a></h2>
-<p>Code for processing data samples can get messy and hard to maintain;
-we ideally want our dataset code to be decoupled from our model
-training code for better readability and modularity.
-PyTorch provides two data primitives: torch.utils.data.DataLoader
-and torch.utils.data.Dataset that allow you to use pre-loaded
-datasets as well as your own data. Dataset stores the samples and
-their corresponding labels, and DataLoader wraps an iterable around the
-Dataset to enable easy access to the samples.</p>
+<p>Data pre-processing is a tedious job, but an integral part of machine learning.
+In order to have a clean interface between data processing and modeling, we would ideally like to have a common data format to feed data into any kind of model.
+That also makes sharing and reusing data sets much less painful.
+For this purpose, PyTorch provides two data primitives: `torch.utils.data.Dataset` and `torch.utils.data.DataLoader`.
+The class <strong>Dataset</strong> stores the training data (in a reusable format).
+The class <strong>DataLoader</strong> takes a `dataset` object as input and returns an iterable to enable easy access to the training data.</p>
+<p>To define a `Dataset` object, we have to specify two key functions:</p>
+<ol class="simple">
+<li><p>the `_<sub>len</sub>__` function, which tells subsequent applications how many data points there are; and</p></li>
+<li><p>the `_<sub>getitem</sub>__` function, which takes an index as input and outputs the data point corresponding to that index.</p></li>
+</ol>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##################################################</span>
@@ -808,15 +869,67 @@ Dataset to enable easy access to the samples.</p>
     <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">):</span>
         <span class="k">return</span><span class="p">(</span><span class="n">xObs</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">yObs</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
 
+<span class="c1"># instantiate Dataset object for current training data</span>
 <span class="n">d</span> <span class="o">=</span> <span class="n">nonLinearRegressionData</span><span class="p">(</span><span class="n">xObs</span><span class="p">,</span> <span class="n">yObs</span><span class="p">)</span>
 
-<span class="n">train_dataloader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1"># instantiate DataLoader</span>
+<span class="c1">#    we use the 4 batches of 25 observations each (full data  has 100 observations)</span>
+<span class="c1">#    we also shuffle the data</span>
+<span class="n">train_dataloader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">25</span> <span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can test the iterable that we create, just to inspect how the data will be delivered later on:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">train_dataloader</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span>
+    <span class="nb">input</span><span class="p">,</span> <span class="n">target</span> <span class="o">=</span> <span class="n">data</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;In: &quot;</span><span class="p">,</span> <span class="nb">input</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Out:&quot;</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>In:  tensor([-2.5222, -2.0619,  1.0793,  3.3193, -2.4967,  2.4577, -4.5489, -1.4284,
+        -1.9754, -2.0779,  2.7155, -2.0654, -3.6789,  2.7409,  1.4523,  1.0647,
+        -2.9388, -2.3994,  2.5128, -3.0462, -3.8043,  0.5676,  3.3182,  4.4739,
+         2.4936])
+Out: tensor([   5.8225,   12.5403,   20.8397,   45.9993,   -1.5557,    0.5811,
+        -101.6276,  -10.5769,    5.6810,    2.4817,  -16.7615,    9.0537,
+         -90.7605,   -1.1412,   -9.6471,   27.3759,  -37.9525,   -3.5418,
+         -15.2624,  -37.4653,  -88.2054,   29.5188,   43.2519,   85.4435,
+          -9.5513]) 
 
-<span class="c1"># for i, data in enumerate(train_dataloader, 0):</span>
-<span class="c1">#     input, target = data</span>
-<span class="c1">#     print(input, target)</span>
-<span class="c1">#     output = mlp(torch.reshape(input, (len(input), 1))).squeeze()</span>
-<span class="c1">#     print(i, input, target, output)</span>
+In:  tensor([ 2.9285, -3.6041,  3.6385,  0.5656,  3.9380,  1.9980, -4.8479,  2.5507,
+         0.9109,  2.0052, -1.8053, -2.3021,  4.7980,  4.3718,  3.8458, -4.7415,
+         0.1954, -1.9303,  1.5385,  3.7078,  1.8946,  3.0788,  0.0651, -3.4242,
+        -4.8452])
+Out: tensor([   4.6988,  -74.2379,   63.8615,   23.4647,   63.6672,  -31.3658,
+        -107.9739,  -16.6774,   11.8311,  -18.3862,    3.6659,    6.7129,
+          77.5216,   91.7740,   65.8239, -120.5133,   15.6257,    8.5354,
+          13.9431,   69.5495,  -27.9849,   26.5200,   -5.9174,  -81.6507,
+        -137.1377]) 
+
+In:  tensor([-4.5868, -4.8214,  3.7286, -2.1367, -3.1478, -2.7239,  2.3702,  3.5095,
+        -1.3349, -4.2967,  4.1341, -0.2032, -1.2858, -3.4344, -3.5075, -4.7682,
+         3.0887, -0.0201,  3.9490,  0.0677,  1.1049, -4.0749, -0.5208,  2.8342,
+         3.4274])
+Out: tensor([-118.0849, -132.2729,   66.7331,   -1.8388,  -35.9068,  -27.3647,
+         -38.5661,   48.1495,  -14.5345, -126.2374,   57.7373,   -7.6521,
+         -27.4159,  -61.0881,  -61.7969, -131.5597,   10.5717,  -19.0031,
+          70.3532,   12.4366,   12.8754, -108.9595,  -29.4186,   -8.3998,
+          41.9562]) 
+
+In:  tensor([ 1.7646,  3.1763,  1.9559, -2.5515, -0.5119, -1.6060, -1.4764,  0.7597,
+         2.1414,  1.4939, -2.8320, -3.1783,  4.3650,  2.3717,  4.7528, -0.3034,
+        -2.4632,  3.7384,  2.0313, -3.3723, -0.1178,  4.6635,  1.6424, -0.1758,
+        -4.9854])
+Out: tensor([ -11.0623,   28.1389,  -18.1059,   -6.9098,  -24.6651,  -11.1329,
+         -14.3604,   37.0479,  -15.1212,   10.6236,  -17.7385,  -25.9431,
+          94.7424,  -11.1197,   76.2651,  -12.1954,   -5.8083,   48.4399,
+         -25.1841,  -67.2124,   -8.6499,   89.0481,    1.7737,  -13.9331,
+        -132.0820]) 
 </pre></div>
 </div>
 </div>
@@ -824,6 +937,8 @@ Dataset to enable easy access to the samples.</p>
 </section>
 <section id="training-the-model">
 <h2>Training the model<a class="headerlink" href="#training-the-model" title="Permalink to this headline">#</a></h2>
+<p>We can now train the model similar to how we did this before.
+Note that we need to slightly reshape the input data to have the model compute the batched input correctly.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##################################################</span>
@@ -835,8 +950,6 @@ Dataset to enable easy access to the samples.</p>
 <span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">)</span>
 <span class="n">nTrainSteps</span> <span class="o">=</span> <span class="mi">50000</span>
 
-<span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">()</span> <span class="c1"># TODO: explain this</span>
-
 <span class="c1"># Run the training loop</span>
 <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">nTrainSteps</span><span class="p">):</span>
 
@@ -845,36 +958,28 @@ Dataset to enable easy access to the samples.</p>
 
   <span class="c1"># Iterate over the DataLoader for training data</span>
   <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">train_dataloader</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span>
-
     <span class="c1"># Get inputs</span>
     <span class="n">inputs</span><span class="p">,</span> <span class="n">targets</span> <span class="o">=</span> <span class="n">data</span>
-
     <span class="c1"># Zero the gradients</span>
     <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
-
     <span class="c1"># Perform forward pass (make sure to supply the input in the right way)</span>
     <span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">inputs</span><span class="p">),</span> <span class="mi">1</span><span class="p">)))</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
-
     <span class="c1"># Compute loss</span>
     <span class="n">loss</span> <span class="o">=</span> <span class="n">loss_function</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">targets</span><span class="p">)</span>
-
     <span class="c1"># Perform backward pass</span>
     <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
-
     <span class="c1"># Perform optimization</span>
     <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
-
     <span class="c1"># Print statistics</span>
     <span class="n">current_loss</span> <span class="o">+=</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">epoch</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2500</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Loss after epoch </span><span class="si">%5d</span><span class="s1">: </span><span class="si">%.3f</span><span class="s1">&#39;</span> <span class="o">%</span>
-              <span class="p">(</span><span class="n">epoch</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">current_loss</span><span class="p">))</span>
-        <span class="n">current_loss</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="n">epoch</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2500</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+      <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Loss after epoch </span><span class="si">%5d</span><span class="s1">: </span><span class="si">%.3f</span><span class="s1">&#39;</span> <span class="o">%</span>
+            <span class="p">(</span><span class="n">epoch</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">current_loss</span><span class="p">))</span>
+      <span class="n">current_loss</span> <span class="o">=</span> <span class="mf">0.0</span>
 
 <span class="c1"># Process is complete.</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Training process has finished.&#39;</span><span class="p">)</span>
-
-<span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>  <span class="c1"># TODO: explain this</span>
 
 <span class="n">yPred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">model</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="n">o</span><span class="p">]))</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">xObs</span><span class="p">])</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
 
@@ -892,61 +997,54 @@ Dataset to enable easy access to the samples.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss after epoch  2500: 1525.764
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss after epoch  2500: 3867.909
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss after epoch  5000: 791.038
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss after epoch  7500: 724.336
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss after epoch 10000: 640.645
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss after epoch 12500: 436.940
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss after epoch 15000: 222.817
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss after epoch 17500: 149.035
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss after epoch  5000: 2850.532
 </pre></div>
 </div>
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span> <span class="p">[</span><span class="mi">10</span><span class="p">],</span> <span class="n">line</span> <span class="mi">25</span>
-<span class="g g-Whitespace">     </span><span class="mi">22</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">targets</span> <span class="o">=</span> <span class="n">data</span>
-<span class="g g-Whitespace">     </span><span class="mi">24</span> <span class="c1"># Zero the gradients</span>
-<span class="ne">---&gt; </span><span class="mi">25</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
-<span class="g g-Whitespace">     </span><span class="mi">27</span> <span class="c1"># Perform forward pass (make sure to supply the input in the right way)</span>
-<span class="g g-Whitespace">     </span><span class="mi">28</span> <span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">inputs</span><span class="p">),</span> <span class="mi">1</span><span class="p">)))</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+<span class="n">Cell</span> <span class="n">In</span> <span class="p">[</span><span class="mi">11</span><span class="p">],</span> <span class="n">line</span> <span class="mi">27</span>
+<span class="g g-Whitespace">     </span><span class="mi">25</span> <span class="n">loss</span> <span class="o">=</span> <span class="n">loss_function</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">targets</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">26</span> <span class="c1"># Perform backward pass</span>
+<span class="ne">---&gt; </span><span class="mi">27</span> <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+<span class="g g-Whitespace">     </span><span class="mi">28</span> <span class="c1"># Perform optimization</span>
+<span class="g g-Whitespace">     </span><span class="mi">29</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
 
-<span class="nn">File /opt/hostedtoolcache/Python/3.8.14/x64/lib/python3.8/site-packages/torch/optim/optimizer.py:267,</span> in <span class="ni">Optimizer.zero_grad</span><span class="nt">(self, set_to_none)</span>
-<span class="g g-Whitespace">    </span><span class="mi">265</span> <span class="k">if</span> <span class="n">foreach</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">266</span>     <span class="n">per_device_and_dtype_grads</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">))</span>
-<span class="ne">--&gt; </span><span class="mi">267</span> <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">autograd</span><span class="o">.</span><span class="n">profiler</span><span class="o">.</span><span class="n">record_function</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_zero_grad_profile_name</span><span class="p">):</span>
-<span class="g g-Whitespace">    </span><span class="mi">268</span>     <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">param_groups</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">269</span>         <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">group</span><span class="p">[</span><span class="s1">&#39;params&#39;</span><span class="p">]:</span>
+<span class="nn">File /opt/hostedtoolcache/Python/3.8.14/x64/lib/python3.8/site-packages/torch/_tensor.py:487,</span> in <span class="ni">Tensor.backward</span><span class="nt">(self, gradient, retain_graph, create_graph, inputs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">477</span> <span class="k">if</span> <span class="n">has_torch_function_unary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">478</span>     <span class="k">return</span> <span class="n">handle_torch_function</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">479</span>         <span class="n">Tensor</span><span class="o">.</span><span class="n">backward</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">480</span>         <span class="p">(</span><span class="bp">self</span><span class="p">,),</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">485</span>         <span class="n">inputs</span><span class="o">=</span><span class="n">inputs</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">486</span>     <span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">487</span> <span class="n">torch</span><span class="o">.</span><span class="n">autograd</span><span class="o">.</span><span class="n">backward</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">488</span>     <span class="bp">self</span><span class="p">,</span> <span class="n">gradient</span><span class="p">,</span> <span class="n">retain_graph</span><span class="p">,</span> <span class="n">create_graph</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="n">inputs</span>
+<span class="g g-Whitespace">    </span><span class="mi">489</span> <span class="p">)</span>
 
-<span class="nn">File /opt/hostedtoolcache/Python/3.8.14/x64/lib/python3.8/site-packages/torch/autograd/profiler.py:488,</span> in <span class="ni">record_function.__enter__</span><span class="nt">(self)</span>
-<span class="g g-Whitespace">    </span><span class="mi">487</span> <span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="ne">--&gt; </span><span class="mi">488</span>     <span class="bp">self</span><span class="o">.</span><span class="n">handle</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ops</span><span class="o">.</span><span class="n">profiler</span><span class="o">.</span><span class="n">_record_function_enter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">489</span>     <span class="k">return</span> <span class="bp">self</span>
-
-<span class="nn">File /opt/hostedtoolcache/Python/3.8.14/x64/lib/python3.8/site-packages/torch/_ops.py:442,</span> in <span class="ni">OpOverloadPacket.__call__</span><span class="nt">(self, *args, **kwargs)</span>
-<span class="g g-Whitespace">    </span><span class="mi">437</span> <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="g g-Whitespace">    </span><span class="mi">438</span>     <span class="c1"># overloading __call__ to ensure torch.ops.foo.bar()</span>
-<span class="g g-Whitespace">    </span><span class="mi">439</span>     <span class="c1"># is still callable from JIT</span>
-<span class="g g-Whitespace">    </span><span class="mi">440</span>     <span class="c1"># We save the function ptr as the `op` attribute on</span>
-<span class="g g-Whitespace">    </span><span class="mi">441</span>     <span class="c1"># OpOverloadPacket to access it here.</span>
-<span class="ne">--&gt; </span><span class="mi">442</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_op</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span> <span class="ow">or</span> <span class="p">{})</span>
+<span class="nn">File /opt/hostedtoolcache/Python/3.8.14/x64/lib/python3.8/site-packages/torch/autograd/__init__.py:197,</span> in <span class="ni">backward</span><span class="nt">(tensors, grad_tensors, retain_graph, create_graph, grad_variables, inputs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">192</span>     <span class="n">retain_graph</span> <span class="o">=</span> <span class="n">create_graph</span>
+<span class="g g-Whitespace">    </span><span class="mi">194</span> <span class="c1"># The reason we repeat same the comment below is that</span>
+<span class="g g-Whitespace">    </span><span class="mi">195</span> <span class="c1"># some Python versions print out the first line of a multi-line function</span>
+<span class="g g-Whitespace">    </span><span class="mi">196</span> <span class="c1"># calls in the traceback and some print out the last line</span>
+<span class="ne">--&gt; </span><span class="mi">197</span> <span class="n">Variable</span><span class="o">.</span><span class="n">_execution_engine</span><span class="o">.</span><span class="n">run_backward</span><span class="p">(</span>  <span class="c1"># Calls into the C++ engine to run the backward pass</span>
+<span class="g g-Whitespace">    </span><span class="mi">198</span>     <span class="n">tensors</span><span class="p">,</span> <span class="n">grad_tensors_</span><span class="p">,</span> <span class="n">retain_graph</span><span class="p">,</span> <span class="n">create_graph</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">199</span>     <span class="n">allow_unreachable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">accumulate_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="ne">KeyboardInterrupt</span>: 
 </pre></div>
 </div>
 </div>
 </div>
+<blockquote>
+<div><p><strong><span style=&ldquo;color:#D83D2B;&rdquo;>Exercise 4.2.2: Explore the model’s behavior</span></strong></p>
+<ol class="simple">
+<li><p>[Just for yourself.] Make sure you understand <em>every line</em> in this last code block. Ask if anything is unclear.</p></li>
+<li><p>Above we used the DataLoader to train in 4 mini-batches. Change it so that there is only one batch containing all the data. Change the `shuffle` parameter so that data is not shuffled. Run the model and check if you observe any notable differences. Explain what your observations. (If you do not see anything, explain why you don’t. You might pay attention to the results of training)</p></li>
+</ol>
+</div></blockquote>
 </section>
 </section>
 
@@ -977,6 +1075,13 @@ Dataset to enable easy access to the samples.</p>
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="04c-MLP-custom.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Sheet 4.1: Non-linear regression (custom MLP)</p>
+        </div>
+    </a>
 </div>
             </footer>
         </div>
