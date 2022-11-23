@@ -1,2 +1,21 @@
 * Artificial neural networks
- fill me
+
+In this session we learn about artificial neural networks.
+
+
+** Learning goals for this session
+
+1. Become familiar with ANNs:
+   a. mathematical notation in matrix-vector form
+   b. weights & biases (slopes & intercepts), score, activation function, hidden layers, prediction
+2. Be able to use PyTorch to implement a feed-forward ANN:
+   a. building the model by hand
+   b. using built-in helper functions (nn.Module, DataLoader …)
+
+** Slides
+
+Here are the [slides for this session]([[https://michael-franke.github.io/npNLG/04-neural-basics.pdf]]).
+
+** Practical exercises
+
+There are two notebooks for exercises. First, we will implement a multi-layer feed-forward network "[[https://michael-franke.github.io/npNLG/04c-MLP-custom.html][by hand]]". Then, we will implement the same model (for the same training data) by [[https://michael-franke.github.io/npNLG/04d-MLP-pytorch.html][using PyTorch's helper functions]].

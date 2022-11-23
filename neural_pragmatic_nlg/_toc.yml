@@ -29,3 +29,9 @@ parts:
   - file: 03-optimization/03a-optimization
   - file: 03-optimization/03b-gradient-descent
   - file: 03-optimization/03c-RSA-pytorch
+
+- caption: 04 ANNs in PyTorch
+  chapters:
+  - file: 04-optimization/04a-ANNs
+  - file: 04-optimization/04b-MLP-custom
+  - file: 04-optimization/04c-MLP-pytorch
