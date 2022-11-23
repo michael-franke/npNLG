@@ -32,6 +32,7 @@ parts:
 
 - caption: 04 ANNs in PyTorch
   chapters:
-  - file: 04-optimization/04a-ANNs
-  - file: 04-optimization/04b-MLP-custom
-  - file: 04-optimization/04c-MLP-pytorch
+  - file: 04-ANNs/04a-ANNs
+  - file: 04-ANNs/04b-algebra
+  - file: 04-ANNs/04c-MLP-custom
+  - file: 04-ANNs/04d-MLP-pytorch

@@ -9,9 +9,10 @@ Going through the model entirely by hand, helps understand what is happening 'un
 * Packages & global parameters
 
 We will need to import the `torch` package for the main functionality.
+We specifically import the neural network functionalities from PyTorch as `nn`.
+We use this here only for the training loss function (MSE).
 In order to have a convenient handle, we load the `torch.nn.functional` package into variable `F`.
-We use this to refer to the normalization function for tensors: `F.normalize`.
-We use the `warnings` package to suppress all warning messages in the notebook.
+We use this to pick up the activation function (ReLU) we will use for our neural network.
 
 #+begin_src jupyter-python
 import torch
@@ -267,6 +268,8 @@ Iteration: 100000 | Loss:         89.0
 [[file:./.ob-jupyter/3add8e8c489b96f9e9c7272cc43f957e713be0e7.png]]
 :END:
 > <strong><span style="color:#D83D2B;">Exercise 4.1.3: Inspecting and interpreting the model fit</span></strong>
+>
+> 0. [just for yourself] Make sure that you understand all ingredients and steps used here. Read up on the MSE loss function, for instance, or ask if you are unsure.
 >
 > 1. Inspect the print-outs from the training sequence. Does this output suggest that the training was successful or not?
 >

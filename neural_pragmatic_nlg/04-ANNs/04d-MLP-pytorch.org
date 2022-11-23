@@ -7,8 +7,7 @@ We will see how the use of modules from PyTorch's neural network package `torch.
 * Packages & global parameters
 
 We will need to import the `torch` package for the main functionality.
-In order to have a convenient handle, we load the `torch.nn.functional` package into variable `F`.
-On top of that, we will use PyTorch's `DataLoader` and `Dataset` in order to feed our training data to the model.
+In addition to the previous sheet, In order to have a convenient, we will use PyTorch's `DataLoader` and `Dataset` in order to feed our training data to the model.
 
 #+begin_src jupyter-python
 import torch
@@ -83,7 +82,7 @@ plt.show()
 #+end_src
 
 #+RESULTS:
-[[file:./.ob-jupyter/3af6db5098ef2a21873c05c57b8ece2cf64ae85c.png]]
+[[file:./.ob-jupyter/3ab3a47e68b5a54117e0946341ea7fcea9c70a4a.png]]
 
 
 * Defining the MLP using PyTorch's built-in modules
@@ -110,9 +109,13 @@ PyTorch defines a special-purpose class called `nn.Module` from which pre-define
 Below, we define our feed-forward neural network as a class extending `nn.Module`.
 Minimally, we have to define two functions for this to work:
 
-1. the *initialization* function `__init__` which defines which variables (parameters) our model has (using `nn.Linear` instantiates a linear layer with all the trainable parameters (slopes and intercepts) implicitly)
-2. the *forward pass* which takes the models input as input and computes a single forward pass; (recall the function `singleForwardPass` from sheet 4.1; PyTorch automatically batches the computation implicitly).
+1. the *initialization* function `__init__` which defines which variables (mostly, but not exclusively: parameters) our model has (using `nn.Linear` instantiates a linear layer with all the trainable parameters (weights and biases) implicitly);
+2. the *forward pass* which takes the model's input and computes the corresponding prediction given the current parameter values (recall the function `singleForwardPass` from sheet 4.1; PyTorch automatically batches the computation implicitly).
 
+Since PyTorch allows flexibility in how to define neural network modules, we look at two variants below, one explicit and one more concise.
+They should implement the exact same model and work the same way eventually.
+
+** More explicit definition NN module
 
 #+begin_src jupyter-python
 
@@ -159,65 +162,65 @@ for p in mlpExplicit.parameters():
 
 #+RESULTS:
 #+begin_example
-[[ 0.6566]
- [-0.2715]
- [ 0.1   ]
- [-0.6088]
- [-0.3145]
- [ 0.0786]
- [ 0.1589]
- [ 0.9464]
- [ 0.464 ]
- [-0.2565]]
-[-0.8989  0.3264  0.0493 -0.8252  0.4352  0.6026  0.2613  0.0761  0.0919
- -0.1544]
-[[ 0.0667  0.2916 -0.1159 -0.0075  0.2165  0.0103  0.0735  0.0703  0.1747
-   0.2944]
- [ 0.1093  0.2659 -0.1104  0.0347  0.2785 -0.2571  0.0714 -0.2689  0.2018
-   0.25  ]
- [ 0.0317  0.0892  0.0019 -0.0311 -0.0647  0.055   0.0024  0.1575 -0.1316
-  -0.0139]
- [-0.2618  0.095  -0.0069  0.0148  0.1265 -0.2153  0.1384  0.0256  0.2671
-  -0.2913]
- [-0.2024  0.124   0.2512 -0.2969 -0.1139  0.1137  0.1185  0.0499 -0.1809
-   0.0229]
- [-0.0203 -0.0651 -0.3054 -0.0772 -0.1764 -0.1131 -0.0679 -0.2239 -0.0613
-   0.2607]
- [-0.1001  0.1714 -0.1914  0.0705  0.1523  0.0133  0.0384  0.1135 -0.2007
-   0.1746]
- [ 0.0654 -0.1662  0.1564 -0.2365 -0.1137  0.0126  0.1346 -0.0154 -0.1013
-  -0.3141]
- [-0.26   -0.2271  0.3118  0.1093 -0.0489  0.1298 -0.101   0.0144 -0.1015
-   0.2442]
- [-0.1782  0.1336 -0.1322  0.2945 -0.036   0.2323  0.0137 -0.2443  0.0237
-  -0.2989]]
-[-0.151  -0.1842 -0.226   0.1664 -0.2134 -0.152   0.1769 -0.1492 -0.2471
- -0.2659]
-[[ 0.1674  0.0703 -0.2888  0.3143  0.1722  0.0417  0.1855 -0.0372 -0.1639
-   0.2628]
- [ 0.0919 -0.2906 -0.1927  0.0455  0.2096 -0.1977  0.1886  0.12   -0.0072
-   0.1439]
- [ 0.1011 -0.1846 -0.0336 -0.1566 -0.0481 -0.224   0.2579 -0.0097 -0.1745
-   0.1683]
- [ 0.1067  0.0343  0.1452  0.0833  0.1867 -0.0415  0.0046  0.2545  0.1867
+[[ 0.5754]
+ [-0.3901]
+ [-0.1216]
+ [ 0.4368]
+ [-0.7784]
+ [ 0.15  ]
+ [ 0.9548]
+ [ 0.76  ]
+ [-0.6742]
+ [-0.8082]]
+[-0.2129 -0.7037 -0.6803  0.8825  0.1179  0.5105 -0.4119  0.8585  0.4957
+  0.4588]
+[[-1.105e-01  1.049e-01  9.960e-02  1.603e-01 -5.100e-03  1.115e-01
+   1.315e-01  3.097e-01  1.370e-01  2.184e-01]
+ [ 4.620e-02  2.418e-01  1.997e-01  7.360e-02  1.911e-01  2.698e-01
+  -8.780e-02 -2.036e-01 -2.226e-01  3.079e-01]
+ [-1.070e-02 -1.925e-01  2.813e-01 -1.675e-01  2.000e-04  2.335e-01
+   1.150e-02  2.984e-01  9.800e-03  2.570e-01]
+ [-2.690e-01  2.039e-01 -1.051e-01  3.460e-02 -2.071e-01 -2.186e-01
+  -2.244e-01  9.820e-02 -1.575e-01  1.749e-01]
+ [ 7.890e-02  1.952e-01 -3.112e-01  1.209e-01  3.020e-01  6.110e-02
+  -1.955e-01 -2.379e-01  1.938e-01  2.183e-01]
+ [-2.540e-02  5.390e-02  1.831e-01  2.810e-01  2.520e-02 -9.470e-02
+  -2.660e-01  4.780e-02 -7.660e-02 -5.480e-02]
+ [-1.088e-01  1.993e-01 -1.130e-02  8.800e-02  2.383e-01  1.766e-01
+   8.600e-02 -1.988e-01 -2.624e-01  5.400e-03]
+ [ 1.757e-01  3.100e-02 -2.999e-01 -6.090e-02 -1.035e-01  2.834e-01
+   2.010e-01  1.351e-01 -1.018e-01 -2.109e-01]
+ [-1.927e-01 -2.414e-01  1.834e-01 -2.416e-01  2.831e-01 -7.700e-03
+  -1.306e-01 -2.590e-02  1.442e-01  4.750e-02]
+ [ 3.112e-01 -2.927e-01  3.230e-02 -1.119e-01  1.903e-01  1.029e-01
+   1.587e-01  2.476e-01  1.617e-01  1.143e-01]]
+[-0.2779  0.0276 -0.1886  0.1453 -0.301  -0.0547  0.1382 -0.0395 -0.0626
+ -0.2335]
+[[-0.0148  0.2349  0.0962 -0.1952  0.2525 -0.2114 -0.1893 -0.1864 -0.1228
+   0.1121]
+ [-0.1098  0.1322  0.1537  0.3065  0.2219  0.1979 -0.1007  0.0059 -0.2072
+   0.0485]
+ [-0.2834 -0.2879  0.0674 -0.2409 -0.0165 -0.2056 -0.2703 -0.0451 -0.0155
+   0.2517]
+ [-0.2729  0.1085  0.2295 -0.3093  0.2927 -0.0862  0.2855  0.1921  0.0792
+   0.0331]
+ [ 0.1419 -0.281  -0.304  -0.043   0.0542 -0.1305 -0.1999  0.3003  0.0614
+   0.0266]
+ [ 0.2878 -0.2364  0.0708  0.1285  0.1328 -0.0555  0.1655  0.3043  0.0281
+   0.2503]
+ [ 0.266  -0.0273 -0.0628 -0.0815 -0.0456  0.2897  0.2182  0.2569  0.2888
+  -0.3027]
+ [ 0.0553 -0.1376 -0.1899 -0.2387 -0.1187 -0.2584 -0.3043  0.1832 -0.1985
+  -0.1817]
+ [ 0.244  -0.2198 -0.079   0.2422 -0.1312 -0.1766 -0.2145  0.0222 -0.2277
    0.1826]
- [ 0.197  -0.2947  0.2434 -0.296  -0.1873  0.2918 -0.0897 -0.2363 -0.2269
-  -0.1944]
- [-0.2356 -0.1127 -0.0655  0.1727 -0.2037 -0.0636 -0.0729  0.0771 -0.0199
-  -0.02  ]
- [-0.309   0.1209 -0.3013  0.2428 -0.2276 -0.0491  0.2772  0.2964  0.234
-  -0.1098]
- [-0.2151  0.1595  0.1366  0.1881  0.2752  0.2058  0.2388  0.1948  0.2791
-  -0.229 ]
- [-0.2949 -0.295   0.2892  0.2107  0.0945  0.1831 -0.0067 -0.2862 -0.2793
-   0.1526]
- [-0.1308 -0.0584  0.1372 -0.2437 -0.086   0.1223  0.2607  0.2532  0.0588
-   0.2216]]
-[-0.1353  0.0518  0.1797 -0.2718  0.2729 -0.2617 -0.1038 -0.3013  0.0084
-  0.085 ]
-[[ 0.2544  0.2058 -0.2364 -0.1905 -0.084   0.2204  0.2822 -0.3139 -0.1683
-   0.1796]]
-[-0.2337]
+ [ 0.1236 -0.2774  0.0451  0.047   0.0147  0.0432 -0.2714  0.1328  0.0576
+  -0.3078]]
+[-0.0365  0.015   0.169   0.2062  0.1236  0.1869  0.2909  0.1214 -0.175
+ -0.073 ]
+[[-0.2924  0.2181 -0.0398  0.2618 -0.0346 -0.0977  0.0192  0.2989  0.0297
+  -0.0252]]
+[0.229]
 #+end_example
 
 > <strong><span style="color:#D83D2B;">Exercise 4.2.1: Inspect the model's parameters and their initial values</span></strong>
@@ -226,9 +229,9 @@ for p in mlpExplicit.parameters():
 >
 > 1. Guess how the weights of the slope matrices are initialized (roughly). Same for the intercept vectors.
 
-There are several ways in which we can define our ANNs in PyTorch.
-Here is another, more condensed representation which uses the `nn.Sequantial` function to neatly chain components, thus defining the model parameters and the forward pass in one swoop.
+** More concise definition of NN module
 
+Here is another, more condensed definition of the same NN model, which uses the `nn.Sequantial` function to neatly chain components, thus defining the model parameters and the forward pass in one swoop.
 
 #+begin_src jupyter-python
 
@@ -261,7 +264,7 @@ mlpCondensed = MLPcondensed(nInput, nHidden, nOutput)
 
 #+RESULTS:
 
-Here you can select which one to use.
+Here you can select which one to use in the following.
 
 #+begin_src jupyter-python
 
@@ -275,14 +278,17 @@ model = mlpCondensed
 
 * Preparing the training data
 
-Code for processing data samples can get messy and hard to maintain;
-we ideally want our dataset code to be decoupled from our model
-training code for better readability and modularity.
-PyTorch provides two data primitives: torch.utils.data.DataLoader
-and torch.utils.data.Dataset that allow you to use pre-loaded
-datasets as well as your own data. Dataset stores the samples and
-their corresponding labels, and DataLoader wraps an iterable around the
-Dataset to enable easy access to the samples.
+Data pre-processing is a tedious job, but an integral part of machine learning.
+In order to have a clean interface between data processing and modeling, we would ideally like to have a common data format to feed data into any kind of model.
+That also makes sharing and reusing data sets much less painful.
+For this purpose, PyTorch provides two data primitives: `torch.utils.data.Dataset` and `torch.utils.data.DataLoader`.
+The class *Dataset* stores the training data (in a reusable format).
+The class *DataLoader* takes a `dataset` object as input and returns an iterable to enable easy access to the training data.
+
+To define a `Dataset` object, we have to specify two key functions:
+
+1. the `__len__` function, which tells subsequent applications how many data points there are; and
+2. the `__getitem__` function, which takes an index as input and outputs the data point corresponding to that index.
 
 #+begin_src jupyter-python
 
@@ -306,20 +312,75 @@ class nonLinearRegressionData(Dataset):
     def __getitem__(self, idx):
         return(xObs[idx], yObs[idx])
 
+# instantiate Dataset object for current training data
 d = nonLinearRegressionData(xObs, yObs)
 
-train_dataloader = DataLoader(d, batch_size=100, shuffle=True)
+# instantiate DataLoader
+#    we use the 4 batches of 25 observations each (full data  has 100 observations)
+#    we also shuffle the data
+train_dataloader = DataLoader(d, batch_size=25 , shuffle=True)
 
-# for i, data in enumerate(train_dataloader, 0):
-#     input, target = data
-#     print(input, target)
-#     output = mlp(torch.reshape(input, (len(input), 1))).squeeze()
-#     print(i, input, target, output)
 #+end_src
 
 #+RESULTS:
 
+We can test the iterable that we create, just to inspect how the data will be delivered later on:
+
+#+begin_src jupyter-python
+for i, data in enumerate(train_dataloader, 0):
+    input, target = data
+    print("In: ", input)
+    print("Out:", target,"\n")
+#+end_src
+
+#+RESULTS:
+#+begin_example
+In:  tensor([-0.7725, -4.4288,  3.1257,  1.9429, -0.3939,  3.1041, -1.5075, -4.4965,
+         1.7947,  1.7664, -4.0490, -4.3275,  2.6395, -3.0620,  1.3910, -4.7246,
+         3.9388,  1.0197,  0.1928, -1.4034, -2.0079,  4.2810,  4.6774,  0.2034,
+         2.0438])
+Out: tensor([ -25.5974, -119.1874,   23.0488,  -15.0585,   -8.0903,   28.1141,
+          -7.0884, -121.7810,   -3.1409,   -8.0995, -112.0512, -117.8413,
+         -21.9975,  -11.7442,    6.3266, -130.9493,   73.9216,   20.5430,
+           7.3572,  -16.8534,    3.8495,   41.6217,   70.5874,    8.9183,
+         -14.1995])
+
+In:  tensor([ 4.1397e+00,  3.2557e+00, -2.7437e+00,  3.5756e+00,  3.6551e+00,
+         4.0927e+00, -3.2258e+00, -4.6758e+00,  2.6409e+00, -4.0434e+00,
+         1.8736e+00,  9.8709e-04, -1.0496e+00, -1.5538e+00,  3.2109e+00,
+         3.0467e-01,  4.2653e+00,  2.1085e+00,  1.6343e+00, -3.6194e+00,
+        -2.3731e+00,  4.2385e+00,  2.2617e+00,  4.9841e+00, -1.7456e+00])
+Out: tensor([  84.8706,   28.4794,  -19.2583,   52.4237,   60.5325,   84.6803,
+         -43.3596, -154.1162,   -2.5080, -107.6124,   -3.5614,   13.9438,
+          -5.4627,   16.9361,   34.5182,   11.9138,   78.0988,  -16.6870,
+           3.9416,  -73.3252,    9.9553,   84.3880,  -31.3023,   86.8989,
+          14.4626])
+
+In:  tensor([ 0.9750,  0.6785,  4.2401,  4.7220,  4.9017, -2.4038, -0.7460,  2.1952,
+        -4.1785,  2.2636, -2.5132, -2.5059,  4.3127,  4.5958, -1.7483, -4.1865,
+         1.9364,  2.8476,  1.0666, -1.6643,  0.6199, -1.1807,  4.0197,  3.6992,
+         2.9476])
+Out: tensor([  11.5008,   28.6247,   89.2554,   96.6934,  101.8484,    2.6467,
+         -28.5389,   -8.8933, -124.6718,  -23.1500,  -20.9135,    7.5757,
+          78.1339,   68.1331,   -0.1382, -110.8559,  -14.3561,   -7.6898,
+          24.7946,   -6.4996,   23.0203,  -24.6201,   84.3156,   47.8314,
+         -10.0254])
+
+In:  tensor([ 4.1169, -1.0718,  4.6169,  4.0310, -4.2718,  1.4049, -0.8147,  3.2519,
+         4.9448,  0.1882,  2.0649,  4.9499, -2.4810,  2.3281, -2.3521,  2.1797,
+        -0.1021, -1.6339, -4.0792, -0.9742,  3.2734, -3.3407,  1.4834,  1.3012,
+         3.4758])
+Out: tensor([  70.3789,  -25.8226,   81.0158,   71.2713, -111.1335,    4.0316,
+          -7.9706,   32.8407,   99.4688,   14.3860,   -4.7079,   79.7343,
+          -3.1643,  -19.2599,    1.5282,  -12.1250,   -3.4943,  -14.7574,
+        -124.9377,   -6.1291,   24.7051,  -52.5100,   -7.8899,    6.9746,
+          43.0192])
+#+end_example
+
 * Training the model
+
+We can now train the model similar to how we did this before.
+Note that we need to slightly reshape the input data to have the model compute the batched input correctly.
 
 #+begin_src jupyter-python
 
@@ -332,8 +393,6 @@ loss_function = nn.MSELoss()
 optimizer = torch.optim.Adam(model.parameters(), lr=1e-4)
 nTrainSteps = 50000
 
-model.train() # TODO: explain this
-
 # Run the training loop
 for epoch in range(0, nTrainSteps):
 
@@ -342,36 +401,28 @@ for epoch in range(0, nTrainSteps):
 
   # Iterate over the DataLoader for training data
   for i, data in enumerate(train_dataloader, 0):
-
     # Get inputs
     inputs, targets = data
-
     # Zero the gradients
     optimizer.zero_grad()
-
     # Perform forward pass (make sure to supply the input in the right way)
     outputs = model(torch.reshape(inputs, (len(inputs), 1))).squeeze()
-
     # Compute loss
     loss = loss_function(outputs, targets)
-
     # Perform backward pass
     loss.backward()
-
     # Perform optimization
     optimizer.step()
-
     # Print statistics
     current_loss += loss.item()
-    if (epoch + 1) % 2500 == 0:
-        print('Loss after epoch %5d: %.3f' %
-              (epoch + 1, current_loss))
-        current_loss = 0.0
+
+  if (epoch + 1) % 2500 == 0:
+      print('Loss after epoch %5d: %.3f' %
+            (epoch + 1, current_loss))
+      current_loss = 0.0
 
 # Process is complete.
 print('Training process has finished.')
-
-model.eval()  # TODO: explain this
 
 yPred = np.array([model.forward(torch.tensor([o])).detach().numpy() for o in xObs]).flatten()
 
@@ -391,27 +442,32 @@ plt.show()
 #+RESULTS:
 :RESULTS:
 #+begin_example
-Loss after epoch  2500: 2294.125
-Loss after epoch  5000: 967.532
-Loss after epoch  7500: 891.338
-Loss after epoch 10000: 830.446
-Loss after epoch 12500: 711.378
-Loss after epoch 15000: 448.622
-Loss after epoch 17500: 259.301
-Loss after epoch 20000: 167.837
-Loss after epoch 22500: 129.881
-Loss after epoch 25000: 118.501
-Loss after epoch 27500: 109.078
-Loss after epoch 30000: 101.994
-Loss after epoch 32500: 96.188
-Loss after epoch 35000: 91.415
-Loss after epoch 37500: 88.853
-Loss after epoch 40000: 86.167
-Loss after epoch 42500: 83.446
-Loss after epoch 45000: 80.866
-Loss after epoch 47500: 78.467
-Loss after epoch 50000: 76.754
+Loss after epoch  2500: 6778.067
+Loss after epoch  5000: 4780.144
+Loss after epoch  7500: 3622.555
+Loss after epoch 10000: 1996.246
+Loss after epoch 12500: 926.375
+Loss after epoch 15000: 679.498
+Loss after epoch 17500: 661.909
+Loss after epoch 20000: 652.919
+Loss after epoch 22500: 647.045
+Loss after epoch 25000: 642.989
+Loss after epoch 27500: 640.045
+Loss after epoch 30000: 637.475
+Loss after epoch 32500: 635.002
+Loss after epoch 35000: 632.604
+Loss after epoch 37500: 630.329
+Loss after epoch 40000: 628.115
+Loss after epoch 42500: 625.875
+Loss after epoch 45000: 623.710
+Loss after epoch 47500: 621.470
+Loss after epoch 50000: 619.279
 Training process has finished.
 #+end_example
-[[file:./.ob-jupyter/7b7a3fdfe9862c3f0e8761eaf24c216ce8aea541.png]]
+[[file:./.ob-jupyter/959e097bd6b3c8d349159ae656722ac4a5bb9fe0.png]]
 :END:
+> <strong><span style="color:#D83D2B;">Exercise 4.2.2: Explore the model's behavior</span></strong>
+>
+> 0. [Just for yourself.] Make sure you understand /every line/ in this last code block. Ask if anything is unclear.
+>
+> 1. Above we used the DataLoader to train in 4 mini-batches. Change it so that there is only one batch containing all the data. Change the `shuffle` parameter so that data is not shuffled. Run the model and check if you observe any notable differences. Explain what your observations. (If you do not see anything, explain why you don't. You might pay attention to the results of training)

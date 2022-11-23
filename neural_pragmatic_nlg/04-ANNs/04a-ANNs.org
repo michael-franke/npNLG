@@ -12,6 +12,9 @@ In this session we learn about artificial neural networks.
    a. building the model by hand
    b. using built-in helper functions (nn.Module, DataLoader …)
 
+This unit requires basic familiarity with concepts and notation from linear algebra.
+To recap, there is a short section on [[https://michael-franke.github.io/npNLG/04b-algebra.html][algebra recap]] with a handout and some further references.
+
 ** Slides
 
 Here are the [slides for this session]([[https://michael-franke.github.io/npNLG/04-neural-basics.pdf]]).
