@@ -687,7 +687,7 @@ We will go through a few examples here.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([1, 2, 3, 4])
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([1, 2, 3, 4])
 </pre></div>
 </div>
 </div>
@@ -701,7 +701,7 @@ We will go through a few examples here.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([1, 2, 3, 4])
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([1, 2, 3, 4])
 </pre></div>
 </div>
 </div>
@@ -716,7 +716,7 @@ passed to it:</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor(1)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor(1)
 </pre></div>
 </div>
 </div>
@@ -729,7 +729,7 @@ passed to it:</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[1, 2, 3],
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[1, 2, 3],
         [4, 5, 6]])
 </pre></div>
 </div>
@@ -747,7 +747,7 @@ passed to it:</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[0., 0.],
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[0., 0.],
         [0., 0.]], dtype=torch.float64)
 </pre></div>
 </div>
@@ -762,7 +762,7 @@ passed to it:</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[0., 0.],
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[0., 0.],
         [0., 0.]])
 </pre></div>
 </div>
@@ -776,7 +776,7 @@ passed to it:</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[1., 1., 1.],
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[1., 1., 1.],
         [1., 1., 1.]])
 </pre></div>
 </div>
@@ -790,7 +790,7 @@ passed to it:</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[5, 5, 5],
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[5, 5, 5],
         [5, 5, 5],
         [5, 5, 5],
         [5, 5, 5]])
@@ -807,8 +807,8 @@ The function `torch.rand()` populates a tensor of the given size with random num
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[0.1120, 0.3122, 0.9303],
-        [0.2344, 0.1570, 0.7808]])
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[0.1486, 0.3381, 0.1838],
+        [0.0723, 0.4560, 0.2320]])
 </pre></div>
 </div>
 </div>
@@ -880,7 +880,7 @@ torch.Size([3, 1])
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>torch.float32
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>torch.float32
 </pre></div>
 </div>
 </div>
@@ -959,7 +959,7 @@ type support.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([ 72, 101, 108, 108, 111,  32,  87, 111, 114, 108, 100,  33])
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([ 72, 101, 108, 108, 111,  32,  87, 111, 114, 108, 100,  33])
 </pre></div>
 </div>
 </div>
@@ -1126,7 +1126,7 @@ tensor([[0, 1, 2, 3]])
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[[0, 1],
          [2, 3]],
-
+:
         [[4, 5],
          [6, 7]]])
 tensor([0, 1, 2, 3, 4, 5, 6, 7])
@@ -1151,7 +1151,8 @@ This function takes the dimensions which are to be transposed as an argument.</p
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[[10, 20, 30],
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>#+begin_example
+tensor([[[10, 20, 30],
          [40, 50, 60],
          [70, 80, 90]],
 
@@ -1165,6 +1166,7 @@ tensor([[[10, 40, 70],
         [[ 1,  4,  7],
          [ 2,  5,  8],
          [ 3,  6,  9]]])
+#+end_example
 </pre></div>
 </div>
 </div>
@@ -1226,10 +1228,7 @@ With the usual arithmetic operations, a row vector will be recycled in the obvio
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>multiplication:
- 
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[ 1, 20],
+ tensor([[ 1, 20],
         [ 3, 40]])
 </pre></div>
 </div>
@@ -1311,9 +1310,7 @@ tensor([[ 12, 200],
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[1, 2],
         [3, 4],
         [5, 6]])
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([ 1, 10])
+tensor([ 1, 10])
 tensor([21, 43, 65])
 tensor(101)
 </pre></div>
@@ -1349,7 +1346,7 @@ tensor(101)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[1, 2, 3],
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[1, 2, 3],
        [4, 5, 6]])
 </pre></div>
 </div>
