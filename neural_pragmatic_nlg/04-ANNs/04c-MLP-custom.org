@@ -95,7 +95,7 @@ plt.show()
 #+end_src
 
 #+RESULTS:
-[[file:./.ob-jupyter/3ba0e373ce1a08d534602fc11842ac69fd2096f0.png]]
+[[file:./.ob-jupyter/c9debbf81a2f015384dbd0fede72cfe91c879696.png]]
 
 
 > <strong><span style="color:#D83D2B;">Exercise 4.1.1: Explore the training data</span></strong>
@@ -244,29 +244,29 @@ plt.show()
 #+begin_example
 
 
-Iteration:     0 | Loss:       3526.0
-Iteration:  5000 | Loss:        983.0
-Iteration: 10000 | Loss:        715.0
-Iteration: 15000 | Loss:        227.0
-Iteration: 20000 | Loss:        124.0
-Iteration: 25000 | Loss:        114.0
-Iteration: 30000 | Loss:        110.0
-Iteration: 35000 | Loss:        109.0
-Iteration: 40000 | Loss:        107.0
-Iteration: 45000 | Loss:        106.0
-Iteration: 50000 | Loss:        105.0
-Iteration: 55000 | Loss:         97.0
-Iteration: 60000 | Loss:         94.0
-Iteration: 65000 | Loss:         93.0
-Iteration: 70000 | Loss:         91.0
-Iteration: 75000 | Loss:         90.0
-Iteration: 80000 | Loss:         89.0
-Iteration: 85000 | Loss:         88.0
-Iteration: 90000 | Loss:         87.0
-Iteration: 95000 | Loss:         86.0
-Iteration: 100000 | Loss:         86.0
+Iteration:     0 | Loss:         87.0
+Iteration:  5000 | Loss:         87.0
+Iteration: 10000 | Loss:         86.0
+Iteration: 15000 | Loss:         86.0
+Iteration: 20000 | Loss:         86.0
+Iteration: 25000 | Loss:         86.0
+Iteration: 30000 | Loss:         85.0
+Iteration: 35000 | Loss:         85.0
+Iteration: 40000 | Loss:         85.0
+Iteration: 45000 | Loss:         85.0
+Iteration: 50000 | Loss:         85.0
+Iteration: 55000 | Loss:         85.0
+Iteration: 60000 | Loss:         85.0
+Iteration: 65000 | Loss:         85.0
+Iteration: 70000 | Loss:         85.0
+Iteration: 75000 | Loss:         85.0
+Iteration: 80000 | Loss:         85.0
+Iteration: 85000 | Loss:         85.0
+Iteration: 90000 | Loss:         85.0
+Iteration: 95000 | Loss:         85.0
+Iteration: 100000 | Loss:         85.0
 #+end_example
-[[file:./.ob-jupyter/4a4a6b676161438902bf9b622db0297a7f7bc3a7.png]]
+[[file:./.ob-jupyter/ef22233e76069e3050d125c9a974a4e2f6412f2b.png]]
 :END:
 > <strong><span style="color:#D83D2B;">Exercise 4.1.3: Inspecting and interpreting the model fit</span></strong>
 >
