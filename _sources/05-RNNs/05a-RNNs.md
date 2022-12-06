@@ -1,0 +1,23 @@
+
+# Recurrent neural networks
+
+In this session we learn about recurrent neural networks.
+
+
+## Learning goals for this session
+
+1.  become familiar with language modeling
+    1.  causal (left-to-right) models
+    2.  training, prediction, evaluation
+2.  meet a first neural LM: recurrent neural networks
+
+
+## Slides
+
+Here are the slides for this session.
+
+
+## Practical exercises
+
+There is one notebook with hands-on exercises for RNNs.
+
