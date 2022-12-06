@@ -571,10 +571,10 @@ We use this to refer to the normalization function for tensors: `F.normalize`.
 We use the `warnings` package to suppress all warning messages in the notebook.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
-<span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="nn">F</span>
-<span class="kn">import</span> <span class="nn">warnings</span>
-<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import torch
+import torch.nn.functional as F
+import warnings
+warnings.filterwarnings(&#39;ignore&#39;)
 </pre></div>
 </div>
 </div>
@@ -585,20 +585,20 @@ We use the `warnings` package to suppress all warning messages in the notebook.<
 <p>The context model for the reference game is the same as we used before (in Sheet 1.1).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##################################################</span>
-<span class="c1">## data to fit</span>
-<span class="c1">##################################################</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
+## data to fit
+##################################################
 
-<span class="n">object_names</span>     <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;blue_circle&#39;</span><span class="p">,</span> <span class="s1">&#39;green_square&#39;</span><span class="p">,</span> <span class="s1">&#39;blue_square&#39;</span><span class="p">]</span>
-<span class="n">utterance_names</span>  <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="s1">&#39;circle&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="s1">&#39;square&#39;</span><span class="p">]</span>
-<span class="n">semantic_meaning</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span>
-    <span class="c1"># blue circle, green square, blue square</span>
-    <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>  <span class="c1"># blue</span>
-     <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>  <span class="c1"># circle</span>
-     <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>  <span class="c1"># green</span>
-     <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]],</span>  <span class="c1"># square,</span>
-    <span class="n">dtype</span><span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">float32</span>
-    <span class="p">)</span>
+object_names     = [&#39;blue_circle&#39;, &#39;green_square&#39;, &#39;blue_square&#39;]
+utterance_names  = [&#39;blue&#39;, &#39;circle&#39;, &#39;green&#39;, &#39;square&#39;]
+semantic_meaning = torch.tensor(
+    # blue circle, green square, blue square
+    [[1, 0, 1],  # blue
+     [1, 0, 0],  # circle
+     [0, 1, 0],  # green
+     [0, 1, 1]],  # square,
+    dtype= torch.float32
+    )
 </pre></div>
 </div>
 </div>
@@ -622,24 +622,24 @@ Since this task rids all reasoning about semantic meaning, it is argued to repre
 The data from the speaker production and the listener interpretation tasks is our training data, i.e., what we want to explain.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##################################################</span>
-<span class="c1">## data to fit</span>
-<span class="c1">##################################################</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
+## data to fit
+##################################################
 
-<span class="n">salience_prior</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">71</span><span class="p">,</span><span class="mi">139</span><span class="p">,</span><span class="mi">30</span><span class="p">],</span>
-                                          <span class="n">dtype</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span>
-                             <span class="n">p</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dim</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+salience_prior = F.normalize(torch.tensor([71,139,30],
+                                          dtype = torch.float32),
+                             p = 1, dim = 0)
 
-<span class="c1"># matrix of number of utterance choices for each state</span>
-<span class="c1"># (rows: objects, columns: utterances)</span>
-<span class="n">production_data</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">9</span><span class="p">,</span> <span class="mi">135</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                                <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">119</span><span class="p">,</span> <span class="mi">25</span><span class="p">],</span>
-                                <span class="p">[</span><span class="mi">63</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">81</span><span class="p">]])</span>
+# matrix of number of utterance choices for each state
+# (rows: objects, columns: utterances)
+production_data = torch.tensor([[9, 135, 0, 0],
+                                [0, 0, 119, 25],
+                                [63, 0, 0, 81]])
 
-<span class="c1"># matrix of number of object choices for each ambiguous utterance</span>
-<span class="c1"># (rows: utterances, columns: objects)</span>
-<span class="n">interpretation_data</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">66</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">115</span><span class="p">],</span>   <span class="c1"># &quot;blue&quot;</span>
-                                    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">117</span><span class="p">,</span> <span class="mi">62</span><span class="p">]])</span>  <span class="c1"># &quot;square&quot;</span>
+# matrix of number of object choices for each ambiguous utterance
+# (rows: utterances, columns: objects)
+interpretation_data = torch.tensor([[66, 0, 115],   # &quot;blue&quot;
+                                    [0, 117, 62]])  # &quot;square&quot;
 </pre></div>
 </div>
 </div>
@@ -650,19 +650,19 @@ The data from the speaker production and the listener interpretation tasks is ou
 <p>Here is an implementation of the vanilla RSA model in PyTorch.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##################################################</span>
-<span class="c1">## RSA model (forward pass)</span>
-<span class="c1">##################################################</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
+## RSA model (forward pass)
+##################################################
 
-<span class="k">def</span> <span class="nf">RSA</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">cost_adjectives</span><span class="p">):</span>
-    <span class="n">costs</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="o">*</span> <span class="n">cost_adjectives</span>
-    <span class="n">literal_listener</span>   <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="n">semantic_meaning</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dim</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="n">pragmatic_speaker</span>  <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">t</span><span class="p">(</span><span class="n">literal_listener</span><span class="p">)</span><span class="o">**</span><span class="n">alpha</span> <span class="o">*</span>
-                                     <span class="n">torch</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">alpha</span> <span class="o">*</span> <span class="n">costs</span><span class="p">),</span> <span class="n">p</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dim</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="n">pragmatic_listener</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">t</span><span class="p">(</span><span class="n">pragmatic_speaker</span><span class="p">)</span> <span class="o">*</span> <span class="n">salience_prior</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dim</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="k">return</span><span class="p">({</span><span class="s1">&#39;speaker&#39;</span><span class="p">:</span> <span class="n">pragmatic_speaker</span><span class="p">,</span> <span class="s1">&#39;listener&#39;</span><span class="p">:</span> <span class="n">pragmatic_listener</span><span class="p">})</span>
+def RSA(alpha, cost_adjectives):
+    costs = torch.tensor([1.0, 0, 1.0, 0]) * cost_adjectives
+    literal_listener   = F.normalize(semantic_meaning, p = 1, dim = 1)
+    pragmatic_speaker  = F.normalize(torch.t(literal_listener)**alpha *
+                                     torch.exp(-alpha * costs), p = 1, dim = 1)
+    pragmatic_listener = F.normalize(torch.t(pragmatic_speaker) * salience_prior, p = 1, dim = 1)
+    return({&#39;speaker&#39;: pragmatic_speaker, &#39;listener&#39;: pragmatic_listener})
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;speaker predictions:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">RSA</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">1.6</span><span class="p">)[</span><span class="s1">&#39;speaker&#39;</span><span class="p">])</span>
+print(&quot;speaker predictions:\n&quot;, RSA(1, 1.6)[&#39;speaker&#39;])
 </pre></div>
 </div>
 </div>
@@ -682,12 +682,12 @@ The data from the speaker production and the listener interpretation tasks is ou
 Since we want to optimize the value of these variables, we require PyTorch to compute gradients.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##################################################</span>
-<span class="c1">## model parameters to fit</span>
-<span class="c1">##################################################</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
+## model parameters to fit
+##################################################
 
-<span class="n">alpha</span>           <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1"># soft-max parameter</span>
-<span class="n">cost_adjectives</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1"># differential cost of &#39;adjectives&#39;</span>
+alpha           = torch.tensor(1.0, requires_grad=True) # soft-max parameter
+cost_adjectives = torch.tensor(0.0, requires_grad=True) # differential cost of &#39;adjectives&#39;
 </pre></div>
 </div>
 </div>
@@ -699,40 +699,40 @@ Since we want to optimize the value of these variables, we require PyTorch to co
 The we iterate the training cycle, each time calling the RSA model (feed-forward pass) with the current parameter values, and then computing the (negative) log-likelihood of the data.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##################################################</span>
-<span class="c1">## optimization</span>
-<span class="c1">##################################################</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
+## optimization
+##################################################
 
-<span class="n">opt</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">SGD</span><span class="p">([</span><span class="n">alpha</span><span class="p">,</span> <span class="n">cost_adjectives</span><span class="p">],</span> <span class="n">lr</span> <span class="o">=</span> <span class="mf">0.0001</span><span class="p">)</span>
+opt = torch.optim.SGD([alpha, cost_adjectives], lr = 0.0001)
 
-<span class="c1"># output header</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="si">%5s</span><span class="s1"> </span><span class="si">%24s</span><span class="s1"> </span><span class="si">%15s</span><span class="s1"> </span><span class="si">%15s</span><span class="s1">&#39;</span> <span class="o">%</span>
-      <span class="p">(</span><span class="s2">&quot;step&quot;</span><span class="p">,</span> <span class="s2">&quot;loss&quot;</span><span class="p">,</span> <span class="s2">&quot;alpha&quot;</span><span class="p">,</span> <span class="s2">&quot;cost&quot;</span><span class="p">)</span> <span class="p">)</span>
+# output header
+print(&#39;\n%5s %24s %15s %15s&#39; %
+      (&quot;step&quot;, &quot;loss&quot;, &quot;alpha&quot;, &quot;cost&quot;) )
 
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4000</span><span class="p">):</span>
+for i in range(4000):
 
-    <span class="n">RSA_prediction</span>      <span class="o">=</span> <span class="n">RSA</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">cost_adjectives</span><span class="p">)</span>
-    <span class="n">speaker_pred</span>        <span class="o">=</span> <span class="n">RSA_prediction</span><span class="p">[</span><span class="s1">&#39;speaker&#39;</span><span class="p">]</span>
-    <span class="n">Multinomial_speaker</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">distributions</span><span class="o">.</span><span class="n">multinomial</span><span class="o">.</span><span class="n">Multinomial</span><span class="p">(</span><span class="mi">144</span><span class="p">,</span> <span class="n">probs</span> <span class="o">=</span> <span class="n">speaker_pred</span><span class="p">)</span>
-    <span class="n">logProbs_speaker</span>    <span class="o">=</span> <span class="n">Multinomial_speaker</span><span class="o">.</span><span class="n">log_prob</span><span class="p">(</span><span class="n">production_data</span><span class="p">)</span>
+    RSA_prediction      = RSA(alpha, cost_adjectives)
+    speaker_pred        = RSA_prediction[&#39;speaker&#39;]
+    Multinomial_speaker = torch.distributions.multinomial.Multinomial(144, probs = speaker_pred)
+    logProbs_speaker    = Multinomial_speaker.log_prob(production_data)
 
-    <span class="n">listener_pred</span>          <span class="o">=</span> <span class="n">RSA_prediction</span><span class="p">[</span><span class="s1">&#39;listener&#39;</span><span class="p">]</span>
-    <span class="n">Multinomial_listener_0</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">distributions</span><span class="o">.</span><span class="n">multinomial</span><span class="o">.</span><span class="n">Multinomial</span><span class="p">(</span><span class="mi">181</span><span class="p">,</span><span class="n">probs</span> <span class="o">=</span> <span class="n">listener_pred</span><span class="p">[</span><span class="mi">0</span><span class="p">,])</span>
-    <span class="n">logProbs_listener_0</span>    <span class="o">=</span> <span class="n">Multinomial_listener_0</span><span class="o">.</span><span class="n">log_prob</span><span class="p">(</span><span class="n">interpretation_data</span><span class="p">[</span><span class="mi">0</span><span class="p">,])</span>
-    <span class="n">Multinomial_listener_1</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">distributions</span><span class="o">.</span><span class="n">multinomial</span><span class="o">.</span><span class="n">Multinomial</span><span class="p">(</span><span class="mi">179</span><span class="p">,</span><span class="n">probs</span> <span class="o">=</span> <span class="n">listener_pred</span><span class="p">[</span><span class="mi">3</span><span class="p">,])</span>
-    <span class="n">logProbs_listener_1</span>    <span class="o">=</span> <span class="n">Multinomial_listener_1</span><span class="o">.</span><span class="n">log_prob</span><span class="p">(</span><span class="n">interpretation_data</span><span class="p">[</span><span class="mi">1</span><span class="p">,])</span>
+    listener_pred          = RSA_prediction[&#39;listener&#39;]
+    Multinomial_listener_0 = torch.distributions.multinomial.Multinomial(181,probs = listener_pred[0,])
+    logProbs_listener_0    = Multinomial_listener_0.log_prob(interpretation_data[0,])
+    Multinomial_listener_1 = torch.distributions.multinomial.Multinomial(179,probs = listener_pred[3,])
+    logProbs_listener_1    = Multinomial_listener_1.log_prob(interpretation_data[1,])
 
-    <span class="n">loss</span> <span class="o">=</span> <span class="o">-</span><span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">logProbs_speaker</span><span class="p">)</span> <span class="o">-</span> <span class="n">logProbs_listener_0</span> <span class="o">-</span> <span class="n">logProbs_listener_1</span>
+    loss = -torch.sum(logProbs_speaker) - logProbs_listener_0 - logProbs_listener_1
 
-    <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+    loss.backward()
 
-    <span class="k">if</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">250</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%5d</span><span class="s1"> </span><span class="si">%24.5f</span><span class="s1"> </span><span class="si">%15.5f</span><span class="s1"> </span><span class="si">%15.5f</span><span class="s1">&#39;</span> <span class="o">%</span>
-              <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span> <span class="n">alpha</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span>
-               <span class="n">cost_adjectives</span><span class="o">.</span><span class="n">item</span><span class="p">())</span> <span class="p">)</span>
+    if (i+1) % 250 == 0:
+        print(&#39;%5d %24.5f %15.5f %15.5f&#39; %
+              (i + 1, loss.item(), alpha.item(),
+               cost_adjectives.item()) )
 
-    <span class="n">opt</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
-    <span class="n">opt</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+    opt.step()
+    opt.zero_grad()
 </pre></div>
 </div>
 </div>
