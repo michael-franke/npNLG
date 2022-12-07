@@ -542,9 +542,9 @@ print(predict("German", "Müll"))
 #+end_src
 
 #+RESULTS:
-: Müllener
-: Mülling
 : Müllerer
+: Müllerren
+: Müllerren
 : Müllerer
 
 You can also probe the model with an empty string:
