@@ -62,8 +62,6 @@ with urllib.request.urlopen("https://raw.githubusercontent.com/michael-franke/np
 categories = list(namesData.keys())
 n_categories   = len(categories)
 
-print(n_categories)
-
 # we use all ASCII letters as the vocabulary (plus tokens [EOS], [SOS])
 all_letters = string.ascii_letters + " .,;'-"
 n_letters   = len(all_letters) + 2 # all letter plus [EOS] and [SOS] token
@@ -381,26 +379,26 @@ for iter in range(1, n_iters + 1):
 
 #+RESULTS:
 #+begin_example
-80m 5s (5000 5%) 19.6363
-80m 11s (10000 10%) 18.7941
-80m 17s (15000 15%) 18.4141
-80m 22s (20000 20%) 18.1456
-80m 28s (25000 25%) 17.9378
-80m 34s (30000 30%) 17.7983
-80m 40s (35000 35%) 17.6838
-80m 45s (40000 40%) 17.5830
-80m 51s (45000 45%) 17.5028
-80m 57s (50000 50%) 17.4271
-81m 2s (55000 55%) 17.3638
-81m 8s (60000 60%) 17.3185
-81m 14s (65000 65%) 17.2827
-81m 19s (70000 70%) 17.2372
-81m 25s (75000 75%) 17.2034
-81m 31s (80000 80%) 17.1626
-81m 36s (85000 85%) 17.1384
-81m 42s (90000 90%) 17.1076
-81m 48s (95000 95%) 17.0833
-81m 54s (100000 100%) 17.0642
+0m 6s (5000 5%) 19.7935
+0m 12s (10000 10%) 18.9659
+0m 19s (15000 15%) 18.5355
+0m 25s (20000 20%) 18.2599
+0m 32s (25000 25%) 18.0561
+0m 38s (30000 30%) 17.9076
+0m 45s (35000 35%) 17.7948
+0m 51s (40000 40%) 17.6895
+0m 58s (45000 45%) 17.6238
+1m 4s (50000 50%) 17.5519
+1m 11s (55000 55%) 17.4859
+1m 17s (60000 60%) 17.4287
+1m 24s (65000 65%) 17.3743
+1m 30s (70000 70%) 17.3259
+1m 37s (75000 75%) 17.2904
+1m 43s (80000 80%) 17.2546
+1m 50s (85000 85%) 17.2175
+1m 56s (90000 90%) 17.1912
+2m 2s (95000 95%) 17.1602
+2m 9s (100000 100%) 17.1312
 #+end_example
 
 Here is a plot of the temporal development of the model's performance during training:
@@ -418,7 +416,7 @@ plt.show()
 #+end_src
 
 #+RESULTS:
-[[file:./.ob-jupyter/00c36b5b2c9657e22ee87af2575879f17027a6ff.png]]
+[[file:./.ob-jupyter/963babc88739f737af050e40a692f68d2d78f74f.png]]
 
 > <strong><span style="color:#D83D2B;">Exercise 5.1.5: Investigate the training regime </span></strong>
 >
@@ -466,9 +464,9 @@ def get_surprisal_dataset(data):
             perplxty  += item_surpr ** (-1 / len(name))
         n_items = len(data[category])
 
-        surprisl_dict[category] = (surprisl /n_items).item()
-        surp_avg_dict[category] = (surp_avg / n_items).item()
-        perplxty_dict[category] = (perplxty / n_items).item()
+        surprisl_dict[category] = (surprisl /n_items)
+        surp_avg_dict[category] = (surp_avg / n_items)
+        perplxty_dict[category] = (perplxty / n_items)
 
     return(surprisl_dict, surp_avg_dict, perplxty_dict)
 
@@ -485,6 +483,12 @@ print("\nmean surprisal (test):", np.mean(surprisal_test["surprisal"]))
 print("\nmean surprisal (train):", np.mean(surprisal_train["surprisal"]))
 
 #+end_src
+
+#+RESULTS:
+:
+: mean surprisal (test): 17.584262220240067
+:
+: mean surprisal (train): 16.62241800524148
 
 > <strong><span style="color:#D83D2B;">Exercise 5.1.5: Interpret the evaluation metric </span></strong>
 >
@@ -538,10 +542,10 @@ print(predict("German", "Müll"))
 #+end_src
 
 #+RESULTS:
-: Müllerren
-: Mülleres
-: Mülleres
-: Mülleresch
+: Müllener
+: Mülling
+: Müllerer
+: Müllerer
 
 You can also probe the model with an empty string:
 
@@ -553,10 +557,10 @@ print(predict("Japanese", ""))
 #+end_src
 
 #+RESULTS:
-: Saki
-: Saka
-: Shimai
-: Shamati
+: Kamata
+: Kanamo
+: Kanama
+: Kana
 
 > <strong><span style="color:#D83D2B;">Exercise 5.1.6: Explore the model's predictions </span></strong>
 >
@@ -576,6 +580,10 @@ For instance, we can do this:
 print(get_surprisal_item("German", "Franke"))
 print(get_surprisal_item("Arabic", "Franke"))
 #+end_src
+
+#+RESULTS:
+: 16.202058792114258
+: 19.73336410522461
 
 > <strong><span style="color:#D83D2B;">Exercise 5.1.7: Category prediction with Bayes rule </span></strong>
 >
