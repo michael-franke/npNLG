@@ -36,3 +36,8 @@ parts:
   - file: 04-ANNs/04b-algebra
   - file: 04-ANNs/04c-MLP-custom
   - file: 04-ANNs/04d-MLP-pytorch
+
+- caption: 05 ANNs in PyTorch
+  chapters:
+  - file: 05-RNNs/05a-RNNs
+  - file: 05-RNNs/05b-char-level-RNN
