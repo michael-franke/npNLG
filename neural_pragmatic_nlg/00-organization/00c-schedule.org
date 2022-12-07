@@ -9,10 +9,9 @@ Caveat: Schedule is bound to change. See change stamps below.
 |       3 | Nov 9  | PyTorch basics                   | [[https://pytorch.org/tutorials/beginner/basics/intro.html][PyTorch tutorial]]       |   |
 |       4 | Nov 16 | Optimization                     |                        |   |
 |       5 | Nov 23 | ANNs                             |                        |   |
-|       6 | Nov 30 | simple LMs                       |                        |   |
-|       7 | Dec 7  | complex LMs, evaluation measures |                        |   |
-|       8 | Dec 14 | decoding strategies              |                        |   |
-|       9 | Dec 21 | visually grounded LMs            |                        |   |
+|       6 | Dec 7  | RNNs                             |                        |   |
+|       7 | Dec 14 | LSTMs, decoding & train regimes  |                        |   |
+|       8 | Dec 21 | transformers                     |                        |   |
 
 ** References
 
@@ -22,6 +21,7 @@ Scontras, G., Tessler, M. H., & Franke, M. (2021). A practical introduction to t
 
 ** List of change stamps
 
-Last change: [2022-11-09 Wed]
+Last change: [2022-12-07 Wed]
 
-Previous changes:  [2022-11-01 Tue], [2022-10-15 Sat]
+
+Previous changes:   [2022-11-09 Wed] , [2022-11-01 Tue], [2022-10-15 Sat]
