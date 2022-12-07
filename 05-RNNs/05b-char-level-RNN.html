@@ -699,8 +699,7 @@ for k in list(namesData.keys()):
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>#+begin_example
-Czech 519 467 52
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Czech 519 467 52
 German 724 652 72
 Arabic 2000 1800 200
 Japanese 991 892 99
@@ -718,7 +717,6 @@ Scottish 100 90 10
 Dutch 297 267 30
 Korean 94 85 9
 Polish 139 125 14
-#+end_example
 </pre></div>
 </div>
 </div>
@@ -954,28 +952,50 @@ for iter in range(1, n_iters + 1):
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>#+begin_example
-80m 5s (5000 5%) 19.6363
-80m 11s (10000 10%) 18.7941
-80m 17s (15000 15%) 18.4141
-80m 22s (20000 20%) 18.1456
-80m 28s (25000 25%) 17.9378
-80m 34s (30000 30%) 17.7983
-80m 40s (35000 35%) 17.6838
-80m 45s (40000 40%) 17.5830
-80m 51s (45000 45%) 17.5028
-80m 57s (50000 50%) 17.4271
-81m 2s (55000 55%) 17.3638
-81m 8s (60000 60%) 17.3185
-81m 14s (65000 65%) 17.2827
-81m 19s (70000 70%) 17.2372
-81m 25s (75000 75%) 17.2034
-81m 31s (80000 80%) 17.1626
-81m 36s (85000 85%) 17.1384
-81m 42s (90000 90%) 17.1076
-81m 48s (95000 95%) 17.0833
-81m 54s (100000 100%) 17.0642
-#+end_example
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0m 13s (5000 5%) 19.9722
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0m 27s (10000 10%) 19.0594
+</pre></div>
+</div>
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">10</span><span class="p">],</span> <span class="n">line</span> <span class="mi">24</span>
+<span class="g g-Whitespace">     </span><span class="mi">21</span> <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="g g-Whitespace">     </span><span class="mi">23</span> <span class="k">for</span> <span class="nb">iter</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_iters</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+<span class="ne">---&gt; </span><span class="mi">24</span>     <span class="n">loss</span> <span class="o">=</span> <span class="n">train</span><span class="p">(</span><span class="o">*</span><span class="n">randomTrainingExample</span><span class="p">())</span>
+<span class="g g-Whitespace">     </span><span class="mi">25</span>     <span class="n">total_loss</span> <span class="o">+=</span> <span class="n">loss</span>
+<span class="g g-Whitespace">     </span><span class="mi">27</span>     <span class="k">if</span> <span class="nb">iter</span> <span class="o">%</span> <span class="n">plot_every</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+
+<span class="nn">Cell In[9], line 20,</span> in <span class="ni">train</span><span class="nt">(category_tensor, input_line_tensor, target_line_tensor)</span>
+<span class="g g-Whitespace">     </span><span class="mi">18</span>     <span class="n">loss</span> <span class="o">+=</span> <span class="n">l</span>
+<span class="g g-Whitespace">     </span><span class="mi">19</span> <span class="c1"># perform backward pass</span>
+<span class="ne">---&gt; </span><span class="mi">20</span> <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+<span class="g g-Whitespace">     </span><span class="mi">21</span> <span class="c1"># perform optimization</span>
+<span class="g g-Whitespace">     </span><span class="mi">22</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.8.14/x64/lib/python3.8/site-packages/torch/_tensor.py:487,</span> in <span class="ni">Tensor.backward</span><span class="nt">(self, gradient, retain_graph, create_graph, inputs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">477</span> <span class="k">if</span> <span class="n">has_torch_function_unary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">478</span>     <span class="k">return</span> <span class="n">handle_torch_function</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">479</span>         <span class="n">Tensor</span><span class="o">.</span><span class="n">backward</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">480</span>         <span class="p">(</span><span class="bp">self</span><span class="p">,),</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">485</span>         <span class="n">inputs</span><span class="o">=</span><span class="n">inputs</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">486</span>     <span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">487</span> <span class="n">torch</span><span class="o">.</span><span class="n">autograd</span><span class="o">.</span><span class="n">backward</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">488</span>     <span class="bp">self</span><span class="p">,</span> <span class="n">gradient</span><span class="p">,</span> <span class="n">retain_graph</span><span class="p">,</span> <span class="n">create_graph</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="n">inputs</span>
+<span class="g g-Whitespace">    </span><span class="mi">489</span> <span class="p">)</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.8.14/x64/lib/python3.8/site-packages/torch/autograd/__init__.py:197,</span> in <span class="ni">backward</span><span class="nt">(tensors, grad_tensors, retain_graph, create_graph, grad_variables, inputs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">192</span>     <span class="n">retain_graph</span> <span class="o">=</span> <span class="n">create_graph</span>
+<span class="g g-Whitespace">    </span><span class="mi">194</span> <span class="c1"># The reason we repeat same the comment below is that</span>
+<span class="g g-Whitespace">    </span><span class="mi">195</span> <span class="c1"># some Python versions print out the first line of a multi-line function</span>
+<span class="g g-Whitespace">    </span><span class="mi">196</span> <span class="c1"># calls in the traceback and some print out the last line</span>
+<span class="ne">--&gt; </span><span class="mi">197</span> <span class="n">Variable</span><span class="o">.</span><span class="n">_execution_engine</span><span class="o">.</span><span class="n">run_backward</span><span class="p">(</span>  <span class="c1"># Calls into the C++ engine to run the backward pass</span>
+<span class="g g-Whitespace">    </span><span class="mi">198</span>     <span class="n">tensors</span><span class="p">,</span> <span class="n">grad_tensors_</span><span class="p">,</span> <span class="n">retain_graph</span><span class="p">,</span> <span class="n">create_graph</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">199</span>     <span class="n">allow_unreachable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">accumulate_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="ne">KeyboardInterrupt</span>: 
 </pre></div>
 </div>
 </div>
@@ -1044,9 +1064,9 @@ def get_surprisal_dataset(data):
             perplxty  += item_surpr ** (-1 / len(name))
         n_items = len(data[category])
 
-        surprisl_dict[category] = (surprisl /n_items).item()
-        surp_avg_dict[category] = (surp_avg / n_items).item()
-        perplxty_dict[category] = (perplxty / n_items).item()
+        surprisl_dict[category] = (surprisl /n_items)
+        surp_avg_dict[category] = (surp_avg / n_items)
+        perplxty_dict[category] = (perplxty / n_items)
 
     return(surprisl_dict, surp_avg_dict, perplxty_dict)
 
@@ -1061,6 +1081,14 @@ surprisal_train = makeDF(get_surprisal_dataset(train_data))
 
 print(&quot;\nmean surprisal (test):&quot;, np.mean(surprisal_test[&quot;surprisal&quot;]))
 print(&quot;\nmean surprisal (train):&quot;, np.mean(surprisal_train[&quot;surprisal&quot;]))
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>:
+mean surprisal (test): 17.584262220240067
+:
+mean surprisal (train): 16.62241800524148
 </pre></div>
 </div>
 </div>
@@ -1118,10 +1146,10 @@ print(predict(&quot;German&quot;, &quot;Müll&quot;))
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Müllerren
-Mülleres
-Mülleres
-Mülleresch
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Müllener
+Mülling
+Müllerer
+Müllerer
 </pre></div>
 </div>
 </div>
@@ -1137,10 +1165,10 @@ print(predict(&quot;Japanese&quot;, &quot;&quot;))
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Saki
-Saka
-Shimai
-Shamati
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Kamata
+Kanamo
+Kanama
+Kana
 </pre></div>
 </div>
 </div>
@@ -1163,6 +1191,12 @@ For instance, we can do this:</p>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>print(get_surprisal_item(&quot;German&quot;, &quot;Franke&quot;))
 print(get_surprisal_item(&quot;Arabic&quot;, &quot;Franke&quot;))
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>16.202058792114258
+19.73336410522461
 </pre></div>
 </div>
 </div>
