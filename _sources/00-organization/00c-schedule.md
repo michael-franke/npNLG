@@ -75,8 +75,8 @@ Caveat: Schedule is bound to change. See change stamps below.
 
 <tr>
 <td class="org-right">6</td>
-<td class="org-left">Nov 30</td>
-<td class="org-left">simple LMs</td>
+<td class="org-left">Dec 7</td>
+<td class="org-left">RNNs</td>
 <td class="org-left">&#xa0;</td>
 <td class="org-left">&#xa0;</td>
 </tr>
@@ -84,8 +84,8 @@ Caveat: Schedule is bound to change. See change stamps below.
 
 <tr>
 <td class="org-right">7</td>
-<td class="org-left">Dec 7</td>
-<td class="org-left">complex LMs, evaluation measures</td>
+<td class="org-left">Dec 14</td>
+<td class="org-left">LSTMs, decoding &amp; train regimes</td>
 <td class="org-left">&#xa0;</td>
 <td class="org-left">&#xa0;</td>
 </tr>
@@ -93,17 +93,8 @@ Caveat: Schedule is bound to change. See change stamps below.
 
 <tr>
 <td class="org-right">8</td>
-<td class="org-left">Dec 14</td>
-<td class="org-left">decoding strategies</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-
-<tr>
-<td class="org-right">9</td>
 <td class="org-left">Dec 21</td>
-<td class="org-left">visually grounded LMs</td>
+<td class="org-left">transformers</td>
 <td class="org-left">&#xa0;</td>
 <td class="org-left">&#xa0;</td>
 </tr>
@@ -120,7 +111,7 @@ Scontras, G., Tessler, M. H., & Franke, M. (2021). A practical introduction to t
 
 ## List of change stamps
 
-Last change: <span class="timestamp-wrapper"><span class="timestamp">[2022-11-09 Wed]</span></span>
+Last change: <span class="timestamp-wrapper"><span class="timestamp">[2022-12-07 Wed]</span></span>
 
-Previous changes:  <span class="timestamp-wrapper"><span class="timestamp">[2022-11-01 Tue]</span></span>, <span class="timestamp-wrapper"><span class="timestamp">[2022-10-15 Sat]</span></span>
+Previous changes:   <span class="timestamp-wrapper"><span class="timestamp">[2022-11-09 Wed] </span></span> , <span class="timestamp-wrapper"><span class="timestamp">[2022-11-01 Tue]</span></span>, <span class="timestamp-wrapper"><span class="timestamp">[2022-10-15 Sat]</span></span>
 
