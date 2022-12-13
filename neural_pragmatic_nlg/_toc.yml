@@ -44,6 +44,7 @@ parts:
 
 - caption: 06 LSTMs in PyTorch
   chapters:
+  - file: 06-LSTMs/06a-LSTMs
   - file: 06-LSTMs/06b-LSTM-minimal-forward-pass
   - file: 06-LSTMs/06c-char-level-LSTM
   - file: 06-LSTMs/06d-decoding-GPT2

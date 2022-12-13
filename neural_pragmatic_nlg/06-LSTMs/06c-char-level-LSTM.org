@@ -1,7 +1,7 @@
 #+title:     Sheet 6.2: Character-level sequence modeling w/ LSTMs
 #+author:    Michael Franke
 
-This tutorial builds on the earlier tutorial (5.1) where we implemented a character-level RNN.
+This tutorial builds on the earlier tutorial (5.1) which implemented a character-level RNN.
 Previously we implemented the RNN model without making use of PyTorch's built-in functions.
 In this tutorial, we will implement an LSTM using these convenient functions.
 Applying the new LSTM model to the exact same data (surname predictions for different countries), we can compare the efficiency and power of the two architectures.
@@ -37,7 +37,11 @@ warnings.filterwarnings('ignore')
 
 #+end_src
 
+#+RESULTS:
+
 * Load & pre-process data
+
+Loading and pre-processing the data is also as before in sheet 5.1.
 
 #+begin_src jupyter-python
 
@@ -47,8 +51,8 @@ warnings.filterwarnings('ignore')
 # with urllib.request.urlopen("https://raw.githubusercontent.com/michael-franke/npNLG/main/neural_pragmatic_nlg/05-RNNs/names-data.json") as url:
 #     namesData = json.load(url)
 
-with open('names-data.json') as dataFile:
-    namesData = json.load(dataFile)
+# with open('names-data.json') as dataFile:
+#     namesData = json.load(dataFile)
 
 categories = list(namesData.keys())
 n_categories   = len(categories)
@@ -70,7 +74,7 @@ for k in list(namesData.keys()):
     total_size    = len(namesData[k])
     test_size     = round(total_size/split_percentage)
     train_size    = total_size - test_size
-    print(k, total_size, train_size, test_size)
+    # print(k, total_size, train_size, test_size)
     indices       = [i for i in range(total_size)]
     random.shuffle(indices)
     train_indices = indices[0:train_size]
@@ -81,10 +85,34 @@ for k in list(namesData.keys()):
 
 #+end_src
 
+#+RESULTS:
+#+begin_example
+Czech 519 467 52
+German 724 652 72
+Arabic 2000 1800 200
+Japanese 991 892 99
+Chinese 268 241 27
+Vietnamese 73 66 7
+Russian 9408 8467 941
+French 277 249 28
+Irish 232 209 23
+English 3668 3301 367
+Spanish 298 268 30
+Greek 203 183 20
+Italian 709 638 71
+Portuguese 74 67 7
+Scottish 100 90 10
+Dutch 297 267 30
+Korean 94 85 9
+Polish 139 125 14
+#+end_example
+
 * Define LSTM module
 
-#+begin_src jupyter-python
+The definition of the LSTM model follows the steps explained in the previous worksheet (6.1) closely.
+NB: we include a dropout rate (which here acts in between layers of the stacked LSTM).
 
+#+begin_src jupyter-python
 
 ##################################################
 ## define LSTM
@@ -120,11 +148,20 @@ class LSTM(nn.Module):
     def initHidden(self):
         return torch.zeros(1, self.hidden_size)
 
-
-# Exercise: how is the category information supplied to next network?
 #+end_src
 
+#+RESULTS:
+
+> <strong><span style=&ldquo;color:#D83D2B;&rdquo;>Exercise 6.2.1: </span></strong>
+>
+> 1. How is the category information supplied to next network? I.e.,, what is the input format and how is this information made accessible for computation at every word?
+>
+> 2. What exactly is the return value of a single forward pass?
+
 * Helper functions for training
+
+Again, the following training functions are similar to what we used in sheet 5.1, but changed to handle the different representational format of the input.
+(Previous work sheet used a one-hot vector representation where we here use an index (integer) representation for each word.)
 
 #+begin_src jupyter-python
 
@@ -140,7 +177,6 @@ def randomChoice(l):
 def randomTrainingPair():
     category = randomChoice(categories)
     name = randomChoice(train_data[category])
-    # category = categories[random.randint(0, len(categories) - 1)]
     return category, name
 
 # get index representation of name (in the proper format)
@@ -169,7 +205,12 @@ def timeSince(since):
 
 #+end_src
 
+#+RESULTS:
+
 * Single training step
+
+A single training loop for a single pair of category and name considers the output predictions of the LSTM.
+The way we defined the LSTM above makes it so that the first component that is returned feeds directly in to the loss function (negative log likeihood).
 
 #+begin_src jupyter-python
 
@@ -191,11 +232,16 @@ def train(cat, name):
     # perform optimization
     optimizer.step()
     # return prediction and loss
-    return loss.item() # / input_line_tensor.size(0)
+    return loss.item()
 
 #+end_src
 
+#+RESULTS:
+
 * Model instantiation & training loop
+
+The LSTM we instantiate here is rather smallish.
+It has only one layer, a hidden and cell state of size 64 and uses an embedding size of 32 for both categories and names.
 
 #+begin_src jupyter-python
 
@@ -211,7 +257,7 @@ lstm = LSTM(cat_embedding_size  = 32,
             n_char              = n_letters,
             hidden_size         = 64,
             output_size         = n_letters,
-            dropout             = 0.1,
+            dropout             = 0,
             num_layers          = 1
             )
 # training objective
@@ -246,6 +292,20 @@ for iter in range(1, n_iters + 1):
 
 #+end_src
 
+#+RESULTS:
+#+begin_example
+0m 6s (5000 10%) 16.7143
+0m 12s (10000 20%) 15.9386
+0m 18s (15000 30%) 15.4798
+0m 24s (20000 40%) 15.1522
+0m 30s (25000 50%) 14.9384
+0m 36s (30000 60%) 14.7415
+0m 42s (35000 70%) 14.5792
+0m 48s (40000 80%) 14.4516
+0m 54s (45000 90%) 14.3326
+1m 0s (50000 100%) 14.2348
+#+end_example
+
 * Plotting training performance
 
 #+begin_src jupyter-python
@@ -260,7 +320,12 @@ plt.show()
 
 #+end_src
 
+#+RESULTS:
+[[file:./.ob-jupyter/ccdd9c1aadad400e05953796888c1587c89a8f0b.png]]
+
 * Evaluation
+
+Extraction of surprisal of a single item and computation of average surprisal for test and training set is largely parallel to the case of sheet 5.1.
 
 #+begin_src jupyter-python
 
@@ -312,13 +377,18 @@ print("\nmean surprisal (train):", np.mean(surprisal_train["surprisal"]))
 
 #+end_src
 
-> <strong><span style="color:#D83D2B;">Exercise 6.1.x: Interpret the evaluation metrics </span></strong>
+> <strong><span style="color:#D83D2B;">Exercise 6.1.2: Interpret the evaluation metrics </span></strong>
 >
 > 1. What do you conclude from these two numbers? Is there a chance that the model overfitted the training data?
 >
 > 2. What do you conclude about the performance of the RNN (from sheet 5.1) and the current LSTM implementation? Which model is better?
 
 * Exploring model predictions
+
+Now the fun part starts!
+Let's see how the generations of the LSTM look like.
+Notice that there is a flag for the kind of decoding strategy to be used.
+Currently, there are two decoding strategies (but see exercise below).
 
 #+begin_src jupyter-python
 
@@ -376,7 +446,17 @@ print(predict("Japanese", "", decode_strat = "pure"))
 
 #+end_src
 
-* Class predictions from the generation model
+
+> <strong><span style=&ldquo;color:#D83D2B;&rdquo;>Exercise 6.2.3: Predictions under different decoding schemes </span></strong>
+>
+> 0. [Just for yourself] Play around with the prediction function. Are you content with the quality of the predictions? Is the model performing better than the previous RNN in your perception?
+>
+> 1. Extend the function 'predict' by implementing three additional decoding schemes: top-k, softmax and top-p. Write the function in such a way that the decoding strategy can be chosen by the user with a mnemonic string (like already don for the "pure" decoding strategy).
+
+* [Excursion] Class predictions from the generation model
+
+In the previous sheet 5.1 we looked at a way of using the string generation probabilities for categorization.
+Here is a function that does that, too, but now for the LSTM model.
 
 #+begin_src jupyter-python
 
@@ -393,7 +473,8 @@ def infer_category(name):
 infer_category("Smith")
 infer_category("Miller")
 
-# Bonus exercise:
-# what's going on here?
-
 #+end_src
+
+> <strong><span style=&ldquo;color:#D83D2B;&rdquo;>Exercise 6.2.4: Reflect on derived category predictions </span></strong>
+>
+> 1. [This is a bonus exercise; optional!] Check out the model's predictions for "Smith" and "Miller". Is this what you would expect of a categorization function? Why? Why not? Can you explain why the this "derived categorization model" makes these predictions?
