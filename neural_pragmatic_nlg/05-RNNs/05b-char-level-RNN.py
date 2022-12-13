@@ -11,6 +11,7 @@ import unicodedata
 import pandas
 import string
 import torch
+import urllib.request
 import numpy as np
 import torch.nn as nn
 import random
@@ -23,11 +24,12 @@ warnings.filterwarnings('ignore')
 ##################################################
 ## read and inspect the data
 ##################################################
+with urllib.request.urlopen("https://raw.githubusercontent.com/michael-franke/npNLG/main/neural_pragmatic_nlg/05-RNNs/names-data.json") as url:
+    namesData = json.load(url)
 
-os.chdir("/Users/micha/Library/Mobile Documents/com~apple~CloudDocs/xxx_sync_xxx/Work/Teaching/2022b-npNLG/book-repo/neural_pragmatic_nlg/05-NLMs/")
-
-with open('names-data.json') as dataFile:
-    namesData = json.load(dataFile)
+# # local import
+# with open('names-data.json') as dataFile:
+#     namesData = json.load(dataFile)
 
 categories = list(namesData.keys())
 n_categories   = len(categories)
@@ -225,7 +227,81 @@ def get_surprisal_item(category, name):
         surprisal += criterion(output, target_line_tensor[i])
     return(surprisal.item())
 
+def get_surprisal_dataset(data):
+    surprisl_dict = dict()
+    surp_avg_dict = dict()
+    perplxty_dict = dict()
+    for category in list(data.keys()):
+        surprisl = 0
+        surp_avg = 0
+        perplxty = 0
+        # training
+        for name in data[category]:
+            item_surpr = get_surprisal_item(category, name)
+            surprisl  += item_surpr
+            surp_avg  += item_surpr / len(name)
+            perplxty  += item_surpr ** (-1 / len(name))
+        n_items = len(data[category])
+
+        surprisl_dict[category] = (surprisl /n_items)
+        surp_avg_dict[category] = (surp_avg / n_items)
+        perplxty_dict[category] = (perplxty / n_items)
+
+    return(surprisl_dict, surp_avg_dict, perplxty_dict)
+
+def makeDF(surp_dict):
+    p = pandas.DataFrame.from_dict(surp_dict)
+    p = p.transpose()
+    p.columns = ["surprisal", "surp_scaled", "perplexity"]
+    return(p)
+
+surprisal_test  = makeDF(get_surprisal_dataset(test_data))
+surprisal_train = makeDF(get_surprisal_dataset(train_data))
+
+print("\nmean surprisal (test):", np.mean(surprisal_test["surprisal"]))
+print("\nmean surprisal (train):", np.mean(surprisal_train["surprisal"]))
+
+##################################################
+## prediction function
+##################################################
+
+max_length = 20
+
+# make a prediction based on given sequence
+def predict(category, initial_sequence):
+
+    if len(initial_sequence) >= max_length:
+        return(initial_sequence)
+
+    category_tensor    = categoryTensor(category)
+    input_line_tensor  = inputTensor(initial_sequence)
+    hidden             = rnn.initHidden()
+
+    name = initial_sequence
+
+    for i in range(input_line_tensor.size(0)):
+        output, hidden = rnn(category_tensor, input_line_tensor[i], hidden)
+
+    # greedy decoding: choosing the most likely guess
+    topv, topi = output.topk(1)
+    topi = topi[0][0]
+
+    if topi == EOSIndex:
+        return(name)
+    else:
+        name += all_letters[topi]
+
+    return(predict(category, name))
+
+print(predict("German", "Müll"))
+print(predict("German", "Müll"))
+print(predict("German", "Müll"))
+print(predict("German", "Müll"))
+
+print(predict("Japanese", ""))
+print(predict("Japanese", ""))
+print(predict("Japanese", ""))
+print(predict("Japanese", ""))
+
 print(get_surprisal_item("German", "Franke"))
 print(get_surprisal_item("Arabic", "Franke"))
-print(get_surprisal_item("English", "Smith"))
-print(get_surprisal_item("English", "SmXfs"))

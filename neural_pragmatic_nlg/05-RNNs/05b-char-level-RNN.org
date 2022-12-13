@@ -485,10 +485,19 @@ print("\nmean surprisal (train):", np.mean(surprisal_train["surprisal"]))
 #+end_src
 
 #+RESULTS:
+:RESULTS:
+# [goto error]
+: [0;31m---------------------------------------------------------------------------[0m
+: [0;31mNameError[0m                                 Traceback (most recent call last)
+: Cell [0;32mIn [1], line 46[0m
+: [1;32m     43[0m     p[38;5;241m.[39mcolumns [38;5;241m=[39m [[38;5;124m"[39m[38;5;124msurprisal[39m[38;5;124m"[39m, [38;5;124m"[39m[38;5;124msurp_scaled[39m[38;5;124m"[39m, [38;5;124m"[39m[38;5;124mperplexity[39m[38;5;124m"[39m]
+: [1;32m     44[0m     [38;5;28;01mreturn[39;00m(p)
+: [0;32m---> 46[0m surprisal_test  [38;5;241m=[39m makeDF(get_surprisal_dataset([43mtest_data[49m))
+: [1;32m     47[0m surprisal_train [38;5;241m=[39m makeDF(get_surprisal_dataset(train_data))
+: [1;32m     49[0m [38;5;28mprint[39m([38;5;124m"[39m[38;5;130;01m\n[39;00m[38;5;124mmean surprisal (test):[39m[38;5;124m"[39m, np[38;5;241m.[39mmean(surprisal_test[[38;5;124m"[39m[38;5;124msurprisal[39m[38;5;124m"[39m]))
 :
-: mean surprisal (test): 17.584262220240067
-:
-: mean surprisal (train): 16.62241800524148
+: [0;31mNameError[0m: name 'test_data' is not defined
+:END:
 
 > <strong><span style="color:#D83D2B;">Exercise 5.1.5: Interpret the evaluation metric </span></strong>
 >

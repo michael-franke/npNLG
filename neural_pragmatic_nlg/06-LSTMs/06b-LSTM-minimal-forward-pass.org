@@ -1,0 +1,287 @@
+#+title:     Sheet 6.1: Anatomy of a single LSTM forward pass
+#+author:    Michael Franke
+
+In this tutorial we will dissect a single forward pass for an LSTM model defined by using PyTorch's built-in LSTM class.
+We will not define a whole LSTM class or even train a model, but showcase how raw text data needs to be wrangled so that we can feed it into the 'nn.LSTM' functionality supplied by PyTorch.
+We will also learn about the output of that function.
+
+* Packages & global parameters
+
+We import torch and the neural network library.
+
+#+begin_src jupyter-python
+
+import torch
+import torch.nn as nn
+# import time
+# import math
+
+#+end_src
+
+#+RESULTS:
+
+* Preparing the input data
+
+Our raw input consists of just two sentences.
+
+#+begin_src jupyter-python
+
+# starting point: raw text input
+input_raw1 = "Colin was here."
+input_raw2 = "Colin went away subito."
+
+#+end_src
+
+#+RESULTS:
+
+Our goal is to represent these sentences eventually as a sequence of integers, such that each integer represents the word at that sequence.
+In order to achieve  this, we need to collect /all/ words (that are relevant) and assign them an integer, e.g., by enumerating them in a list.
+
+We also include some special tokens;
+- [UNK] represents any occurrence of word that the vocabulary does not know (e.g., very rare words, foreign words, unrecognizable stuff, ...)
+- [EOS] is the end-of-sequence token
+- [PAD] is a padding token (to make sequences of equal length, see below)
+
+#+begin_src jupyter-python
+
+# vocab definition: all units that we want to model
+# include special tokens:
+# like "[UNK]" for unknown words (here: "subito")
+vocabulary = ["Colin", "was", "here", "went", "away", "[UNK]" "[EOS]", "[PAD]"]
+n_vocab = len(vocabulary) + 1
+
+#+end_src
+
+#+RESULTS:
+
+Using the elements of the vocabulary, we can represent the raw input sentences as the following two sequences of tokens, respectively as sequences of integers.
+These steps are also known as /tokenization/ and /indexing/.
+NB: we make sure that all input sequences are of equal length by  adding [PAD] tokens at the end.
+(It is also possible to process various-length sequences, but here we will use padding.)
+
+#+begin_src jupyter-python
+# tokenization: sequence of tokens from the vocabulary
+input_tok1 = ["Colin", "was", "here", "[EOS]", "[PAD]"]
+input_tok2 = ["Colin", "went", "away", "subito", "[EOS]"]
+
+# indexing: represent input as tensor of indices
+input_ind1 = torch.tensor([0,1,2,6,7])
+input_ind2 = torch.tensor([0,3,4,5,6])
+#+end_src
+
+#+RESULTS:
+
+Finally, we create the training batches.
+A batch is, essentially, a list of index-sequences.
+
+#+begin_src jupyter-python
+
+batch_size = 2
+sequence_length = 5
+
+batched_input = torch.cat([input_ind1, input_ind2]).reshape(batch_size, sequence_length)
+print(batched_input)
+
+#+end_src
+
+#+RESULTS:
+: tensor([[0, 1, 2, 6, 7],
+:         [0, 3, 4, 5, 6]])
+
+* A single forward pass
+
+A minimal single forward pass of an LSTM model applied to a /single/ input vector (=one sequence of indices) consists of the following steps:
+
+1. *word embedding*: each index is mapped onto an embedding vector; so the input vector is mapped onto a matrix of word embeddings;
+2. *LSTM encoding*: the word embeddings are mapped onto a hidden vector representation
+3. *linear projection*: the hidden vector representation is mapped (linearly) onto a vector of weights (one weight for each word in the vocabulary)
+4. *softmax*: the next-word probabilities are obtained by taking a softmax on the weights from the previous step
+
+** Word embeddings
+
+We create embeddings with PyTorch's 'nn.Embedding' class.
+On instantiation, the embedding is initialized randomly.
+
+#+begin_src jupyter-python
+# embedding: vector-representation of each word
+# needs parameter for the size of the embedding
+n_embbeding_size = 3
+embedding = nn.Embedding(n_vocab, n_embbeding_size)
+# embedding is a matrix of size (n_vocab, n_embedding_size)
+for p in embedding.parameters():
+    print(p)
+#+end_src
+
+#+RESULTS:
+: Parameter containing:
+: tensor([[-1.1015,  1.6761,  0.3530],
+:         [-0.3224, -0.7842, -0.2983],
+:         [ 0.0624, -1.5206,  1.5637],
+:         [ 1.0833,  0.0371, -0.9189],
+:         [ 1.1653, -0.0359,  1.4150],
+:         [ 0.6831, -0.8477, -1.2236],
+:         [ 1.6085, -0.4324, -0.3602],
+:         [ 0.3916,  2.4869,  0.9311]], requires_grad=True)
+
+
+> <strong><span style="color:#D83D2B;">Exercise 6.1.1: Check parameters of the embedding </span></strong>
+>
+> 0. [Just for yourself] Check the dimension of this output. Where is the embedding for "Colin"? Where is the embedding for "[EOS]"?
+
+The embedding accepts batched input.
+Check the dimensions of the output:
+
+#+begin_src jupyter-python
+
+# the 'embedding' takes batched input
+input_embedding = embedding(batched_input)
+print(input_embedding)
+
+#+end_src
+
+#+RESULTS:
+#+begin_example
+tensor([[[-1.1015,  1.6761,  0.3530],
+         [-0.3224, -0.7842, -0.2983],
+         [ 0.0624, -1.5206,  1.5637],
+         [ 1.6085, -0.4324, -0.3602],
+         [ 0.3916,  2.4869,  0.9311]],
+
+        [[-1.1015,  1.6761,  0.3530],
+         [ 1.0833,  0.0371, -0.9189],
+         [ 1.1653, -0.0359,  1.4150],
+         [ 0.6831, -0.8477, -1.2236],
+         [ 1.6085, -0.4324, -0.3602]]], grad_fn=<EmbeddingBackward0>)
+#+end_example
+
+
+> <strong><span style="color:#D83D2B;">Exercise 6.1.2: Check batched embedding </span></strong>
+>
+> 1. What do the dimensions of the output represent here? How would you retrieve the embedding of the word "went" (give your answer in the form 'input_embedding[someIndex, 1:27, SomeOtherIndex, -1]')?
+
+** The LSTM encoding
+
+We instantiate an LSTM function via 'nn.LSTM'.
+NB: we define a *stacked* LSTM, with two layers; we must declare to use 'batch first' mode, which expects the input batches in the first dimension of the input (which is how we have set up the input).
+
+#+begin_src jupyter-python
+
+n_hidden_size = 4
+
+# instantiate an LSTM
+lstm = nn.LSTM(input_size  = n_embbeding_size,
+               hidden_size = n_hidden_size,  # size of hidden state
+               num_layers  = 2,              # number of stacked layers
+               batch_first = True            # expect input in format (batch, sequence, token)
+               )
+#+end_src
+
+The LSTM function takes a batch of input vectors and outputs three things:
+
+1. the sequence of hidden states in the final layer (of stacked LSTMs), one hidden state representation for each word in the input
+2. the hidden states of the last word in the input sequence for each layer
+3. the cell states of the last word in the input sequence for each layer
+
+#+begin_src jupyter-python
+
+# apply LSTM function (initial hidden state and initial cell state default to all 0s)
+# LSTM maps a (batched) sequence of embeddings, onto a triple:
+#   outcome: sequence of hidden states in final layer for each word
+#   hidden:  hidden states of last word for each layer
+#   cell:    cell states of last word for each layer
+output, (hidden, cell) = lstm(input = input_embedding)
+
+print("\nLSTM embeddings in last layer for each word:\n", output)
+print("\nHidden state of last word for each layer:\n", hidden)
+print("\nCell state of last word for each layer:\n", cell)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+LSTM embeddings in last layer for each word:
+ tensor([[[ 0.0703,  0.0365, -0.0636,  0.1035],
+         [ 0.1317,  0.0819, -0.0927,  0.1525],
+         [ 0.1824,  0.1313, -0.1097,  0.1831],
+         [ 0.1909,  0.1289, -0.1049,  0.1745],
+         [ 0.1276,  0.0675, -0.0932,  0.1696]],
+
+        [[ 0.0703,  0.0365, -0.0636,  0.1035],
+         [ 0.1072,  0.0490, -0.0881,  0.1399],
+         [ 0.1500,  0.1005, -0.1093,  0.1990],
+         [ 0.1727,  0.1043, -0.1029,  0.1837],
+         [ 0.1789,  0.0985, -0.0977,  0.1789]]], grad_fn=<TransposeBackward0>)
+
+Hidden state of last word for each layer:
+ tensor([[[-0.3350, -0.2303,  0.1617,  0.1228],
+         [-0.0649, -0.1391,  0.0877,  0.2424]],
+
+        [[ 0.1276,  0.0675, -0.0932,  0.1696],
+         [ 0.1789,  0.0985, -0.0977,  0.1789]]], grad_fn=<StackBackward0>)
+
+Cell state of last word for each layer:
+ tensor([[[-0.8026, -0.3425,  0.5018,  0.3408],
+         [-0.3806, -0.2594,  0.3732,  0.8697]],
+
+        [[ 0.2594,  0.1044, -0.2128,  0.4967],
+         [ 0.3548,  0.1448, -0.2153,  0.5337]]], grad_fn=<StackBackward0>)
+#+end_example
+
+> <strong><span style="color:#D83D2B;">Exercise 6.1.3: Dive into structure of output representations </span></strong>
+>
+> 1. There are two (important) vectors that are represented twice in this print-out. Which vectors are that (i.e., what do they represent)? How would you assess these vectors in Python (give your answer in the for: vector A is in 'cell[1,2,3]' and 'cell[23,224,-1]')?
+
+** Linear mapping onto weights (non-normalized predictions)
+
+The output representation for the final word in a sequence (the LSTM embedding associated with that word, after having processed the previous sequence), will be used to make predictions for the next word (in a left-to-right language model).
+We therefore map the LSTM embeddings of the last word onto a vector of the same length as the vocabulary size.
+
+#+begin_src jupyter-python
+
+linear_map = nn.Linear(n_hidden_size, n_vocab)
+weights = linear_map(output)
+
+#+end_src
+
+#+RESULTS:
+
+** Next-word probabilities from softmax-ing weights
+
+Finally, we map the non-normalized weights onto next-word probabilities with a softmax transformation:
+
+#+begin_src jupyter-python
+
+# get probabilities from output weights
+def next_word_probabilities(weights):
+    softmax = torch.nn.Softmax(dim=2)
+    return(softmax(weights).detach().numpy().round(4))
+
+# without any training: next word weights have high entropy
+print(next_word_probabilities(weights))
+
+
+#+end_src
+
+#+RESULTS:
+#+begin_example
+[[[0.1251 0.187  0.1086 0.1476 0.0802 0.1267 0.1483 0.0766]
+  [0.1219 0.1924 0.1072 0.1498 0.0795 0.1274 0.1491 0.0729]
+  [0.1198 0.1959 0.1058 0.1503 0.0781 0.1291 0.1508 0.0702]
+  [0.1201 0.1961 0.1055 0.1503 0.0776 0.1293 0.1508 0.0702]
+  [0.1209 0.1928 0.1079 0.1512 0.0802 0.1264 0.148  0.0727]]
+
+ [[0.1251 0.187  0.1086 0.1476 0.0802 0.1267 0.1483 0.0766]
+  [0.1226 0.1912 0.1078 0.1501 0.0805 0.126  0.1476 0.0741]
+  [0.1193 0.1948 0.1075 0.1516 0.0799 0.1271 0.149  0.0709]
+  [0.1198 0.1956 0.1066 0.1515 0.0787 0.1279 0.1493 0.0707]
+  [0.1199 0.1957 0.1065 0.1518 0.0783 0.128  0.1491 0.0707]]]
+#+end_example
+
+> <strong><span style="color:#D83D2B;">Exercise 6.1.4: Check batched embedding </span></strong>
+>
+> 1. Which indices give you the next-word probabilities for the sequence "Colin was"?
+>
+> 2. What's the most likely word, according to this output, after sequence "Colin"?
+>
+> 3. What's the most likely word, according to this output, for the first word in a sentence, i.e., after the empty sequence ""?
+> [Hint: if you think that this is a strange question, or that something stands in the way of answering it directly and smoothly, don't answer it directly and smoothly, but explain why the question is odd or what needs to change in order to be able answer the question.]

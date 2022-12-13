@@ -37,7 +37,13 @@ parts:
   - file: 04-ANNs/04c-MLP-custom
   - file: 04-ANNs/04d-MLP-pytorch
 
-- caption: 05 ANNs in PyTorch
+- caption: 05 RNNs in PyTorch
   chapters:
   - file: 05-RNNs/05a-RNNs
   - file: 05-RNNs/05b-char-level-RNN
+
+- caption: 06 LSTMs in PyTorch
+  chapters:
+  - file: 06-LSTMs/06a-LSTM-minimal-forward-pass
+  - file: 06-LSTMs/06b-char-level-LSTM
+  - file: 06-LSTMs/06d-decoding-GPT2
