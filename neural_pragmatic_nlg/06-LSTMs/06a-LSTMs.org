@@ -1,0 +1,27 @@
+* Long-Short Term Memory (LSTM) models
+
+This session continues the journey into neural language models.
+We identify potential problems with (simple) RNNs and introduce a more sophisticated class of recurrent sequence-processing models: LSTMs.
+On the practical side, we look at how to implement language models with PyTorch's built-in modules.
+Doing so requires learning how to supply text data in the right format.
+
+** Learning goals for this session
+1. understand limitations RNNs
+2. understand how LSTMs improve on RNNs
+3. become able to use PyTorch's built-in modules for LMs
+   a. learn how feed text data to these modules
+   b. learn how to interpret the output of thee modules
+4. learn about different decoding schemes for trained LMs
+   a. pure-sampling
+   b. greedy sampling
+   c. top-k and top-p sampling
+   d. softmax sampling
+   e. beam search
+
+** Slides
+
+Here are the [slides for this session]([[https://michael-franke.github.io/npNLG/05-RNNs.pdf]]).
+
+** Practical exercises
+
+There are three notebooks with hands-on exercises.
