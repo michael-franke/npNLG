@@ -1,0 +1,1070 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Sheet 6.2: Character-level sequence modeling w/ LSTMs &#8212; Neural Pragmatic Natural Language Generation</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/npNLG-logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Neural Pragmatic Natural Language Generation</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../000-intro.html">
+                    Pragmatic Natural Language Generation with Neural Language Models
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  00 organization
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../00-organization/00a-overview.html">
+   Course overview
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../00-organization/00b-practicalities.html">
+   Practicalities
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../00-organization/00c-schedule.html">
+   Schedule
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../00-organization/00d-slides.html">
+   Slides from session 1
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  01 Probabilistic pragmatics
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../01-prob-prag/01a-prob-prag.html">
+   Probabilistic pragmatics
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../01-prob-prag/01b-RSA-vanilla.html">
+   Sheet 1.1: Vanilla RSA
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../01-prob-prag/01c-RSA-politeness.html">
+   Sheet 1.2: RSA with politeness
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  02 PyTorch Basics
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../02-pytorch/02a-pytorch-basics.html">
+   Basics of PyTorch
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../02-pytorch/02b-pytorch-intro.html">
+   Sheet 2.1: PyTorch essentials
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../02-pytorch/02c-MLE.html">
+   Sheet 2.2: ML-estimation
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  03 Optimization
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../03-optimization/03a-optimization.html">
+   Optimization in PyTorch
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../03-optimization/03b-gradient-descent.html">
+   Sheet 3.1: Gradient descent by hand
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../03-optimization/03c-RSA-pytorch.html">
+   Sheet 3.2: Optimizing an RSA model
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  04 ANNs in PyTorch
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../04-ANNs/04a-ANNs.html">
+   Artificial neural networks
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../04-ANNs/04b-algebra.html">
+   Linear algebra
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../04-ANNs/04c-MLP-custom.html">
+   Sheet 4.1: Non-linear regression (custom MLP)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../04-ANNs/04d-MLP-pytorch.html">
+   Sheet 4.2: Non-linear regression (MLP w/ PyTorch modules)
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  05 ANNs in PyTorch
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../05-RNNs/05a-RNNs.html">
+   Recurrent neural networks
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../05-RNNs/05b-char-level-RNN.html">
+   Sheet 5.1: Character-level sequence modeling w/ RNNs
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/michael-franke/npNLG/main?urlpath=tree/neural_pragmatic_nlg/06-LSTMs/06c-char-level-LSTM.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://colab.research.google.com/github/michael-franke/npNLG/blob/main/neural_pragmatic_nlg/06-LSTMs/06c-char-level-LSTM.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Colab"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../_static/images/logo_colab.png">
+  </span>
+<span class="headerbtn__text-container">Colab</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/michael-franke/npNLG"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/michael-franke/npNLG/issues/new?title=Issue%20on%20page%20%2F06-LSTMs/06c-char-level-LSTM.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../_sources/06-LSTMs/06c-char-level-LSTM.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#packages-global-parameters">
+   Packages &amp; global parameters
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#load-pre-process-data">
+   Load &amp; pre-process data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#define-lstm-module">
+   Define LSTM module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#helper-functions-for-training">
+   Helper functions for training
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#single-training-step">
+   Single training step
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#model-instantiation-training-loop">
+   Model instantiation &amp; training loop
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#plotting-training-performance">
+   Plotting training performance
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#evaluation">
+   Evaluation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#exploring-model-predictions">
+   Exploring model predictions
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#class-predictions-from-the-generation-model">
+   Class predictions from the generation model
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Sheet 6.2: Character-level sequence modeling w/ LSTMs</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#packages-global-parameters">
+   Packages &amp; global parameters
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#load-pre-process-data">
+   Load &amp; pre-process data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#define-lstm-module">
+   Define LSTM module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#helper-functions-for-training">
+   Helper functions for training
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#single-training-step">
+   Single training step
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#model-instantiation-training-loop">
+   Model instantiation &amp; training loop
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#plotting-training-performance">
+   Plotting training performance
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#evaluation">
+   Evaluation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#exploring-model-predictions">
+   Exploring model predictions
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#class-predictions-from-the-generation-model">
+   Class predictions from the generation model
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section class="tex2jax_ignore mathjax_ignore" id="sheet-6-2-character-level-sequence-modeling-w-lstms">
+<h1>Sheet 6.2: Character-level sequence modeling w/ LSTMs<a class="headerlink" href="#sheet-6-2-character-level-sequence-modeling-w-lstms" title="Permalink to this headline">#</a></h1>
+<p><strong>Author:</strong> Michael Franke</p>
+<p>This tutorial builds on the earlier tutorial (5.1) where we implemented a character-level RNN.
+Previously we implemented the RNN model without making use of PyTorch’s built-in functions.
+In this tutorial, we will implement an LSTM using these convenient functions.
+Applying the new LSTM model to the exact same data (surname predictions for different countries), we can compare the efficiency and power of the two architectures.</p>
+<section id="packages-global-parameters">
+<h2>Packages &amp; global parameters<a class="headerlink" href="#packages-global-parameters" title="Permalink to this headline">#</a></h2>
+<p>Imports as before in (5.1).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
+## import packages
+##################################################
+
+from __future__ import unicode_literals, print_function, division
+from io import open
+import json
+import glob
+import os
+import unicodedata
+import pandas
+import string
+import torch
+import urllib.request
+import numpy as np
+import torch.nn as nn
+import random
+import time
+import math
+import matplotlib.pyplot as plt
+import warnings
+warnings.filterwarnings(&#39;ignore&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="load-pre-process-data">
+<h2>Load &amp; pre-process data<a class="headerlink" href="#load-pre-process-data" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
+## read and inspect the data
+##################################################
+# with urllib.request.urlopen(&quot;https://raw.githubusercontent.com/michael-franke/npNLG/main/neural_pragmatic_nlg/05-RNNs/names-data.json&quot;) as url:
+#     namesData = json.load(url)
+
+with open(&#39;names-data.json&#39;) as dataFile:
+    namesData = json.load(dataFile)
+
+categories = list(namesData.keys())
+n_categories   = len(categories)
+
+# we use all ASCII letters as the vocabulary (plus tokens [EOS], [SOS])
+all_letters = string.ascii_letters + &quot; .,;&#39;-&quot;
+n_letters   = len(all_letters) + 2 # all letter plus [EOS] and [SOS] token
+SOSIndex    = n_letters - 1
+EOSIndex    = n_letters - 2
+
+##################################################
+## make a train/test split
+##################################################
+
+train_data = dict()
+test_data  = dict()
+split_percentage = 10
+for k in list(namesData.keys()):
+    total_size    = len(namesData[k])
+    test_size     = round(total_size/split_percentage)
+    train_size    = total_size - test_size
+    print(k, total_size, train_size, test_size)
+    indices       = [i for i in range(total_size)]
+    random.shuffle(indices)
+    train_indices = indices[0:train_size]
+    test_indices  = indices[(train_size+1):(-1)]
+    train_data[k] = [namesData[k][i] for i in train_indices]
+    test_data[k]  = [namesData[k][i] for i in test_indices]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="define-lstm-module">
+<h2>Define LSTM module<a class="headerlink" href="#define-lstm-module" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
+## define LSTM
+##################################################
+
+class LSTM(nn.Module):
+    def __init__(self, cat_embedding_size, n_cat,
+                 char_embedding_size, n_char,
+                 hidden_size, output_size, num_layers = 2, dropout = 0.1):
+        super(LSTM, self).__init__()
+        self.hidden_size = hidden_size
+        # category embedding
+        self.cat_embedding = nn.Embedding(n_cat, cat_embedding_size)
+        # character embedding
+        self.char_embedding = nn.Embedding(n_char, char_embedding_size)
+        # the actual LSTM
+        self.lstm = nn.LSTM(input_size  = cat_embedding_size+char_embedding_size,
+                            hidden_size = hidden_size,
+                            num_layers  = num_layers,
+                            batch_first = True,
+                            dropout = dropout
+                            )
+        # linear map onto weights for words
+        self.linear_map = nn.Linear(hidden_size, output_size)
+
+    def forward(self, category, name, hidden):
+        cat_emb  = self.cat_embedding(category)
+        char_emb = self.char_embedding(name)
+        # print(cat_emb)
+        # print(char_emb)
+        # print(&quot;concat input:&quot;, torch.concat([cat_emb, char_emb], dim = 1))
+        output, (hidden, cell) = self.lstm(torch.concat([cat_emb, char_emb], dim = 1))
+        # print(&quot;output:&quot;, output)
+        predictions = self.linear_map(output)
+        # print(&quot;predictions:&quot;, torch.nn.functional.log_softmax(predictions))
+        # print(next_word_probabilities(predictions))
+        return torch.nn.functional.log_softmax(predictions, dim = 1), hidden
+
+    def initHidden(self):
+        return torch.zeros(1, self.hidden_size)
+
+# # get probabilities from output logits
+# def next_word_probabilities(logits):
+#     softmax = torch.nn.Softmax(dim=2)
+#     return(softmax(logits).detach().numpy().round(4))
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="helper-functions-for-training">
+<h2>Helper functions for training<a class="headerlink" href="#helper-functions-for-training" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
+## helper functions for training
+##################################################
+
+# Random item from a list
+def randomChoice(l):
+    return l[random.randint(0, len(l) - 1)]
+
+# Get a random category and random line from that category
+def randomTrainingPair():
+    category = randomChoice(categories)
+    name = randomChoice(train_data[category])
+    # category = categories[random.randint(0, len(categories) - 1)]
+    return category, name
+
+def getNameIndices(name):
+    indices = [SOSIndex] + [all_letters.index(c) for c in list(name)] + [EOSIndex]
+    return indices
+
+def getCatIndices(category, name_length):
+    return torch.full((1,name_length), categories.index(category)).reshape(-1)
+
+def randomTrainingExample():
+    category, name = randomTrainingPair()
+    name_length = len(name) + 2
+    return getCatIndices(category, name_length), torch.tensor(getNameIndices(name))
+
+def timeSince(since):
+    now = time.time()
+    s = now - since
+    m = math.floor(s / 60)
+    s -= m * 60
+    return &#39;%dm %ds&#39; % (m, s)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="single-training-step">
+<h2>Single training step<a class="headerlink" href="#single-training-step" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
+## single training pass
+##################################################
+
+def train(cat, name):
+    # get a fresh hidden layer
+    hidden = lstm.initHidden()
+    # zero the gradients
+    optimizer.zero_grad()
+    # run sequence
+    predictions, hidden = lstm(cat, name, hidden)
+    # compute loss (NLLH)
+    loss = criterion(predictions[:-1], name[1:len(name)])
+    # perform backward pass
+    loss.backward()
+    # perform optimization
+    optimizer.step()
+    # return prediction and loss
+    return loss.item() # / input_line_tensor.size(0)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="model-instantiation-training-loop">
+<h2>Model instantiation &amp; training loop<a class="headerlink" href="#model-instantiation-training-loop" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
+## actual training loop
+## (should take about 2-4 minutes)
+##################################################
+
+# instantiate model
+lstm = LSTM(cat_embedding_size  = 32,
+            n_cat               = n_categories,
+            char_embedding_size = 32,
+            n_char              = n_letters,
+            hidden_size         = 64,
+            output_size         = n_letters,
+            dropout             = 0.1,
+            num_layers          = 1
+            )
+# training objective
+criterion = nn.NLLLoss(reduction=&#39;sum&#39;)
+# learning rate
+learning_rate = 0.005
+# optimizer
+optimizer = torch.optim.Adam(lstm.parameters(), lr=learning_rate)
+# training parameters
+n_iters = 50000
+print_every = 5000
+plot_every = 500
+all_losses = []
+total_loss = 0 # will be reset every &#39;plot_every&#39; iterations
+
+start = time.time()
+
+for iter in range(1, n_iters + 1):
+    loss = train(*randomTrainingExample())
+    total_loss += loss
+
+    if iter % plot_every == 0:
+        all_losses.append(total_loss / plot_every)
+        total_loss = 0
+
+    if iter % print_every == 0:
+        rolling_mean = np.mean(all_losses[iter - print_every*(iter//print_every):])
+        print(&#39;%s (%d %d%%) %.4f&#39; % (timeSince(start),
+                                     iter,
+                                     iter / n_iters * 100,
+                                     rolling_mean))
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="plotting-training-performance">
+<h2>Plotting training performance<a class="headerlink" href="#plotting-training-performance" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
+## monitoring loss function during training
+##################################################
+
+plt.figure()
+plt.plot(all_losses)
+plt.show()
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="evaluation">
+<h2>Evaluation<a class="headerlink" href="#evaluation" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
+## evaluation
+##################################################
+
+def get_surprisal_item(category, name):
+    name      = torch.tensor(getNameIndices(name))
+    cat       = getCatIndices(category,len(name))
+    hidden    = lstm.initHidden()
+    prediction, hidden = lstm(cat, name, hidden)
+    nll       = criterion(prediction[:-1], name[1:len(name)])
+    return(nll.item())
+
+def get_surprisal_dataset(data):
+    surprisl_dict = dict()
+    surp_avg_dict = dict()
+    perplxty_dict = dict()
+    for category in list(data.keys()):
+        surprisl = 0
+        surp_avg = 0
+        perplxty = 0
+        # training
+        for name in data[category]:
+            item_surpr = get_surprisal_item(category, name)
+            surprisl  += item_surpr
+            surp_avg  += item_surpr / len(name)
+            perplxty  += item_surpr ** (-1 / len(name))
+        n_items = len(data[category])
+
+        surprisl_dict[category] = (surprisl /n_items)
+        surp_avg_dict[category] = (surp_avg / n_items)
+        perplxty_dict[category] = (perplxty / n_items)
+
+    return(surprisl_dict, surp_avg_dict, perplxty_dict)
+
+def makeDF(surp_dict):
+    p = pandas.DataFrame.from_dict(surp_dict)
+    p = p.transpose()
+    p.columns = [&quot;surprisal&quot;, &quot;surp_scaled&quot;, &quot;perplexity&quot;]
+    return(p)
+
+surprisal_test  = makeDF(get_surprisal_dataset(test_data))
+surprisal_train = makeDF(get_surprisal_dataset(train_data))
+
+print(&quot;\nmean surprisal (test):&quot;, np.mean(surprisal_test[&quot;surprisal&quot;]))
+print(&quot;\nmean surprisal (train):&quot;, np.mean(surprisal_train[&quot;surprisal&quot;]))
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="exploring-model-predictions">
+<h2>Exploring model predictions<a class="headerlink" href="#exploring-model-predictions" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
+## prediction function
+##################################################
+
+max_length = 20
+
+# make a prediction based on given sequence
+def predict(category, initial_sequence, decode_strat = &quot;greedy&quot;):
+
+    if len(initial_sequence) &gt;= max_length:
+        return(initial_sequence)
+
+    name      = torch.tensor(getNameIndices(initial_sequence))[:-1]
+    cat       = getCatIndices(category,len(name))
+    hidden    = lstm.initHidden()
+
+    generation = initial_sequence
+
+    output, hidden = lstm(cat, name, hidden)
+    next_word_pred = output[-1]
+
+    if decode_strat == &quot;pure&quot;:
+        sample_index = torch.multinomial(input = torch.exp(next_word_pred),
+                                         num_samples = 1)
+        pass
+    else:
+        topv, topi = next_word_pred.topk(1)
+        sample_index = topi[0].item()
+
+    if sample_index == EOSIndex:
+        return(generation)
+    else:
+        generation += all_letters[sample_index]
+
+    return(predict(category, generation))
+
+print(predict(&quot;German&quot;, &quot;&quot;, decode_strat = &quot;greedy&quot;))
+print(predict(&quot;German&quot;, &quot;&quot;, decode_strat = &quot;pure&quot;))
+print(predict(&quot;German&quot;, &quot;&quot;, decode_strat = &quot;pure&quot;))
+print(predict(&quot;German&quot;, &quot;&quot;, decode_strat = &quot;pure&quot;))
+
+print(predict(&quot;Japanese&quot;, &quot;&quot;, decode_strat = &quot;greedy&quot;))
+print(predict(&quot;Japanese&quot;, &quot;&quot;, decode_strat = &quot;pure&quot;))
+print(predict(&quot;Japanese&quot;, &quot;&quot;, decode_strat = &quot;pure&quot;))
+print(predict(&quot;Japanese&quot;, &quot;&quot;, decode_strat = &quot;pure&quot;))
+
+# extend the &#39;predict&#39; function to include a parameter to implement the following decoding schemes:
+# - top-k (variable k)
+# - softmax (variable soft-max parameter)
+# - top-p (variable p)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="class-predictions-from-the-generation-model">
+<h2>Class predictions from the generation model<a class="headerlink" href="#class-predictions-from-the-generation-model" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def infer_category(name):
+    probs = torch.tensor([torch.exp(-torch.tensor(get_surprisal_item(c, name))) for c in categories])
+    probs = probs/torch.sum(probs)
+    vals, cats = probs.topk(3)
+    print(&quot;Top 3 guesses for &quot;, name, &quot;:\n&quot;)
+    for i in range(len(cats)):
+        print(&quot;%12s: %.5f&quot; %
+              (categories[cats[i]], vals[i].detach().numpy() ))
+
+# that&#39;s really interesting: there is a base-rate effect!
+infer_category(&quot;Smith&quot;)
+infer_category(&quot;Miller&quot;)
+
+# Bonus exercise:
+# what&#39;s going on here?
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./06-LSTMs"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Michael Franke<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

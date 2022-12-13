@@ -1,0 +1,899 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Decoding strategies for autoregressive generation with a (blackbox) language model &#8212; Neural Pragmatic Natural Language Generation</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/npNLG-logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Neural Pragmatic Natural Language Generation</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../000-intro.html">
+                    Pragmatic Natural Language Generation with Neural Language Models
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  00 organization
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../00-organization/00a-overview.html">
+   Course overview
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../00-organization/00b-practicalities.html">
+   Practicalities
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../00-organization/00c-schedule.html">
+   Schedule
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../00-organization/00d-slides.html">
+   Slides from session 1
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  01 Probabilistic pragmatics
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../01-prob-prag/01a-prob-prag.html">
+   Probabilistic pragmatics
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../01-prob-prag/01b-RSA-vanilla.html">
+   Sheet 1.1: Vanilla RSA
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../01-prob-prag/01c-RSA-politeness.html">
+   Sheet 1.2: RSA with politeness
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  02 PyTorch Basics
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../02-pytorch/02a-pytorch-basics.html">
+   Basics of PyTorch
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../02-pytorch/02b-pytorch-intro.html">
+   Sheet 2.1: PyTorch essentials
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../02-pytorch/02c-MLE.html">
+   Sheet 2.2: ML-estimation
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  03 Optimization
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../03-optimization/03a-optimization.html">
+   Optimization in PyTorch
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../03-optimization/03b-gradient-descent.html">
+   Sheet 3.1: Gradient descent by hand
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../03-optimization/03c-RSA-pytorch.html">
+   Sheet 3.2: Optimizing an RSA model
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  04 ANNs in PyTorch
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../04-ANNs/04a-ANNs.html">
+   Artificial neural networks
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../04-ANNs/04b-algebra.html">
+   Linear algebra
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../04-ANNs/04c-MLP-custom.html">
+   Sheet 4.1: Non-linear regression (custom MLP)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../04-ANNs/04d-MLP-pytorch.html">
+   Sheet 4.2: Non-linear regression (MLP w/ PyTorch modules)
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  05 ANNs in PyTorch
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../05-RNNs/05a-RNNs.html">
+   Recurrent neural networks
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../05-RNNs/05b-char-level-RNN.html">
+   Sheet 5.1: Character-level sequence modeling w/ RNNs
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/michael-franke/npNLG/main?urlpath=tree/neural_pragmatic_nlg/06-LSTMs/06d-decoding-GPT2.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://colab.research.google.com/github/michael-franke/npNLG/blob/main/neural_pragmatic_nlg/06-LSTMs/06d-decoding-GPT2.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Colab"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../_static/images/logo_colab.png">
+  </span>
+<span class="headerbtn__text-container">Colab</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/michael-franke/npNLG"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/michael-franke/npNLG/issues/new?title=Issue%20on%20page%20%2F06-LSTMs/06d-decoding-GPT2.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../_sources/06-LSTMs/06d-decoding-GPT2.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Decoding strategies for autoregressive generation with a (blackbox) language model
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#preparation-imports-defs">
+     Preparation (imports, defs)
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#pure-sampling-approach">
+     Pure sampling approach
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#soft-max-sampling">
+   Soft-max sampling
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#greedy-sampling">
+     Greedy sampling
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#beam-search">
+     Beam search
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#top-k-sampling">
+     Top-
+     <span class="math notranslate nohighlight">
+      \(k\)
+     </span>
+     sampling
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#top-p-sampling">
+     Top-
+     <span class="math notranslate nohighlight">
+      \(p\)
+     </span>
+     sampling
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Decoding strategies for autoregressive generation with a (blackbox) language model</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Decoding strategies for autoregressive generation with a (blackbox) language model
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#preparation-imports-defs">
+     Preparation (imports, defs)
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#pure-sampling-approach">
+     Pure sampling approach
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#soft-max-sampling">
+   Soft-max sampling
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#greedy-sampling">
+     Greedy sampling
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#beam-search">
+     Beam search
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#top-k-sampling">
+     Top-
+     <span class="math notranslate nohighlight">
+      \(k\)
+     </span>
+     sampling
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#top-p-sampling">
+     Top-
+     <span class="math notranslate nohighlight">
+      \(p\)
+     </span>
+     sampling
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section class="tex2jax_ignore mathjax_ignore" id="decoding-strategies-for-autoregressive-generation-with-a-blackbox-language-model">
+<h1>Decoding strategies for autoregressive generation with a (blackbox) language model<a class="headerlink" href="#decoding-strategies-for-autoregressive-generation-with-a-blackbox-language-model" title="Permalink to this headline">#</a></h1>
+<p>Given a (blackbox) function that gives us a next-word probability, how do we use this to generate naturally sounding text?</p>
+<p>This tutorial explores a bunch of options, using the GTP-2 distribution provided by 🤗’s <code class="docutils literal notranslate"><span class="pre">transformer</span></code> package.</p>
+<p>The tutorial closely follows this blog post: https://huggingface.co/blog/how-to-generate</p>
+<p>We will look at the following decoding strategies (in this order):</p>
+<ol class="simple">
+<li><p>pure sampling</p></li>
+<li><p>soft-max sampling</p></li>
+<li><p>greedy sampling</p></li>
+<li><p>beam search</p></li>
+<li><p>top-<span class="math notranslate nohighlight">\(k\)</span> sampling</p></li>
+</ol>
+<section id="preparation-imports-defs">
+<h2>Preparation (imports, defs)<a class="headerlink" href="#preparation-imports-defs" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+# import relevant packages
+import torch 
+from transformers import GPT2LMHeadModel, GPT2Tokenizer
+
+# load the tokenizer
+tokenizer = GPT2Tokenizer.from_pretrained(&quot;gpt2&quot;)
+
+# add the EOS token as PAD token to avoid warnings
+model = GPT2LMHeadModel.from_pretrained(&quot;gpt2&quot;, pad_token_id=tokenizer.eos_token_id)
+
+# convenience function for nicer output
+def pretty_print(s):
+    print(&quot;Output:\n&quot; + 100 * &#39;-&#39;)
+    print(tokenizer.decode(s, skip_special_tokens=True))
+
+# encode context the generation is conditioned on
+input_ids = tokenizer.encode(&#39;I enjoy walking with my cute dog&#39;, return_tensors=&#39;pt&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="pure-sampling-approach">
+<h2>Pure sampling approach<a class="headerlink" href="#pure-sampling-approach" title="Permalink to this headline">#</a></h2>
+<p>In a pure sampling approach, we just sample each next word with exactly the probability assigned to it by the LM. Notice that this process, therefore, is non-determinisitic. We can force replicable results, though, by setting a seed.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># set a seed for reproducibility (if you want)
+# torch.manual_seed(1996)
+
+# use function &#39;model.generate&#39; from `transformer` package to sample by
+#  setting `do_sample=True` and knocking out `top_k` sampling (see below)
+sample_output = model.generate(
+    input_ids,        # context to continue
+    do_sample=True,   # use sampling (not beam search (see below))
+    max_length=50,    # return maximally 50 words (including the input given)
+    top_k=0           # just sample one word
+)
+
+pretty_print(sample_output[0])
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Output:
+----------------------------------------------------------------------------------------------------
+I enjoy walking with my cute dog Kass; we have a good book out, and a cab so she can hang out as she waits for us: A 404 - Love Noni &quot;Perhaps the best way to describe murder in the arts is to say
+</pre></div>
+</div>
+</div>
+</div>
+<p><em>Tasks</em>:</p>
+<ol class="simple">
+<li><p>How good is this production? Is it grammatical? Locally meaningful, globally meaningful?</p></li>
+<li><p>[optional] Try sampling 100 single next-words for your initial sentence fragment. (Remember not to set a seed.)</p></li>
+</ol>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="soft-max-sampling">
+<h1>Soft-max sampling<a class="headerlink" href="#soft-max-sampling" title="Permalink to this headline">#</a></h1>
+<p>In soft-max sampling, the probablity of sampling word <span class="math notranslate nohighlight">\(w_i\)</span> is <span class="math notranslate nohighlight">\(P_{\text{sample}}(w_i \mid w_{1:i-1}) \propto \exp (\frac{1}{\tau} P_{\text{M}}(w_i \mid w_{1:i-1}) )\)</span>, where <span class="math notranslate nohighlight">\(\tau\)</span> is a temperature parameter.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+# same as before but with `temperature`` parameter
+SM_sample_output = model.generate(
+    input_ids,        # context to continue
+    do_sample=True,   # use sampling (not beam search (see below))
+    max_length=50,    # return maximally 50 words (including the input given)
+    top_k=0,          # just sample one word
+    temperature=0.7   # soft-max temperature parameter
+)
+
+pretty_print(SM_sample_output[0])
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Output:
+----------------------------------------------------------------------------------------------------
+I enjoy walking with my cute dog, but in the end she is a bit stubborn and stubborn and she is not very happy with me anymore. This is the problem with the dog. I had her being more aggressive and more aggressive with me. I
+</pre></div>
+</div>
+</div>
+</div>
+<p><em>Tasks</em>:</p>
+<ol class="simple">
+<li><p>How good is this production? Is it grammatical? Locally meaningful, globally meaningful?</p></li>
+<li><p>Predict what will happen if you set <span class="math notranslate nohighlight">\(\tau=5\)</span>. Try it out.</p></li>
+</ol>
+<section id="greedy-sampling">
+<h2>Greedy sampling<a class="headerlink" href="#greedy-sampling" title="Permalink to this headline">#</a></h2>
+<p>In greedy sampling, we don’t actually sample but just take the most likely next-word at every step.
+Greedy sampling is equivalent to setting <span class="math notranslate nohighlight">\(\tau=0\)</span> for soft-max sampling.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># greedy sampling is the default of the `model.generate` function
+
+greedy_output = model.generate(input_ids, max_length=50)
+
+pretty_print(greedy_output[0])  
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Output:
+----------------------------------------------------------------------------------------------------
+I enjoy walking with my cute dog, but I&#39;m not sure if I&#39;ll ever be able to walk with my dog. I&#39;m not sure if I&#39;ll ever be able to walk with my dog.
+
+I&#39;m not sure if I&#39;ll
+</pre></div>
+</div>
+</div>
+</div>
+<p><em>Tasks</em>:</p>
+<ol class="simple">
+<li><p>How good is this production? Is it grammatical? Locally meaningful, globally meaningful?</p></li>
+<li><p>Is greedy sampling guaranteed to select the most likely sequence? Or can it be led astray?</p></li>
+</ol>
+</section>
+<section id="beam-search">
+<h2>Beam search<a class="headerlink" href="#beam-search" title="Permalink to this headline">#</a></h2>
+<p>In simplified terms, beam search is a parallel search procedure that keeps a number <span class="math notranslate nohighlight">\(k\)</span> of path probabilities open at each choice point, dropping the least likely as we go along. (There is actually no unanimity in what exactly beam search means for NLG.)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># option `early_stopping` implies stopping when all beams reach the end-of-sentence token
+beam_output = model.generate(
+    input_ids, 
+    max_length=50, 
+    num_beams=5, 
+    early_stopping=True
+) 
+
+pretty_print(beam_output[0])
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Output:
+----------------------------------------------------------------------------------------------------
+I enjoy walking with my cute dog, but I&#39;m not sure if I&#39;ll ever be able to walk with him again.
+
+I&#39;m not sure if I&#39;ll ever be able to walk with him again. I&#39;m not sure if I&#39;ll
+</pre></div>
+</div>
+</div>
+</div>
+<p><em>Tasks</em>:</p>
+<ol class="simple">
+<li><p>How good is this production? Is it grammatical? Locally meaningful, globally meaningful?</p></li>
+<li><p>Try out the option <code class="docutils literal notranslate"><span class="pre">no_repeat_ngram_size=2</span></code> and see if it improves the results. This option supresses generation of <span class="math notranslate nohighlight">\(n\)</span>-grams of the given size. Play around with the number <span class="math notranslate nohighlight">\(n\)</span> supplied.</p></li>
+</ol>
+</section>
+<section id="top-k-sampling">
+<h2>Top-<span class="math notranslate nohighlight">\(k\)</span> sampling<a class="headerlink" href="#top-k-sampling" title="Permalink to this headline">#</a></h2>
+<p>This sampling scheme looks at the <span class="math notranslate nohighlight">\(k\)</span> most likely next-words and samples from so that:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}P_{\text{sample}}(w_i \mid w_{1:i-1}) \propto 
+\begin{cases} 
+  P_{M}(w_i \mid w_{1:i-1}) &amp; \text{if } w_i \text{ in top-}k  \\
+  0 &amp; \text{otherwise}
+\end{cases}\end{split}\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>top_k_output = model.generate(
+    input_ids, 
+    do_sample=True, 
+    max_length=50, 
+    top_k=50          # setting `top_k` option triggers top-k sampling
+)
+
+pretty_print(top_k_output[0])
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Output:
+----------------------------------------------------------------------------------------------------
+I enjoy walking with my cute dog, but it&#39;s not for me to try to please a puppy.&quot;
+
+Michele, who lives in Fort Meade, Ga., said she never really wanted to &quot;lose the love&quot; of her
+</pre></div>
+</div>
+</div>
+</div>
+<p><em>Task</em>:</p>
+<p>How good is this production? Is it grammatical? Locally meaningful, globally meaningful?</p>
+</section>
+<section id="top-p-sampling">
+<h2>Top-<span class="math notranslate nohighlight">\(p\)</span> sampling<a class="headerlink" href="#top-p-sampling" title="Permalink to this headline">#</a></h2>
+<p>Top-<span class="math notranslate nohighlight">\(p\)</span> sampling is similar to top-<span class="math notranslate nohighlight">\(k\)</span> sampling, but restricts sampling not to the top-<span class="math notranslate nohighlight">\(k\)</span> most likely words (so always the same number of words), but the set of most likely words the summed probability of which exceeds threshold <span class="math notranslate nohighlight">\(p\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>top_k_output = model.generate(
+    input_ids, 
+    do_sample=True, 
+    max_length=50, 
+    top_p=0.9        # set the top-p parameter here
+)
+
+pretty_print(top_k_output[0])
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Output:
+----------------------------------------------------------------------------------------------------
+I enjoy walking with my cute dog and he&#39;s a really nice person. The second time we got to our house, my mother came over and brought a bucket of water. I&#39;m very happy with it. She was just a little upset that I
+</pre></div>
+</div>
+</div>
+</div>
+<p><em>Tasks:</em></p>
+<ol class="simple">
+<li><p>How good (grammatical, locally and globally coherent) is this output?</p></li>
+<li><p>In which cases would the next-word predictions of top-<span class="math notranslate nohighlight">\(k\)</span> and top-<span class="math notranslate nohighlight">\(p\)</span> divergence quite a bit?</p></li>
+</ol>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./06-LSTMs"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Michael Franke<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>
