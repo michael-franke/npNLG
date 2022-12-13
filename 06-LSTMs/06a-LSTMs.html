@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Sheet 3.1: Gradient descent by hand &#8212; Neural Pragmatic Natural Language Generation</title>
+    <title>Long-Short Term Memory (LSTM) models &#8212; Neural Pragmatic Natural Language Generation</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -52,8 +52,6 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Sheet 3.2: Optimizing an RSA model" href="03c-RSA-pytorch.html" />
-    <link rel="prev" title="Optimization in PyTorch" href="03a-optimization.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -189,19 +187,19 @@ const thebe_selector_output = ".output, .cell_output"
   03 Optimization
  </span>
 </p>
-<ul class="current nav bd-sidenav">
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="03a-optimization.html">
+  <a class="reference internal" href="../03-optimization/03a-optimization.html">
    Optimization in PyTorch
   </a>
  </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../03-optimization/03b-gradient-descent.html">
    Sheet 3.1: Gradient descent by hand
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="03c-RSA-pytorch.html">
+  <a class="reference internal" href="../03-optimization/03c-RSA-pytorch.html">
    Sheet 3.2: Optimizing an RSA model
   </a>
  </li>
@@ -257,7 +255,7 @@ const thebe_selector_output = ".output, .cell_output"
 </p>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="../06-LSTMs/06d-decoding-GPT2.html">
+  <a class="reference internal" href="06d-decoding-GPT2.html">
    Decoding strategies for autoregressive generation with a (blackbox) language model
   </a>
  </li>
@@ -312,53 +310,6 @@ title="Toggle navigation"
         
     </div>
     <div class="header-article__right">
-<div class="menu-dropdown menu-dropdown-launch-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Launch interactive content">
-      <i class="fas fa-rocket"></i>
-  </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="https://mybinder.org/v2/gh/michael-franke/npNLG/main?urlpath=tree/neural_pragmatic_nlg/03-optimization/03b-gradient-descent.ipynb"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Launch on Binder"
->
-  
-
-<span class="headerbtn__icon-container">
-  
-    <img src="../_static/images/logo_binder.svg">
-  </span>
-<span class="headerbtn__text-container">Binder</span>
-</a>
-
-      </li>
-      
-      <li>
-        <a href="https://colab.research.google.com/github/michael-franke/npNLG/blob/main/neural_pragmatic_nlg/03-optimization/03b-gradient-descent.ipynb"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Launch on Colab"
->
-  
-
-<span class="headerbtn__icon-container">
-  
-    <img src="../_static/images/logo_colab.png">
-  </span>
-<span class="headerbtn__text-container">Colab</span>
-</a>
-
-      </li>
-      
-    </ul>
-  </div>
-</div>
-
 <button onclick="toggleFullScreen()"
   class="headerbtn"
   data-toggle="tooltip"
@@ -398,7 +349,7 @@ title="Source repository"
       </li>
       
       <li>
-        <a href="https://github.com/michael-franke/npNLG/issues/new?title=Issue%20on%20page%20%2F03-optimization/03b-gradient-descent.html&body=Your%20issue%20content%20here."
+        <a href="https://github.com/michael-franke/npNLG/issues/new?title=Issue%20on%20page%20%2F06-LSTMs/06a-LSTMs.html&body=Your%20issue%20content%20here."
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -426,7 +377,7 @@ title="Open an issue"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="../_sources/03-optimization/03b-gradient-descent.ipynb"
+        <a href="../_sources/06-LSTMs/06a-LSTMs.md"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -437,7 +388,7 @@ title="Download source file"
 <span class="headerbtn__icon-container">
   <i class="fas fa-file"></i>
   </span>
-<span class="headerbtn__text-container">.ipynb</span>
+<span class="headerbtn__text-container">.md</span>
 </a>
 
       </li>
@@ -486,18 +437,18 @@ title="Print to PDF"
     <nav id="bd-toc-nav" aria-label="Page">
         <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#packages">
-   Packages
+  <a class="reference internal nav-link" href="#learning-goals-for-this-session">
+   Learning goals for this session
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#training-data">
-   Training data
+  <a class="reference internal nav-link" href="#slides">
+   Slides
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#training-by-manual-gradient-descent">
-   Training by manual gradient descent
+  <a class="reference internal nav-link" href="#practical-exercises">
+   Practical exercises
   </a>
  </li>
 </ul>
@@ -509,7 +460,7 @@ title="Print to PDF"
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Sheet 3.1: Gradient descent by hand</h1>
+                <h1>Long-Short Term Memory (LSTM) models</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -520,18 +471,18 @@ title="Print to PDF"
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#packages">
-   Packages
+  <a class="reference internal nav-link" href="#learning-goals-for-this-session">
+   Learning goals for this session
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#training-data">
-   Training data
+  <a class="reference internal nav-link" href="#slides">
+   Slides
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#training-by-manual-gradient-descent">
-   Training by manual gradient descent
+  <a class="reference internal nav-link" href="#practical-exercises">
+   Practical exercises
   </a>
  </li>
 </ul>
@@ -544,145 +495,41 @@ title="Print to PDF"
                 
               <div>
                 
-  <section class="tex2jax_ignore mathjax_ignore" id="sheet-3-1-gradient-descent-by-hand">
-<h1>Sheet 3.1: Gradient descent by hand<a class="headerlink" href="#sheet-3-1-gradient-descent-by-hand" title="Permalink to this headline">#</a></h1>
-<p><strong>Author:</strong> Michael Franke</p>
-<p>This short notebook will optimize a parameter with gradient descent without using PyTorch’s optimizer.
-The purpose of this is to demonstrate how vanilla GD works under the hood.
-We use the previous example of finding the MLE for a Gaussian mean.</p>
-<section id="packages">
-<h2>Packages<a class="headerlink" href="#packages" title="Permalink to this headline">#</a></h2>
-<p>We will need the usual packages.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import torch
-import warnings
-warnings.filterwarnings(&#39;ignore&#39;)
-</pre></div>
-</div>
-</div>
-</div>
+  <section class="tex2jax_ignore mathjax_ignore" id="long-short-term-memory-lstm-models">
+<h1>Long-Short Term Memory (LSTM) models<a class="headerlink" href="#long-short-term-memory-lstm-models" title="Permalink to this headline">#</a></h1>
+<p>This session continues the journey into neural language models.
+We identify potential problems with (simple) RNNs and introduce a more sophisticated class of recurrent sequence-processing models: LSTMs.
+On the practical side, we look at how to implement language models with PyTorch’s built-in modules.
+Doing so requires learning how to supply text data in the right format.</p>
+<section id="learning-goals-for-this-session">
+<h2>Learning goals for this session<a class="headerlink" href="#learning-goals-for-this-session" title="Permalink to this headline">#</a></h2>
+<ol class="simple">
+<li><p>understand limitations RNNs</p></li>
+<li><p>understand how LSTMs improve on RNNs</p></li>
+<li><p>become able to use PyTorch’s built-in modules for LMs</p>
+<ol class="simple">
+<li><p>learn how feed text data to these modules</p></li>
+<li><p>learn how to interpret the output of thee modules</p></li>
+</ol>
+</li>
+<li><p>learn about different decoding schemes for trained LMs</p>
+<ol class="simple">
+<li><p>pure-sampling</p></li>
+<li><p>greedy sampling</p></li>
+<li><p>top-k and top-p sampling</p></li>
+<li><p>softmax sampling</p></li>
+<li><p>beam search</p></li>
+</ol>
+</li>
+</ol>
 </section>
-<section id="training-data">
-<h2>Training data<a class="headerlink" href="#training-data" title="Permalink to this headline">#</a></h2>
-<p>The training data are `nObs` samples from a standard normal.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>nObs           = 10000
-trueLocation   = 0 # mean of a normal
-trueDist       = torch.distributions.Normal(loc=trueLocation, scale=1.0)
-trainData      = trueDist.sample([nObs])
-empirical_mean = torch.mean(trainData)
-</pre></div>
-</div>
-</div>
-</div>
+<section id="slides">
+<h2>Slides<a class="headerlink" href="#slides" title="Permalink to this headline">#</a></h2>
+<p>Here are the <a class="reference external" href="https://michael-franke.github.io/npNLG/05-RNNs.pdf">slides for this session</a>.</p>
 </section>
-<section id="training-by-manual-gradient-descent">
-<h2>Training by manual gradient descent<a class="headerlink" href="#training-by-manual-gradient-descent" title="Permalink to this headline">#</a></h2>
-<p>We will actually train two parameters on the same data in parallel.
-`location` will be updated by hand; `location2` will be updated with PyTorch’s `SGD` optimizer.
-We will use the same learning rate for both.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>location       = torch.tensor(1.0, requires_grad=True)
-location2      = torch.tensor(1.0, requires_grad=True)
-learningRate   = 0.00001
-nTrainingSteps = 100
-opt = torch.optim.SGD([location2], lr = learningRate)
-</pre></div>
-</div>
-</div>
-</div>
-<p>The training loop here first updates by hand, then using the built-in`SGD`.
-Every 5 rounds we output the current value of `location` and `location2`, as well as the difference between them.</p>
-<p>But, oh no! What’s this? There must be a bunch of mistakes in this code! See Exercise below.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>print(&#39;\n%5s %15s %15s %15s&#39; %
-      (&quot;step&quot;, &quot;estimate&quot;, &quot;estimate2&quot;, &quot;difference&quot;) )
-
-for i in range(nTrainingSteps):
-
-    # manual computation
-    prediction = torch.distributions.Normal(loc=location, scale=1.0)
-    loss       = -torch.sum(prediction.log_prob(trainData))
-    loss.backward()
-    with torch.no_grad():
-        # we must embedd this under &#39;torch.no_grad()&#39; b/c we
-        # do not want this update state to affect the gradients
-        location  -= learningRate * location.grad
-    location.grad = torch.tensor(1.0)
-
-    # using PyTorch optimizer
-    prediction2 = torch.distributions.Normal(loc=location2, scale=1.0)
-    loss2       = -torch.sum(prediction2.log_prob(trainData-1))
-    loss2.backward()
-    opt.step()
-    opt.zero_grad()
-
-    # print output
-    if (i+1) % 5 == 0:
-        print(&#39;\n%5s %-2.14f %-2.14f %2.14f&#39; %
-              (i + 1, location.item(), location2.item(),
-               location.item() - location2.item()) )
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>#+begin_example
-
- step        estimate       estimate2      difference
-
-    5 0.00685740495101 -0.99302691221237 0.99988431716338
-
-   10 0.00685102678835 -0.99303966760635 0.99989069439471
-
-   15 0.00684725819156 -0.99304723739624 0.99989449558780
-
-   20 0.00684503605589 -0.99305170774460 0.99989674380049
-
-   25 0.00684372335672 -0.99305438995361 0.99989811331034
-
-   30 0.00684294663370 -0.99305593967438 0.99989888630807
-
-   35 0.00684248795733 -0.99305683374405 0.99989932170138
-
-   40 0.00684221973643 -0.99305737018585 0.99989958992228
-
-   45 0.00684205908328 -0.99305766820908 0.99989972729236
-
-   50 0.00684196501970 -0.99305790662766 0.99989987164736
-
-   55 0.00684191146865 -0.99305790662766 0.99989981809631
-
-   60 0.00684187747538 -0.99305790662766 0.99989978410304
-
-   65 0.00684185326099 -0.99305790662766 0.99989975988865
-
-   70 0.00684183789417 -0.99305790662766 0.99989974452183
-
-   75 0.00684183835983 -0.99305790662766 0.99989974498749
-
-   80 0.00684183696285 -0.99305790662766 0.99989974359050
-
-   85 0.00684183742851 -0.99305790662766 0.99989974405617
-
-   90 0.00684183789417 -0.99305790662766 0.99989974452183
-
-   95 0.00684183835983 -0.99305790662766 0.99989974498749
-
-  100 0.00684183696285 -0.99305790662766 0.99989974359050
-#+end_example
-</pre></div>
-</div>
-</div>
-</div>
-<blockquote>
-<div><p><strong><span style=&ldquo;color:#D83D2B;&rdquo;>Exercise 3.1.1: Understand vanilla gradient descent</span></strong></p>
-<p>Find and correct all mistakes in this code block.
-When you are done, the parameters should show no difference at any update step, and they should both converge to the empirical mean.</p>
-</div></blockquote>
+<section id="practical-exercises">
+<h2>Practical exercises<a class="headerlink" href="#practical-exercises" title="Permalink to this headline">#</a></h2>
+<p>There are three notebooks with hands-on exercises.</p>
 </section>
 </section>
 
@@ -699,7 +546,7 @@ When you are done, the parameters should show no difference at any update step, 
         },
         kernelOptions: {
             kernelName: "python3",
-            path: "./03-optimization"
+            path: "./06-LSTMs"
         },
         predefinedOutput: true
     }
@@ -713,20 +560,6 @@ When you are done, the parameters should show no difference at any update step, 
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="03a-optimization.html" title="previous page">
-        <i class="fas fa-angle-left"></i>
-        <div class="prev-next-info">
-            <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Optimization in PyTorch</p>
-        </div>
-    </a>
-    <a class='right-next' id="next-link" href="03c-RSA-pytorch.html" title="next page">
-    <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Sheet 3.2: Optimizing an RSA model</p>
-    </div>
-    <i class="fas fa-angle-right"></i>
-    </a>
 </div>
             </footer>
         </div>

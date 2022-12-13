@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Sheet 4.1: Non-linear regression (custom MLP) &#8212; Neural Pragmatic Natural Language Generation</title>
+    <title>Sheet 6.1: Anatomy of a single LSTM forward pass &#8212; Neural Pragmatic Natural Language Generation</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -50,12 +50,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
-    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Sheet 4.2: Non-linear regression (MLP w/ PyTorch modules)" href="04d-MLP-pytorch.html" />
-    <link rel="prev" title="Linear algebra" href="04b-algebra.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -213,24 +209,24 @@ const thebe_selector_output = ".output, .cell_output"
   04 ANNs in PyTorch
  </span>
 </p>
-<ul class="current nav bd-sidenav">
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="04a-ANNs.html">
+  <a class="reference internal" href="../04-ANNs/04a-ANNs.html">
    Artificial neural networks
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="04b-algebra.html">
+  <a class="reference internal" href="../04-ANNs/04b-algebra.html">
    Linear algebra
   </a>
  </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../04-ANNs/04c-MLP-custom.html">
    Sheet 4.1: Non-linear regression (custom MLP)
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="04d-MLP-pytorch.html">
+  <a class="reference internal" href="../04-ANNs/04d-MLP-pytorch.html">
    Sheet 4.2: Non-linear regression (MLP w/ PyTorch modules)
   </a>
  </li>
@@ -259,7 +255,7 @@ const thebe_selector_output = ".output, .cell_output"
 </p>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="../06-LSTMs/06d-decoding-GPT2.html">
+  <a class="reference internal" href="06d-decoding-GPT2.html">
    Decoding strategies for autoregressive generation with a (blackbox) language model
   </a>
  </li>
@@ -322,7 +318,7 @@ title="Toggle navigation"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="https://mybinder.org/v2/gh/michael-franke/npNLG/main?urlpath=tree/neural_pragmatic_nlg/04-ANNs/04c-MLP-custom.ipynb"
+        <a href="https://mybinder.org/v2/gh/michael-franke/npNLG/main?urlpath=tree/neural_pragmatic_nlg/06-LSTMs/06b-LSTM-minimal-forward-pass.ipynb"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -340,7 +336,7 @@ title="Launch on Binder"
       </li>
       
       <li>
-        <a href="https://colab.research.google.com/github/michael-franke/npNLG/blob/main/neural_pragmatic_nlg/04-ANNs/04c-MLP-custom.ipynb"
+        <a href="https://colab.research.google.com/github/michael-franke/npNLG/blob/main/neural_pragmatic_nlg/06-LSTMs/06b-LSTM-minimal-forward-pass.ipynb"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -400,7 +396,7 @@ title="Source repository"
       </li>
       
       <li>
-        <a href="https://github.com/michael-franke/npNLG/issues/new?title=Issue%20on%20page%20%2F04-ANNs/04c-MLP-custom.html&body=Your%20issue%20content%20here."
+        <a href="https://github.com/michael-franke/npNLG/issues/new?title=Issue%20on%20page%20%2F06-LSTMs/06b-LSTM-minimal-forward-pass.html&body=Your%20issue%20content%20here."
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -428,7 +424,7 @@ title="Open an issue"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="../_sources/04-ANNs/04c-MLP-custom.ipynb"
+        <a href="../_sources/06-LSTMs/06b-LSTM-minimal-forward-pass.ipynb"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -493,19 +489,36 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#true-model">
-   True model
+  <a class="reference internal nav-link" href="#preparing-the-input-data">
+   Preparing the input data
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#training-data">
-   Training data
+  <a class="reference internal nav-link" href="#a-single-forward-pass">
+   A single forward pass
   </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#hand-coding-a-multi-layer-perceptron">
-   Hand-coding a multi-layer perceptron
-  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#word-embeddings">
+     Word embeddings
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#the-lstm-encoding">
+     The LSTM encoding
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#linear-mapping-onto-weights-non-normalized-predictions">
+     Linear mapping onto weights (non-normalized predictions)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#next-word-probabilities-from-softmax-ing-weights">
+     Next-word probabilities from softmax-ing weights
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -516,7 +529,7 @@ title="Print to PDF"
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Sheet 4.1: Non-linear regression (custom MLP)</h1>
+                <h1>Sheet 6.1: Anatomy of a single LSTM forward pass</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -532,19 +545,36 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#true-model">
-   True model
+  <a class="reference internal nav-link" href="#preparing-the-input-data">
+   Preparing the input data
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#training-data">
-   Training data
+  <a class="reference internal nav-link" href="#a-single-forward-pass">
+   A single forward pass
   </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#hand-coding-a-multi-layer-perceptron">
-   Hand-coding a multi-layer perceptron
-  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#word-embeddings">
+     Word embeddings
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#the-lstm-encoding">
+     The LSTM encoding
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#linear-mapping-onto-weights-non-normalized-predictions">
+     Linear mapping onto weights (non-normalized predictions)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#next-word-probabilities-from-softmax-ing-weights">
+     Next-word probabilities from softmax-ing weights
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -556,288 +586,310 @@ title="Print to PDF"
                 
               <div>
                 
-  <section class="tex2jax_ignore mathjax_ignore" id="sheet-4-1-non-linear-regression-custom-mlp">
-<h1>Sheet 4.1: Non-linear regression (custom MLP)<a class="headerlink" href="#sheet-4-1-non-linear-regression-custom-mlp" title="Permalink to this headline">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="sheet-6-1-anatomy-of-a-single-lstm-forward-pass">
+<h1>Sheet 6.1: Anatomy of a single LSTM forward pass<a class="headerlink" href="#sheet-6-1-anatomy-of-a-single-lstm-forward-pass" title="Permalink to this headline">#</a></h1>
 <p><strong>Author:</strong> Michael Franke</p>
-<p>In this tutorial, we will fit a non-linear regression, implemented as a multi-layer perceptron.
-First, we will implement it the hard way: coding the different layers in terms of explicitly spelled out matrix operations.
-In the next worksheet, we will see how the use of modules from PyTorch’ neural network package `torch.nn` helps us implement the model in a more efficient way.
-Going through the model entirely by hand, helps understand what is happening ’under the hood’ and also helps appreciating the high-level functionality provided by software like PyTorch.</p>
+<p>In this tutorial we will dissect a single forward pass for an LSTM model defined by using PyTorch’s built-in LSTM class.
+We will not define a whole LSTM class or even train a model, but showcase how raw text data needs to be wrangled so that we can feed it into the ’nn.LSTM’ functionality supplied by PyTorch.
+We will also learn about the output of that function.</p>
 <section id="packages-global-parameters">
 <h2>Packages &amp; global parameters<a class="headerlink" href="#packages-global-parameters" title="Permalink to this headline">#</a></h2>
-<p>We will need to import the `torch` package for the main functionality.
-We specifically import the neural network functionalities from PyTorch as `nn`.
-We use this here only for the training loss function (MSE).
-In order to have a convenient handle, we load the `torch.nn.functional` package into variable `F`.
-We use this to pick up the activation function (ReLU) we will use for our neural network.</p>
+<p>We import torch and the neural network library.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import torch
 import torch.nn as nn
-import torch.nn.functional as F
-import numpy as np
-import seaborn as sns
-import pandas as pd
-import matplotlib.pyplot as plt
-# import sys
-import warnings
-warnings.filterwarnings(&#39;ignore&#39;)
-</pre></div>
-</div>
-</div>
-</div>
-<p>We will also globally set the float precision to 64:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>torch.set_default_dtype(torch.float64)
+# import time
+# import math
 </pre></div>
 </div>
 </div>
 </div>
 </section>
-<section id="true-model">
-<h2>True model<a class="headerlink" href="#true-model" title="Permalink to this headline">#</a></h2>
-<p>The “true model” is a constructed non-linear function <span class="math notranslate nohighlight">\(y = f(x)\)</span>.
-Here is its definition and a plot to show what the “ground truth” looks like.</p>
+<section id="preparing-the-input-data">
+<h2>Preparing the input data<a class="headerlink" href="#preparing-the-input-data" title="Permalink to this headline">#</a></h2>
+<p>Our raw input consists of just two sentences.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
-## ground-truth model
-##################################################
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># starting point: raw text input
+input_raw1 = &quot;Colin was here.&quot;
+input_raw2 = &quot;Colin went away subito.&quot;
+</pre></div>
+</div>
+</div>
+</div>
+<p>Our goal is to represent these sentences eventually as a sequence of integers, such that each integer represents the word at that sequence.
+In order to achieve  this, we need to collect <em>all</em> words (that are relevant) and assign them an integer, e.g., by enumerating them in a list.</p>
+<p>We also include some special tokens;</p>
+<ul class="simple">
+<li><p>[UNK] represents any occurrence of word that the vocabulary does not know (e.g., very rare words, foreign words, unrecognizable stuff, …)</p></li>
+<li><p>[EOS] is the end-of-sequence token</p></li>
+<li><p>[PAD] is a padding token (to make sequences of equal length, see below)</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># vocab definition: all units that we want to model
+# include special tokens:
+# like &quot;[UNK]&quot; for unknown words (here: &quot;subito&quot;)
+vocabulary = [&quot;Colin&quot;, &quot;was&quot;, &quot;here&quot;, &quot;went&quot;, &quot;away&quot;, &quot;[UNK]&quot; &quot;[EOS]&quot;, &quot;[PAD]&quot;]
+n_vocab = len(vocabulary) + 1
+</pre></div>
+</div>
+</div>
+</div>
+<p>Using the elements of the vocabulary, we can represent the raw input sentences as the following two sequences of tokens, respectively as sequences of integers.
+These steps are also known as <em>tokenization</em> and <em>indexing</em>.
+NB: we make sure that all input sequences are of equal length by  adding [PAD] tokens at the end.
+(It is also possible to process various-length sequences, but here we will use padding.)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># tokenization: sequence of tokens from the vocabulary
+input_tok1 = [&quot;Colin&quot;, &quot;was&quot;, &quot;here&quot;, &quot;[EOS]&quot;, &quot;[PAD]&quot;]
+input_tok2 = [&quot;Colin&quot;, &quot;went&quot;, &quot;away&quot;, &quot;subito&quot;, &quot;[EOS]&quot;]
 
-def goalFun(x):
-    return(x**3 - x**2 + 25 * np.sin(2*x))
+# indexing: represent input as tensor of indices
+input_ind1 = torch.tensor([0,1,2,6,7])
+input_ind2 = torch.tensor([0,3,4,5,6])
+</pre></div>
+</div>
+</div>
+</div>
+<p>Finally, we create the training batches.
+A batch is, essentially, a list of index-sequences.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>batch_size = 2
+sequence_length = 5
 
-# create linear sequence (x) and apply goalFun (y)
-x = np.linspace(start = -5, stop =5, num = 1000)
-y = goalFun(x)
-
-# plot the function
-d = pd.DataFrame({&#39;x&#39; : x, &#39;y&#39; : y})
-sns.lineplot(data = d, x = &#39;x&#39;, y = &#39;y&#39;)
-plt.show()
+batched_input = torch.cat([input_ind1, input_ind2]).reshape(batch_size, sequence_length)
+print(batched_input)
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/04c-MLP-custom_9_0.png" src="../_images/04c-MLP-custom_9_0.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[0, 1, 2, 6, 7],
+        [0, 3, 4, 5, 6]])
+</pre></div>
+</div>
 </div>
 </div>
 </section>
-<section id="training-data">
-<h2>Training data<a class="headerlink" href="#training-data" title="Permalink to this headline">#</a></h2>
-<p>The training data consists of 100 pairs of  <span class="math notranslate nohighlight">\((x,y)\)</span> values.
-Each pair is generated by first sampling an <span class="math notranslate nohighlight">\(x\)</span> value from a uniform distribution.
-For each sampled <span class="math notranslate nohighlight">\(x\)</span>, we compute the value of the target function <span class="math notranslate nohighlight">\(f(x)\)</span> and add Gaussian noise to it.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
-## generate training data (with noise)
-##################################################
-
-nObs = 100 # number of observations
-
-# get noise around y observations
-yNormal = torch.distributions.Normal(loc=0.0, scale=10)
-yNoise  = yNormal.sample([nObs])
-
-# get observations
-xObs = 10*torch.rand([nObs])-5    # uniform from [-5,5]
-yObs = xObs**3 - xObs**2 + 25 * torch.sin(2*xObs) + yNoise
-
-# plot the data
-d = pd.DataFrame({&#39;xObs&#39; : xObs, &#39;yObs&#39; : yObs})
-sns.scatterplot(data = d, x = &#39;xObs&#39;, y = &#39;yObs&#39;)
-plt.show()
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/04c-MLP-custom_12_0.png" src="../_images/04c-MLP-custom_12_0.png" />
-</div>
-</div>
-<blockquote>
-<div><p><strong><span style=&ldquo;color:#D83D2B;&rdquo;>Exercise 4.1.1: Explore the training data</span></strong></p>
+<section id="a-single-forward-pass">
+<h2>A single forward pass<a class="headerlink" href="#a-single-forward-pass" title="Permalink to this headline">#</a></h2>
+<p>A minimal single forward pass of an LSTM model applied to a <em>single</em> input vector (=one sequence of indices) consists of the following steps:</p>
 <ol class="simple">
-<li><p>Remove the noise in the data by changing a single number (parameter value).</p></li>
-<li><p>At what point is the noise in the data so large that there is nothing more to learn?</p></li>
+<li><p><strong>word embedding</strong>: each index is mapped onto an embedding vector; so the input vector is mapped onto a matrix of word embeddings;</p></li>
+<li><p><strong>LSTM encoding</strong>: the word embeddings are mapped onto a hidden vector representation</p></li>
+<li><p><strong>linear projection</strong>: the hidden vector representation is mapped (linearly) onto a vector of weights (one weight for each word in the vocabulary)</p></li>
+<li><p><strong>softmax</strong>: the next-word probabilities are obtained by taking a softmax on the weights from the previous step</p></li>
 </ol>
-</div></blockquote>
-</section>
-<section id="hand-coding-a-multi-layer-perceptron">
-<h2>Hand-coding a multi-layer perceptron<a class="headerlink" href="#hand-coding-a-multi-layer-perceptron" title="Permalink to this headline">#</a></h2>
-<p>Our model maps a single real number <span class="math notranslate nohighlight">\(x\)</span> onto another single real number <span class="math notranslate nohighlight">\(y\)</span>.
-We therefore have a neural network whith input and output dimension set to 1.
-In between <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span>, we will use three hidden layers <span class="math notranslate nohighlight">\(h_{1}, h_{2}, h_{3}\)</span> each with dimension 10:</p>
+<section id="word-embeddings">
+<h3>Word embeddings<a class="headerlink" href="#word-embeddings" title="Permalink to this headline">#</a></h3>
+<p>We create embeddings with PyTorch’s ’nn.Embedding’ class.
+On instantiation, the embedding is initialized randomly.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
-## network dimension parameters
-##################################################
-
-nInput  = 1
-nHidden = 10
-nOutput = 1
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># embedding: vector-representation of each word
+# needs parameter for the size of the embedding
+n_embbeding_size = 3
+embedding = nn.Embedding(n_vocab, n_embbeding_size)
+# embedding is a matrix of size (n_vocab, n_embedding_size)
+for p in embedding.parameters():
+    print(p)
 </pre></div>
 </div>
 </div>
-</div>
-<p>The networks parameters are four matrices and four slopes.
-The first embedding is called <span class="math notranslate nohighlight">\(U\)</span>, the following two hidden-to-hidden transformations are <span class="math notranslate nohighlight">\(V_{1}\)</span> and <span class="math notranslate nohighlight">\(V_{2}\)</span>, the hidden-to-output mapping is given by matrix <span class="math notranslate nohighlight">\(W\)</span>.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
-## trainable (matrix &amp; slope) parameters
-##           --initializing weights --
-##################################################
-
-U  = torch.tensor(np.random.rand(nHidden,nInput)   * 2 - 1,
-                  requires_grad=True)
-V1 = torch.tensor(np.random.rand(nHidden, nHidden) * 2 - 1,
-                  requires_grad=True)
-V2 = torch.tensor(np.random.rand(nHidden, nHidden) * 2 - 1,
-                  requires_grad=True)
-W  = torch.tensor(np.random.rand(nOutput, nHidden) * 2 - 1,
-                  requires_grad=True)
-b1 = torch.zeros((nHidden,1), requires_grad=True)
-b2 = torch.zeros((nHidden,1), requires_grad=True)
-b3 = torch.zeros((nHidden,1), requires_grad=True)
-</pre></div>
-</div>
-</div>
-</div>
-<p>Next, we will define the forward pass.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
-## forward pass
-##################################################
-
-activationFun = F.relu # use ReLU fct from PyTorch
-
-# this function takes a /single/ observation for x as input
-#   and it outputs a /single/ observation for y
-#   we will NOT use this one, but include for better understanding
-def singleForwardPass(x):
-    h1 = activationFun(U*x + b1)
-    h2 = activationFun(torch.mm(V1,h1) + b2)
-    h3 = activationFun(torch.mm(V2,h2) + b3)
-    y  = torch.mm(W,h3)
-    return(y[0,0])
-
-# this function takes a /vector/ of observations for x as input
-#   and it outputs a /vector/ of observations for y
-#   we will use this function as it is massively more efficient in training
-def singleForwardPassBatched(xObs):
-    xObsBatched = xObs.reshape(100,1,1)       # 100 1x1 matrices
-    h1 = activationFun(U @ xObsBatched + b1)  # 100 column vectors
-    h2 = activationFun(V1 @ h1 + b2)
-    h3 = activationFun(V2 @ h2 + b3)
-    y  = W @ h3
-    yReshaped = torch.reshape(y,(-1,))
-    return(yReshaped)
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Parameter containing:
+tensor([[-1.1015,  1.6761,  0.3530],
+        [-0.3224, -0.7842, -0.2983],
+        [ 0.0624, -1.5206,  1.5637],
+        [ 1.0833,  0.0371, -0.9189],
+        [ 1.1653, -0.0359,  1.4150],
+        [ 0.6831, -0.8477, -1.2236],
+        [ 1.6085, -0.4324, -0.3602],
+        [ 0.3916,  2.4869,  0.9311]], requires_grad=True)
 </pre></div>
 </div>
 </div>
 </div>
 <blockquote>
-<div><p><strong><span style=&ldquo;color:#D83D2B;&rdquo;>Exercise 4.1.2: Digest the model, the parameters and their initialization</span></strong></p>
+<div><p><strong><span style=&ldquo;color:#D83D2B;&rdquo;>Exercise 6.1.1: Check parameters of the embedding </span></strong></p>
 <ol class="simple">
-<li><p>Verify that the functions ’singleForwardPass’ and ’singleForwardPassBatched’ do the same thing by comparing their predictions for the whole sequence of ’xObs’.
-I.e., simply call ’singleForwardPassBatched’ and compare the output to calls of ’singleForwardPass’.
-Ideally, produce outputs from ’singleForwardPass’ for all elements of ’xObs’ by list-comprehension.</p></li>
-<li><p>Write down this model (forward pass) in mathematical notation. (The mathematical formulation of the model should follow the ’singleForwardPass’).</p></li>
-<li><p>Describe the way parameters are initialized (above) in your own intuitive terms?</p></li>
-<li><p>Why can we not just set all parameter values to 0 initially?</p></li>
+<li><p>[Just for yourself] Check the dimension of this output. Where is the embedding for “Colin”? Where is the embedding for “[EOS]”?</p></li>
 </ol>
 </div></blockquote>
-<p>It remains to instantiate an optimizer and to run execute the training loop.</p>
-<p>Next, we will define the ’forward pass’, i.e., a function that computes the predicted <span class="math notranslate nohighlight">\(y\)</span> for a given input <span class="math notranslate nohighlight">\(x\)</span> based on the current model parameters.</p>
+<p>The embedding accepts batched input.
+Check the dimensions of the output:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
-## optimizer &amp; training loop
-##################################################
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># the &#39;embedding&#39; takes batched input
+input_embedding = embedding(batched_input)
+print(input_embedding)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>#+begin_example
+tensor([[[-1.1015,  1.6761,  0.3530],
+         [-0.3224, -0.7842, -0.2983],
+         [ 0.0624, -1.5206,  1.5637],
+         [ 1.6085, -0.4324, -0.3602],
+         [ 0.3916,  2.4869,  0.9311]],
 
-# initialize optimizer: Adam optimizer
-loss_function = nn.MSELoss()
-opt = torch.optim.Adam([U,V1,V2,W,b1,b2,b3], lr=1e-4)
+        [[-1.1015,  1.6761,  0.3530],
+         [ 1.0833,  0.0371, -0.9189],
+         [ 1.1653, -0.0359,  1.4150],
+         [ 0.6831, -0.8477, -1.2236],
+         [ 1.6085, -0.4324, -0.3602]]], grad_fn=&lt;EmbeddingBackward0&gt;)
+#+end_example
+</pre></div>
+</div>
+</div>
+</div>
+<blockquote>
+<div><p><strong><span style=&ldquo;color:#D83D2B;&rdquo;>Exercise 6.1.2: Check batched embedding </span></strong></p>
+<ol class="simple">
+<li><p>What do the dimensions of the output represent here? How would you retrieve the embedding of the word “went” (give your answer in the form ’input<sub>embedding</sub>[someIndex, 1:27, SomeOtherIndex, -1]’)?</p></li>
+</ol>
+</div></blockquote>
+</section>
+<section id="the-lstm-encoding">
+<h3>The LSTM encoding<a class="headerlink" href="#the-lstm-encoding" title="Permalink to this headline">#</a></h3>
+<p>We instantiate an LSTM function via ’nn.LSTM’.
+NB: we define a <strong>stacked</strong> LSTM, with two layers; we must declare to use ’batch first’ mode, which expects the input batches in the first dimension of the input (which is how we have set up the input).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>n_hidden_size = 4
 
-epochs = 100000
-for i in range(epochs+1):
-    if (i == 0):
-        print(&quot;\n&quot;)
-    yPred = singleForwardPassBatched(xObs)
-    loss  = loss_function(yPred, yObs)
-    # loss  = torch.mean((yPred - yObs)**2)
-    if (i == 0 or i % 5000 == 0):
-        print(&#39;Iteration: {:5d} | Loss: {:12}&#39;.format(i, loss.detach().numpy().round(0)))
-        # print(&quot;Iteration: &quot;, i, &quot; Loss: &quot;, loss.detach().numpy())
-    loss.backward()
-    opt.step()
-    opt.zero_grad()
+# instantiate an LSTM
+lstm = nn.LSTM(input_size  = n_embbeding_size,
+               hidden_size = n_hidden_size,  # size of hidden state
+               num_layers  = 2,              # number of stacked layers
+               batch_first = True            # expect input in format (batch, sequence, token)
+               )
+</pre></div>
+</div>
+</div>
+</div>
+<p>The LSTM function takes a batch of input vectors and outputs three things:</p>
+<ol class="simple">
+<li><p>the sequence of hidden states in the final layer (of stacked LSTMs), one hidden state representation for each word in the input</p></li>
+<li><p>the hidden states of the last word in the input sequence for each layer</p></li>
+<li><p>the cell states of the last word in the input sequence for each layer</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># apply LSTM function (initial hidden state and initial cell state default to all 0s)
+# LSTM maps a (batched) sequence of embeddings, onto a triple:
+#   outcome: sequence of hidden states in final layer for each word
+#   hidden:  hidden states of last word for each layer
+#   cell:    cell states of last word for each layer
+output, (hidden, cell) = lstm(input = input_embedding)
 
-yPred = singleForwardPassBatched(xObs)
-
-# plot the data
-d = pd.DataFrame({&#39;xObs&#39; : xObs.detach().numpy(),
-                  &#39;yObs&#39; : yObs.detach().numpy(),
-                  &#39;yPred&#39;: yPred.detach().numpy()})
-dWide = pd.melt(d, id_vars = &#39;xObs&#39;, value_vars= [&#39;yObs&#39;, &#39;yPred&#39;])
-sns.scatterplot(data = dWide, x = &#39;xObs&#39;, y = &#39;value&#39;, hue = &#39;variable&#39;, alpha = 0.7)
-x = np.linspace(start = -5, stop =5, num = 1000)
-y = goalFun(x)
-plt.plot(x,y, color=&#39;g&#39;, alpha = 0.5)
-plt.show()
+print(&quot;\nLSTM embeddings in last layer for each word:\n&quot;, output)
+print(&quot;\nHidden state of last word for each layer:\n&quot;, hidden)
+print(&quot;\nCell state of last word for each layer:\n&quot;, cell)
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>#+begin_example
 
+LSTM embeddings in last layer for each word:
+ tensor([[[ 0.0703,  0.0365, -0.0636,  0.1035],
+         [ 0.1317,  0.0819, -0.0927,  0.1525],
+         [ 0.1824,  0.1313, -0.1097,  0.1831],
+         [ 0.1909,  0.1289, -0.1049,  0.1745],
+         [ 0.1276,  0.0675, -0.0932,  0.1696]],
 
-Iteration:     0 | Loss:       2730.0
-Iteration:  5000 | Loss:        943.0
-Iteration: 10000 | Loss:        630.0
-Iteration: 15000 | Loss:        312.0
-Iteration: 20000 | Loss:        168.0
-Iteration: 25000 | Loss:        112.0
-Iteration: 30000 | Loss:         79.0
-Iteration: 35000 | Loss:         65.0
-Iteration: 40000 | Loss:         61.0
-Iteration: 45000 | Loss:         59.0
-Iteration: 50000 | Loss:         59.0
-Iteration: 55000 | Loss:         58.0
-Iteration: 60000 | Loss:         58.0
-Iteration: 65000 | Loss:         57.0
-Iteration: 70000 | Loss:         57.0
-Iteration: 75000 | Loss:         57.0
-Iteration: 80000 | Loss:         57.0
-Iteration: 85000 | Loss:         56.0
-Iteration: 90000 | Loss:         56.0
-Iteration: 95000 | Loss:         56.0
-Iteration: 100000 | Loss:         55.0
+        [[ 0.0703,  0.0365, -0.0636,  0.1035],
+         [ 0.1072,  0.0490, -0.0881,  0.1399],
+         [ 0.1500,  0.1005, -0.1093,  0.1990],
+         [ 0.1727,  0.1043, -0.1029,  0.1837],
+         [ 0.1789,  0.0985, -0.0977,  0.1789]]], grad_fn=&lt;TransposeBackward0&gt;)
+
+Hidden state of last word for each layer:
+ tensor([[[-0.3350, -0.2303,  0.1617,  0.1228],
+         [-0.0649, -0.1391,  0.0877,  0.2424]],
+
+        [[ 0.1276,  0.0675, -0.0932,  0.1696],
+         [ 0.1789,  0.0985, -0.0977,  0.1789]]], grad_fn=&lt;StackBackward0&gt;)
+
+Cell state of last word for each layer:
+ tensor([[[-0.8026, -0.3425,  0.5018,  0.3408],
+         [-0.3806, -0.2594,  0.3732,  0.8697]],
+
+        [[ 0.2594,  0.1044, -0.2128,  0.4967],
+         [ 0.3548,  0.1448, -0.2153,  0.5337]]], grad_fn=&lt;StackBackward0&gt;)
 #+end_example
 </pre></div>
 </div>
-<img alt="../_images/04c-MLP-custom_22_1.png" src="../_images/04c-MLP-custom_22_1.png" />
 </div>
 </div>
 <blockquote>
-<div><p><strong><span style=&ldquo;color:#D83D2B;&rdquo;>Exercise 4.1.3: Inspecting and interpreting the model fit</span></strong></p>
+<div><p><strong><span style=&ldquo;color:#D83D2B;&rdquo;>Exercise 6.1.3: Dive into structure of output representations </span></strong></p>
 <ol class="simple">
-<li><p>[just for yourself] Make sure that you understand all ingredients and steps used here. Read up on the MSE loss function, for instance, or ask if you are unsure.</p></li>
-<li><p>Inspect the print-outs from the training sequence. Does this output suggest that the training was successful or not?</p></li>
-<li><p>What does the plot produced here after training show exactly? Does that picture suggest that the model learned successfully? Do you think that there might even be a sense in which the model “<a class="reference external" href="https://en.wikipedia.org/wiki/Overfitting">overfitted</a>” the data?</p></li>
-<li><p>Change the optimizer to vanilla Gradient Descent (’SGD’), change the training rate to ’lr=1e-6’ and the number of training epochs to ’epochs = 50000’.
-Now, (first re-initialize all parameter values to start training anew) and repeatedly execute the last code cell (probably 4-6 times).
-Describe what you observe by answering the following questions:
-(i) is training with ’SGD’ more or less efficient than the initial set-up?;
-(ii) why is it more/less efficient?
-(iii) if we think of training the model as “curve fitting”, which parts of the curve are adapted first, which ones later?
-(iv) explain the difference you described in (iii).</p></li>
+<li><p>There are two (important) vectors that are represented twice in this print-out. Which vectors are that (i.e., what do they represent)? How would you assess these vectors in Python (give your answer in the for: vector A is in ’cell[1,2,3]’ and ’cell[23,224,-1]’)?</p></li>
 </ol>
 </div></blockquote>
+</section>
+<section id="linear-mapping-onto-weights-non-normalized-predictions">
+<h3>Linear mapping onto weights (non-normalized predictions)<a class="headerlink" href="#linear-mapping-onto-weights-non-normalized-predictions" title="Permalink to this headline">#</a></h3>
+<p>The output representation for the final word in a sequence (the LSTM embedding associated with that word, after having processed the previous sequence), will be used to make predictions for the next word (in a left-to-right language model).
+We therefore map the LSTM embeddings of the last word onto a vector of the same length as the vocabulary size.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>linear_map = nn.Linear(n_hidden_size, n_vocab)
+weights = linear_map(output)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="next-word-probabilities-from-softmax-ing-weights">
+<h3>Next-word probabilities from softmax-ing weights<a class="headerlink" href="#next-word-probabilities-from-softmax-ing-weights" title="Permalink to this headline">#</a></h3>
+<p>Finally, we map the non-normalized weights onto next-word probabilities with a softmax transformation:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># get probabilities from output weights
+def next_word_probabilities(weights):
+    softmax = torch.nn.Softmax(dim=2)
+    return(softmax(weights).detach().numpy().round(4))
+
+# without any training: next word weights have high entropy
+print(next_word_probabilities(weights))
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>#+begin_example
+[[[0.1251 0.187  0.1086 0.1476 0.0802 0.1267 0.1483 0.0766]
+  [0.1219 0.1924 0.1072 0.1498 0.0795 0.1274 0.1491 0.0729]
+  [0.1198 0.1959 0.1058 0.1503 0.0781 0.1291 0.1508 0.0702]
+  [0.1201 0.1961 0.1055 0.1503 0.0776 0.1293 0.1508 0.0702]
+  [0.1209 0.1928 0.1079 0.1512 0.0802 0.1264 0.148  0.0727]]
+
+ [[0.1251 0.187  0.1086 0.1476 0.0802 0.1267 0.1483 0.0766]
+  [0.1226 0.1912 0.1078 0.1501 0.0805 0.126  0.1476 0.0741]
+  [0.1193 0.1948 0.1075 0.1516 0.0799 0.1271 0.149  0.0709]
+  [0.1198 0.1956 0.1066 0.1515 0.0787 0.1279 0.1493 0.0707]
+  [0.1199 0.1957 0.1065 0.1518 0.0783 0.128  0.1491 0.0707]]]
+#+end_example
+</pre></div>
+</div>
+</div>
+</div>
+<blockquote>
+<div><p><strong><span style=&ldquo;color:#D83D2B;&rdquo;>Exercise 6.1.4: Check batched embedding </span></strong></p>
+<ol class="simple">
+<li><p>Which indices give you the next-word probabilities for the sequence “Colin was”?</p></li>
+<li><p>What’s the most likely word, according to this output, after sequence “Colin”?</p></li>
+<li><p>What’s the most likely word, according to this output, for the first word in a sentence, i.e., after the empty sequence “”?
+[Hint: if you think that this is a strange question, or that something stands in the way of answering it directly and smoothly, don’t answer it directly and smoothly, but explain why the question is odd or what needs to change in order to be able answer the question.]</p></li>
+</ol>
+</div></blockquote>
+</section>
 </section>
 </section>
 
@@ -854,7 +906,7 @@ Describe what you observe by answering the following questions:
         },
         kernelOptions: {
             kernelName: "python3",
-            path: "./04-ANNs"
+            path: "./06-LSTMs"
         },
         predefinedOutput: true
     }
@@ -868,20 +920,6 @@ Describe what you observe by answering the following questions:
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="04b-algebra.html" title="previous page">
-        <i class="fas fa-angle-left"></i>
-        <div class="prev-next-info">
-            <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Linear algebra</p>
-        </div>
-    </a>
-    <a class='right-next' id="next-link" href="04d-MLP-pytorch.html" title="next page">
-    <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Sheet 4.2: Non-linear regression (MLP w/ PyTorch modules)</p>
-    </div>
-    <i class="fas fa-angle-right"></i>
-    </a>
 </div>
             </footer>
         </div>
