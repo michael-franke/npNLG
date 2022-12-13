@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Decoding strategies for autoregressive generation with a (blackbox) language model &#8212; Neural Pragmatic Natural Language Generation</title>
+    <title>Sheet 6.3: Decoding strategies &#8212; Neural Pragmatic Natural Language Generation</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -54,7 +54,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="Sheet 5.1: Character-level sequence modeling w/ RNNs" href="../05-RNNs/05b-char-level-RNN.html" />
+    <link rel="prev" title="Sheet 6.2: Character-level sequence modeling w/ LSTMs" href="06c-char-level-LSTM.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -257,9 +257,19 @@ const thebe_selector_output = ".output, .cell_output"
  </span>
 </p>
 <ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="06b-LSTM-minimal-forward-pass.html">
+   Sheet 6.1: Anatomy of a single LSTM forward pass
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="06c-char-level-LSTM.html">
+   Sheet 6.2: Character-level sequence modeling w/ LSTMs
+  </a>
+ </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   Decoding strategies for autoregressive generation with a (blackbox) language model
+   Sheet 6.3: Decoding strategies
   </a>
  </li>
 </ul>
@@ -488,7 +498,7 @@ title="Print to PDF"
         <ul class="visible nav section-nav flex-column">
  <li class="toc-h1 nav-item toc-entry">
   <a class="reference internal nav-link" href="#">
-   Decoding strategies for autoregressive generation with a (blackbox) language model
+   Sheet 6.3: Decoding strategies
   </a>
   <ul class="visible nav section-nav flex-column">
    <li class="toc-h2 nav-item toc-entry">
@@ -547,7 +557,7 @@ title="Print to PDF"
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Decoding strategies for autoregressive generation with a (blackbox) language model</h1>
+                <h1>Sheet 6.3: Decoding strategies</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -559,7 +569,7 @@ title="Print to PDF"
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h1 nav-item toc-entry">
   <a class="reference internal nav-link" href="#">
-   Decoding strategies for autoregressive generation with a (blackbox) language model
+   Sheet 6.3: Decoding strategies
   </a>
   <ul class="visible nav section-nav flex-column">
    <li class="toc-h2 nav-item toc-entry">
@@ -619,8 +629,8 @@ title="Print to PDF"
                 
               <div>
                 
-  <section class="tex2jax_ignore mathjax_ignore" id="decoding-strategies-for-autoregressive-generation-with-a-blackbox-language-model">
-<h1>Decoding strategies for autoregressive generation with a (blackbox) language model<a class="headerlink" href="#decoding-strategies-for-autoregressive-generation-with-a-blackbox-language-model" title="Permalink to this headline">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="sheet-6-3-decoding-strategies">
+<h1>Sheet 6.3: Decoding strategies<a class="headerlink" href="#sheet-6-3-decoding-strategies" title="Permalink to this headline">#</a></h1>
 <p>Given a (blackbox) function that gives us a next-word probability, how do we use this to generate naturally sounding text?</p>
 <p>This tutorial explores a bunch of options, using the GTP-2 distribution provided by 🤗’s <code class="docutils literal notranslate"><span class="pre">transformer</span></code> package.</p>
 <p>The tutorial closely follows this blog post: https://huggingface.co/blog/how-to-generate</p>
@@ -688,11 +698,13 @@ I enjoy walking with my cute dog Kass; we have a good book out, and a cab so she
 </div>
 </div>
 </div>
-<p><em>Tasks</em>:</p>
+<blockquote>
+<div><p><strong><span style=&ldquo;color:#D83D2B;&rdquo;>Exercise 6.3.1: </span></strong></p>
 <ol class="simple">
 <li><p>How good is this production? Is it grammatical? Locally meaningful, globally meaningful?</p></li>
 <li><p>[optional] Try sampling 100 single next-words for your initial sentence fragment. (Remember not to set a seed.)</p></li>
 </ol>
+</div></blockquote>
 </section>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="soft-max-sampling">
@@ -722,11 +734,13 @@ I enjoy walking with my cute dog, but in the end she is a bit stubborn and stubb
 </div>
 </div>
 </div>
-<p><em>Tasks</em>:</p>
+<blockquote>
+<div><p><strong><span style=&ldquo;color:#D83D2B;&rdquo;>Exercise 6.3.2: </span></strong></p>
 <ol class="simple">
 <li><p>How good is this production? Is it grammatical? Locally meaningful, globally meaningful?</p></li>
 <li><p>Predict what will happen if you set <span class="math notranslate nohighlight">\(\tau=5\)</span>. Try it out.</p></li>
 </ol>
+</div></blockquote>
 <section id="greedy-sampling">
 <h2>Greedy sampling<a class="headerlink" href="#greedy-sampling" title="Permalink to this headline">#</a></h2>
 <p>In greedy sampling, we don’t actually sample but just take the most likely next-word at every step.
@@ -751,11 +765,13 @@ I&#39;m not sure if I&#39;ll
 </div>
 </div>
 </div>
-<p><em>Tasks</em>:</p>
+<blockquote>
+<div><p><strong><span style=&ldquo;color:#D83D2B;&rdquo;>Exercise 6.3.3: </span></strong></p>
 <ol class="simple">
 <li><p>How good is this production? Is it grammatical? Locally meaningful, globally meaningful?</p></li>
 <li><p>Is greedy sampling guaranteed to select the most likely sequence? Or can it be led astray?</p></li>
 </ol>
+</div></blockquote>
 </section>
 <section id="beam-search">
 <h2>Beam search<a class="headerlink" href="#beam-search" title="Permalink to this headline">#</a></h2>
@@ -784,11 +800,13 @@ I&#39;m not sure if I&#39;ll ever be able to walk with him again. I&#39;m not su
 </div>
 </div>
 </div>
-<p><em>Tasks</em>:</p>
+<blockquote>
+<div><p><strong><span style=&ldquo;color:#D83D2B;&rdquo;>Exercise 6.3.4: </span></strong></p>
 <ol class="simple">
 <li><p>How good is this production? Is it grammatical? Locally meaningful, globally meaningful?</p></li>
 <li><p>Try out the option <code class="docutils literal notranslate"><span class="pre">no_repeat_ngram_size=2</span></code> and see if it improves the results. This option supresses generation of <span class="math notranslate nohighlight">\(n\)</span>-grams of the given size. Play around with the number <span class="math notranslate nohighlight">\(n\)</span> supplied.</p></li>
 </ol>
+</div></blockquote>
 </section>
 <section id="top-k-sampling">
 <h2>Top-<span class="math notranslate nohighlight">\(k\)</span> sampling<a class="headerlink" href="#top-k-sampling" title="Permalink to this headline">#</a></h2>
@@ -824,6 +842,12 @@ Michele, who lives in Fort Meade, Ga., said she never really wanted to &quot;los
 </div>
 <p><em>Task</em>:</p>
 <p>How good is this production? Is it grammatical? Locally meaningful, globally meaningful?</p>
+<blockquote>
+<div><p><strong><span style=&ldquo;color:#D83D2B;&rdquo;>Exercise 6.3.5: </span></strong></p>
+<ol class="simple">
+<li><p>How good is this production? Is it grammatical? Locally meaningful, globally meaningful?</p></li>
+</ol>
+</div></blockquote>
 </section>
 <section id="top-p-sampling">
 <h2>Top-<span class="math notranslate nohighlight">\(p\)</span> sampling<a class="headerlink" href="#top-p-sampling" title="Permalink to this headline">#</a></h2>
@@ -849,11 +873,13 @@ I enjoy walking with my cute dog and he&#39;s a really nice person. The second t
 </div>
 </div>
 </div>
-<p><em>Tasks:</em></p>
+<blockquote>
+<div><p><strong><span style=&ldquo;color:#D83D2B;&rdquo;>Exercise 6.3.6: </span></strong></p>
 <ol class="simple">
 <li><p>How good (grammatical, locally and globally coherent) is this output?</p></li>
 <li><p>In which cases would the next-word predictions of top-<span class="math notranslate nohighlight">\(k\)</span> and top-<span class="math notranslate nohighlight">\(p\)</span> divergence quite a bit?</p></li>
 </ol>
+</div></blockquote>
 </section>
 </section>
 
@@ -884,11 +910,11 @@ I enjoy walking with my cute dog and he&#39;s a really nice person. The second t
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="../05-RNNs/05b-char-level-RNN.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="06c-char-level-LSTM.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Sheet 5.1: Character-level sequence modeling w/ RNNs</p>
+            <p class="prev-next-title">Sheet 6.2: Character-level sequence modeling w/ LSTMs</p>
         </div>
     </a>
 </div>
