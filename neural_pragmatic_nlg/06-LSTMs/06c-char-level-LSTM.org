@@ -438,12 +438,6 @@ print(predict("Japanese", "", decode_strat = "pure"))
 print(predict("Japanese", "", decode_strat = "pure"))
 print(predict("Japanese", "", decode_strat = "pure"))
 
-# extend the 'predict' function to include a parameter to implement the following decoding schemes:
-# - top-k (variable k)
-# - softmax (variable soft-max parameter)
-# - top-p (variable p)
-
-
 #+end_src
 
 
@@ -469,7 +463,6 @@ def infer_category(name):
         print("%12s: %.5f" %
               (categories[cats[i]], vals[i].detach().numpy() ))
 
-# that's really interesting: there is a base-rate effect!
 infer_category("Smith")
 infer_category("Miller")
 
