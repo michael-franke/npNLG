@@ -1,0 +1,370 @@
+#+title:     Solutions Sheet 1.2: RSA with politeness
+#+author:    Michael Franke
+
+
+* COMMENT Code from exercise sheet
+
+#+begin_src jupyter-python :session py :tangle yes
+
+##################################################
+## imports
+##################################################
+
+import numpy as np
+import seaborn as sns
+import pandas as pd
+import matplotlib.pyplot as plt
+import warnings
+warnings.filterwarnings('ignore')
+
+##################################################
+## helper functions
+##################################################
+
+def softmax(x, axis=1):
+    """
+    Softmax function in numpy
+    Parameters
+    ----------
+    x: array
+        An array with any dimensionality
+    axis: int
+        The axis along which to apply the softmax
+    Returns
+    -------
+    array
+        Same shape as x
+    """
+    e_x = np.exp(x - np.max(x, axis, keepdims=True))
+    return e_x / e_x.sum(axis=axis, keepdims=True)
+
+
+def normalize(arr, axis=1):
+    """
+    Normalize arr along axis
+    """
+    return arr / arr.sum(axis, keepdims=True)
+
+##################################################
+## defining the context
+##################################################
+
+states     = [1,2,3,4,5]
+utterances = ["terrible","bad","okay","good","amazing"]
+
+semantic_meaning = np.array(
+    [[.95 ,.85 ,.02 ,.02,.02],    # terrible
+     [.85 ,.95 ,.02 ,.02,.02],    # bad
+     [.02 ,.25 ,.95 ,.65,.35],    # okay
+     [.02 ,.05 ,.55 ,.95,.93],    # good
+     [.02 ,.02 ,.02 ,.65,.95]]    # amazing
+)
+
+#+end_src
+
+#+RESULTS:
+
+> <strong><span style="color:#D83D2B;">Exercise 1.2.1: Check experiment and your intuitions</span></strong>
+>
+> 1. Consult the original paper ([[http://langcog.stanford.edu/papers_new/yoon-2016-cogsci.pdf][Yoon et al. 2016]]) to find the description of the experiment that was used to get these semantic values. Describe this experiment in at most three simple sentences: what was the question participants had to answer and how were answers recorded?
+> 2. Comment on whether you find the obtained values intuitive as values of the semantic meaning of these expression.
+> 3. Do you think that the experiment was well-designed for the task of eliciting information about semantic meaning of expressions?
+
+> <strong><span style="color:#D83D2B;">Solutions for Exercise 1.2.1: Check experiment and your intuitions</span></strong>
+>
+> 1. The experiment elicited binary judgements ('yes' and 'no') from participants. Each task presented two things: (i) a true state (Bob's true feeling about some item, shown as 1 to 5 out of 5 hearts), and (ii) a question "Do you think that Bob thought Ann's cake was X?" where X was one of the target words. The proportion of 'yes' answers for each pair of (i) number of hearts and (ii) target word were used as the literal semantic value of that pair.
+> 2. The resulting values seem intuitive enough, at least when we look at the number of stars that received the highest rating for each word.
+> 3. The procedure is okay, as it is difficult to elicit semantic (truth) values. But it seems that this procedure (like many others) may slightly conflate the genuine underlying semantic meaning with a pragmatically enriched interpretation.
+
+#+begin_src jupyter-python :session py :tangle yes
+
+##################################################
+## model parameters
+##################################################
+
+alpha        = 10
+phi          = 0.99
+social_value = 1.25
+
+##################################################
+## RSA speaker with politeness
+##################################################
+
+def RSA_polite_speaker(alpha, phi, social_value):
+    """
+    predictions of an RSA model with politeness (speaker part)
+    (following: http://www.problang.org/chapters/09-politeness.html)
+    Parameters
+    ----------
+    alpha: float
+        Optimality parameter
+    phi: float
+        Relative weight of epistemic utility component
+    social_value: float
+        Social value factor (how much more "socially valuable" is one more star?)
+    Returns
+    -------
+    array
+        probability that speaker chooses utterance for each state
+    """
+    literal_listener   = normalize(semantic_meaning)
+    epistemic_utility  = np.log(np.transpose(literal_listener))
+    social_utility     = np.sum(literal_listener * np.array([states]) * social_value, axis=1)
+    util_speaker       = phi * epistemic_utility + (1-phi) * social_utility
+    pragmatic_speaker  = softmax(alpha * util_speaker)
+    return(pragmatic_speaker)
+
+RSA_speaker_predictions = RSA_polite_speaker(alpha, phi, social_value)
+
+##################################################
+## showing and plotting the results
+##################################################
+
+speaker  = pd.DataFrame(data    = RSA_speaker_predictions,
+                        index   = states,
+                        columns = utterances)
+speaker['object'] = speaker.index
+
+print(speaker.round(4))
+
+speaker_long = speaker.melt(id_vars      = "object",
+                            var_name     = "utterance",
+                            value_name   = "probability",
+                            ignore_index = False)
+speaker_plot = sns.FacetGrid(speaker_long, col="object")
+speaker_plot.map(sns.barplot, "utterance", "probability")
+# plt.show()
+
+#+end_src
+
+#+RESULTS:
+:RESULTS:
+:    terrible     bad    okay    good  amazing  object
+: 1    0.6804  0.3196  0.0000  0.0000   0.0000       1
+: 2    0.2641  0.7355  0.0004  0.0000   0.0000       2
+: 3    0.0000  0.0000  0.9780  0.0220   0.0000       3
+: 4    0.0000  0.0000  0.0059  0.2180   0.7761       4
+: 5    0.0000  0.0000  0.0000  0.0113   0.9887       5
+: <seaborn.axisgrid.FacetGrid at 0x1310d3e80>
+[[file:./.ob-jupyter/d8f00822ae3a59ccd7caabceff51e4a556b14b88.png]]
+:END:
+
+
+> <strong><span style="color:#D83D2B;">Exercise 1.2.2: Explore the polite speaker model</span></strong>
+>
+> 0. For yourself, in order to understand the model, go through each line of the definition of the function `RSA_polite_speaker` and make sure that you understand what is happening.
+> 1. Change the call to the speaker to make it so that it only cares about making the listener feel good. What parameter value(s) did you choose?
+> 2. Change the call to the speaker to make it so that it cares about both making the listener feel good /and/ conveying information. What parameter value(s) did you choose?
+> 3. If we set $\varphi=1$, and choose a very high $\alpha$, the speaker behavior is quite regular. Is this kind of behavior intuitive? Do you think it happens in real life?
+> 4. Is there a parameter setting for this model, such that the speaker would at most choose one category higher when trying to be polite? For example, when they should informatively say 'okay', they would say 'good', but never 'amazing'. Which parameters achieve this? Or, how could the model be changed to achieve this behavior?
+
+> <strong><span style="color:#D83D2B;">Solutions Exercise 1.2.2: Explore the polite speaker model</span></strong>
+>
+> 1. To make the speaker only consider social utility, we set "phi = 0".
+> 2. Any value of parameter "phi" that is not 0 or 1 takes both types of utility into account.
+> 3. Setting $\varphi=1$, and choose a very high $\alpha = 10,000$, the speaker only cares about informativity and is extremely "rational" (in the technical sense of utility maximization). It's dubious that such agents are implementable in neural wetware, and the result is rather extreme: there is exactly one word the speaker would send with near certainty in each state. Interestingly, the speaker is predicted to use "amazing" for both 4 and 5 stars, and not to use "good" at all. That is clearly unintuitive from a global perspective, because it is not optimal for achieving perfect communication. But it is what follows from the assume semantics. Since "good" got a rating of .55 for the 3 star-state, after normalization (literal listener), the probability to single out the 4 star state is higher with "amazing" than it is with "good".
+
+#+begin_src jupyter-python
+alpha = 10000
+phi   = 1
+RSA_speaker_predictions = RSA_polite_speaker(alpha, phi, social_value)
+
+##################################################
+## showing and plotting the results
+##################################################
+
+speaker  = pd.DataFrame(data    = RSA_speaker_predictions,
+                        index   = states,
+                        columns = utterances)
+speaker['object'] = speaker.index
+
+print(speaker.round(2))
+
+speaker_long = speaker.melt(id_vars      = "object",
+                            var_name     = "utterance",
+                            value_name   = "probability",
+                            ignore_index = False)
+speaker_plot = sns.FacetGrid(speaker_long, col="object")
+speaker_plot.map(sns.barplot, "utterance", "probability")
+plt.show()
+
+#+end_src
+
+#+RESULTS:
+:RESULTS:
+:    terrible  bad  okay  good  amazing  object
+: 1       1.0  0.0   0.0   0.0      0.0       1
+: 2       0.0  1.0   0.0   0.0      0.0       2
+: 3       0.0  0.0   1.0   0.0      0.0       3
+: 4       0.0  0.0   0.0   0.0      1.0       4
+: 5       0.0  0.0   0.0   0.0      1.0       5
+[[file:./.ob-jupyter/5948cecd89df2a3729215084e6916ec84bbbbdfa.png]]
+:END:
+
+> 4. This is difficult with this model, if possible at all. We need a rather low value of $\varphi$ to get the speaker to use "good" for sate 2, but then as $\varphi$ gets lower and lower, the speaker starts to use "amazing" for state 1. The problem is that social utility is about making the speaker feel as good as possible, not just as "a bit better than the true state". We could define an alternative social utility function which achieves this better than the current model. It would be an interesting empirical question which kind of social utility function best explains human judgements about polite language use. (Your project?)
+
+#+begin_src jupyter-python :session py :tangle yes
+
+##################################################
+## pragmatic listener infers politeness level
+##################################################
+
+# which phi-values to consider
+phi_marks     = np.linspace(start=0, stop=1, num=11)
+phi_prior_flt = np.array([1,1,1,1,1,1,1,1,1,1,1])   # flat
+phi_prior_bsd = np.array([1,2,3,4,5,6,7,8,9,10,11]) # biased towards politeness
+
+def RSA_polite_listener(alpha, phi_prior, social_value):
+    """
+    predictions of an RSA model with politeness (listener part)
+    (following: http://www.problang.org/chapters/09-politeness.html)
+    Parameters
+    ----------
+    alpha: float
+        Optimality parameter
+    phi_priors: float
+        Prior over degree of politeness (phi-parameter)
+    social_value: float
+        Social value factor (how much more "socially valuable" is one more star?)
+    Returns
+    -------
+    array
+         for each message: listener posterior over state-phi pairs
+    """
+    phi_prior = phi_prior / np.sum(phi_prior) # make sure priors are normalized
+    posterior = np.zeros((len(utterances), len(states),len(phi_marks)))
+    for i in range(len(phi_marks)):
+        pragmatic_speaker   = RSA_polite_speaker(alpha, phi_marks[i], social_value)
+        posterior_given_phi = normalize(np.transpose(pragmatic_speaker), axis=1)
+        posterior[:,:,i]    = posterior_given_phi * phi_prior[i]
+    return(posterior)
+
+RSA_listener_predictions = RSA_polite_listener(alpha, phi_prior_bsd, social_value)
+
+print("listener posterior over states after hearing 'good':\n",
+      np.sum(RSA_listener_predictions[3,:,:], axis=1))
+
+iterables=[utterances, states, phi_marks]
+index = pd.MultiIndex.from_product(iterables, names=['utterances','states','phi'])
+
+listener = pd.DataFrame(RSA_listener_predictions.reshape(RSA_listener_predictions.size, 1),
+                        index=index)
+listener = listener.reset_index()
+
+##################################################
+## plotting the results
+##################################################
+
+def plot_listener(utterance_index):
+    print("plotting listener posterior for utterance:", utterances[utterance_index])
+    predictions = RSA_listener_predictions[utterance_index,:,:]
+    sns.heatmap(predictions)
+    plt.show()
+
+plot_listener(3)
+
+#+end_src
+
+#+RESULTS:
+:RESULTS:
+: listener posterior over states after hearing 'good':
+:  [0.00588069 0.01970965 0.40323864 0.53989896 0.03127205]
+: plotting listener posterior for utterance: good
+[[file:./.ob-jupyter/20ef134263f0e018d7c522da0ad3d44cc16f7541.png]]
+:END:
+
+> <strong><span style="color:#D83D2B;">Exercise 1.2.3: Explore the pragmatic listener</span></strong>
+>
+> 0. For yourself, in order to understand the model, go through each line of the definition of the function `RSA_polite_listener` and make sure that you understand what is happening.
+> 1. What does the heatmap show? What's on the x-axis, what's on the y-axis, and what do the colors mean?
+> 2. Add a function that takes an utterance index (0, ..., 4) and outputs three things: (i) a print out of the [[https://en.wikipedia.org/wiki/Marginal_distribution][marginal distribution]] over states, (ii) a print out of the marginal distribution over $\varphi$ values, and (iii) the heatmap visualizing the joint-distribution of both.
+> 3. Compare the interpretation of the utterance 'amazing' with that of the other utterances (for the parameter values used originally). Explain in what sense the distribution shown for 'amazing' is a [[https://en.wikipedia.org/wiki/Multimodal_distribution][multimodal distribution]]. Explain why the model makes this multi-modal prediction for 'amazing'. Does it also predict multi-modality for 'good'? What about 'terrible'?
+
+> <strong><span style="color:#D83D2B;"> Solutions Exercise 1.2.3: Explore the pragmatic listener</span></strong>
+>
+> 1. The heatmap has the five states (star ratings) on the $y$-axis, and the 11 values for $\varphi$ that we consider here on the $x$ axis. The color coding shows the joint posterior probability for each pair of state and $\varphi$ value.
+> 2. Here is a function that: (i) a print out of the [[https://en.wikipedia.org/wiki/Marginal_distribution][marginal distribution]] over states, (ii) a print out of the marginal distribution over $\varphi$ values, and (iii) the heatmap visualizing the joint-distribution of both. This function directly computes the predictions, based on parameter input. This is for convenience (not strictly required from the exercise).
+
+#+begin_src jupyter-python
+def myFun(utterance_index, alpha, phi_prior, social_value):
+    RSA_listener_predictions = RSA_polite_listener(alpha, phi_prior, social_value)
+
+    iterables=[utterances, states, phi_marks]
+    index = pd.MultiIndex.from_product(iterables, names=['utterances','states','phi'])
+
+    listener = pd.DataFrame(RSA_listener_predictions.reshape(RSA_listener_predictions.size, 1),
+                            index=index)
+    listener = listener.reset_index()
+
+    # marginal over states
+    print("listener posterior over states after hearing '%s':\n" % utterances[utterance_index],
+          np.sum(RSA_listener_predictions[utterance_index,:,:], axis=1).round(3))
+    # marginal over phi values
+    print("listener posterior over phi-values after hearing '%s':\n" % utterances[utterance_index],
+          np.sum(RSA_listener_predictions[utterance_index,:,:], axis=0).round(3))
+    # plot of joint-posterior
+    predictions = RSA_listener_predictions[utterance_index,:,:]
+    sns.heatmap(predictions)
+    plt.show()
+
+myFun(1, alpha, phi_prior_bsd, social_value)
+#+end_src
+
+#+RESULTS:
+:RESULTS:
+: listener posterior over states after hearing 'bad':
+:  [0.43  0.56  0.003 0.003 0.003]
+: listener posterior over phi-values after hearing 'bad':
+:  [0.015 0.03  0.045 0.061 0.076 0.091 0.106 0.121 0.136 0.152 0.167]
+[[file:./.ob-jupyter/e01d8604391f0a1f37978b85703f19666de05ded.png]]
+:END:
+
+> 3. Here is posterior for "amazing":
+
+#+begin_src jupyter-python
+myFun(4,alpha, phi_prior_bsd, social_value)
+#+end_src
+
+#+RESULTS:
+:RESULTS:
+: listener posterior over states after hearing 'amazing':
+:  [0.072 0.038 0.01  0.386 0.494]
+: listener posterior over phi-values after hearing 'amazing':
+:  [0.015 0.03  0.045 0.061 0.076 0.091 0.106 0.121 0.136 0.152 0.167]
+[[file:./.ob-jupyter/779051262e811d8018179d7a715ed566c5425111.png]]
+:END:
+
+And here it is for "good":
+
+#+begin_src jupyter-python
+myFun(3,alpha, phi_prior_bsd, social_value)
+#+end_src
+
+#+RESULTS:
+:RESULTS:
+: listener posterior over states after hearing 'good':
+:  [0.006 0.02  0.403 0.54  0.031]
+: listener posterior over phi-values after hearing 'good':
+:  [0.015 0.03  0.045 0.061 0.076 0.091 0.106 0.121 0.136 0.152 0.167]
+[[file:./.ob-jupyter/20ef134263f0e018d7c522da0ad3d44cc16f7541.png]]
+:END:
+
+And "terrible"
+
+#+begin_src jupyter-python
+myFun(0,alpha, phi_prior_bsd, social_value)
+#+end_src
+
+#+RESULTS:
+:RESULTS:
+: listener posterior over states after hearing 'terrible':
+:  [0.746 0.245 0.003 0.003 0.003]
+: listener posterior over phi-values after hearing 'terrible':
+:  [0.015 0.03  0.045 0.061 0.076 0.091 0.106 0.121 0.136 0.152 0.167]
+[[file:./.ob-jupyter/476310afb2cb24cd5201c7f4e6afa630e3c4895a.png]]
+:END:
+
+While there are also two local peaks in the posterior of "good", the case of "amazing" is most clearly multimodal.
+One interpretation possibility is that the speaker really found the cookies terrible (1 star), but wanted didn't want to throw informativity overboard entirely ($\varphi$ index 4, state index 0).
+Another peak possibility is that the cookies really were amazing and that the speaker is maximally informative.
+(NB: the latter is a peak because of the biased prior.)
