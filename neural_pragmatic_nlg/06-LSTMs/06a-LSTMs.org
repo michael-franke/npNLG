@@ -20,7 +20,7 @@ Doing so requires learning how to supply text data in the right format.
 
 ** Slides
 
-Here are the [slides for this session]([[https://michael-franke.github.io/npNLG/05-RNNs.pdf]]).
+Here are the [slides for this session]([[https://michael-franke.github.io/npNLG/06-LSTMs.pdf]]).
 
 ** Practical exercises
 
