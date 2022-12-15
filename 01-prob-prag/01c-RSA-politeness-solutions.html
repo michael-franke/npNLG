@@ -1,0 +1,956 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Solutions Sheet 1.2: RSA with politeness &#8212; Neural Pragmatic Natural Language Generation</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/npNLG-logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Neural Pragmatic Natural Language Generation</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../000-intro.html">
+                    Pragmatic Natural Language Generation with Neural Language Models
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  00 organization
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../00-organization/00a-overview.html">
+   Course overview
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../00-organization/00b-practicalities.html">
+   Practicalities
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../00-organization/00c-schedule.html">
+   Schedule
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../00-organization/00d-slides.html">
+   Slides from session 1
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  01 Probabilistic pragmatics
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="01a-prob-prag.html">
+   Probabilistic pragmatics
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="01b-RSA-vanilla.html">
+   Sheet 1.1: Vanilla RSA
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="01c-RSA-politeness.html">
+   Sheet 1.2: RSA with politeness
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  02 PyTorch Basics
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../02-pytorch/02a-pytorch-basics.html">
+   Basics of PyTorch
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../02-pytorch/02b-pytorch-intro.html">
+   Sheet 2.1: PyTorch essentials
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../02-pytorch/02c-MLE.html">
+   Sheet 2.2: ML-estimation
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  03 Optimization
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../03-optimization/03a-optimization.html">
+   Optimization in PyTorch
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../03-optimization/03b-gradient-descent.html">
+   Sheet 3.1: Gradient descent by hand
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../03-optimization/03c-RSA-pytorch.html">
+   Sheet 3.2: Optimizing an RSA model
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  04 ANNs in PyTorch
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../04-ANNs/04a-ANNs.html">
+   Artificial neural networks
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../04-ANNs/04b-algebra.html">
+   Linear algebra
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../04-ANNs/04c-MLP-custom.html">
+   Sheet 4.1: Non-linear regression (custom MLP)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../04-ANNs/04d-MLP-pytorch.html">
+   Sheet 4.2: Non-linear regression (MLP w/ PyTorch modules)
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  05 RNNs in PyTorch
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../05-RNNs/05a-RNNs.html">
+   Recurrent neural networks
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../05-RNNs/05b-char-level-RNN.html">
+   Sheet 5.1: Character-level sequence modeling w/ RNNs
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  06 LSTMs in PyTorch
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../06-LSTMs/06a-LSTMs.html">
+   Long-Short Term Memory (LSTM) models
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../06-LSTMs/06b-LSTM-minimal-forward-pass.html">
+   Sheet 6.1: Anatomy of a single LSTM forward pass
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../06-LSTMs/06c-char-level-LSTM.html">
+   Sheet 6.2: Character-level sequence modeling w/ LSTMs
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../06-LSTMs/06d-decoding-GPT2.html">
+   Sheet 6.3: Decoding strategies
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/michael-franke/npNLG/main?urlpath=tree/neural_pragmatic_nlg/01-prob-prag/01c-RSA-politeness-solutions.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://colab.research.google.com/github/michael-franke/npNLG/blob/main/neural_pragmatic_nlg/01-prob-prag/01c-RSA-politeness-solutions.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Colab"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../_static/images/logo_colab.png">
+  </span>
+<span class="headerbtn__text-container">Colab</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/michael-franke/npNLG"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/michael-franke/npNLG/issues/new?title=Issue%20on%20page%20%2F01-prob-prag/01c-RSA-politeness-solutions.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../_sources/01-prob-prag/01c-RSA-politeness-solutions.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Solutions Sheet 1.2: RSA with politeness</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section class="tex2jax_ignore mathjax_ignore" id="solutions-sheet-1-2-rsa-with-politeness">
+<h1>Solutions Sheet 1.2: RSA with politeness<a class="headerlink" href="#solutions-sheet-1-2-rsa-with-politeness" title="Permalink to this headline">#</a></h1>
+<p><strong>Author:</strong> Michael Franke</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
+## imports
+##################################################
+
+import numpy as np
+import seaborn as sns
+import pandas as pd
+import matplotlib.pyplot as plt
+import warnings
+warnings.filterwarnings(&#39;ignore&#39;)
+
+##################################################
+## helper functions
+##################################################
+
+def softmax(x, axis=1):
+    &quot;&quot;&quot;
+    Softmax function in numpy
+    Parameters
+    ----------
+    x: array
+        An array with any dimensionality
+    axis: int
+        The axis along which to apply the softmax
+    Returns
+    -------
+    array
+        Same shape as x
+    &quot;&quot;&quot;
+    e_x = np.exp(x - np.max(x, axis, keepdims=True))
+    return e_x / e_x.sum(axis=axis, keepdims=True)
+
+
+def normalize(arr, axis=1):
+    &quot;&quot;&quot;
+    Normalize arr along axis
+    &quot;&quot;&quot;
+    return arr / arr.sum(axis, keepdims=True)
+
+##################################################
+## defining the context
+##################################################
+
+states     = [1,2,3,4,5]
+utterances = [&quot;terrible&quot;,&quot;bad&quot;,&quot;okay&quot;,&quot;good&quot;,&quot;amazing&quot;]
+
+semantic_meaning = np.array(
+    [[.95 ,.85 ,.02 ,.02,.02],    # terrible
+     [.85 ,.95 ,.02 ,.02,.02],    # bad
+     [.02 ,.25 ,.95 ,.65,.35],    # okay
+     [.02 ,.05 ,.55 ,.95,.93],    # good
+     [.02 ,.02 ,.02 ,.65,.95]]    # amazing
+)
+</pre></div>
+</div>
+</div>
+</div>
+<blockquote>
+<div><p><strong><span style=&ldquo;color:#D83D2B;&rdquo;>Exercise 1.2.1: Check experiment and your intuitions</span></strong></p>
+<ol class="simple">
+<li><p>Consult the original paper (<a class="reference external" href="http://langcog.stanford.edu/papers_new/yoon-2016-cogsci.pdf">Yoon et al. 2016</a>) to find the description of the experiment that was used to get these semantic values. Describe this experiment in at most three simple sentences: what was the question participants had to answer and how were answers recorded?</p></li>
+<li><p>Comment on whether you find the obtained values intuitive as values of the semantic meaning of these expression.</p></li>
+<li><p>Do you think that the experiment was well-designed for the task of eliciting information about semantic meaning of expressions?</p></li>
+</ol>
+</div></blockquote>
+<blockquote>
+<div><p><strong><span style=&ldquo;color:#D83D2B;&rdquo;>Solutions for Exercise 1.2.1: Check experiment and your intuitions</span></strong></p>
+<ol class="simple">
+<li><p>The experiment elicited binary judgements (’yes’ and ’no’) from participants. Each task presented two things: (i) a true state (Bob’s true feeling about some item, shown as 1 to 5 out of 5 hearts), and (ii) a question “Do you think that Bob thought Ann’s cake was X?” where X was one of the target words. The proportion of ’yes’ answers for each pair of (i) number of hearts and (ii) target word were used as the literal semantic value of that pair.</p></li>
+<li><p>The resulting values seem intuitive enough, at least when we look at the number of stars that received the highest rating for each word.</p></li>
+<li><p>The procedure is okay, as it is difficult to elicit semantic (truth) values. But it seems that this procedure (like many others) may slightly conflate the genuine underlying semantic meaning with a pragmatically enriched interpretation.</p></li>
+</ol>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
+## model parameters
+##################################################
+
+alpha        = 10
+phi          = 0.99
+social_value = 1.25
+
+##################################################
+## RSA speaker with politeness
+##################################################
+
+def RSA_polite_speaker(alpha, phi, social_value):
+    &quot;&quot;&quot;
+    predictions of an RSA model with politeness (speaker part)
+    (following: http://www.problang.org/chapters/09-politeness.html)
+    Parameters
+    ----------
+    alpha: float
+        Optimality parameter
+    phi: float
+        Relative weight of epistemic utility component
+    social_value: float
+        Social value factor (how much more &quot;socially valuable&quot; is one more star?)
+    Returns
+    -------
+    array
+        probability that speaker chooses utterance for each state
+    &quot;&quot;&quot;
+    literal_listener   = normalize(semantic_meaning)
+    epistemic_utility  = np.log(np.transpose(literal_listener))
+    social_utility     = np.sum(literal_listener * np.array([states]) * social_value, axis=1)
+    util_speaker       = phi * epistemic_utility + (1-phi) * social_utility
+    pragmatic_speaker  = softmax(alpha * util_speaker)
+    return(pragmatic_speaker)
+
+RSA_speaker_predictions = RSA_polite_speaker(alpha, phi, social_value)
+
+##################################################
+## showing and plotting the results
+##################################################
+
+speaker  = pd.DataFrame(data    = RSA_speaker_predictions,
+                        index   = states,
+                        columns = utterances)
+speaker[&#39;object&#39;] = speaker.index
+
+print(speaker.round(4))
+
+speaker_long = speaker.melt(id_vars      = &quot;object&quot;,
+                            var_name     = &quot;utterance&quot;,
+                            value_name   = &quot;probability&quot;,
+                            ignore_index = False)
+speaker_plot = sns.FacetGrid(speaker_long, col=&quot;object&quot;)
+speaker_plot.map(sns.barplot, &quot;utterance&quot;, &quot;probability&quot;)
+# plt.show()
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>terrible     bad    okay    good  amazing  object
+1    0.6804  0.3196  0.0000  0.0000   0.0000       1
+2    0.2641  0.7355  0.0004  0.0000   0.0000       2
+3    0.0000  0.0000  0.9780  0.0220   0.0000       3
+4    0.0000  0.0000  0.0059  0.2180   0.7761       4
+5    0.0000  0.0000  0.0000  0.0113   0.9887       5
+&lt;seaborn.axisgrid.FacetGrid at 0x1310d3e80&gt;
+</pre></div>
+</div>
+<img alt="../_images/01c-RSA-politeness-solutions_3_1.png" src="../_images/01c-RSA-politeness-solutions_3_1.png" />
+</div>
+</div>
+<blockquote>
+<div><p><strong><span style=&ldquo;color:#D83D2B;&rdquo;>Exercise 1.2.2: Explore the polite speaker model</span></strong></p>
+<ol class="simple">
+<li><p>For yourself, in order to understand the model, go through each line of the definition of the function `RSA<sub>polite</sub><sub>speaker</sub>` and make sure that you understand what is happening.</p></li>
+<li><p>Change the call to the speaker to make it so that it only cares about making the listener feel good. What parameter value(s) did you choose?</p></li>
+<li><p>Change the call to the speaker to make it so that it cares about both making the listener feel good <em>and</em> conveying information. What parameter value(s) did you choose?</p></li>
+<li><p>If we set <span class="math notranslate nohighlight">\(\varphi=1\)</span>, and choose a very high <span class="math notranslate nohighlight">\(\alpha\)</span>, the speaker behavior is quite regular. Is this kind of behavior intuitive? Do you think it happens in real life?</p></li>
+<li><p>Is there a parameter setting for this model, such that the speaker would at most choose one category higher when trying to be polite? For example, when they should informatively say ’okay’, they would say ’good’, but never ’amazing’. Which parameters achieve this? Or, how could the model be changed to achieve this behavior?</p></li>
+</ol>
+</div></blockquote>
+<blockquote>
+<div><p><strong><span style=&ldquo;color:#D83D2B;&rdquo;>Solutions Exercise 1.2.2: Explore the polite speaker model</span></strong></p>
+<ol class="simple">
+<li><p>To make the speaker only consider social utility, we set “phi = 0”.</p></li>
+<li><p>Any value of parameter “phi” that is not 0 or 1 takes both types of utility into account.</p></li>
+<li><p>Setting <span class="math notranslate nohighlight">\(\varphi=1\)</span>, and choose a very high <span class="math notranslate nohighlight">\(\alpha = 10,000\)</span>, the speaker only cares about informativity and is extremely “rational” (in the technical sense of utility maximization). It’s dubious that such agents are implementable in neural wetware, and the result is rather extreme: there is exactly one word the speaker would send with near certainty in each state. Interestingly, the speaker is predicted to use “amazing” for both 4 and 5 stars, and not to use “good” at all. That is clearly unintuitive from a global perspective, because it is not optimal for achieving perfect communication. But it is what follows from the assume semantics. Since “good” got a rating of .55 for the 3 star-state, after normalization (literal listener), the probability to single out the 4 star state is higher with “amazing” than it is with “good”.</p></li>
+</ol>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>alpha = 10000
+phi   = 1
+RSA_speaker_predictions = RSA_polite_speaker(alpha, phi, social_value)
+
+##################################################
+## showing and plotting the results
+##################################################
+
+speaker  = pd.DataFrame(data    = RSA_speaker_predictions,
+                        index   = states,
+                        columns = utterances)
+speaker[&#39;object&#39;] = speaker.index
+
+print(speaker.round(2))
+
+speaker_long = speaker.melt(id_vars      = &quot;object&quot;,
+                            var_name     = &quot;utterance&quot;,
+                            value_name   = &quot;probability&quot;,
+                            ignore_index = False)
+speaker_plot = sns.FacetGrid(speaker_long, col=&quot;object&quot;)
+speaker_plot.map(sns.barplot, &quot;utterance&quot;, &quot;probability&quot;)
+plt.show()
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>terrible  bad  okay  good  amazing  object
+1       1.0  0.0   0.0   0.0      0.0       1
+2       0.0  1.0   0.0   0.0      0.0       2
+3       0.0  0.0   1.0   0.0      0.0       3
+4       0.0  0.0   0.0   0.0      1.0       4
+5       0.0  0.0   0.0   0.0      1.0       5
+</pre></div>
+</div>
+<img alt="../_images/01c-RSA-politeness-solutions_5_1.png" src="../_images/01c-RSA-politeness-solutions_5_1.png" />
+</div>
+</div>
+<blockquote>
+<div><ol class="simple">
+<li><p>This is difficult with this model, if possible at all. We need a rather low value of <span class="math notranslate nohighlight">\(\varphi\)</span> to get the speaker to use “good” for sate 2, but then as <span class="math notranslate nohighlight">\(\varphi\)</span> gets lower and lower, the speaker starts to use “amazing” for state 1. The problem is that social utility is about making the speaker feel as good as possible, not just as “a bit better than the true state”. We could define an alternative social utility function which achieves this better than the current model. It would be an interesting empirical question which kind of social utility function best explains human judgements about polite language use. (Your project?)</p></li>
+</ol>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
+## pragmatic listener infers politeness level
+##################################################
+
+# which phi-values to consider
+phi_marks     = np.linspace(start=0, stop=1, num=11)
+phi_prior_flt = np.array([1,1,1,1,1,1,1,1,1,1,1])   # flat
+phi_prior_bsd = np.array([1,2,3,4,5,6,7,8,9,10,11]) # biased towards politeness
+
+def RSA_polite_listener(alpha, phi_prior, social_value):
+    &quot;&quot;&quot;
+    predictions of an RSA model with politeness (listener part)
+    (following: http://www.problang.org/chapters/09-politeness.html)
+    Parameters
+    ----------
+    alpha: float
+        Optimality parameter
+    phi_priors: float
+        Prior over degree of politeness (phi-parameter)
+    social_value: float
+        Social value factor (how much more &quot;socially valuable&quot; is one more star?)
+    Returns
+    -------
+    array
+         for each message: listener posterior over state-phi pairs
+    &quot;&quot;&quot;
+    phi_prior = phi_prior / np.sum(phi_prior) # make sure priors are normalized
+    posterior = np.zeros((len(utterances), len(states),len(phi_marks)))
+    for i in range(len(phi_marks)):
+        pragmatic_speaker   = RSA_polite_speaker(alpha, phi_marks[i], social_value)
+        posterior_given_phi = normalize(np.transpose(pragmatic_speaker), axis=1)
+        posterior[:,:,i]    = posterior_given_phi * phi_prior[i]
+    return(posterior)
+
+RSA_listener_predictions = RSA_polite_listener(alpha, phi_prior_bsd, social_value)
+
+print(&quot;listener posterior over states after hearing &#39;good&#39;:\n&quot;,
+      np.sum(RSA_listener_predictions[3,:,:], axis=1))
+
+iterables=[utterances, states, phi_marks]
+index = pd.MultiIndex.from_product(iterables, names=[&#39;utterances&#39;,&#39;states&#39;,&#39;phi&#39;])
+
+listener = pd.DataFrame(RSA_listener_predictions.reshape(RSA_listener_predictions.size, 1),
+                        index=index)
+listener = listener.reset_index()
+
+##################################################
+## plotting the results
+##################################################
+
+def plot_listener(utterance_index):
+    print(&quot;plotting listener posterior for utterance:&quot;, utterances[utterance_index])
+    predictions = RSA_listener_predictions[utterance_index,:,:]
+    sns.heatmap(predictions)
+    plt.show()
+
+plot_listener(3)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>listener posterior over states after hearing &#39;good&#39;:
+ [0.00588069 0.01970965 0.40323864 0.53989896 0.03127205]
+plotting listener posterior for utterance: good
+</pre></div>
+</div>
+<img alt="../_images/01c-RSA-politeness-solutions_7_1.png" src="../_images/01c-RSA-politeness-solutions_7_1.png" />
+</div>
+</div>
+<blockquote>
+<div><p><strong><span style=&ldquo;color:#D83D2B;&rdquo;>Exercise 1.2.3: Explore the pragmatic listener</span></strong></p>
+<ol class="simple">
+<li><p>For yourself, in order to understand the model, go through each line of the definition of the function `RSA<sub>polite</sub><sub>listener</sub>` and make sure that you understand what is happening.</p></li>
+<li><p>What does the heatmap show? What’s on the x-axis, what’s on the y-axis, and what do the colors mean?</p></li>
+<li><p>Add a function that takes an utterance index (0, …, 4) and outputs three things: (i) a print out of the <a class="reference external" href="https://en.wikipedia.org/wiki/Marginal_distribution">marginal distribution</a> over states, (ii) a print out of the marginal distribution over <span class="math notranslate nohighlight">\(\varphi\)</span> values, and (iii) the heatmap visualizing the joint-distribution of both.</p></li>
+<li><p>Compare the interpretation of the utterance ’amazing’ with that of the other utterances (for the parameter values used originally). Explain in what sense the distribution shown for ’amazing’ is a <a class="reference external" href="https://en.wikipedia.org/wiki/Multimodal_distribution">multimodal distribution</a>. Explain why the model makes this multi-modal prediction for ’amazing’. Does it also predict multi-modality for ’good’? What about ’terrible’?</p></li>
+</ol>
+</div></blockquote>
+<blockquote>
+<div><p><strong><span style=&ldquo;color:#D83D2B;&rdquo;> Solutions Exercise 1.2.3: Explore the pragmatic listener</span></strong></p>
+<ol class="simple">
+<li><p>The heatmap has the five states (star ratings) on the <span class="math notranslate nohighlight">\(y\)</span>-axis, and the 11 values for <span class="math notranslate nohighlight">\(\varphi\)</span> that we consider here on the <span class="math notranslate nohighlight">\(x\)</span> axis. The color coding shows the joint posterior probability for each pair of state and <span class="math notranslate nohighlight">\(\varphi\)</span> value.</p></li>
+<li><p>Here is a function that: (i) a print out of the <a class="reference external" href="https://en.wikipedia.org/wiki/Marginal_distribution">marginal distribution</a> over states, (ii) a print out of the marginal distribution over <span class="math notranslate nohighlight">\(\varphi\)</span> values, and (iii) the heatmap visualizing the joint-distribution of both. This function directly computes the predictions, based on parameter input. This is for convenience (not strictly required from the exercise).</p></li>
+</ol>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def myFun(utterance_index, alpha, phi_prior, social_value):
+    RSA_listener_predictions = RSA_polite_listener(alpha, phi_prior, social_value)
+
+    iterables=[utterances, states, phi_marks]
+    index = pd.MultiIndex.from_product(iterables, names=[&#39;utterances&#39;,&#39;states&#39;,&#39;phi&#39;])
+
+    listener = pd.DataFrame(RSA_listener_predictions.reshape(RSA_listener_predictions.size, 1),
+                            index=index)
+    listener = listener.reset_index()
+
+    # marginal over states
+    print(&quot;listener posterior over states after hearing &#39;%s&#39;:\n&quot; % utterances[utterance_index],
+          np.sum(RSA_listener_predictions[utterance_index,:,:], axis=1).round(3))
+    # marginal over phi values
+    print(&quot;listener posterior over phi-values after hearing &#39;%s&#39;:\n&quot; % utterances[utterance_index],
+          np.sum(RSA_listener_predictions[utterance_index,:,:], axis=0).round(3))
+    # plot of joint-posterior
+    predictions = RSA_listener_predictions[utterance_index,:,:]
+    sns.heatmap(predictions)
+    plt.show()
+
+myFun(1, alpha, phi_prior_bsd, social_value)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>listener posterior over states after hearing &#39;bad&#39;:
+ [0.43  0.56  0.003 0.003 0.003]
+listener posterior over phi-values after hearing &#39;bad&#39;:
+ [0.015 0.03  0.045 0.061 0.076 0.091 0.106 0.121 0.136 0.152 0.167]
+</pre></div>
+</div>
+<img alt="../_images/01c-RSA-politeness-solutions_9_1.png" src="../_images/01c-RSA-politeness-solutions_9_1.png" />
+</div>
+</div>
+<blockquote>
+<div><ol class="simple">
+<li><p>Here is posterior for “amazing”:</p></li>
+</ol>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>myFun(4,alpha, phi_prior_bsd, social_value)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>listener posterior over states after hearing &#39;amazing&#39;:
+ [0.072 0.038 0.01  0.386 0.494]
+listener posterior over phi-values after hearing &#39;amazing&#39;:
+ [0.015 0.03  0.045 0.061 0.076 0.091 0.106 0.121 0.136 0.152 0.167]
+</pre></div>
+</div>
+<img alt="../_images/01c-RSA-politeness-solutions_11_1.png" src="../_images/01c-RSA-politeness-solutions_11_1.png" />
+</div>
+</div>
+<p>And here it is for “good”:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>myFun(3,alpha, phi_prior_bsd, social_value)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>listener posterior over states after hearing &#39;good&#39;:
+ [0.006 0.02  0.403 0.54  0.031]
+listener posterior over phi-values after hearing &#39;good&#39;:
+ [0.015 0.03  0.045 0.061 0.076 0.091 0.106 0.121 0.136 0.152 0.167]
+</pre></div>
+</div>
+<img alt="../_images/01c-RSA-politeness-solutions_13_1.png" src="../_images/01c-RSA-politeness-solutions_13_1.png" />
+</div>
+</div>
+<p>And “terrible”</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>myFun(0,alpha, phi_prior_bsd, social_value)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>listener posterior over states after hearing &#39;terrible&#39;:
+ [0.746 0.245 0.003 0.003 0.003]
+listener posterior over phi-values after hearing &#39;terrible&#39;:
+ [0.015 0.03  0.045 0.061 0.076 0.091 0.106 0.121 0.136 0.152 0.167]
+</pre></div>
+</div>
+<img alt="../_images/01c-RSA-politeness-solutions_15_1.png" src="../_images/01c-RSA-politeness-solutions_15_1.png" />
+</div>
+</div>
+<p>While there are also two local peaks in the posterior of “good”, the case of “amazing” is most clearly multimodal.
+One interpretation possibility is that the speaker really found the cookies terrible (1 star), but wanted didn’t want to throw informativity overboard entirely (<span class="math notranslate nohighlight">\(\varphi\)</span> index 4, state index 0).
+Another peak possibility is that the cookies really were amazing and that the speaker is maximally informative.
+(NB: the latter is a peak because of the biased prior.)</p>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./01-prob-prag"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Michael Franke<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>
