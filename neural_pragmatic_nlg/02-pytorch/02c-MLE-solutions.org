@@ -1,0 +1,12 @@
+#+title:     Sheet 2.2: ML-estimate of a Gaussian mean
+#+author:    Michael Franke
+
+> <strong><span style="color:#D83D2B;">Exercise 2.2.1: Explore the optimization process</span></strong>
+> 1. Change the true mean (`trueLocation`) to 10e6. Is training still successful?  What would you change?
+> *Answer*: increase `nTrainingSteps`
+>
+> 2. Revert to initial conditions. Change the initial value of the parameter `location` to -10e6. Does training work? What's the problem? How would you fix it?
+> *Answer*: increase `nTrainingSteps`
+>
+> 3. Revert to initial conditions. Rerun the script with only 100 samples (using variable `nObs`). Does the training work? What's the problem? How would you fix it without increasing `nTrainingSteps`?
+> *Answer*: increase `learningRate`

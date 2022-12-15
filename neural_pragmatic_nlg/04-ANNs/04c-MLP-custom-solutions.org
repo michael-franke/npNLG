@@ -1,0 +1,75 @@
+> <strong><span style="color:#D83D2B;">Exercise 4.1.1: Explore the training data</span></strong>
+>
+> 1. Remove the noise in the data by changing a single number (parameter value).
+> *Solution:* set 'scale = 0' in the declaration of the distribution object.
+>
+> 2. At what point is the noise in the data so large that there is nothing more to learn?
+> *Solution:* For a value 'scale = 50' there is already rather little signal about $y$ in $x$, but for something like 'scale>100', the association is almost completely gone.
+
+
+
+
+
+> <strong><span style="color:#D83D2B;">Exercise 4.1.2: Digest the model, the parameters and their initialization</span></strong>
+>
+> 1. Verify that the functions 'singleForwardPass' and 'singleForwardPassBatched' do the same thing by comparing their predictions for the whole sequence of 'xObs'.
+> I.e., simply call 'singleForwardPassBatched' and compare the output to calls of 'singleForwardPass'.
+> Ideally, produce outputs from 'singleForwardPass' for all elements of 'xObs' by list-comprehension.
+>
+> *Solution:* The output of these are identical (possibly modulo rounding):
+
+#+begin_src jupyter-python
+print([singleForwardPass(x).detach().numpy().round(2) for x in xObs])
+print(singleForwardPassBatched(xObs))
+#+end_src
+
+>
+> 2. Write down this model (forward pass) in mathematical notation. (The mathematical formulation of the model should follow the 'singleForwardPass').
+>
+> *Solution:* The single forward pass maps a singleton observation $x$ to a singleton predicted value $y$.
+> This proceeds in the following way.
+> First we calculate the hidden layer $h_{1} = U x + b_1$.
+> Then we calculate the next hidden layer as $h_{2} = V_{1} h_{1} + b_2$.
+> Followed by the next hidden layer: $h_{3} = V_{2} h_{2} + b_3$.
+> And finally the output prediction: $y = W h_{3}$.
+>
+> 3. Describe the way parameters are initialized (above) in your own intuitive terms?
+>
+> *Solution:* The parameters of all matrices (think: slope coefficients of each linear transformation) are initialized with random draws from a uniform distribution on the interval $[-1;1]$.
+> All intercepts ($b_{1}$, $b_{2}$, $b_{3}$) are initialized to be zero.
+>
+> 4. Why can we not just set all parameter values to 0 initially?
+>
+> *Solution:* If we set /all/ parameters to zero, we cannot train the model, because under the first forward pass /all/ parameters contribute exactly equally to the prediction, namely not at all. There is differential training signal telling parameters apart. Nothing can be reasonably updated.
+
+
+
+
+
+
+
+> <strong><span style="color:#D83D2B;">Exercise 4.1.3: Inspecting and interpreting the model fit</span></strong>
+>
+> 1. Inspect the print-outs from the training sequence. Does this output suggest that the training was successful or not?
+>
+> *Solution:* Loss decreases first and then stabilizes, suggesting that learning has reached at least a local minimum (or plateau).
+>
+> 2. What does the plot produced here after training show exactly? Does that picture suggest that the model learned successfully? Do you think that there might even be a sense in which the model "[[https://en.wikipedia.org/wiki/Overfitting][overfitted]]" the data?
+>
+> *Solution:* The plot show the original data in blue and the model's predictions in orange. It also shows the 'ground-truth' in green.
+> The closer the orange dots match the $y$-position of the blue dots, the better the model fit.
+> There are indications of "overfitting" in this case, if we also consider the green dots, the ground-truth model.
+> Sometimes orange dots tend to follow the noisy blue dots away from the original ground-truth model.
+> That is an indication that the model fitted (in part) the noise in the data, not the underlying true shape of the curve.
+>
+> 3. Change the optimizer to vanilla Gradient Descent ('SGD'), change the training rate to 'lr=1e-6' and the number of training epochs to 'epochs = 50000'.
+> Now, (first re-initialize all parameter values to start training anew) and repeatedly execute the last code cell (probably 4-6 times).
+> Describe what you observe by answering the following questions:
+> (i) is training with 'SGD' more or less efficient than the initial set-up?;
+> (ii) why is it more/less efficient?
+> (iii) if we think of training the model as "curve fitting", which parts of the curve are adapted first, which ones later?
+> (iv) explain the difference you described in (iii).
+>
+> *Solution:* (i) GD is less efficient, because (ii) it has a fixed learning rate for all parameters, whereas Adam dynamically (cleverly) adapts the learning rate differently for each parameter.
+> (iv) The more extreme the observation diverges from the model's predictions, the stronger the learning signal. Whence that (iii) first the left- and right-most part of the curve is fitted, then the "middle" part with the bumps.
+>
