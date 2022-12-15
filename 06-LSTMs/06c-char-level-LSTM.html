@@ -1072,11 +1072,6 @@ print(predict(&quot;Japanese&quot;, &quot;&quot;, decode_strat = &quot;greedy&qu
 print(predict(&quot;Japanese&quot;, &quot;&quot;, decode_strat = &quot;pure&quot;))
 print(predict(&quot;Japanese&quot;, &quot;&quot;, decode_strat = &quot;pure&quot;))
 print(predict(&quot;Japanese&quot;, &quot;&quot;, decode_strat = &quot;pure&quot;))
-
-# extend the &#39;predict&#39; function to include a parameter to implement the following decoding schemes:
-# - top-k (variable k)
-# - softmax (variable soft-max parameter)
-# - top-p (variable p)
 </pre></div>
 </div>
 </div>
@@ -1104,7 +1099,6 @@ Here is a function that does that, too, but now for the LSTM model.</p>
         print(&quot;%12s: %.5f&quot; %
               (categories[cats[i]], vals[i].detach().numpy() ))
 
-# that&#39;s really interesting: there is a base-rate effect!
 infer_category(&quot;Smith&quot;)
 infer_category(&quot;Miller&quot;)
 </pre></div>
