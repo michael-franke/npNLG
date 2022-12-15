@@ -277,7 +277,7 @@ print(next_word_probabilities(weights))
   [0.1199 0.1957 0.1065 0.1518 0.0783 0.128  0.1491 0.0707]]]
 #+end_example
 
-> <strong><span style="color:#D83D2B;">Exercise 6.1.4: Check batched embedding </span></strong>
+> <strong><span style="color:#D83D2B;">Exercise 6.1.4: Understand output format </span></strong>
 >
 > 1. Which indices give you the next-word probabilities for the sequence "Colin was"?
 >
