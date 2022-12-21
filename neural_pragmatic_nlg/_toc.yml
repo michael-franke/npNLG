@@ -48,3 +48,8 @@ parts:
   - file: 06-LSTMs/06b-LSTM-minimal-forward-pass
   - file: 06-LSTMs/06c-char-level-LSTM
   - file: 06-LSTMs/06d-decoding-GPT2
+
+- caption: 07 Large language models
+  chapters:
+  - file: 07-LLMs/07a-LLMs
+  - file: 07-LLMs/07b-pretrained-LLMs
