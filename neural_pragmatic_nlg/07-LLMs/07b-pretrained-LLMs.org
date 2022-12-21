@@ -1,0 +1,330 @@
+#+title:     Sheet 7.1: Using pretrained LLMs w/ the 'transformers' package
+#+author:    Michael Franke
+
+The 'transformers' package by [[https://huggingface.co/][huggingface]] provides direct access to a multitude of pretrained large language models (LLMs).
+Models and easy-to-use pipelines for many common NLP-tasks exist, ranging from (causal or masked) language modeling over machine translation to sentiment analysis or natural language inference.
+This brief tutorial showcases how to download a pre-trained causal LLM, a version of OpenAI's GTP-2, how to use it for generation, and how to access its predictions (next-word probabilities, sequence embeddings).
+
+The 'transformers' package provides models for use with several programming environments, including Tensorflow, Rust or Jax.
+Not all models or tools are available for all programming environments, but PyTorch and Tensorflow are covered best.
+
+* Packages
+
+We will make heavy use of the 'transformers' package, but also use huggingface's 'datasets' package to access a data set of text from Wikipedia articles.
+In particular, we import two modules from the 'transformers' package which give us access to instances of OpenAI's GPT-2 model for causal language modeling.
+We need 'torch' for tensor manipulations and 'textwrap' to prettify output.
+
+#+begin_src jupyter-python
+
+##################################################
+## import packages
+##################################################
+
+from transformers import GPT2TokenizerFast, GPT2LMHeadModel
+from datasets import load_dataset
+import torch
+import textwrap
+import warnings
+warnings.filterwarnings('ignore')
+
+#+end_src
+
+#+RESULTS:
+
+* Helpers
+
+Here is a small helper function for prettier (?) printing of generated output text:
+
+#+begin_src jupyter-python
+
+##################################################
+## helper function (nicer printing)
+##################################################
+
+def pretty_print(s):
+    print("Output:\n" + 80 * '-')
+    print(textwrap.fill(tokenizer.decode(s, skip_special_tokens=True),80))
+
+#+end_src
+
+#+RESULTS:
+
+* Obtaining a pretrained LLM
+
+The 'transformers' package provides access to many different (language) models (see [[https://huggingface.co/models][here]] for overview).
+One of them is GPT-2.
+There are several types of GPT-2 instances we can instantiate through the 'transformers' package, be it for different architectures (PyTorch, Tensorflow etc) or for different purposes (sequence classification, language modeling etc).
+Here is [[https://huggingface.co/docs/transformers/v4.25.1/en/model_doc/gpt2][overview of the GPT-2 model family]].
+
+In this tutorial, we are interested in using GPT-2 for (left-to-right) language modeling.
+We therefore use the module '[[https://huggingface.co/docs/transformers/v4.25.1/en/model_doc/gpt2#transformers.GPT2LMHeadModel][GPT2LMHeadModel]]'.
+This module provides access to different variants of GPT-2 models (larger or smaller, trained on more or less text).
+Here we use the 'gpt2-large' instance, just because.
+
+Since different (language) models also use different tokenization, we also use the corresponding tokenizer from the module 'GPT2TokenizerFast'.
+
+#+begin_src jupyter-python
+
+##################################################
+## instantiating LLM & its tokenizer
+##################################################
+
+# model_to_use = "gpt2"
+model_to_use = "gpt2-large"
+
+print("Using model: ", model_to_use)
+
+# get the tokenizer for the pre-trained LM you would like to use
+tokenizer = GPT2TokenizerFast.from_pretrained(model_to_use)
+
+# instantiate a model (causal LM)
+model = GPT2LMHeadModel.from_pretrained(model_to_use,
+                                        output_scores=True,
+                                        pad_token_id=tokenizer.eos_token_id)
+
+# inspecting the (default) model configuration
+# (it is possible to created models with different configurations)
+print(model.config)
+
+#+end_src
+
+#+RESULTS:
+#+begin_example
+Using model:  gpt2-large
+GPT2Config {
+  "_name_or_path": "gpt2-large",
+  "activation_function": "gelu_new",
+  "architectures": [
+    "GPT2LMHeadModel"
+  ],
+  "attn_pdrop": 0.1,
+  "bos_token_id": 50256,
+  "embd_pdrop": 0.1,
+  "eos_token_id": 50256,
+  "initializer_range": 0.02,
+  "layer_norm_epsilon": 1e-05,
+  "model_type": "gpt2",
+  "n_ctx": 1024,
+  "n_embd": 1280,
+  "n_head": 20,
+  "n_inner": null,
+  "n_layer": 36,
+  "n_positions": 1024,
+  "output_scores": true,
+  "pad_token_id": 50256,
+  "reorder_and_upcast_attn": false,
+  "resid_pdrop": 0.1,
+  "scale_attn_by_inverse_layer_idx": false,
+  "scale_attn_weights": true,
+  "summary_activation": null,
+  "summary_first_dropout": 0.1,
+  "summary_proj_to_labels": true,
+  "summary_type": "cls_index",
+  "summary_use_proj": true,
+  "task_specific_params": {
+    "text-generation": {
+      "do_sample": true,
+      "max_length": 50
+    }
+  },
+  "transformers_version": "4.25.1",
+  "use_cache": true,
+  "vocab_size": 50257
+}
+#+end_example
+
+* Using the LLM for text generation
+
+The instance of the pre-trained LLM, which is now accessible with variable 'model', comes with several functions for use to use, one of which is 'generate'.
+We can use it to generate text after an initial prompt.
+First, the input prompt must be translated into tokens, then fed into 'generate', which takes arguments to specify the decoding strategy (here top-k sampling).
+The output is a tensor of tokens, which must be translated back into human-intelligible words for output.
+
+#+begin_src jupyter-python
+
+##################################################
+## autoregressive generation
+##################################################
+
+# text to expand
+prompt = "Once a vampire fell in love with a pixie so that they"
+
+# translate the prompt into tokens
+input_tokens = tokenizer(prompt, return_tensors="pt").input_ids
+print(input_tokens)
+
+outputs = model.generate(input_tokens,
+                         max_new_tokens=100,
+                         do_sample=True,
+                         top_k=50,
+                       )
+
+print("\nTop-k sampling:\n")
+pretty_print(outputs[0])
+
+#+end_src
+
+#+RESULTS:
+#+begin_example
+tensor([[ 7454,   257, 23952,  3214,   287,  1842,   351,   257,   279, 39291,
+           523,   326,   484]])
+
+Top-k sampling:
+
+Output:
+--------------------------------------------------------------------------------
+Once a vampire fell in love with a pixie so that they could continue to breed,
+their children were affected by the blood.  The blood turned the pixies into
+human beings in the process and they became responsible for killing other
+vampires, humans and creatures created by Satan himself.  They were killed in
+the battle in 1082, as they attempted to feed on a witch named Anna.  Other
+Names  German: Aigars von Fraunhilde (literally, "Aguaries of Fraunhilde") — The
+witch
+#+end_example
+
+We can also use beam search through 'generate' by setting the parameter 'num_beams'.
+
+#+begin_src jupyter-python
+
+outputs = model.generate(input_tokens,
+                         max_new_tokens=100,
+                         num_beams=6,
+                         no_repeat_ngram_size=4,
+                         early_stopping=True
+                         )
+
+print("\nBeam search:\n")
+pretty_print(outputs[0])
+
+#+end_src
+
+#+RESULTS:
+#+begin_example
+
+Beam search:
+
+Output:
+--------------------------------------------------------------------------------
+Once a vampire fell in love with a pixie so that they could feed on her blood,
+the pixie would become a vampire herself, and the vampire would become a pixie
+herself, and so on and so forth. The pixie would then become a vampire again,
+and then a pixie again, and so forth and so on, until the pixie became a vampire
+and the vampire became a pixie, and then the pixie was a vampire again and the
+vampire was a pixie and so on.  The pixie would eventually become a
+#+end_example
+
+* Accessing next-word probabilities
+
+To access the model's (raw) predictions, which are (log) next-word probabilities, we can just call the function 'model' itself, which gives us access to the forward-pass of the model.
+We simply need to feed in a prompt sequence as input.
+We can additionally feed in a sequence of tokens as 'labels' for which we then obtain the predicted next-word probabilities.
+NB: The $i$-th word in the sequence of labels is assigned the probability obtained after having processed all words up to and including the $i$-th word of the input-token sequence.
+
+The average negative log-likelihood of the provided labels is accessed through the 'loss' attribute of the returned object from a call to 'model'.
+The returned object is of type '[[https://huggingface.co/docs/transformers/main/en/main_classes/output#transformers.modeling_outputs.CausalLMOutputWithCrossAttentions][CausalLMOutputWithCrossAttentions]]'.
+
+#+begin_src jupyter-python
+
+##################################################
+## retrieving next-word surprisals from GPT-2
+##################################################
+
+# NB: we can supply tensors of labels (token ids for next-words, no need to right-shift)
+# using -100 in the labels means: "don't compute this one"
+labels        = torch.clone(input_tokens)
+labels[0,0]   = -100
+output_word2  = model(input_tokens[:,0:2], labels= labels[:,0:2])
+output_prompt = model(input_tokens, labels=input_tokens)
+
+# negative log-likelihood of provided labels
+nll_word2  = output_word2.loss
+nll_output = output_prompt.loss * input_tokens.size(1)
+print("NLL of second word: ", nll_word2.item())
+print("NLL of whole output:", nll_output.item())
+
+#+end_src
+
+#+RESULTS:
+: NLL of second word:  3.040785789489746
+: NLL of whole output: 51.008323669433594
+
+We can also retrieve the logits (= non-normalized weights prior to the final softmax operation) from the returned object, and so derive the next-word probabilities:
+
+#+begin_src jupyter-python
+
+# logits of provided labels
+print(output_word2.logits)
+# next-word log probabilities:
+print(torch.nn.functional.log_softmax(output_word2.logits, dim = 1))
+
+#+end_src
+
+#+RESULTS:
+: tensor([[[ 2.3684,  0.9006, -4.1059,  ..., -6.9914, -4.4546,  0.0598],
+:          [-0.9339,  0.0542, -3.9052,  ..., -6.6439, -4.8402, -1.2681]]],
+:        grad_fn=<UnsafeViewBackward0>)
+: tensor([[[-0.0361, -0.3569, -0.7985,  ..., -0.8819, -0.5188, -0.2351],
+:          [-3.3384, -1.2034, -0.5978,  ..., -0.5344, -0.9044, -1.5630]]],
+:        grad_fn=<LogSoftmaxBackward0>)
+
+* Accessing the embeddings (hidden states)
+
+If we want to repurpose the LLM, we would be interested in the embedding of an input sequence, i.e., the state of the final hidden layer after an input sequence.
+Here is how to access it:
+
+#+begin_src jupyter-python
+
+##################################################
+## retrieving sequence embedding
+##################################################
+
+# set flag 'output_hidden_states' to true
+output = model(input_tokens, output_hidden_states = True)
+
+# this is a tuple with first element the embeddings of each token in the input
+hidden_states = output.hidden_states
+# so, access the first object from the tuple
+embeddings = hidden_states[0]
+# and print its size and content
+print(embeddings.size())
+print("Embedding of last word in input:\n", embeddings[0,0-1])
+
+#+end_src
+
+#+RESULTS:
+: torch.Size([1, 13, 1280])
+: Embedding of last word in input:
+:  tensor([ 0.0360,  0.0201, -0.0314,  ...,  0.0598,  0.0014, -0.0129],
+:        grad_fn=<SelectBackward0>)
+
+* [Excursion:] Using data from 'datasets'
+
+The 'transformers' package is accompanied by the 'datasets' package (also from huggingface), which includes a bunch of interesting data sets for further exploration or fine-tuning.
+
+Here is a brief example of how to load a data set of text from Wikipedia, which we need to pre-process a bit (conjoin lines, tokenize) and then feed into the LLM to access the average negative log-likelihood of the sequence.
+
+#+begin_src jupyter-python
+
+##################################################
+## working with datasets
+##################################################
+
+test = load_dataset("wikitext", "wikitext-2-raw-v1", split="test")
+encodings = tokenizer("\n\n".join(test["text"]), return_tensors="pt")
+
+input_tokens = encodings.input_ids[:,10:50]
+
+pretty_print(input_tokens[0])
+
+output = model(input_tokens, labels = input_tokens)
+print("Average NLL for wikipedia chunk", output.loss.item())
+
+#+end_src
+
+#+RESULTS:
+: Output:
+: --------------------------------------------------------------------------------
+:   Robert Boulter is an English film, television and theatre actor. He had a
+: guest @-@ starring role on the television series The Bill in 2000. This was
+: followed by a starring role
+: Average NLL for wikipedia chunk 3.621708393096924
