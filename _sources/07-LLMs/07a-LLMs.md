@@ -9,7 +9,7 @@ We will learn about the motivation and benefits of transformer models, and how t
 
 1.  understand limitations RNNs and LSTMs
 2.  understand the basics of transformer based architectures
-3.  become able to use the &rsquo;huggingface&rsquo; package to access pre-trained large-language models
+3.  become able to use the &rsquo;transformers&rsquo; package to access pre-trained large-language models
 
 
 ## Slides
