@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Sheet 1.1: Vanilla RSA &#8212; Neural Pragmatic Natural Language Generation</title>
+    <title>Sheet 7.1: Using pretrained LLMs w/ the ‘transformers’ package &#8212; Neural Pragmatic Natural Language Generation</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -54,8 +54,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Sheet 1.2: RSA with politeness" href="01c-RSA-politeness.html" />
-    <link rel="prev" title="Probabilistic pragmatics" href="01a-prob-prag.html" />
+    <link rel="prev" title="Large Language Models" href="07a-LLMs.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -147,19 +146,19 @@ const thebe_selector_output = ".output, .cell_output"
   01 Probabilistic pragmatics
  </span>
 </p>
-<ul class="current nav bd-sidenav">
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="01a-prob-prag.html">
+  <a class="reference internal" href="../01-prob-prag/01a-prob-prag.html">
    Probabilistic pragmatics
   </a>
  </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../01-prob-prag/01b-RSA-vanilla.html">
    Sheet 1.1: Vanilla RSA
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="01c-RSA-politeness.html">
+  <a class="reference internal" href="../01-prob-prag/01c-RSA-politeness.html">
    Sheet 1.2: RSA with politeness
   </a>
  </li>
@@ -284,14 +283,14 @@ const thebe_selector_output = ".output, .cell_output"
   07 Large language models
  </span>
 </p>
-<ul class="nav bd-sidenav">
+<ul class="current nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="../07-LLMs/07a-LLMs.html">
+  <a class="reference internal" href="07a-LLMs.html">
    Large Language Models
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../07-LLMs/07b-pretrained-LLMs.html">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
    Sheet 7.1: Using pretrained LLMs w/ the ‘transformers’ package
   </a>
  </li>
@@ -354,7 +353,7 @@ title="Toggle navigation"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="https://mybinder.org/v2/gh/michael-franke/npNLG/main?urlpath=tree/neural_pragmatic_nlg/01-prob-prag/01b-RSA-vanilla.ipynb"
+        <a href="https://mybinder.org/v2/gh/michael-franke/npNLG/main?urlpath=tree/neural_pragmatic_nlg/07-LLMs/07b-pretrained-LLMs.ipynb"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -372,7 +371,7 @@ title="Launch on Binder"
       </li>
       
       <li>
-        <a href="https://colab.research.google.com/github/michael-franke/npNLG/blob/main/neural_pragmatic_nlg/01-prob-prag/01b-RSA-vanilla.ipynb"
+        <a href="https://colab.research.google.com/github/michael-franke/npNLG/blob/main/neural_pragmatic_nlg/07-LLMs/07b-pretrained-LLMs.ipynb"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -432,7 +431,7 @@ title="Source repository"
       </li>
       
       <li>
-        <a href="https://github.com/michael-franke/npNLG/issues/new?title=Issue%20on%20page%20%2F01-prob-prag/01b-RSA-vanilla.html&body=Your%20issue%20content%20here."
+        <a href="https://github.com/michael-franke/npNLG/issues/new?title=Issue%20on%20page%20%2F07-LLMs/07b-pretrained-LLMs.html&body=Your%20issue%20content%20here."
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -460,7 +459,7 @@ title="Open an issue"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="../_sources/01-prob-prag/01b-RSA-vanilla.ipynb"
+        <a href="../_sources/07-LLMs/07b-pretrained-LLMs.ipynb"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -525,28 +524,33 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#running-example">
-   Running example
+  <a class="reference internal nav-link" href="#helpers">
+   Helpers
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#helper-functions">
-   Helper functions
+  <a class="reference internal nav-link" href="#obtaining-a-pretrained-llm">
+   Obtaining a pretrained LLM
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#the-model-and-its-parameters">
-   The model and its parameters
+  <a class="reference internal nav-link" href="#using-the-llm-for-text-generation">
+   Using the LLM for text generation
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#implementation-and-visualization">
-   Implementation and visualization
+  <a class="reference internal nav-link" href="#accessing-next-word-probabilities">
+   Accessing next-word probabilities
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#references">
-   References
+  <a class="reference internal nav-link" href="#accessing-the-embeddings-hidden-states">
+   Accessing the embeddings (hidden states)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#excursion-using-data-from-datasets">
+   [Excursion:] Using data from ’datasets’
   </a>
  </li>
 </ul>
@@ -558,7 +562,7 @@ title="Print to PDF"
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Sheet 1.1: Vanilla RSA</h1>
+                <h1>Sheet 7.1: Using pretrained LLMs w/ the ‘transformers’ package</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -574,28 +578,33 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#running-example">
-   Running example
+  <a class="reference internal nav-link" href="#helpers">
+   Helpers
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#helper-functions">
-   Helper functions
+  <a class="reference internal nav-link" href="#obtaining-a-pretrained-llm">
+   Obtaining a pretrained LLM
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#the-model-and-its-parameters">
-   The model and its parameters
+  <a class="reference internal nav-link" href="#using-the-llm-for-text-generation">
+   Using the LLM for text generation
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#implementation-and-visualization">
-   Implementation and visualization
+  <a class="reference internal nav-link" href="#accessing-next-word-probabilities">
+   Accessing next-word probabilities
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#references">
-   References
+  <a class="reference internal nav-link" href="#accessing-the-embeddings-hidden-states">
+   Accessing the embeddings (hidden states)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#excursion-using-data-from-datasets">
+   [Excursion:] Using data from ’datasets’
   </a>
  </li>
 </ul>
@@ -608,24 +617,29 @@ title="Print to PDF"
                 
               <div>
                 
-  <section class="tex2jax_ignore mathjax_ignore" id="sheet-1-1-vanilla-rsa">
-<h1>Sheet 1.1: Vanilla RSA<a class="headerlink" href="#sheet-1-1-vanilla-rsa" title="Permalink to this headline">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="sheet-7-1-using-pretrained-llms-w-the-transformers-package">
+<h1>Sheet 7.1: Using pretrained LLMs w/ the ‘transformers’ package<a class="headerlink" href="#sheet-7-1-using-pretrained-llms-w-the-transformers-package" title="Permalink to this headline">#</a></h1>
 <p><strong>Author:</strong> Michael Franke</p>
-<p>This is a (numpy-based) Python implementation of a vanilla Rational Speech Act model for a reference game.</p>
-<p>The same model is also covered in <a class="reference external" href="http://www.problang.org/chapters/01-introduction.html">chapter 1 of problang.org</a>.</p>
+<p>The ’transformers’ package by <a class="reference external" href="https://huggingface.co/">huggingface</a> provides direct access to a multitude of pretrained large language models (LLMs).
+Models and easy-to-use pipelines for many common NLP-tasks exist, ranging from (causal or masked) language modeling over machine translation to sentiment analysis or natural language inference.
+This brief tutorial showcases how to download a pre-trained causal LLM, a version of OpenAI’s GTP-2, how to use it for generation, and how to access its predictions (next-word probabilities, sequence embeddings).</p>
+<p>The ’transformers’ package provides models for use with several programming environments, including Tensorflow, Rust or Jax.
+Not all models or tools are available for all programming environments, but PyTorch and Tensorflow are covered best.</p>
 <section id="packages">
 <h2>Packages<a class="headerlink" href="#packages" title="Permalink to this headline">#</a></h2>
-<p>The `numpy` package is used here in order to implement the RSA model using vector and matrix computation.
-Additionally, we use the `seaborn` package for visualizing the model’s predictions.
-The input for the `seaborn` plots are Data Frames from the `pandas` package.
-We also might need `matplotlib` to produce (render) the plots.
-Finally, this notebook uses the `warnings` package to suppress all warning messages (not necessarily best practice in general, but acceptable here, as not all warnings are critical and could just distract).</p>
+<p>We will make heavy use of the ’transformers’ package, but also use huggingface’s ’datasets’ package to access a data set of text from Wikipedia articles.
+In particular, we import two modules from the ’transformers’ package which give us access to instances of OpenAI’s GPT-2 model for causal language modeling.
+We need ’torch’ for tensor manipulations and ’textwrap’ to prettify output.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import numpy as np
-import seaborn as sns
-import pandas as pd
-import matplotlib.pyplot as plt
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
+## import packages
+##################################################
+
+from transformers import GPT2TokenizerFast, GPT2LMHeadModel
+from datasets import load_dataset
+import torch
+import textwrap
 import warnings
 warnings.filterwarnings(&#39;ignore&#39;)
 </pre></div>
@@ -633,247 +647,317 @@ warnings.filterwarnings(&#39;ignore&#39;)
 </div>
 </div>
 </section>
-<section id="running-example">
-<h2>Running example<a class="headerlink" href="#running-example" title="Permalink to this headline">#</a></h2>
-<p>We will use a single running example here.
-The reference game in question is show below.</p>
-<p><img alt="img" src="../_images/02-reference-game.png" /></p>
-<p>There are three objects, all of which could be the speaker’s intended referent.
-The set of utterances consists of the expressions: ’blue’, ’green’, ’circle’ and ’square’.</p>
-<p>In python code, we can represent this context as follows:</p>
+<section id="helpers">
+<h2>Helpers<a class="headerlink" href="#helpers" title="Permalink to this headline">#</a></h2>
+<p>Here is a small helper function for prettier (?) printing of generated output text:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
-## defining the context
+## helper function (nicer printing)
 ##################################################
 
-object_names    = [&#39;blue_circle&#39;, &#39;green_square&#39;, &#39;blue_square&#39;]
-utterance_names = [&#39;blue&#39;, &#39;circle&#39;, &#39;green&#39;, &#39;square&#39;]
-
-semantic_meaning = np.array(
-    # blue circle, green square, blue square
-    [[1, 0, 1],  # blue
-     [1, 0, 0],  # circle
-     [0, 1, 0],  # green
-     [0, 1, 1]]  # square,
-    )
+def pretty_print(s):
+    print(&quot;Output:\n&quot; + 80 * &#39;-&#39;)
+    print(textwrap.fill(tokenizer.decode(s, skip_special_tokens=True),80))
 </pre></div>
 </div>
 </div>
 </div>
 </section>
-<section id="helper-functions">
-<h2>Helper functions<a class="headerlink" href="#helper-functions" title="Permalink to this headline">#</a></h2>
-<p>Two helper functions will come in handy:
-one for normalizing vectors and matrices;
-another for computing soft-max.</p>
+<section id="obtaining-a-pretrained-llm">
+<h2>Obtaining a pretrained LLM<a class="headerlink" href="#obtaining-a-pretrained-llm" title="Permalink to this headline">#</a></h2>
+<p>The ’transformers’ package provides access to many different (language) models (see <a class="reference external" href="https://huggingface.co/models">here</a> for overview).
+One of them is GPT-2.
+There are several types of GPT-2 instances we can instantiate through the ’transformers’ package, be it for different architectures (PyTorch, Tensorflow etc) or for different purposes (sequence classification, language modeling etc).
+Here is <a class="reference external" href="https://huggingface.co/docs/transformers/v4.25.1/en/model_doc/gpt2">overview of the GPT-2 model family</a>.</p>
+<p>In this tutorial, we are interested in using GPT-2 for (left-to-right) language modeling.
+We therefore use the module ’<a class="reference external" href="https://huggingface.co/docs/transformers/v4.25.1/en/model_doc/gpt2#transformers.GPT2LMHeadModel">GPT2LMHeadModel</a>’.
+This module provides access to different variants of GPT-2 models (larger or smaller, trained on more or less text).
+Here we use the ’gpt2-large’ instance, just because.</p>
+<p>Since different (language) models also use different tokenization, we also use the corresponding tokenizer from the module ’GPT2TokenizerFast’.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
-## helper functions
+## instantiating LLM &amp; its tokenizer
 ##################################################
 
-def softmax(x, axis=1):
-    &quot;&quot;&quot;
-    Softmax function in numpy
-    Parameters
-    ----------
-    x: array
-        An array with any dimensionality
-    axis: int
-        The axis along which to apply the softmax
-    Returns
-    -------
-    array
-        Same shape as x
-    &quot;&quot;&quot;
-    e_x = np.exp(x - np.max(x, axis, keepdims=True))
-    return e_x / e_x.sum(axis=axis, keepdims=True)
+# model_to_use = &quot;gpt2&quot;
+model_to_use = &quot;gpt2-large&quot;
 
+print(&quot;Using model: &quot;, model_to_use)
 
-def normalize(arr, axis=1):
-    &quot;&quot;&quot;
-    Normalize arr along axis
-    &quot;&quot;&quot;
-    return arr / arr.sum(axis, keepdims=True)
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
-## add solutions here for exercise 1.1.1
-##################################################
+# get the tokenizer for the pre-trained LM you would like to use
+tokenizer = GPT2TokenizerFast.from_pretrained(model_to_use)
 
-# softmax(np.hurray([1,1,1,1]), axis=0815)
+# instantiate a model (causal LM)
+model = GPT2LMHeadModel.from_pretrained(model_to_use,
+                                        output_scores=True,
+                                        pad_token_id=tokenizer.eos_token_id)
 
-m = np.array([[1,2], [3,4], [5,6]])
-print(m)
-print(softmax(m, axis=0))
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[1 2]
- [3 4]
- [5 6]]
-[[0.01587624 0.01587624]
- [0.11731043 0.11731043]
- [0.86681333 0.86681333]]
-</pre></div>
-</div>
-</div>
-</div>
-<blockquote>
-<div><p><strong><span style=&ldquo;color:#D83D2B;&rdquo;>Exercise 1.1.1: Apply the helper functions</span></strong></p>
-<ol class="simple">
-<li><p>Normalize the following matrix to a row-stochastic and a column-stochastic matrix for the matrix: <span class="math notranslate nohighlight">\([[1,2], [3,4]]\)</span>.</p></li>
-<li><p>Apply softmax to the following matrix to obtain a row-stochastic and a column-stochastic matrix:  <span class="math notranslate nohighlight">\([[1,2], [3,4], [5,6]]\)</span>.</p></li>
-<li><p>Compute the soft-max and the normalized stochastic vector for the vector <span class="math notranslate nohighlight">\([1,2,3]\)</span>. (NB: the definitions do <em>not</em> expect vector input, so … what do you do?)</p></li>
-</ol>
-</div></blockquote>
-</section>
-<section id="the-model-and-its-parameters">
-<h2>The model and its parameters<a class="headerlink" href="#the-model-and-its-parameters" title="Permalink to this headline">#</a></h2>
-<p>The model we want to implement is defined as follows:</p>
-<div class="amsmath math notranslate nohighlight">
-\[\begin{align*}
-P_{lit}(s \mid u) &amp; \propto L(u,s) \\
-P_S( u \mid s) &amp;= \mathrm{SoftMax}  \left ( \alpha \left ( \log P_{lit}(s \mid u)  - \mathrm{C}(u) \right ) \right ) \\
-P_L( s \mid u) &amp; \propto P_{sal}(s) \ P_S( u \mid s)
-\end{align*}\]</div>
-<p>Here, <span class="math notranslate nohighlight">\(L\)</span> is a <em>lexicon</em>, which assigns a truth-value (usually 0 or 1) to each pair of utterance and state.
-The sign <span class="math notranslate nohighlight">\(\propto\)</span> is to be read as “proportional to” and implies proper normalization of the to-be-defined (conditional) distributions.
-The parameter <span class="math notranslate nohighlight">\(\alpha\)</span> is the usual “optimality” or “inverse temperature” parameter of the soft-max function.
-The cost function <span class="math notranslate nohighlight">\(C\)</span> assigns a real number to each utterance, representing the relative effort or dispreference for that utterance.
-(NB: Since soft-max is only sensitive to (additive) differences, only differences in cost between utterances matter.)
-The salience prior <span class="math notranslate nohighlight">\(P_{sal}\)</span> provides a relative weight of accessibility, salience or <em>a priori</em> bias for each object.</p>
-<p>The model’s free parameters are: the optimality parameter <span class="math notranslate nohighlight">\(\alpha\)</span>, the relative cost <span class="math notranslate nohighlight">\(C(u_{\text{ajd}})\)</span> of using an adjective (rather than a noun, where <span class="math notranslate nohighlight">\(C(u_{\text{noun}})=0\)</span>), and the salience prior <span class="math notranslate nohighlight">\(P_{sal}\)</span>.</p>
-<blockquote>
-<div><p><strong><span style=&ldquo;color:#D83D2B;&rdquo;>Exercise 1.1.2: Paraphrase the definitions</span></strong></p>
-<p>Provide a short, intuitive and explanatory paraphrase for each of the three conditional probability distributions that define the RSA model above. I.e., formulate a sentence or two for each, so that a person can understand the purpose or gist of the definition. The less technical jargon you use, the better. The more insightful to a novice, the better.</p>
-</div></blockquote>
-<blockquote>
-<div><p><strong><span style=&ldquo;color:#D83D2B;&rdquo;>Solutions for Exercise 1.1.2</span></strong></p>
-<p>… add your solution here …</p>
-</div></blockquote>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
-## model parameters
-##################################################
-
-alpha              = 1
-cost_adjectives    = 0.1
-salience_prior_flt = np.array([1,1,1])     # flat
-salience_prior_emp = np.array([71,139,30]) # empirical
-</pre></div>
-</div>
-</div>
-</div>
-</section>
-<section id="implementation-and-visualization">
-<h2>Implementation and visualization<a class="headerlink" href="#implementation-and-visualization" title="Permalink to this headline">#</a></h2>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
-## RSA model predictions
-##################################################
-
-
-def RSA(alpha, cost_adjectives, salience_prior):
-    &quot;&quot;&quot;
-    predictions of the vanilla RSA model for reference game
-    Parameters
-    ----------
-    alpha: float
-        Optimality parameter
-    cost_adjectives: float
-        Differential cost for production of adjectives
-    salience_prior: array
-        Prior over objects
-    Returns
-    -------
-    dictionary
-        Dictionary with keys &#39;speaker&#39; and &#39;listener&#39;
-    &quot;&quot;&quot;
-    costs              = np.array([1.0, 0, 1.0, 0]) * cost_adjectives
-    literal_listener   = normalize(semantic_meaning)
-    util_speaker       = np.log(np.transpose(literal_listener)) - costs
-    pragmatic_speaker  = softmax(alpha * util_speaker)
-    pragmatic_listener = normalize(np.transpose(pragmatic_speaker) * salience_prior)
-    return({&#39;speaker&#39;: pragmatic_speaker, &#39;listener&#39;: pragmatic_listener})
-
-RSA_predictions = RSA(alpha, cost_adjectives, salience_prior_flt)
-
-##################################################
-## cast model predictions to DataFrames
-##################################################
-
-speaker  = pd.DataFrame(data = RSA_predictions[&#39;speaker&#39;],
-                        index = object_names,
-                        columns = utterance_names)
-speaker[&#39;object&#39;] = speaker.index
-print(speaker.round(2))
-
-listener = pd.DataFrame(data    = RSA_predictions[&#39;listener&#39;],
-                        index   = utterance_names,
-                        columns = object_names)
-listener[&#39;utterance&#39;] = listener.index
-print(listener.round(2))
-
-##################################################
-## plotting the results
-##################################################
-
-speaker_long = speaker.melt(id_vars = &quot;object&quot;, var_name = &quot;utterance&quot;,
-                            value_name = &quot;probability&quot;, ignore_index = False)
-speaker_plot = sns.FacetGrid(speaker_long, col=&quot;object&quot;)
-speaker_plot.map(sns.barplot, &quot;utterance&quot;, &quot;probability&quot;)
-plt.show()
-
-listener_long = listener.melt(id_vars = &quot;utterance&quot;, var_name = &quot;object&quot;,
-                              value_name = &quot;probability&quot;, ignore_index = False)
-listener_plot = sns.FacetGrid(listener_long, col=&quot;utterance&quot;)
-listener_plot.map(sns.barplot, &quot;object&quot;, &quot;probability&quot;)
-plt.show()
+# inspecting the (default) model configuration
+# (it is possible to created models with different configurations)
+print(model.config)
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>#+begin_example
-              blue  circle  green  square        object
-blue_circle   0.31    0.69   0.00    0.00   blue_circle
-green_square  0.00    0.00   0.64    0.36  green_square
-blue_square   0.48    0.00   0.00    0.52   blue_square
-        blue_circle  green_square  blue_square utterance
-blue            0.4           0.0          0.6      blue
-circle          1.0           0.0          0.0    circle
-green           0.0           1.0          0.0     green
-square          0.0           0.4          0.6    square
+Using model:  gpt2-large
+GPT2Config {
+  &quot;_name_or_path&quot;: &quot;gpt2-large&quot;,
+  &quot;activation_function&quot;: &quot;gelu_new&quot;,
+  &quot;architectures&quot;: [
+    &quot;GPT2LMHeadModel&quot;
+  ],
+  &quot;attn_pdrop&quot;: 0.1,
+  &quot;bos_token_id&quot;: 50256,
+  &quot;embd_pdrop&quot;: 0.1,
+  &quot;eos_token_id&quot;: 50256,
+  &quot;initializer_range&quot;: 0.02,
+  &quot;layer_norm_epsilon&quot;: 1e-05,
+  &quot;model_type&quot;: &quot;gpt2&quot;,
+  &quot;n_ctx&quot;: 1024,
+  &quot;n_embd&quot;: 1280,
+  &quot;n_head&quot;: 20,
+  &quot;n_inner&quot;: null,
+  &quot;n_layer&quot;: 36,
+  &quot;n_positions&quot;: 1024,
+  &quot;output_scores&quot;: true,
+  &quot;pad_token_id&quot;: 50256,
+  &quot;reorder_and_upcast_attn&quot;: false,
+  &quot;resid_pdrop&quot;: 0.1,
+  &quot;scale_attn_by_inverse_layer_idx&quot;: false,
+  &quot;scale_attn_weights&quot;: true,
+  &quot;summary_activation&quot;: null,
+  &quot;summary_first_dropout&quot;: 0.1,
+  &quot;summary_proj_to_labels&quot;: true,
+  &quot;summary_type&quot;: &quot;cls_index&quot;,
+  &quot;summary_use_proj&quot;: true,
+  &quot;task_specific_params&quot;: {
+    &quot;text-generation&quot;: {
+      &quot;do_sample&quot;: true,
+      &quot;max_length&quot;: 50
+    }
+  },
+  &quot;transformers_version&quot;: &quot;4.25.1&quot;,
+  &quot;use_cache&quot;: true,
+  &quot;vocab_size&quot;: 50257
+}
 #+end_example
 </pre></div>
 </div>
-<img alt="../_images/01b-RSA-vanilla_17_1.png" src="../_images/01b-RSA-vanilla_17_1.png" />
-<img alt="../_images/01b-RSA-vanilla_17_2.png" src="../_images/01b-RSA-vanilla_17_2.png" />
 </div>
 </div>
-<blockquote>
-<div><p><strong><span style=&ldquo;color:#D83D2B;&rdquo;>Exercise 1.1.3: Explore the vanilla RSA model</span></strong></p>
-<ol class="simple">
-<li><p>[for your own sake only; no written answer required] Go through the whole last code block. Try to understand every single line in the function `RSA<sub>predictions</sub>`. Ask if anything is unclear. (It is muss less important to understand the details of the subsequent data wrangling and plotting.)</p></li>
-<li><p>Explore what happens if you make the speaker more optimal. Does that also affect the listener’s inferences? Why? Is that intuitive?</p></li>
-<li><p>Add another object to the context, namely a red triangle. Add any relevant utterances, their semantics and costs as well. What do you predict will happen to the model’s predictions for the “old” objects and utterances? Test your predictions (= understanding of the model) and report the results.</p></li>
-<li><p>Run the model with different values for the cost parameter `cost<sub>adjectives</sub>`. Which effect does this have on the speaker prediction? Which effect does that have on the predictions for listener interpretation? Explain these observation in your own non-technical terms (e.g., for an interested outsider).</p></li>
-<li><p>Is there any way to get “blue” to refer to something green? I.e., is it possible (if so: how?; else: why not?) to change the context or model in such a way that <span class="math notranslate nohighlight">\(P_{L}(\text{green square} \mid \text{blue}) &gt; 0\)</span>, ideally in a way that might also be defensible in that it makes conceptual sense (not just by some technical trick that no reviewer of your work would accept as anything but a hack)?</p></li>
-</ol>
-</div></blockquote>
 </section>
-<section id="references">
-<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">#</a></h2>
-<p>Frank, M. C., &amp; Goodman, N. D. (2012). Predicting pragmatic reasoning in language games. Science, 336(6084), 998. <a class="reference external" href="http://dx.doi.org/10.1126/science.1218633">http://dx.doi.org/10.1126/science.1218633</a></p>
-<p>Scontras, G., Tessler, M. H., &amp; Franke, M. (2018). <a class="reference external" href="http://www.problang.org/">Probabilistic language understanding: An introduction to the Rational Speech Act framework</a>.</p>
+<section id="using-the-llm-for-text-generation">
+<h2>Using the LLM for text generation<a class="headerlink" href="#using-the-llm-for-text-generation" title="Permalink to this headline">#</a></h2>
+<p>The instance of the pre-trained LLM, which is now accessible with variable ’model’, comes with several functions for use to use, one of which is ’generate’.
+We can use it to generate text after an initial prompt.
+First, the input prompt must be translated into tokens, then fed into ’generate’, which takes arguments to specify the decoding strategy (here top-k sampling).
+The output is a tensor of tokens, which must be translated back into human-intelligible words for output.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
+## autoregressive generation
+##################################################
+
+# text to expand
+prompt = &quot;Once a vampire fell in love with a pixie so that they&quot;
+
+# translate the prompt into tokens
+input_tokens = tokenizer(prompt, return_tensors=&quot;pt&quot;).input_ids
+print(input_tokens)
+
+outputs = model.generate(input_tokens,
+                         max_new_tokens=100,
+                         do_sample=True,
+                         top_k=50,
+                       )
+
+print(&quot;\nTop-k sampling:\n&quot;)
+pretty_print(outputs[0])
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>#+begin_example
+tensor([[ 7454,   257, 23952,  3214,   287,  1842,   351,   257,   279, 39291,
+           523,   326,   484]])
+
+Top-k sampling:
+
+Output:
+--------------------------------------------------------------------------------
+Once a vampire fell in love with a pixie so that they could continue to breed,
+their children were affected by the blood.  The blood turned the pixies into
+human beings in the process and they became responsible for killing other
+vampires, humans and creatures created by Satan himself.  They were killed in
+the battle in 1082, as they attempted to feed on a witch named Anna.  Other
+Names  German: Aigars von Fraunhilde (literally, &quot;Aguaries of Fraunhilde&quot;) — The
+witch
+#+end_example
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can also use beam search through ’generate’ by setting the parameter ’num<sub>beams</sub>’.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>outputs = model.generate(input_tokens,
+                         max_new_tokens=100,
+                         num_beams=6,
+                         no_repeat_ngram_size=4,
+                         early_stopping=True
+                         )
+
+print(&quot;\nBeam search:\n&quot;)
+pretty_print(outputs[0])
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>#+begin_example
+
+Beam search:
+
+Output:
+--------------------------------------------------------------------------------
+Once a vampire fell in love with a pixie so that they could feed on her blood,
+the pixie would become a vampire herself, and the vampire would become a pixie
+herself, and so on and so forth. The pixie would then become a vampire again,
+and then a pixie again, and so forth and so on, until the pixie became a vampire
+and the vampire became a pixie, and then the pixie was a vampire again and the
+vampire was a pixie and so on.  The pixie would eventually become a
+#+end_example
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="accessing-next-word-probabilities">
+<h2>Accessing next-word probabilities<a class="headerlink" href="#accessing-next-word-probabilities" title="Permalink to this headline">#</a></h2>
+<p>To access the model’s (raw) predictions, which are (log) next-word probabilities, we can just call the function ’model’ itself, which gives us access to the forward-pass of the model.
+We simply need to feed in a prompt sequence as input.
+We can additionally feed in a sequence of tokens as ’labels’ for which we then obtain the predicted next-word probabilities.
+NB: The <span class="math notranslate nohighlight">\(i\)</span>-th word in the sequence of labels is assigned the probability obtained after having processed all words up to and including the <span class="math notranslate nohighlight">\(i\)</span>-th word of the input-token sequence.</p>
+<p>The average negative log-likelihood of the provided labels is accessed through the ’loss’ attribute of the returned object from a call to ’model’.
+The returned object is of type ’<a class="reference external" href="https://huggingface.co/docs/transformers/main/en/main_classes/output#transformers.modeling_outputs.CausalLMOutputWithCrossAttentions">CausalLMOutputWithCrossAttentions</a>’.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
+## retrieving next-word surprisals from GPT-2
+##################################################
+
+# NB: we can supply tensors of labels (token ids for next-words, no need to right-shift)
+# using -100 in the labels means: &quot;don&#39;t compute this one&quot;
+labels        = torch.clone(input_tokens)
+labels[0,0]   = -100
+output_word2  = model(input_tokens[:,0:2], labels= labels[:,0:2])
+output_prompt = model(input_tokens, labels=input_tokens)
+
+# negative log-likelihood of provided labels
+nll_word2  = output_word2.loss
+nll_output = output_prompt.loss * input_tokens.size(1)
+print(&quot;NLL of second word: &quot;, nll_word2.item())
+print(&quot;NLL of whole output:&quot;, nll_output.item())
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>NLL of second word:  3.040785789489746
+NLL of whole output: 51.008323669433594
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can also retrieve the logits (= non-normalized weights prior to the final softmax operation) from the returned object, and so derive the next-word probabilities:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># logits of provided labels
+print(output_word2.logits)
+# next-word log probabilities:
+print(torch.nn.functional.log_softmax(output_word2.logits, dim = 1))
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[[ 2.3684,  0.9006, -4.1059,  ..., -6.9914, -4.4546,  0.0598],
+         [-0.9339,  0.0542, -3.9052,  ..., -6.6439, -4.8402, -1.2681]]],
+       grad_fn=&lt;UnsafeViewBackward0&gt;)
+tensor([[[-0.0361, -0.3569, -0.7985,  ..., -0.8819, -0.5188, -0.2351],
+         [-3.3384, -1.2034, -0.5978,  ..., -0.5344, -0.9044, -1.5630]]],
+       grad_fn=&lt;LogSoftmaxBackward0&gt;)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="accessing-the-embeddings-hidden-states">
+<h2>Accessing the embeddings (hidden states)<a class="headerlink" href="#accessing-the-embeddings-hidden-states" title="Permalink to this headline">#</a></h2>
+<p>If we want to repurpose the LLM, we would be interested in the embedding of an input sequence, i.e., the state of the final hidden layer after an input sequence.
+Here is how to access it:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
+## retrieving sequence embedding
+##################################################
+
+# set flag &#39;output_hidden_states&#39; to true
+output = model(input_tokens, output_hidden_states = True)
+
+# this is a tuple with first element the embeddings of each token in the input
+hidden_states = output.hidden_states
+# so, access the first object from the tuple
+embeddings = hidden_states[0]
+# and print its size and content
+print(embeddings.size())
+print(&quot;Embedding of last word in input:\n&quot;, embeddings[0,0-1])
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>torch.Size([1, 13, 1280])
+Embedding of last word in input:
+ tensor([ 0.0360,  0.0201, -0.0314,  ...,  0.0598,  0.0014, -0.0129],
+       grad_fn=&lt;SelectBackward0&gt;)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="excursion-using-data-from-datasets">
+<h2>[Excursion:] Using data from ’datasets’<a class="headerlink" href="#excursion-using-data-from-datasets" title="Permalink to this headline">#</a></h2>
+<p>The ’transformers’ package is accompanied by the ’datasets’ package (also from huggingface), which includes a bunch of interesting data sets for further exploration or fine-tuning.</p>
+<p>Here is a brief example of how to load a data set of text from Wikipedia, which we need to pre-process a bit (conjoin lines, tokenize) and then feed into the LLM to access the average negative log-likelihood of the sequence.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
+## working with datasets
+##################################################
+
+test = load_dataset(&quot;wikitext&quot;, &quot;wikitext-2-raw-v1&quot;, split=&quot;test&quot;)
+encodings = tokenizer(&quot;\n\n&quot;.join(test[&quot;text&quot;]), return_tensors=&quot;pt&quot;)
+
+input_tokens = encodings.input_ids[:,10:50]
+
+pretty_print(input_tokens[0])
+
+output = model(input_tokens, labels = input_tokens)
+print(&quot;Average NLL for wikipedia chunk&quot;, output.loss.item())
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Output:
+--------------------------------------------------------------------------------
+  Robert Boulter is an English film, television and theatre actor. He had a
+guest @-@ starring role on the television series The Bill in 2000. This was
+followed by a starring role
+Average NLL for wikipedia chunk 3.621708393096924
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 
@@ -890,7 +974,7 @@ square          0.0           0.4          0.6    square
         },
         kernelOptions: {
             kernelName: "python3",
-            path: "./01-prob-prag"
+            path: "./07-LLMs"
         },
         predefinedOutput: true
     }
@@ -904,19 +988,12 @@ square          0.0           0.4          0.6    square
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="01a-prob-prag.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="07a-LLMs.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Probabilistic pragmatics</p>
+            <p class="prev-next-title">Large Language Models</p>
         </div>
-    </a>
-    <a class='right-next' id="next-link" href="01c-RSA-politeness.html" title="next page">
-    <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Sheet 1.2: RSA with politeness</p>
-    </div>
-    <i class="fas fa-angle-right"></i>
     </a>
 </div>
             </footer>
