@@ -658,28 +658,28 @@ Applying the new LSTM model to the exact same data (surname predictions for diff
 <p>Imports as before in (5.1).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
-## import packages
-##################################################
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##################################################</span>
+<span class="c1">## import packages</span>
+<span class="c1">##################################################</span>
 
-from __future__ import unicode_literals, print_function, division
-from io import open
-import json
-import glob
-import os
-import unicodedata
-import pandas
-import string
-import torch
-import urllib.request
-import numpy as np
-import torch.nn as nn
-import random
-import time
-import math
-import matplotlib.pyplot as plt
-import warnings
-warnings.filterwarnings(&#39;ignore&#39;)
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">unicode_literals</span><span class="p">,</span> <span class="n">print_function</span><span class="p">,</span> <span class="n">division</span>
+<span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="nb">open</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">glob</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">unicodedata</span>
+<span class="kn">import</span> <span class="nn">pandas</span>
+<span class="kn">import</span> <span class="nn">string</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">urllib.request</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -690,42 +690,42 @@ warnings.filterwarnings(&#39;ignore&#39;)
 <p>Loading and pre-processing the data is also as before in sheet 5.1.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
-## read and inspect the data
-##################################################
-# with urllib.request.urlopen(&quot;https://raw.githubusercontent.com/michael-franke/npNLG/main/neural_pragmatic_nlg/05-RNNs/names-data.json&quot;) as url:
-#     namesData = json.load(url)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##################################################</span>
+<span class="c1">## read and inspect the data</span>
+<span class="c1">##################################################</span>
+<span class="c1"># with urllib.request.urlopen(&quot;https://raw.githubusercontent.com/michael-franke/npNLG/main/neural_pragmatic_nlg/05-RNNs/names-data.json&quot;) as url:</span>
+<span class="c1">#     namesData = json.load(url)</span>
 
-# with open(&#39;names-data.json&#39;) as dataFile:
-#     namesData = json.load(dataFile)
+<span class="c1"># with open(&#39;names-data.json&#39;) as dataFile:</span>
+<span class="c1">#     namesData = json.load(dataFile)</span>
 
-categories = list(namesData.keys())
-n_categories   = len(categories)
+<span class="n">categories</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">namesData</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+<span class="n">n_categories</span>   <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">categories</span><span class="p">)</span>
 
-# we use all ASCII letters as the vocabulary (plus tokens [EOS], [SOS])
-all_letters = string.ascii_letters + &quot; .,;&#39;-&quot;
-n_letters   = len(all_letters) + 2 # all letter plus [EOS] and [SOS] token
-SOSIndex    = n_letters - 1
-EOSIndex    = n_letters - 2
+<span class="c1"># we use all ASCII letters as the vocabulary (plus tokens [EOS], [SOS])</span>
+<span class="n">all_letters</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">ascii_letters</span> <span class="o">+</span> <span class="s2">&quot; .,;&#39;-&quot;</span>
+<span class="n">n_letters</span>   <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">all_letters</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span> <span class="c1"># all letter plus [EOS] and [SOS] token</span>
+<span class="n">SOSIndex</span>    <span class="o">=</span> <span class="n">n_letters</span> <span class="o">-</span> <span class="mi">1</span>
+<span class="n">EOSIndex</span>    <span class="o">=</span> <span class="n">n_letters</span> <span class="o">-</span> <span class="mi">2</span>
 
-##################################################
-## make a train/test split
-##################################################
+<span class="c1">##################################################</span>
+<span class="c1">## make a train/test split</span>
+<span class="c1">##################################################</span>
 
-train_data = dict()
-test_data  = dict()
-split_percentage = 10
-for k in list(namesData.keys()):
-    total_size    = len(namesData[k])
-    test_size     = round(total_size/split_percentage)
-    train_size    = total_size - test_size
-    # print(k, total_size, train_size, test_size)
-    indices       = [i for i in range(total_size)]
-    random.shuffle(indices)
-    train_indices = indices[0:train_size]
-    test_indices  = indices[(train_size+1):(-1)]
-    train_data[k] = [namesData[k][i] for i in train_indices]
-    test_data[k]  = [namesData[k][i] for i in test_indices]
+<span class="n">train_data</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+<span class="n">test_data</span>  <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+<span class="n">split_percentage</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">namesData</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+    <span class="n">total_size</span>    <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">namesData</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
+    <span class="n">test_size</span>     <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">total_size</span><span class="o">/</span><span class="n">split_percentage</span><span class="p">)</span>
+    <span class="n">train_size</span>    <span class="o">=</span> <span class="n">total_size</span> <span class="o">-</span> <span class="n">test_size</span>
+    <span class="c1"># print(k, total_size, train_size, test_size)</span>
+    <span class="n">indices</span>       <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">total_size</span><span class="p">)]</span>
+    <span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">indices</span><span class="p">)</span>
+    <span class="n">train_indices</span> <span class="o">=</span> <span class="n">indices</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">train_size</span><span class="p">]</span>
+    <span class="n">test_indices</span>  <span class="o">=</span> <span class="n">indices</span><span class="p">[(</span><span class="n">train_size</span><span class="o">+</span><span class="mi">1</span><span class="p">):(</span><span class="o">-</span><span class="mi">1</span><span class="p">)]</span>
+    <span class="n">train_data</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">namesData</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">train_indices</span><span class="p">]</span>
+    <span class="n">test_data</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>  <span class="o">=</span> <span class="p">[</span><span class="n">namesData</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">test_indices</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -761,39 +761,39 @@ Polish 139 125 14
 NB: we include a dropout rate (which here acts in between layers of the stacked LSTM).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
-## define LSTM
-##################################################
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##################################################</span>
+<span class="c1">## define LSTM</span>
+<span class="c1">##################################################</span>
 
-class LSTM(nn.Module):
-    def __init__(self, cat_embedding_size, n_cat,
-                 char_embedding_size, n_char,
-                 hidden_size, output_size, num_layers = 2, dropout = 0.1):
-        super(LSTM, self).__init__()
-        self.hidden_size = hidden_size
-        # category embedding
-        self.cat_embedding = nn.Embedding(n_cat, cat_embedding_size)
-        # character embedding
-        self.char_embedding = nn.Embedding(n_char, char_embedding_size)
-        # the actual LSTM
-        self.lstm = nn.LSTM(input_size  = cat_embedding_size+char_embedding_size,
-                            hidden_size = hidden_size,
-                            num_layers  = num_layers,
-                            batch_first = True,
-                            dropout = dropout
-                            )
-        # linear map onto weights for words
-        self.linear_map = nn.Linear(hidden_size, output_size)
+<span class="k">class</span> <span class="nc">LSTM</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cat_embedding_size</span><span class="p">,</span> <span class="n">n_cat</span><span class="p">,</span>
+                 <span class="n">char_embedding_size</span><span class="p">,</span> <span class="n">n_char</span><span class="p">,</span>
+                 <span class="n">hidden_size</span><span class="p">,</span> <span class="n">output_size</span><span class="p">,</span> <span class="n">num_layers</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">dropout</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">LSTM</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hidden_size</span> <span class="o">=</span> <span class="n">hidden_size</span>
+        <span class="c1"># category embedding</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cat_embedding</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Embedding</span><span class="p">(</span><span class="n">n_cat</span><span class="p">,</span> <span class="n">cat_embedding_size</span><span class="p">)</span>
+        <span class="c1"># character embedding</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">char_embedding</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Embedding</span><span class="p">(</span><span class="n">n_char</span><span class="p">,</span> <span class="n">char_embedding_size</span><span class="p">)</span>
+        <span class="c1"># the actual LSTM</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lstm</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">LSTM</span><span class="p">(</span><span class="n">input_size</span>  <span class="o">=</span> <span class="n">cat_embedding_size</span><span class="o">+</span><span class="n">char_embedding_size</span><span class="p">,</span>
+                            <span class="n">hidden_size</span> <span class="o">=</span> <span class="n">hidden_size</span><span class="p">,</span>
+                            <span class="n">num_layers</span>  <span class="o">=</span> <span class="n">num_layers</span><span class="p">,</span>
+                            <span class="n">batch_first</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                            <span class="n">dropout</span> <span class="o">=</span> <span class="n">dropout</span>
+                            <span class="p">)</span>
+        <span class="c1"># linear map onto weights for words</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">linear_map</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden_size</span><span class="p">,</span> <span class="n">output_size</span><span class="p">)</span>
 
-    def forward(self, category, name, hidden):
-        cat_emb  = self.cat_embedding(category)
-        char_emb = self.char_embedding(name)
-        output, (hidden, cell) = self.lstm(torch.concat([cat_emb, char_emb], dim = 1))
-        predictions = self.linear_map(output)
-        return torch.nn.functional.log_softmax(predictions, dim = 1), hidden
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">category</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">hidden</span><span class="p">):</span>
+        <span class="n">cat_emb</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cat_embedding</span><span class="p">(</span><span class="n">category</span><span class="p">)</span>
+        <span class="n">char_emb</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">char_embedding</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">output</span><span class="p">,</span> <span class="p">(</span><span class="n">hidden</span><span class="p">,</span> <span class="n">cell</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lstm</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">cat_emb</span><span class="p">,</span> <span class="n">char_emb</span><span class="p">],</span> <span class="n">dim</span> <span class="o">=</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">predictions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">linear_map</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">functional</span><span class="o">.</span><span class="n">log_softmax</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">dim</span> <span class="o">=</span> <span class="mi">1</span><span class="p">),</span> <span class="n">hidden</span>
 
-    def initHidden(self):
-        return torch.zeros(1, self.hidden_size)
+    <span class="k">def</span> <span class="nf">initHidden</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">hidden_size</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -812,43 +812,43 @@ class LSTM(nn.Module):
 (Previous work sheet used a one-hot vector representation where we here use an index (integer) representation for each word.)</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
-## helper functions for training
-##################################################
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##################################################</span>
+<span class="c1">## helper functions for training</span>
+<span class="c1">##################################################</span>
 
-# Random item from a list
-def randomChoice(l):
-    return l[random.randint(0, len(l) - 1)]
+<span class="c1"># Random item from a list</span>
+<span class="k">def</span> <span class="nf">randomChoice</span><span class="p">(</span><span class="n">l</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">l</span><span class="p">[</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)]</span>
 
-# Get a random category and random name from that category
-def randomTrainingPair():
-    category = randomChoice(categories)
-    name = randomChoice(train_data[category])
-    return category, name
+<span class="c1"># Get a random category and random name from that category</span>
+<span class="k">def</span> <span class="nf">randomTrainingPair</span><span class="p">():</span>
+    <span class="n">category</span> <span class="o">=</span> <span class="n">randomChoice</span><span class="p">(</span><span class="n">categories</span><span class="p">)</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">randomChoice</span><span class="p">(</span><span class="n">train_data</span><span class="p">[</span><span class="n">category</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">category</span><span class="p">,</span> <span class="n">name</span>
 
-# get index representation of name (in the proper format)
-def getNameIndices(name):
-    indices = [SOSIndex] + [all_letters.index(c) for c in list(name)] + [EOSIndex]
-    return indices
+<span class="c1"># get index representation of name (in the proper format)</span>
+<span class="k">def</span> <span class="nf">getNameIndices</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="n">indices</span> <span class="o">=</span> <span class="p">[</span><span class="n">SOSIndex</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">all_letters</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">name</span><span class="p">)]</span> <span class="o">+</span> <span class="p">[</span><span class="n">EOSIndex</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">indices</span>
 
-# get index representation of category (in the proper format)
-# NB: must have same length as corresponding name representation b/c
-#     each character in the sequence is concatenated with the category information
-def getCatIndices(category, name_length):
-    return torch.full((1,name_length), categories.index(category)).reshape(-1)
+<span class="c1"># get index representation of category (in the proper format)</span>
+<span class="c1"># NB: must have same length as corresponding name representation b/c</span>
+<span class="c1">#     each character in the sequence is concatenated with the category information</span>
+<span class="k">def</span> <span class="nf">getCatIndices</span><span class="p">(</span><span class="n">category</span><span class="p">,</span> <span class="n">name_length</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="n">name_length</span><span class="p">),</span> <span class="n">categories</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">category</span><span class="p">))</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
 
-# get random training pair in desired input format (vectors of indices)
-def randomTrainingExample():
-    category, name = randomTrainingPair()
-    name_length = len(name) + 2
-    return getCatIndices(category, name_length), torch.tensor(getNameIndices(name))
+<span class="c1"># get random training pair in desired input format (vectors of indices)</span>
+<span class="k">def</span> <span class="nf">randomTrainingExample</span><span class="p">():</span>
+    <span class="n">category</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span> <span class="n">randomTrainingPair</span><span class="p">()</span>
+    <span class="n">name_length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span>
+    <span class="k">return</span> <span class="n">getCatIndices</span><span class="p">(</span><span class="n">category</span><span class="p">,</span> <span class="n">name_length</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">getNameIndices</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
 
-def timeSince(since):
-    now = time.time()
-    s = now - since
-    m = math.floor(s / 60)
-    s -= m * 60
-    return &#39;%dm %ds&#39; % (m, s)
+<span class="k">def</span> <span class="nf">timeSince</span><span class="p">(</span><span class="n">since</span><span class="p">):</span>
+    <span class="n">now</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">now</span> <span class="o">-</span> <span class="n">since</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">s</span> <span class="o">/</span> <span class="mi">60</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">-=</span> <span class="n">m</span> <span class="o">*</span> <span class="mi">60</span>
+    <span class="k">return</span> <span class="s1">&#39;</span><span class="si">%d</span><span class="s1">m </span><span class="si">%d</span><span class="s1">s&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -860,25 +860,25 @@ def timeSince(since):
 The way we defined the LSTM above makes it so that the first component that is returned feeds directly in to the loss function (negative log likeihood).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
-## single training pass
-##################################################
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##################################################</span>
+<span class="c1">## single training pass</span>
+<span class="c1">##################################################</span>
 
-def train(cat, name):
-    # get a fresh hidden layer
-    hidden = lstm.initHidden()
-    # zero the gradients
-    optimizer.zero_grad()
-    # run sequence
-    predictions, hidden = lstm(cat, name, hidden)
-    # compute loss (NLLH)
-    loss = criterion(predictions[:-1], name[1:len(name)])
-    # perform backward pass
-    loss.backward()
-    # perform optimization
-    optimizer.step()
-    # return prediction and loss
-    return loss.item()
+<span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="n">cat</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+    <span class="c1"># get a fresh hidden layer</span>
+    <span class="n">hidden</span> <span class="o">=</span> <span class="n">lstm</span><span class="o">.</span><span class="n">initHidden</span><span class="p">()</span>
+    <span class="c1"># zero the gradients</span>
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+    <span class="c1"># run sequence</span>
+    <span class="n">predictions</span><span class="p">,</span> <span class="n">hidden</span> <span class="o">=</span> <span class="n">lstm</span><span class="p">(</span><span class="n">cat</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">hidden</span><span class="p">)</span>
+    <span class="c1"># compute loss (NLLH)</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">predictions</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">name</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="nb">len</span><span class="p">(</span><span class="n">name</span><span class="p">)])</span>
+    <span class="c1"># perform backward pass</span>
+    <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+    <span class="c1"># perform optimization</span>
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+    <span class="c1"># return prediction and loss</span>
+    <span class="k">return</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -890,50 +890,50 @@ def train(cat, name):
 It has only one layer, a hidden and cell state of size 64 and uses an embedding size of 32 for both categories and names.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
-## actual training loop
-## (should take about 1-2 minutes)
-##################################################
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##################################################</span>
+<span class="c1">## actual training loop</span>
+<span class="c1">## (should take about 1-2 minutes)</span>
+<span class="c1">##################################################</span>
 
-# instantiate model
-lstm = LSTM(cat_embedding_size  = 32,
-            n_cat               = n_categories,
-            char_embedding_size = 32,
-            n_char              = n_letters,
-            hidden_size         = 64,
-            output_size         = n_letters,
-            dropout             = 0,
-            num_layers          = 1
-            )
-# training objective
-criterion = nn.NLLLoss(reduction=&#39;sum&#39;)
-# learning rate
-learning_rate = 0.005
-# optimizer
-optimizer = torch.optim.Adam(lstm.parameters(), lr=learning_rate)
-# training parameters
-n_iters = 50000
-print_every = 5000
-plot_every = 500
-all_losses = []
-total_loss = 0 # will be reset every &#39;plot_every&#39; iterations
+<span class="c1"># instantiate model</span>
+<span class="n">lstm</span> <span class="o">=</span> <span class="n">LSTM</span><span class="p">(</span><span class="n">cat_embedding_size</span>  <span class="o">=</span> <span class="mi">32</span><span class="p">,</span>
+            <span class="n">n_cat</span>               <span class="o">=</span> <span class="n">n_categories</span><span class="p">,</span>
+            <span class="n">char_embedding_size</span> <span class="o">=</span> <span class="mi">32</span><span class="p">,</span>
+            <span class="n">n_char</span>              <span class="o">=</span> <span class="n">n_letters</span><span class="p">,</span>
+            <span class="n">hidden_size</span>         <span class="o">=</span> <span class="mi">64</span><span class="p">,</span>
+            <span class="n">output_size</span>         <span class="o">=</span> <span class="n">n_letters</span><span class="p">,</span>
+            <span class="n">dropout</span>             <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="n">num_layers</span>          <span class="o">=</span> <span class="mi">1</span>
+            <span class="p">)</span>
+<span class="c1"># training objective</span>
+<span class="n">criterion</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">NLLLoss</span><span class="p">(</span><span class="n">reduction</span><span class="o">=</span><span class="s1">&#39;sum&#39;</span><span class="p">)</span>
+<span class="c1"># learning rate</span>
+<span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">0.005</span>
+<span class="c1"># optimizer</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">lstm</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="n">learning_rate</span><span class="p">)</span>
+<span class="c1"># training parameters</span>
+<span class="n">n_iters</span> <span class="o">=</span> <span class="mi">50000</span>
+<span class="n">print_every</span> <span class="o">=</span> <span class="mi">5000</span>
+<span class="n">plot_every</span> <span class="o">=</span> <span class="mi">500</span>
+<span class="n">all_losses</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">total_loss</span> <span class="o">=</span> <span class="mi">0</span> <span class="c1"># will be reset every &#39;plot_every&#39; iterations</span>
 
-start = time.time()
+<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 
-for iter in range(1, n_iters + 1):
-    loss = train(*randomTrainingExample())
-    total_loss += loss
+<span class="k">for</span> <span class="nb">iter</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_iters</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">train</span><span class="p">(</span><span class="o">*</span><span class="n">randomTrainingExample</span><span class="p">())</span>
+    <span class="n">total_loss</span> <span class="o">+=</span> <span class="n">loss</span>
 
-    if iter % plot_every == 0:
-        all_losses.append(total_loss / plot_every)
-        total_loss = 0
+    <span class="k">if</span> <span class="nb">iter</span> <span class="o">%</span> <span class="n">plot_every</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">all_losses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">total_loss</span> <span class="o">/</span> <span class="n">plot_every</span><span class="p">)</span>
+        <span class="n">total_loss</span> <span class="o">=</span> <span class="mi">0</span>
 
-    if iter % print_every == 0:
-        rolling_mean = np.mean(all_losses[iter - print_every*(iter//print_every):])
-        print(&#39;%s (%d %d%%) %.4f&#39; % (timeSince(start),
-                                     iter,
-                                     iter / n_iters * 100,
-                                     rolling_mean))
+    <span class="k">if</span> <span class="nb">iter</span> <span class="o">%</span> <span class="n">print_every</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">rolling_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">all_losses</span><span class="p">[</span><span class="nb">iter</span> <span class="o">-</span> <span class="n">print_every</span><span class="o">*</span><span class="p">(</span><span class="nb">iter</span><span class="o">//</span><span class="n">print_every</span><span class="p">):])</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> (</span><span class="si">%d</span><span class="s1"> </span><span class="si">%d%%</span><span class="s1">) </span><span class="si">%.4f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">timeSince</span><span class="p">(</span><span class="n">start</span><span class="p">),</span>
+                                     <span class="nb">iter</span><span class="p">,</span>
+                                     <span class="nb">iter</span> <span class="o">/</span> <span class="n">n_iters</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span>
+                                     <span class="n">rolling_mean</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -959,13 +959,13 @@ for iter in range(1, n_iters + 1):
 <h2>Plotting training performance<a class="headerlink" href="#plotting-training-performance" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
-## monitoring loss function during training
-##################################################
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##################################################</span>
+<span class="c1">## monitoring loss function during training</span>
+<span class="c1">##################################################</span>
 
-plt.figure()
-plt.plot(all_losses)
-plt.show()
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">all_losses</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -979,51 +979,51 @@ plt.show()
 <p>Extraction of surprisal of a single item and computation of average surprisal for test and training set is largely parallel to the case of sheet 5.1.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
-## evaluation
-##################################################
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##################################################</span>
+<span class="c1">## evaluation</span>
+<span class="c1">##################################################</span>
 
-def get_surprisal_item(category, name):
-    name      = torch.tensor(getNameIndices(name))
-    cat       = getCatIndices(category,len(name))
-    hidden    = lstm.initHidden()
-    prediction, hidden = lstm(cat, name, hidden)
-    nll       = criterion(prediction[:-1], name[1:len(name)])
-    return(nll.item())
+<span class="k">def</span> <span class="nf">get_surprisal_item</span><span class="p">(</span><span class="n">category</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+    <span class="n">name</span>      <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">getNameIndices</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+    <span class="n">cat</span>       <span class="o">=</span> <span class="n">getCatIndices</span><span class="p">(</span><span class="n">category</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+    <span class="n">hidden</span>    <span class="o">=</span> <span class="n">lstm</span><span class="o">.</span><span class="n">initHidden</span><span class="p">()</span>
+    <span class="n">prediction</span><span class="p">,</span> <span class="n">hidden</span> <span class="o">=</span> <span class="n">lstm</span><span class="p">(</span><span class="n">cat</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">hidden</span><span class="p">)</span>
+    <span class="n">nll</span>       <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">prediction</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">name</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="nb">len</span><span class="p">(</span><span class="n">name</span><span class="p">)])</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">nll</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
 
-def get_surprisal_dataset(data):
-    surprisl_dict = dict()
-    surp_avg_dict = dict()
-    perplxty_dict = dict()
-    for category in list(data.keys()):
-        surprisl = 0
-        surp_avg = 0
-        perplxty = 0
-        # training
-        for name in data[category]:
-            item_surpr = get_surprisal_item(category, name)
-            surprisl  += item_surpr
-            surp_avg  += item_surpr / len(name)
-            perplxty  += item_surpr ** (-1 / len(name))
-        n_items = len(data[category])
+<span class="k">def</span> <span class="nf">get_surprisal_dataset</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="n">surprisl_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="n">surp_avg_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="n">perplxty_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">category</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+        <span class="n">surprisl</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">surp_avg</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">perplxty</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="c1"># training</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="n">category</span><span class="p">]:</span>
+            <span class="n">item_surpr</span> <span class="o">=</span> <span class="n">get_surprisal_item</span><span class="p">(</span><span class="n">category</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+            <span class="n">surprisl</span>  <span class="o">+=</span> <span class="n">item_surpr</span>
+            <span class="n">surp_avg</span>  <span class="o">+=</span> <span class="n">item_surpr</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+            <span class="n">perplxty</span>  <span class="o">+=</span> <span class="n">item_surpr</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+        <span class="n">n_items</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">category</span><span class="p">])</span>
 
-        surprisl_dict[category] = (surprisl /n_items)
-        surp_avg_dict[category] = (surp_avg / n_items)
-        perplxty_dict[category] = (perplxty / n_items)
+        <span class="n">surprisl_dict</span><span class="p">[</span><span class="n">category</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">surprisl</span> <span class="o">/</span><span class="n">n_items</span><span class="p">)</span>
+        <span class="n">surp_avg_dict</span><span class="p">[</span><span class="n">category</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">surp_avg</span> <span class="o">/</span> <span class="n">n_items</span><span class="p">)</span>
+        <span class="n">perplxty_dict</span><span class="p">[</span><span class="n">category</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">perplxty</span> <span class="o">/</span> <span class="n">n_items</span><span class="p">)</span>
 
-    return(surprisl_dict, surp_avg_dict, perplxty_dict)
+    <span class="k">return</span><span class="p">(</span><span class="n">surprisl_dict</span><span class="p">,</span> <span class="n">surp_avg_dict</span><span class="p">,</span> <span class="n">perplxty_dict</span><span class="p">)</span>
 
-def makeDF(surp_dict):
-    p = pandas.DataFrame.from_dict(surp_dict)
-    p = p.transpose()
-    p.columns = [&quot;surprisal&quot;, &quot;surp_scaled&quot;, &quot;perplexity&quot;]
-    return(p)
+<span class="k">def</span> <span class="nf">makeDF</span><span class="p">(</span><span class="n">surp_dict</span><span class="p">):</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">surp_dict</span><span class="p">)</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
+    <span class="n">p</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;surprisal&quot;</span><span class="p">,</span> <span class="s2">&quot;surp_scaled&quot;</span><span class="p">,</span> <span class="s2">&quot;perplexity&quot;</span><span class="p">]</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
 
-surprisal_test  = makeDF(get_surprisal_dataset(test_data))
-surprisal_train = makeDF(get_surprisal_dataset(train_data))
+<span class="n">surprisal_test</span>  <span class="o">=</span> <span class="n">makeDF</span><span class="p">(</span><span class="n">get_surprisal_dataset</span><span class="p">(</span><span class="n">test_data</span><span class="p">))</span>
+<span class="n">surprisal_train</span> <span class="o">=</span> <span class="n">makeDF</span><span class="p">(</span><span class="n">get_surprisal_dataset</span><span class="p">(</span><span class="n">train_data</span><span class="p">))</span>
 
-print(&quot;\nmean surprisal (test):&quot;, np.mean(surprisal_test[&quot;surprisal&quot;]))
-print(&quot;\nmean surprisal (train):&quot;, np.mean(surprisal_train[&quot;surprisal&quot;]))
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">mean surprisal (test):&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">surprisal_test</span><span class="p">[</span><span class="s2">&quot;surprisal&quot;</span><span class="p">]))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">mean surprisal (train):&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">surprisal_train</span><span class="p">[</span><span class="s2">&quot;surprisal&quot;</span><span class="p">]))</span>
 </pre></div>
 </div>
 </div>
@@ -1044,51 +1044,51 @@ Notice that there is a flag for the kind of decoding strategy to be used.
 Currently, there are two decoding strategies (but see exercise below).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
-## prediction function
-##################################################
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##################################################</span>
+<span class="c1">## prediction function</span>
+<span class="c1">##################################################</span>
 
-max_length = 20
+<span class="n">max_length</span> <span class="o">=</span> <span class="mi">20</span>
 
-# make a prediction based on given sequence
-def predict(category, initial_sequence, decode_strat = &quot;greedy&quot;):
+<span class="c1"># make a prediction based on given sequence</span>
+<span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="n">category</span><span class="p">,</span> <span class="n">initial_sequence</span><span class="p">,</span> <span class="n">decode_strat</span> <span class="o">=</span> <span class="s2">&quot;greedy&quot;</span><span class="p">):</span>
 
-    if len(initial_sequence) &gt;= max_length:
-        return(initial_sequence)
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">initial_sequence</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">max_length</span><span class="p">:</span>
+        <span class="k">return</span><span class="p">(</span><span class="n">initial_sequence</span><span class="p">)</span>
 
-    name      = torch.tensor(getNameIndices(initial_sequence))[:-1]
-    cat       = getCatIndices(category,len(name))
-    hidden    = lstm.initHidden()
+    <span class="n">name</span>      <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">getNameIndices</span><span class="p">(</span><span class="n">initial_sequence</span><span class="p">))[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">cat</span>       <span class="o">=</span> <span class="n">getCatIndices</span><span class="p">(</span><span class="n">category</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+    <span class="n">hidden</span>    <span class="o">=</span> <span class="n">lstm</span><span class="o">.</span><span class="n">initHidden</span><span class="p">()</span>
 
-    generation = initial_sequence
+    <span class="n">generation</span> <span class="o">=</span> <span class="n">initial_sequence</span>
 
-    output, hidden = lstm(cat, name, hidden)
-    next_word_pred = output[-1]
+    <span class="n">output</span><span class="p">,</span> <span class="n">hidden</span> <span class="o">=</span> <span class="n">lstm</span><span class="p">(</span><span class="n">cat</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">hidden</span><span class="p">)</span>
+    <span class="n">next_word_pred</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 
-    if decode_strat == &quot;pure&quot;:
-        sample_index = torch.multinomial(input = torch.exp(next_word_pred),
-                                         num_samples = 1)
-        pass
-    else:
-        topv, topi = next_word_pred.topk(1)
-        sample_index = topi[0].item()
+    <span class="k">if</span> <span class="n">decode_strat</span> <span class="o">==</span> <span class="s2">&quot;pure&quot;</span><span class="p">:</span>
+        <span class="n">sample_index</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">multinomial</span><span class="p">(</span><span class="nb">input</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">next_word_pred</span><span class="p">),</span>
+                                         <span class="n">num_samples</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">pass</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">topv</span><span class="p">,</span> <span class="n">topi</span> <span class="o">=</span> <span class="n">next_word_pred</span><span class="o">.</span><span class="n">topk</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">sample_index</span> <span class="o">=</span> <span class="n">topi</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
 
-    if sample_index == EOSIndex:
-        return(generation)
-    else:
-        generation += all_letters[sample_index]
+    <span class="k">if</span> <span class="n">sample_index</span> <span class="o">==</span> <span class="n">EOSIndex</span><span class="p">:</span>
+        <span class="k">return</span><span class="p">(</span><span class="n">generation</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">generation</span> <span class="o">+=</span> <span class="n">all_letters</span><span class="p">[</span><span class="n">sample_index</span><span class="p">]</span>
 
-    return(predict(category, generation))
+    <span class="k">return</span><span class="p">(</span><span class="n">predict</span><span class="p">(</span><span class="n">category</span><span class="p">,</span> <span class="n">generation</span><span class="p">))</span>
 
-print(predict(&quot;German&quot;, &quot;&quot;, decode_strat = &quot;greedy&quot;))
-print(predict(&quot;German&quot;, &quot;&quot;, decode_strat = &quot;pure&quot;))
-print(predict(&quot;German&quot;, &quot;&quot;, decode_strat = &quot;pure&quot;))
-print(predict(&quot;German&quot;, &quot;&quot;, decode_strat = &quot;pure&quot;))
+<span class="nb">print</span><span class="p">(</span><span class="n">predict</span><span class="p">(</span><span class="s2">&quot;German&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">decode_strat</span> <span class="o">=</span> <span class="s2">&quot;greedy&quot;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">predict</span><span class="p">(</span><span class="s2">&quot;German&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">decode_strat</span> <span class="o">=</span> <span class="s2">&quot;pure&quot;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">predict</span><span class="p">(</span><span class="s2">&quot;German&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">decode_strat</span> <span class="o">=</span> <span class="s2">&quot;pure&quot;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">predict</span><span class="p">(</span><span class="s2">&quot;German&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">decode_strat</span> <span class="o">=</span> <span class="s2">&quot;pure&quot;</span><span class="p">))</span>
 
-print(predict(&quot;Japanese&quot;, &quot;&quot;, decode_strat = &quot;greedy&quot;))
-print(predict(&quot;Japanese&quot;, &quot;&quot;, decode_strat = &quot;pure&quot;))
-print(predict(&quot;Japanese&quot;, &quot;&quot;, decode_strat = &quot;pure&quot;))
-print(predict(&quot;Japanese&quot;, &quot;&quot;, decode_strat = &quot;pure&quot;))
+<span class="nb">print</span><span class="p">(</span><span class="n">predict</span><span class="p">(</span><span class="s2">&quot;Japanese&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">decode_strat</span> <span class="o">=</span> <span class="s2">&quot;greedy&quot;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">predict</span><span class="p">(</span><span class="s2">&quot;Japanese&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">decode_strat</span> <span class="o">=</span> <span class="s2">&quot;pure&quot;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">predict</span><span class="p">(</span><span class="s2">&quot;Japanese&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">decode_strat</span> <span class="o">=</span> <span class="s2">&quot;pure&quot;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">predict</span><span class="p">(</span><span class="s2">&quot;Japanese&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">decode_strat</span> <span class="o">=</span> <span class="s2">&quot;pure&quot;</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -1107,17 +1107,17 @@ print(predict(&quot;Japanese&quot;, &quot;&quot;, decode_strat = &quot;pure&quot
 Here is a function that does that, too, but now for the LSTM model.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def infer_category(name):
-    probs = torch.tensor([torch.exp(-torch.tensor(get_surprisal_item(c, name))) for c in categories])
-    probs = probs/torch.sum(probs)
-    vals, cats = probs.topk(3)
-    print(&quot;Top 3 guesses for &quot;, name, &quot;:\n&quot;)
-    for i in range(len(cats)):
-        print(&quot;%12s: %.5f&quot; %
-              (categories[cats[i]], vals[i].detach().numpy() ))
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">infer_category</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="n">probs</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="n">torch</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">get_surprisal_item</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">name</span><span class="p">)))</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">categories</span><span class="p">])</span>
+    <span class="n">probs</span> <span class="o">=</span> <span class="n">probs</span><span class="o">/</span><span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">probs</span><span class="p">)</span>
+    <span class="n">vals</span><span class="p">,</span> <span class="n">cats</span> <span class="o">=</span> <span class="n">probs</span><span class="o">.</span><span class="n">topk</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Top 3 guesses for &quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="s2">&quot;:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cats</span><span class="p">)):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%12s</span><span class="s2">: </span><span class="si">%.5f</span><span class="s2">&quot;</span> <span class="o">%</span>
+              <span class="p">(</span><span class="n">categories</span><span class="p">[</span><span class="n">cats</span><span class="p">[</span><span class="n">i</span><span class="p">]],</span> <span class="n">vals</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span> <span class="p">))</span>
 
-infer_category(&quot;Smith&quot;)
-infer_category(&quot;Miller&quot;)
+<span class="n">infer_category</span><span class="p">(</span><span class="s2">&quot;Smith&quot;</span><span class="p">)</span>
+<span class="n">infer_category</span><span class="p">(</span><span class="s2">&quot;Miller&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

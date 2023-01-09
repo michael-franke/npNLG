@@ -633,17 +633,17 @@ We will see how the use of modules from PyTorch’s neural network package `torc
 In addition to the previous sheet, In order to have a convenient, we will use PyTorch’s `DataLoader` and `Dataset` in order to feed our training data to the model.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import torch
-import torch.nn as nn
-import torch.nn.functional as F
-from torch.utils.data import DataLoader
-from torch.utils.data import Dataset
-import numpy as np
-import seaborn as sns
-import pandas as pd
-import matplotlib.pyplot as plt
-import warnings
-warnings.filterwarnings(&#39;ignore&#39;)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+<span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="nn">F</span>
+<span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">DataLoader</span>
+<span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">Dataset</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -655,21 +655,21 @@ warnings.filterwarnings(&#39;ignore&#39;)
 Here is its definition and a plot to show what the “ground truth” looks like.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
-## ground-truth model
-##################################################
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##################################################</span>
+<span class="c1">## ground-truth model</span>
+<span class="c1">##################################################</span>
 
-def goalFun(x):
-    return(x**3 - x**2 + 25 * np.sin(2*x))
+<span class="k">def</span> <span class="nf">goalFun</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">3</span> <span class="o">-</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">25</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">x</span><span class="p">))</span>
 
-# create linear sequence (x) and apply goalFun (y)
-x = np.linspace(start = -5, stop =5, num = 1000)
-y = goalFun(x)
+<span class="c1"># create linear sequence (x) and apply goalFun (y)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">start</span> <span class="o">=</span> <span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="n">stop</span> <span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">num</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">goalFun</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
-# plot the function
-d = pd.DataFrame({&#39;x&#39; : x, &#39;y&#39; : y})
-sns.lineplot(data = d, x = &#39;x&#39;, y = &#39;y&#39;)
-plt.show()
+<span class="c1"># plot the function</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;x&#39;</span> <span class="p">:</span> <span class="n">x</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span> <span class="p">:</span> <span class="n">y</span><span class="p">})</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">d</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;y&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -682,24 +682,24 @@ Each pair is generated by first sampling an <span class="math notranslate nohigh
 For each sampled <span class="math notranslate nohighlight">\(x\)</span>, we compute the value of the target function <span class="math notranslate nohighlight">\(f(x)\)</span> and add Gaussian noise to it.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
-## generate training data (with noise)
-##################################################
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##################################################</span>
+<span class="c1">## generate training data (with noise)</span>
+<span class="c1">##################################################</span>
 
-nObs = 100 # number of observations
+<span class="n">nObs</span> <span class="o">=</span> <span class="mi">100</span> <span class="c1"># number of observations</span>
 
-# get noise around y observations
-yNormal = torch.distributions.Normal(loc=0.0, scale=10)
-yNoise  = yNormal.sample([nObs])
+<span class="c1"># get noise around y observations</span>
+<span class="n">yNormal</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">distributions</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">yNoise</span>  <span class="o">=</span> <span class="n">yNormal</span><span class="o">.</span><span class="n">sample</span><span class="p">([</span><span class="n">nObs</span><span class="p">])</span>
 
-# get observations
-xObs = 10*torch.rand([nObs])-5    # uniform from [-5,5]
-yObs = xObs**3 - xObs**2 + 25 * torch.sin(2*xObs) + yNoise
+<span class="c1"># get observations</span>
+<span class="n">xObs</span> <span class="o">=</span> <span class="mi">10</span><span class="o">*</span><span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">([</span><span class="n">nObs</span><span class="p">])</span><span class="o">-</span><span class="mi">5</span>    <span class="c1"># uniform from [-5,5]</span>
+<span class="n">yObs</span> <span class="o">=</span> <span class="n">xObs</span><span class="o">**</span><span class="mi">3</span> <span class="o">-</span> <span class="n">xObs</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">25</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">xObs</span><span class="p">)</span> <span class="o">+</span> <span class="n">yNoise</span>
 
-# plot the data
-d = pd.DataFrame({&#39;xObs&#39; : xObs, &#39;yObs&#39; : yObs})
-sns.scatterplot(data = d, x = &#39;xObs&#39;, y = &#39;yObs&#39;)
-plt.show()
+<span class="c1"># plot the data</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;xObs&#39;</span> <span class="p">:</span> <span class="n">xObs</span><span class="p">,</span> <span class="s1">&#39;yObs&#39;</span> <span class="p">:</span> <span class="n">yObs</span><span class="p">})</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">d</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;xObs&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;yObs&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -714,13 +714,13 @@ plt.show()
 We use a 3-layer MLP, each hidden layer with dimension 10:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
-## network dimension parameters
-##################################################
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##################################################</span>
+<span class="c1">## network dimension parameters</span>
+<span class="c1">##################################################</span>
 
-nInput  = 1
-nHidden = 10
-nOutput = 1
+<span class="n">nInput</span>  <span class="o">=</span> <span class="mi">1</span>
+<span class="n">nHidden</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">nOutput</span> <span class="o">=</span> <span class="mi">1</span>
 </pre></div>
 </div>
 </div>
@@ -738,34 +738,34 @@ They should implement the exact same model and work the same way eventually.</p>
 <h3>More explicit definition NN module<a class="headerlink" href="#more-explicit-definition-nn-module" title="Permalink to this headline">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
-## set up multi-layer perceptron w/ PyTorch
-##    -- explicit version --
-##################################################
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##################################################</span>
+<span class="c1">## set up multi-layer perceptron w/ PyTorch</span>
+<span class="c1">##    -- explicit version --</span>
+<span class="c1">##################################################</span>
 
-class MLPexplicit(nn.Module):
-    &#39;&#39;&#39;
-    Multi-layer perceptron for non-linear regression.
-    &#39;&#39;&#39;
-    def __init__(self, nInput, nHidden, nOutput):
-        super(MLPexplicit, self).__init__()
-        self.nInput  = nInput
-        self.nHidden = nHidden
-        self.nOutput = nOutput
-        self.linear1 = nn.Linear(self.nInput, self.nHidden)
-        self.linear2 = nn.Linear(self.nHidden, self.nHidden)
-        self.linear3 = nn.Linear(self.nHidden, self.nHidden)
-        self.linear4 = nn.Linear(self.nHidden, self.nOutput)
-        self.ReLU    = nn.ReLU()
+<span class="k">class</span> <span class="nc">MLPexplicit</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Multi-layer perceptron for non-linear regression.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nInput</span><span class="p">,</span> <span class="n">nHidden</span><span class="p">,</span> <span class="n">nOutput</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">MLPexplicit</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nInput</span>  <span class="o">=</span> <span class="n">nInput</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nHidden</span> <span class="o">=</span> <span class="n">nHidden</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nOutput</span> <span class="o">=</span> <span class="n">nOutput</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">linear1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nInput</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nHidden</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">linear2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nHidden</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nHidden</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">linear3</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nHidden</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nHidden</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">linear4</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nHidden</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nOutput</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ReLU</span>    <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">()</span>
 
-    def forward(self, x):
-        h1 = self.ReLU(self.linear1(x))
-        h2 = self.ReLU(self.linear2(h1))
-        h3 = self.ReLU(self.linear3(h2))
-        output = self.linear4(h3)
-        return(output)
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">h1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">linear1</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="n">h2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">linear2</span><span class="p">(</span><span class="n">h1</span><span class="p">))</span>
+        <span class="n">h3</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">linear3</span><span class="p">(</span><span class="n">h2</span><span class="p">))</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">linear4</span><span class="p">(</span><span class="n">h3</span><span class="p">)</span>
+        <span class="k">return</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
 
-mlpExplicit = MLPexplicit(nInput, nHidden, nOutput)
+<span class="n">mlpExplicit</span> <span class="o">=</span> <span class="n">MLPexplicit</span><span class="p">(</span><span class="n">nInput</span><span class="p">,</span> <span class="n">nHidden</span><span class="p">,</span> <span class="n">nOutput</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -773,8 +773,8 @@ mlpExplicit = MLPexplicit(nInput, nHidden, nOutput)
 <p>We can access the current parameter values of this model instance like so:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>for p in mlpExplicit.parameters():
-    print(p.detach().numpy().round(4))
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">mlpExplicit</span><span class="o">.</span><span class="n">parameters</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -857,31 +857,31 @@ mlpExplicit = MLPexplicit(nInput, nHidden, nOutput)
 <p>Here is another, more condensed definition of the same NN model, which uses the `nn.Sequantial` function to neatly chain components, thus defining the model parameters and the forward pass in one swoop.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
-## set up multi-layer perceptron w/ PyTorch
-##    -- condensed version --
-##################################################
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##################################################</span>
+<span class="c1">## set up multi-layer perceptron w/ PyTorch</span>
+<span class="c1">##    -- condensed version --</span>
+<span class="c1">##################################################</span>
 
-class MLPcondensed(nn.Module):
-    &#39;&#39;&#39;
-    Multi-layer perceptron for non-linear regression.
-    &#39;&#39;&#39;
-    def __init__(self, nInput, nHidden, nOutput):
-        super().__init__()
-        self.layers = nn.Sequential(
-            nn.Linear(nInput, nHidden),
-            nn.ReLU(),
-            nn.Linear(nHidden, nHidden),
-            nn.ReLU(),
-            nn.Linear(nHidden, nHidden),
-            nn.ReLU(),
-            nn.Linear(nHidden, nOutput)
-        )
+<span class="k">class</span> <span class="nc">MLPcondensed</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Multi-layer perceptron for non-linear regression.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nInput</span><span class="p">,</span> <span class="n">nHidden</span><span class="p">,</span> <span class="n">nOutput</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">layers</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">nInput</span><span class="p">,</span> <span class="n">nHidden</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">nHidden</span><span class="p">,</span> <span class="n">nHidden</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">nHidden</span><span class="p">,</span> <span class="n">nHidden</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">nHidden</span><span class="p">,</span> <span class="n">nOutput</span><span class="p">)</span>
+        <span class="p">)</span>
 
-    def forward(self, x):
-        return(self.layers(x))
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
 
-mlpCondensed = MLPcondensed(nInput, nHidden, nOutput)
+<span class="n">mlpCondensed</span> <span class="o">=</span> <span class="n">MLPcondensed</span><span class="p">(</span><span class="n">nInput</span><span class="p">,</span> <span class="n">nHidden</span><span class="p">,</span> <span class="n">nOutput</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -889,9 +889,9 @@ mlpCondensed = MLPcondensed(nInput, nHidden, nOutput)
 <p>Here you can select which one to use in the following.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># which model to use from here onwards
-# model = mlpExplicit
-model = mlpCondensed
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># which model to use from here onwards</span>
+<span class="c1"># model = mlpExplicit</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">mlpCondensed</span>
 </pre></div>
 </div>
 </div>
@@ -913,33 +913,33 @@ The class <strong>DataLoader</strong> takes a `dataset` object as input and retu
 </ol>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
-## representing train data as a Dataset object
-##################################################
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##################################################</span>
+<span class="c1">## representing train data as a Dataset object</span>
+<span class="c1">##################################################</span>
 
-class nonLinearRegressionData(Dataset):
-    &#39;&#39;&#39;
-    Custom &#39;Dataset&#39; object for our regression data.
-    Must implement these functions: __init__, __len__, and __getitem__.
-    &#39;&#39;&#39;
+<span class="k">class</span> <span class="nc">nonLinearRegressionData</span><span class="p">(</span><span class="n">Dataset</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Custom &#39;Dataset&#39; object for our regression data.</span>
+<span class="sd">    Must implement these functions: __init__, __len__, and __getitem__.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
 
-    def __init__(self, xObs, yObs):
-        self.xObs = torch.reshape(xObs, (len(xObs), 1))
-        self.yObs = torch.reshape(yObs, (len(yObs), 1))
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xObs</span><span class="p">,</span> <span class="n">yObs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xObs</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">xObs</span><span class="p">,</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">xObs</span><span class="p">),</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">yObs</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">yObs</span><span class="p">,</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">yObs</span><span class="p">),</span> <span class="mi">1</span><span class="p">))</span>
 
-    def __len__(self):
-        return(len(self.xObs))
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xObs</span><span class="p">))</span>
 
-    def __getitem__(self, idx):
-        return(xObs[idx], yObs[idx])
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">):</span>
+        <span class="k">return</span><span class="p">(</span><span class="n">xObs</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">yObs</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
 
-# instantiate Dataset object for current training data
-d = nonLinearRegressionData(xObs, yObs)
+<span class="c1"># instantiate Dataset object for current training data</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">nonLinearRegressionData</span><span class="p">(</span><span class="n">xObs</span><span class="p">,</span> <span class="n">yObs</span><span class="p">)</span>
 
-# instantiate DataLoader
-#    we use the 4 batches of 25 observations each (full data  has 100 observations)
-#    we also shuffle the data
-train_dataloader = DataLoader(d, batch_size=25 , shuffle=True)
+<span class="c1"># instantiate DataLoader</span>
+<span class="c1">#    we use the 4 batches of 25 observations each (full data  has 100 observations)</span>
+<span class="c1">#    we also shuffle the data</span>
+<span class="n">train_dataloader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">25</span> <span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -947,10 +947,10 @@ train_dataloader = DataLoader(d, batch_size=25 , shuffle=True)
 <p>We can test the iterable that we create, just to inspect how the data will be delivered later on:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>for i, data in enumerate(train_dataloader, 0):
-    input, target = data
-    print(&quot;In: &quot;, input)
-    print(&quot;Out:&quot;, target,&quot;\n&quot;)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">train_dataloader</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span>
+    <span class="nb">input</span><span class="p">,</span> <span class="n">target</span> <span class="o">=</span> <span class="n">data</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;In: &quot;</span><span class="p">,</span> <span class="nb">input</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Out:&quot;</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1007,58 +1007,58 @@ Out: tensor([  76.3138,  -16.2862,  -28.3352,   -8.6570,   69.5087,   37.1587,
 Note that we need to slightly reshape the input data to have the model compute the batched input correctly.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
-## training the model
-##################################################
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##################################################</span>
+<span class="c1">## training the model</span>
+<span class="c1">##################################################</span>
 
-# Define the loss function and optimizer
-loss_function = nn.MSELoss()
-optimizer = torch.optim.Adam(model.parameters(), lr=1e-4)
-nTrainSteps = 50000
+<span class="c1"># Define the loss function and optimizer</span>
+<span class="n">loss_function</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">MSELoss</span><span class="p">()</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">)</span>
+<span class="n">nTrainSteps</span> <span class="o">=</span> <span class="mi">50000</span>
 
-# Run the training loop
-for epoch in range(0, nTrainSteps):
+<span class="c1"># Run the training loop</span>
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">nTrainSteps</span><span class="p">):</span>
 
-  # Set current loss value
-  current_loss = 0.0
+  <span class="c1"># Set current loss value</span>
+  <span class="n">current_loss</span> <span class="o">=</span> <span class="mf">0.0</span>
 
-  # Iterate over the DataLoader for training data
-  for i, data in enumerate(train_dataloader, 0):
-    # Get inputs
-    inputs, targets = data
-    # Zero the gradients
-    optimizer.zero_grad()
-    # Perform forward pass (make sure to supply the input in the right way)
-    outputs = model(torch.reshape(inputs, (len(inputs), 1))).squeeze()
-    # Compute loss
-    loss = loss_function(outputs, targets)
-    # Perform backward pass
-    loss.backward()
-    # Perform optimization
-    optimizer.step()
-    # Print statistics
-    current_loss += loss.item()
+  <span class="c1"># Iterate over the DataLoader for training data</span>
+  <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">train_dataloader</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span>
+    <span class="c1"># Get inputs</span>
+    <span class="n">inputs</span><span class="p">,</span> <span class="n">targets</span> <span class="o">=</span> <span class="n">data</span>
+    <span class="c1"># Zero the gradients</span>
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+    <span class="c1"># Perform forward pass (make sure to supply the input in the right way)</span>
+    <span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">inputs</span><span class="p">),</span> <span class="mi">1</span><span class="p">)))</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+    <span class="c1"># Compute loss</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">loss_function</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">targets</span><span class="p">)</span>
+    <span class="c1"># Perform backward pass</span>
+    <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+    <span class="c1"># Perform optimization</span>
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+    <span class="c1"># Print statistics</span>
+    <span class="n">current_loss</span> <span class="o">+=</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
 
-  if (epoch + 1) % 2500 == 0:
-      print(&#39;Loss after epoch %5d: %.3f&#39; %
-            (epoch + 1, current_loss))
-      current_loss = 0.0
+  <span class="k">if</span> <span class="p">(</span><span class="n">epoch</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2500</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+      <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Loss after epoch </span><span class="si">%5d</span><span class="s1">: </span><span class="si">%.3f</span><span class="s1">&#39;</span> <span class="o">%</span>
+            <span class="p">(</span><span class="n">epoch</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">current_loss</span><span class="p">))</span>
+      <span class="n">current_loss</span> <span class="o">=</span> <span class="mf">0.0</span>
 
-# Process is complete.
-print(&#39;Training process has finished.&#39;)
+<span class="c1"># Process is complete.</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Training process has finished.&#39;</span><span class="p">)</span>
 
-yPred = np.array([model.forward(torch.tensor([o])).detach().numpy() for o in xObs]).flatten()
+<span class="n">yPred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">model</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="n">o</span><span class="p">]))</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">xObs</span><span class="p">])</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
 
-# plot the data
-d = pd.DataFrame({&#39;xObs&#39; : xObs.detach().numpy(),
-                  &#39;yObs&#39; : yObs.detach().numpy(),
-                  &#39;yPred&#39;: yPred})
-dWide = pd.melt(d, id_vars = &#39;xObs&#39;, value_vars= [&#39;yObs&#39;, &#39;yPred&#39;])
-sns.scatterplot(data = dWide, x = &#39;xObs&#39;, y = &#39;value&#39;, hue = &#39;variable&#39;, alpha = 0.7)
-x = np.linspace(start = -5, stop =5, num = 1000)
-y = goalFun(x)
-plt.plot(x,y, color=&#39;g&#39;, alpha = 0.5)
-plt.show()
+<span class="c1"># plot the data</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;xObs&#39;</span> <span class="p">:</span> <span class="n">xObs</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span>
+                  <span class="s1">&#39;yObs&#39;</span> <span class="p">:</span> <span class="n">yObs</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span>
+                  <span class="s1">&#39;yPred&#39;</span><span class="p">:</span> <span class="n">yPred</span><span class="p">})</span>
+<span class="n">dWide</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">id_vars</span> <span class="o">=</span> <span class="s1">&#39;xObs&#39;</span><span class="p">,</span> <span class="n">value_vars</span><span class="o">=</span> <span class="p">[</span><span class="s1">&#39;yObs&#39;</span><span class="p">,</span> <span class="s1">&#39;yPred&#39;</span><span class="p">])</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">dWide</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;xObs&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">hue</span> <span class="o">=</span> <span class="s1">&#39;variable&#39;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.7</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">start</span> <span class="o">=</span> <span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="n">stop</span> <span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">num</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">goalFun</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>

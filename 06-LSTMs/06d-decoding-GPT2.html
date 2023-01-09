@@ -669,24 +669,23 @@ title="Print to PDF"
 <h2>Preparation (imports, defs)<a class="headerlink" href="#preparation-imports-defs" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
-# import relevant packages
-import torch 
-from transformers import GPT2LMHeadModel, GPT2Tokenizer
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># import relevant packages</span>
+<span class="kn">import</span> <span class="nn">torch</span> 
+<span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">GPT2LMHeadModel</span><span class="p">,</span> <span class="n">GPT2Tokenizer</span>
 
-# load the tokenizer
-tokenizer = GPT2Tokenizer.from_pretrained(&quot;gpt2&quot;)
+<span class="c1"># load the tokenizer</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">GPT2Tokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;gpt2&quot;</span><span class="p">)</span>
 
-# add the EOS token as PAD token to avoid warnings
-model = GPT2LMHeadModel.from_pretrained(&quot;gpt2&quot;, pad_token_id=tokenizer.eos_token_id)
+<span class="c1"># add the EOS token as PAD token to avoid warnings</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">GPT2LMHeadModel</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;gpt2&quot;</span><span class="p">,</span> <span class="n">pad_token_id</span><span class="o">=</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">eos_token_id</span><span class="p">)</span>
 
-# convenience function for nicer output
-def pretty_print(s):
-    print(&quot;Output:\n&quot; + 100 * &#39;-&#39;)
-    print(tokenizer.decode(s, skip_special_tokens=True))
+<span class="c1"># convenience function for nicer output</span>
+<span class="k">def</span> <span class="nf">pretty_print</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Output:</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="mi">100</span> <span class="o">*</span> <span class="s1">&#39;-&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">skip_special_tokens</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
 
-# encode context the generation is conditioned on
-input_ids = tokenizer.encode(&#39;I enjoy walking with my cute dog&#39;, return_tensors=&#39;pt&#39;)
+<span class="c1"># encode context the generation is conditioned on</span>
+<span class="n">input_ids</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;I enjoy walking with my cute dog&#39;</span><span class="p">,</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s1">&#39;pt&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -697,19 +696,19 @@ input_ids = tokenizer.encode(&#39;I enjoy walking with my cute dog&#39;, return_
 <p>In a pure sampling approach, we just sample each next word with exactly the probability assigned to it by the LM. Notice that this process, therefore, is non-determinisitic. We can force replicable results, though, by setting a seed.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># set a seed for reproducibility (if you want)
-# torch.manual_seed(1996)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># set a seed for reproducibility (if you want)</span>
+<span class="c1"># torch.manual_seed(1996)</span>
 
-# use function &#39;model.generate&#39; from `transformer` package to sample by
-#  setting `do_sample=True` and knocking out `top_k` sampling (see below)
-sample_output = model.generate(
-    input_ids,        # context to continue
-    do_sample=True,   # use sampling (not beam search (see below))
-    max_length=50,    # return maximally 50 words (including the input given)
-    top_k=0           # just sample one word
-)
+<span class="c1"># use function &#39;model.generate&#39; from `transformer` package to sample by</span>
+<span class="c1">#  setting `do_sample=True` and knocking out `top_k` sampling (see below)</span>
+<span class="n">sample_output</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span>
+    <span class="n">input_ids</span><span class="p">,</span>        <span class="c1"># context to continue</span>
+    <span class="n">do_sample</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>   <span class="c1"># use sampling (not beam search (see below))</span>
+    <span class="n">max_length</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>    <span class="c1"># return maximally 50 words (including the input given)</span>
+    <span class="n">top_k</span><span class="o">=</span><span class="mi">0</span>           <span class="c1"># just sample one word</span>
+<span class="p">)</span>
 
-pretty_print(sample_output[0])
+<span class="n">pretty_print</span><span class="p">(</span><span class="n">sample_output</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -735,17 +734,16 @@ I enjoy walking with my cute dog Kass; we have a good book out, and a cab so she
 <p>In soft-max sampling, the probablity of sampling word <span class="math notranslate nohighlight">\(w_i\)</span> is <span class="math notranslate nohighlight">\(P_{\text{sample}}(w_i \mid w_{1:i-1}) \propto \exp (\frac{1}{\tau} P_{\text{M}}(w_i \mid w_{1:i-1}) )\)</span>, where <span class="math notranslate nohighlight">\(\tau\)</span> is a temperature parameter.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
-# same as before but with `temperature`` parameter
-SM_sample_output = model.generate(
-    input_ids,        # context to continue
-    do_sample=True,   # use sampling (not beam search (see below))
-    max_length=50,    # return maximally 50 words (including the input given)
-    top_k=0,          # just sample one word
-    temperature=0.7   # soft-max temperature parameter
-)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># same as before but with `temperature`` parameter</span>
+<span class="n">SM_sample_output</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span>
+    <span class="n">input_ids</span><span class="p">,</span>        <span class="c1"># context to continue</span>
+    <span class="n">do_sample</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>   <span class="c1"># use sampling (not beam search (see below))</span>
+    <span class="n">max_length</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>    <span class="c1"># return maximally 50 words (including the input given)</span>
+    <span class="n">top_k</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>          <span class="c1"># just sample one word</span>
+    <span class="n">temperature</span><span class="o">=</span><span class="mf">0.7</span>   <span class="c1"># soft-max temperature parameter</span>
+<span class="p">)</span>
 
-pretty_print(SM_sample_output[0])
+<span class="n">pretty_print</span><span class="p">(</span><span class="n">SM_sample_output</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -770,11 +768,11 @@ I enjoy walking with my cute dog, but in the end she is a bit stubborn and stubb
 Greedy sampling is equivalent to setting <span class="math notranslate nohighlight">\(\tau=0\)</span> for soft-max sampling.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># greedy sampling is the default of the `model.generate` function
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># greedy sampling is the default of the `model.generate` function</span>
 
-greedy_output = model.generate(input_ids, max_length=50)
+<span class="n">greedy_output</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">input_ids</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
 
-pretty_print(greedy_output[0])  
+<span class="n">pretty_print</span><span class="p">(</span><span class="n">greedy_output</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>  
 </pre></div>
 </div>
 </div>
@@ -801,15 +799,15 @@ I&#39;m not sure if I&#39;ll
 <p>In simplified terms, beam search is a parallel search procedure that keeps a number <span class="math notranslate nohighlight">\(k\)</span> of path probabilities open at each choice point, dropping the least likely as we go along. (There is actually no unanimity in what exactly beam search means for NLG.)</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># option `early_stopping` implies stopping when all beams reach the end-of-sentence token
-beam_output = model.generate(
-    input_ids, 
-    max_length=50, 
-    num_beams=5, 
-    early_stopping=True
-) 
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># option `early_stopping` implies stopping when all beams reach the end-of-sentence token</span>
+<span class="n">beam_output</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span>
+    <span class="n">input_ids</span><span class="p">,</span> 
+    <span class="n">max_length</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> 
+    <span class="n">num_beams</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> 
+    <span class="n">early_stopping</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span> 
 
-pretty_print(beam_output[0])
+<span class="n">pretty_print</span><span class="p">(</span><span class="n">beam_output</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -842,14 +840,14 @@ I&#39;m not sure if I&#39;ll ever be able to walk with him again. I&#39;m not su
 \end{cases}\end{split}\]</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>top_k_output = model.generate(
-    input_ids, 
-    do_sample=True, 
-    max_length=50, 
-    top_k=50          # setting `top_k` option triggers top-k sampling
-)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">top_k_output</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span>
+    <span class="n">input_ids</span><span class="p">,</span> 
+    <span class="n">do_sample</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
+    <span class="n">max_length</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> 
+    <span class="n">top_k</span><span class="o">=</span><span class="mi">50</span>          <span class="c1"># setting `top_k` option triggers top-k sampling</span>
+<span class="p">)</span>
 
-pretty_print(top_k_output[0])
+<span class="n">pretty_print</span><span class="p">(</span><span class="n">top_k_output</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -877,14 +875,14 @@ Michele, who lives in Fort Meade, Ga., said she never really wanted to &quot;los
 <p>Top-<span class="math notranslate nohighlight">\(p\)</span> sampling is similar to top-<span class="math notranslate nohighlight">\(k\)</span> sampling, but restricts sampling not to the top-<span class="math notranslate nohighlight">\(k\)</span> most likely words (so always the same number of words), but the set of most likely words the summed probability of which exceeds threshold <span class="math notranslate nohighlight">\(p\)</span>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>top_k_output = model.generate(
-    input_ids, 
-    do_sample=True, 
-    max_length=50, 
-    top_p=0.9        # set the top-p parameter here
-)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">top_k_output</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span>
+    <span class="n">input_ids</span><span class="p">,</span> 
+    <span class="n">do_sample</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
+    <span class="n">max_length</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> 
+    <span class="n">top_p</span><span class="o">=</span><span class="mf">0.9</span>        <span class="c1"># set the top-p parameter here</span>
+<span class="p">)</span>
 
-pretty_print(top_k_output[0])
+<span class="n">pretty_print</span><span class="p">(</span><span class="n">top_k_output</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>

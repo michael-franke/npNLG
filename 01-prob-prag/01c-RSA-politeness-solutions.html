@@ -524,59 +524,59 @@ title="Print to PDF"
 <p><strong>Author:</strong> Michael Franke</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
-## imports
-##################################################
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##################################################</span>
+<span class="c1">## imports</span>
+<span class="c1">##################################################</span>
 
-import numpy as np
-import seaborn as sns
-import pandas as pd
-import matplotlib.pyplot as plt
-import warnings
-warnings.filterwarnings(&#39;ignore&#39;)
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
 
-##################################################
-## helper functions
-##################################################
+<span class="c1">##################################################</span>
+<span class="c1">## helper functions</span>
+<span class="c1">##################################################</span>
 
-def softmax(x, axis=1):
-    &quot;&quot;&quot;
-    Softmax function in numpy
-    Parameters
-    ----------
-    x: array
-        An array with any dimensionality
-    axis: int
-        The axis along which to apply the softmax
-    Returns
-    -------
-    array
-        Same shape as x
-    &quot;&quot;&quot;
-    e_x = np.exp(x - np.max(x, axis, keepdims=True))
-    return e_x / e_x.sum(axis=axis, keepdims=True)
+<span class="k">def</span> <span class="nf">softmax</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Softmax function in numpy</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x: array</span>
+<span class="sd">        An array with any dimensionality</span>
+<span class="sd">    axis: int</span>
+<span class="sd">        The axis along which to apply the softmax</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    array</span>
+<span class="sd">        Same shape as x</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">e_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">e_x</span> <span class="o">/</span> <span class="n">e_x</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 
-def normalize(arr, axis=1):
-    &quot;&quot;&quot;
-    Normalize arr along axis
-    &quot;&quot;&quot;
-    return arr / arr.sum(axis, keepdims=True)
+<span class="k">def</span> <span class="nf">normalize</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Normalize arr along axis</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">arr</span> <span class="o">/</span> <span class="n">arr</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-##################################################
-## defining the context
-##################################################
+<span class="c1">##################################################</span>
+<span class="c1">## defining the context</span>
+<span class="c1">##################################################</span>
 
-states     = [1,2,3,4,5]
-utterances = [&quot;terrible&quot;,&quot;bad&quot;,&quot;okay&quot;,&quot;good&quot;,&quot;amazing&quot;]
+<span class="n">states</span>     <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">]</span>
+<span class="n">utterances</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;terrible&quot;</span><span class="p">,</span><span class="s2">&quot;bad&quot;</span><span class="p">,</span><span class="s2">&quot;okay&quot;</span><span class="p">,</span><span class="s2">&quot;good&quot;</span><span class="p">,</span><span class="s2">&quot;amazing&quot;</span><span class="p">]</span>
 
-semantic_meaning = np.array(
-    [[.95 ,.85 ,.02 ,.02,.02],    # terrible
-     [.85 ,.95 ,.02 ,.02,.02],    # bad
-     [.02 ,.25 ,.95 ,.65,.35],    # okay
-     [.02 ,.05 ,.55 ,.95,.93],    # good
-     [.02 ,.02 ,.02 ,.65,.95]]    # amazing
-)
+<span class="n">semantic_meaning</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+    <span class="p">[[</span><span class="mf">.95</span> <span class="p">,</span><span class="mf">.85</span> <span class="p">,</span><span class="mf">.02</span> <span class="p">,</span><span class="mf">.02</span><span class="p">,</span><span class="mf">.02</span><span class="p">],</span>    <span class="c1"># terrible</span>
+     <span class="p">[</span><span class="mf">.85</span> <span class="p">,</span><span class="mf">.95</span> <span class="p">,</span><span class="mf">.02</span> <span class="p">,</span><span class="mf">.02</span><span class="p">,</span><span class="mf">.02</span><span class="p">],</span>    <span class="c1"># bad</span>
+     <span class="p">[</span><span class="mf">.02</span> <span class="p">,</span><span class="mf">.25</span> <span class="p">,</span><span class="mf">.95</span> <span class="p">,</span><span class="mf">.65</span><span class="p">,</span><span class="mf">.35</span><span class="p">],</span>    <span class="c1"># okay</span>
+     <span class="p">[</span><span class="mf">.02</span> <span class="p">,</span><span class="mf">.05</span> <span class="p">,</span><span class="mf">.55</span> <span class="p">,</span><span class="mf">.95</span><span class="p">,</span><span class="mf">.93</span><span class="p">],</span>    <span class="c1"># good</span>
+     <span class="p">[</span><span class="mf">.02</span> <span class="p">,</span><span class="mf">.02</span> <span class="p">,</span><span class="mf">.02</span> <span class="p">,</span><span class="mf">.65</span><span class="p">,</span><span class="mf">.95</span><span class="p">]]</span>    <span class="c1"># amazing</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -599,62 +599,62 @@ semantic_meaning = np.array(
 </div></blockquote>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
-## model parameters
-##################################################
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##################################################</span>
+<span class="c1">## model parameters</span>
+<span class="c1">##################################################</span>
 
-alpha        = 10
-phi          = 0.99
-social_value = 1.25
+<span class="n">alpha</span>        <span class="o">=</span> <span class="mi">10</span>
+<span class="n">phi</span>          <span class="o">=</span> <span class="mf">0.99</span>
+<span class="n">social_value</span> <span class="o">=</span> <span class="mf">1.25</span>
 
-##################################################
-## RSA speaker with politeness
-##################################################
+<span class="c1">##################################################</span>
+<span class="c1">## RSA speaker with politeness</span>
+<span class="c1">##################################################</span>
 
-def RSA_polite_speaker(alpha, phi, social_value):
-    &quot;&quot;&quot;
-    predictions of an RSA model with politeness (speaker part)
-    (following: http://www.problang.org/chapters/09-politeness.html)
-    Parameters
-    ----------
-    alpha: float
-        Optimality parameter
-    phi: float
-        Relative weight of epistemic utility component
-    social_value: float
-        Social value factor (how much more &quot;socially valuable&quot; is one more star?)
-    Returns
-    -------
-    array
-        probability that speaker chooses utterance for each state
-    &quot;&quot;&quot;
-    literal_listener   = normalize(semantic_meaning)
-    epistemic_utility  = np.log(np.transpose(literal_listener))
-    social_utility     = np.sum(literal_listener * np.array([states]) * social_value, axis=1)
-    util_speaker       = phi * epistemic_utility + (1-phi) * social_utility
-    pragmatic_speaker  = softmax(alpha * util_speaker)
-    return(pragmatic_speaker)
+<span class="k">def</span> <span class="nf">RSA_polite_speaker</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">phi</span><span class="p">,</span> <span class="n">social_value</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    predictions of an RSA model with politeness (speaker part)</span>
+<span class="sd">    (following: http://www.problang.org/chapters/09-politeness.html)</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    alpha: float</span>
+<span class="sd">        Optimality parameter</span>
+<span class="sd">    phi: float</span>
+<span class="sd">        Relative weight of epistemic utility component</span>
+<span class="sd">    social_value: float</span>
+<span class="sd">        Social value factor (how much more &quot;socially valuable&quot; is one more star?)</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    array</span>
+<span class="sd">        probability that speaker chooses utterance for each state</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">literal_listener</span>   <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">semantic_meaning</span><span class="p">)</span>
+    <span class="n">epistemic_utility</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">literal_listener</span><span class="p">))</span>
+    <span class="n">social_utility</span>     <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">literal_listener</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">states</span><span class="p">])</span> <span class="o">*</span> <span class="n">social_value</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">util_speaker</span>       <span class="o">=</span> <span class="n">phi</span> <span class="o">*</span> <span class="n">epistemic_utility</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">phi</span><span class="p">)</span> <span class="o">*</span> <span class="n">social_utility</span>
+    <span class="n">pragmatic_speaker</span>  <span class="o">=</span> <span class="n">softmax</span><span class="p">(</span><span class="n">alpha</span> <span class="o">*</span> <span class="n">util_speaker</span><span class="p">)</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">pragmatic_speaker</span><span class="p">)</span>
 
-RSA_speaker_predictions = RSA_polite_speaker(alpha, phi, social_value)
+<span class="n">RSA_speaker_predictions</span> <span class="o">=</span> <span class="n">RSA_polite_speaker</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">phi</span><span class="p">,</span> <span class="n">social_value</span><span class="p">)</span>
 
-##################################################
-## showing and plotting the results
-##################################################
+<span class="c1">##################################################</span>
+<span class="c1">## showing and plotting the results</span>
+<span class="c1">##################################################</span>
 
-speaker  = pd.DataFrame(data    = RSA_speaker_predictions,
-                        index   = states,
-                        columns = utterances)
-speaker[&#39;object&#39;] = speaker.index
+<span class="n">speaker</span>  <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span>    <span class="o">=</span> <span class="n">RSA_speaker_predictions</span><span class="p">,</span>
+                        <span class="n">index</span>   <span class="o">=</span> <span class="n">states</span><span class="p">,</span>
+                        <span class="n">columns</span> <span class="o">=</span> <span class="n">utterances</span><span class="p">)</span>
+<span class="n">speaker</span><span class="p">[</span><span class="s1">&#39;object&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">speaker</span><span class="o">.</span><span class="n">index</span>
 
-print(speaker.round(4))
+<span class="nb">print</span><span class="p">(</span><span class="n">speaker</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
 
-speaker_long = speaker.melt(id_vars      = &quot;object&quot;,
-                            var_name     = &quot;utterance&quot;,
-                            value_name   = &quot;probability&quot;,
-                            ignore_index = False)
-speaker_plot = sns.FacetGrid(speaker_long, col=&quot;object&quot;)
-speaker_plot.map(sns.barplot, &quot;utterance&quot;, &quot;probability&quot;)
-# plt.show()
+<span class="n">speaker_long</span> <span class="o">=</span> <span class="n">speaker</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">id_vars</span>      <span class="o">=</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span>
+                            <span class="n">var_name</span>     <span class="o">=</span> <span class="s2">&quot;utterance&quot;</span><span class="p">,</span>
+                            <span class="n">value_name</span>   <span class="o">=</span> <span class="s2">&quot;probability&quot;</span><span class="p">,</span>
+                            <span class="n">ignore_index</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+<span class="n">speaker_plot</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">FacetGrid</span><span class="p">(</span><span class="n">speaker_long</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="s2">&quot;object&quot;</span><span class="p">)</span>
+<span class="n">speaker_plot</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">,</span> <span class="s2">&quot;utterance&quot;</span><span class="p">,</span> <span class="s2">&quot;probability&quot;</span><span class="p">)</span>
+<span class="c1"># plt.show()</span>
 </pre></div>
 </div>
 </div>
@@ -691,28 +691,28 @@ speaker_plot.map(sns.barplot, &quot;utterance&quot;, &quot;probability&quot;)
 </div></blockquote>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>alpha = 10000
-phi   = 1
-RSA_speaker_predictions = RSA_polite_speaker(alpha, phi, social_value)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">alpha</span> <span class="o">=</span> <span class="mi">10000</span>
+<span class="n">phi</span>   <span class="o">=</span> <span class="mi">1</span>
+<span class="n">RSA_speaker_predictions</span> <span class="o">=</span> <span class="n">RSA_polite_speaker</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">phi</span><span class="p">,</span> <span class="n">social_value</span><span class="p">)</span>
 
-##################################################
-## showing and plotting the results
-##################################################
+<span class="c1">##################################################</span>
+<span class="c1">## showing and plotting the results</span>
+<span class="c1">##################################################</span>
 
-speaker  = pd.DataFrame(data    = RSA_speaker_predictions,
-                        index   = states,
-                        columns = utterances)
-speaker[&#39;object&#39;] = speaker.index
+<span class="n">speaker</span>  <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span>    <span class="o">=</span> <span class="n">RSA_speaker_predictions</span><span class="p">,</span>
+                        <span class="n">index</span>   <span class="o">=</span> <span class="n">states</span><span class="p">,</span>
+                        <span class="n">columns</span> <span class="o">=</span> <span class="n">utterances</span><span class="p">)</span>
+<span class="n">speaker</span><span class="p">[</span><span class="s1">&#39;object&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">speaker</span><span class="o">.</span><span class="n">index</span>
 
-print(speaker.round(2))
+<span class="nb">print</span><span class="p">(</span><span class="n">speaker</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
 
-speaker_long = speaker.melt(id_vars      = &quot;object&quot;,
-                            var_name     = &quot;utterance&quot;,
-                            value_name   = &quot;probability&quot;,
-                            ignore_index = False)
-speaker_plot = sns.FacetGrid(speaker_long, col=&quot;object&quot;)
-speaker_plot.map(sns.barplot, &quot;utterance&quot;, &quot;probability&quot;)
-plt.show()
+<span class="n">speaker_long</span> <span class="o">=</span> <span class="n">speaker</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">id_vars</span>      <span class="o">=</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span>
+                            <span class="n">var_name</span>     <span class="o">=</span> <span class="s2">&quot;utterance&quot;</span><span class="p">,</span>
+                            <span class="n">value_name</span>   <span class="o">=</span> <span class="s2">&quot;probability&quot;</span><span class="p">,</span>
+                            <span class="n">ignore_index</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+<span class="n">speaker_plot</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">FacetGrid</span><span class="p">(</span><span class="n">speaker_long</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="s2">&quot;object&quot;</span><span class="p">)</span>
+<span class="n">speaker_plot</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">,</span> <span class="s2">&quot;utterance&quot;</span><span class="p">,</span> <span class="s2">&quot;probability&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -735,63 +735,63 @@ plt.show()
 </div></blockquote>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
-## pragmatic listener infers politeness level
-##################################################
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##################################################</span>
+<span class="c1">## pragmatic listener infers politeness level</span>
+<span class="c1">##################################################</span>
 
-# which phi-values to consider
-phi_marks     = np.linspace(start=0, stop=1, num=11)
-phi_prior_flt = np.array([1,1,1,1,1,1,1,1,1,1,1])   # flat
-phi_prior_bsd = np.array([1,2,3,4,5,6,7,8,9,10,11]) # biased towards politeness
+<span class="c1"># which phi-values to consider</span>
+<span class="n">phi_marks</span>     <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">stop</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
+<span class="n">phi_prior_flt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>   <span class="c1"># flat</span>
+<span class="n">phi_prior_bsd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">11</span><span class="p">])</span> <span class="c1"># biased towards politeness</span>
 
-def RSA_polite_listener(alpha, phi_prior, social_value):
-    &quot;&quot;&quot;
-    predictions of an RSA model with politeness (listener part)
-    (following: http://www.problang.org/chapters/09-politeness.html)
-    Parameters
-    ----------
-    alpha: float
-        Optimality parameter
-    phi_priors: float
-        Prior over degree of politeness (phi-parameter)
-    social_value: float
-        Social value factor (how much more &quot;socially valuable&quot; is one more star?)
-    Returns
-    -------
-    array
-         for each message: listener posterior over state-phi pairs
-    &quot;&quot;&quot;
-    phi_prior = phi_prior / np.sum(phi_prior) # make sure priors are normalized
-    posterior = np.zeros((len(utterances), len(states),len(phi_marks)))
-    for i in range(len(phi_marks)):
-        pragmatic_speaker   = RSA_polite_speaker(alpha, phi_marks[i], social_value)
-        posterior_given_phi = normalize(np.transpose(pragmatic_speaker), axis=1)
-        posterior[:,:,i]    = posterior_given_phi * phi_prior[i]
-    return(posterior)
+<span class="k">def</span> <span class="nf">RSA_polite_listener</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">phi_prior</span><span class="p">,</span> <span class="n">social_value</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    predictions of an RSA model with politeness (listener part)</span>
+<span class="sd">    (following: http://www.problang.org/chapters/09-politeness.html)</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    alpha: float</span>
+<span class="sd">        Optimality parameter</span>
+<span class="sd">    phi_priors: float</span>
+<span class="sd">        Prior over degree of politeness (phi-parameter)</span>
+<span class="sd">    social_value: float</span>
+<span class="sd">        Social value factor (how much more &quot;socially valuable&quot; is one more star?)</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    array</span>
+<span class="sd">         for each message: listener posterior over state-phi pairs</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">phi_prior</span> <span class="o">=</span> <span class="n">phi_prior</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">phi_prior</span><span class="p">)</span> <span class="c1"># make sure priors are normalized</span>
+    <span class="n">posterior</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">utterances</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">states</span><span class="p">),</span><span class="nb">len</span><span class="p">(</span><span class="n">phi_marks</span><span class="p">)))</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">phi_marks</span><span class="p">)):</span>
+        <span class="n">pragmatic_speaker</span>   <span class="o">=</span> <span class="n">RSA_polite_speaker</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">phi_marks</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">social_value</span><span class="p">)</span>
+        <span class="n">posterior_given_phi</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">pragmatic_speaker</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">posterior</span><span class="p">[:,:,</span><span class="n">i</span><span class="p">]</span>    <span class="o">=</span> <span class="n">posterior_given_phi</span> <span class="o">*</span> <span class="n">phi_prior</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">posterior</span><span class="p">)</span>
 
-RSA_listener_predictions = RSA_polite_listener(alpha, phi_prior_bsd, social_value)
+<span class="n">RSA_listener_predictions</span> <span class="o">=</span> <span class="n">RSA_polite_listener</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">phi_prior_bsd</span><span class="p">,</span> <span class="n">social_value</span><span class="p">)</span>
 
-print(&quot;listener posterior over states after hearing &#39;good&#39;:\n&quot;,
-      np.sum(RSA_listener_predictions[3,:,:], axis=1))
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;listener posterior over states after hearing &#39;good&#39;:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+      <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">RSA_listener_predictions</span><span class="p">[</span><span class="mi">3</span><span class="p">,:,:],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
 
-iterables=[utterances, states, phi_marks]
-index = pd.MultiIndex.from_product(iterables, names=[&#39;utterances&#39;,&#39;states&#39;,&#39;phi&#39;])
+<span class="n">iterables</span><span class="o">=</span><span class="p">[</span><span class="n">utterances</span><span class="p">,</span> <span class="n">states</span><span class="p">,</span> <span class="n">phi_marks</span><span class="p">]</span>
+<span class="n">index</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">MultiIndex</span><span class="o">.</span><span class="n">from_product</span><span class="p">(</span><span class="n">iterables</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;utterances&#39;</span><span class="p">,</span><span class="s1">&#39;states&#39;</span><span class="p">,</span><span class="s1">&#39;phi&#39;</span><span class="p">])</span>
 
-listener = pd.DataFrame(RSA_listener_predictions.reshape(RSA_listener_predictions.size, 1),
-                        index=index)
-listener = listener.reset_index()
+<span class="n">listener</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">RSA_listener_predictions</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">RSA_listener_predictions</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+                        <span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">)</span>
+<span class="n">listener</span> <span class="o">=</span> <span class="n">listener</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
 
-##################################################
-## plotting the results
-##################################################
+<span class="c1">##################################################</span>
+<span class="c1">## plotting the results</span>
+<span class="c1">##################################################</span>
 
-def plot_listener(utterance_index):
-    print(&quot;plotting listener posterior for utterance:&quot;, utterances[utterance_index])
-    predictions = RSA_listener_predictions[utterance_index,:,:]
-    sns.heatmap(predictions)
-    plt.show()
+<span class="k">def</span> <span class="nf">plot_listener</span><span class="p">(</span><span class="n">utterance_index</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;plotting listener posterior for utterance:&quot;</span><span class="p">,</span> <span class="n">utterances</span><span class="p">[</span><span class="n">utterance_index</span><span class="p">])</span>
+    <span class="n">predictions</span> <span class="o">=</span> <span class="n">RSA_listener_predictions</span><span class="p">[</span><span class="n">utterance_index</span><span class="p">,:,:]</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
-plot_listener(3)
+<span class="n">plot_listener</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -822,28 +822,28 @@ plotting listener posterior for utterance: good
 </div></blockquote>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def myFun(utterance_index, alpha, phi_prior, social_value):
-    RSA_listener_predictions = RSA_polite_listener(alpha, phi_prior, social_value)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">myFun</span><span class="p">(</span><span class="n">utterance_index</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">phi_prior</span><span class="p">,</span> <span class="n">social_value</span><span class="p">):</span>
+    <span class="n">RSA_listener_predictions</span> <span class="o">=</span> <span class="n">RSA_polite_listener</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">phi_prior</span><span class="p">,</span> <span class="n">social_value</span><span class="p">)</span>
 
-    iterables=[utterances, states, phi_marks]
-    index = pd.MultiIndex.from_product(iterables, names=[&#39;utterances&#39;,&#39;states&#39;,&#39;phi&#39;])
+    <span class="n">iterables</span><span class="o">=</span><span class="p">[</span><span class="n">utterances</span><span class="p">,</span> <span class="n">states</span><span class="p">,</span> <span class="n">phi_marks</span><span class="p">]</span>
+    <span class="n">index</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">MultiIndex</span><span class="o">.</span><span class="n">from_product</span><span class="p">(</span><span class="n">iterables</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;utterances&#39;</span><span class="p">,</span><span class="s1">&#39;states&#39;</span><span class="p">,</span><span class="s1">&#39;phi&#39;</span><span class="p">])</span>
 
-    listener = pd.DataFrame(RSA_listener_predictions.reshape(RSA_listener_predictions.size, 1),
-                            index=index)
-    listener = listener.reset_index()
+    <span class="n">listener</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">RSA_listener_predictions</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">RSA_listener_predictions</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+                            <span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">)</span>
+    <span class="n">listener</span> <span class="o">=</span> <span class="n">listener</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
 
-    # marginal over states
-    print(&quot;listener posterior over states after hearing &#39;%s&#39;:\n&quot; % utterances[utterance_index],
-          np.sum(RSA_listener_predictions[utterance_index,:,:], axis=1).round(3))
-    # marginal over phi values
-    print(&quot;listener posterior over phi-values after hearing &#39;%s&#39;:\n&quot; % utterances[utterance_index],
-          np.sum(RSA_listener_predictions[utterance_index,:,:], axis=0).round(3))
-    # plot of joint-posterior
-    predictions = RSA_listener_predictions[utterance_index,:,:]
-    sns.heatmap(predictions)
-    plt.show()
+    <span class="c1"># marginal over states</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;listener posterior over states after hearing &#39;</span><span class="si">%s</span><span class="s2">&#39;:</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">utterances</span><span class="p">[</span><span class="n">utterance_index</span><span class="p">],</span>
+          <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">RSA_listener_predictions</span><span class="p">[</span><span class="n">utterance_index</span><span class="p">,:,:],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+    <span class="c1"># marginal over phi values</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;listener posterior over phi-values after hearing &#39;</span><span class="si">%s</span><span class="s2">&#39;:</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">utterances</span><span class="p">[</span><span class="n">utterance_index</span><span class="p">],</span>
+          <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">RSA_listener_predictions</span><span class="p">[</span><span class="n">utterance_index</span><span class="p">,:,:],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+    <span class="c1"># plot of joint-posterior</span>
+    <span class="n">predictions</span> <span class="o">=</span> <span class="n">RSA_listener_predictions</span><span class="p">[</span><span class="n">utterance_index</span><span class="p">,:,:]</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
-myFun(1, alpha, phi_prior_bsd, social_value)
+<span class="n">myFun</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">phi_prior_bsd</span><span class="p">,</span> <span class="n">social_value</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -864,7 +864,7 @@ listener posterior over phi-values after hearing &#39;bad&#39;:
 </div></blockquote>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>myFun(4,alpha, phi_prior_bsd, social_value)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">myFun</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="n">alpha</span><span class="p">,</span> <span class="n">phi_prior_bsd</span><span class="p">,</span> <span class="n">social_value</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -881,7 +881,7 @@ listener posterior over phi-values after hearing &#39;amazing&#39;:
 <p>And here it is for “good”:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>myFun(3,alpha, phi_prior_bsd, social_value)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">myFun</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="n">alpha</span><span class="p">,</span> <span class="n">phi_prior_bsd</span><span class="p">,</span> <span class="n">social_value</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -898,7 +898,7 @@ listener posterior over phi-values after hearing &#39;good&#39;:
 <p>And “terrible”</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>myFun(0,alpha, phi_prior_bsd, social_value)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">myFun</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">alpha</span><span class="p">,</span> <span class="n">phi_prior_bsd</span><span class="p">,</span> <span class="n">social_value</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

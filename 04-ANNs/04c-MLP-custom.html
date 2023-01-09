@@ -604,16 +604,16 @@ In order to have a convenient handle, we load the `torch.nn.functional` package 
 We use this to pick up the activation function (ReLU) we will use for our neural network.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import torch
-import torch.nn as nn
-import torch.nn.functional as F
-import numpy as np
-import seaborn as sns
-import pandas as pd
-import matplotlib.pyplot as plt
-# import sys
-import warnings
-warnings.filterwarnings(&#39;ignore&#39;)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+<span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="nn">F</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="c1"># import sys</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -621,7 +621,7 @@ warnings.filterwarnings(&#39;ignore&#39;)
 <p>We will also globally set the float precision to 64:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>torch.set_default_dtype(torch.float64)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">torch</span><span class="o">.</span><span class="n">set_default_dtype</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -633,21 +633,21 @@ warnings.filterwarnings(&#39;ignore&#39;)
 Here is its definition and a plot to show what the “ground truth” looks like.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
-## ground-truth model
-##################################################
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##################################################</span>
+<span class="c1">## ground-truth model</span>
+<span class="c1">##################################################</span>
 
-def goalFun(x):
-    return(x**3 - x**2 + 25 * np.sin(2*x))
+<span class="k">def</span> <span class="nf">goalFun</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">3</span> <span class="o">-</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">25</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">x</span><span class="p">))</span>
 
-# create linear sequence (x) and apply goalFun (y)
-x = np.linspace(start = -5, stop =5, num = 1000)
-y = goalFun(x)
+<span class="c1"># create linear sequence (x) and apply goalFun (y)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">start</span> <span class="o">=</span> <span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="n">stop</span> <span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">num</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">goalFun</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
-# plot the function
-d = pd.DataFrame({&#39;x&#39; : x, &#39;y&#39; : y})
-sns.lineplot(data = d, x = &#39;x&#39;, y = &#39;y&#39;)
-plt.show()
+<span class="c1"># plot the function</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;x&#39;</span> <span class="p">:</span> <span class="n">x</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span> <span class="p">:</span> <span class="n">y</span><span class="p">})</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">d</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;y&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -663,24 +663,24 @@ Each pair is generated by first sampling an <span class="math notranslate nohigh
 For each sampled <span class="math notranslate nohighlight">\(x\)</span>, we compute the value of the target function <span class="math notranslate nohighlight">\(f(x)\)</span> and add Gaussian noise to it.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
-## generate training data (with noise)
-##################################################
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##################################################</span>
+<span class="c1">## generate training data (with noise)</span>
+<span class="c1">##################################################</span>
 
-nObs = 100 # number of observations
+<span class="n">nObs</span> <span class="o">=</span> <span class="mi">100</span> <span class="c1"># number of observations</span>
 
-# get noise around y observations
-yNormal = torch.distributions.Normal(loc=0.0, scale=10)
-yNoise  = yNormal.sample([nObs])
+<span class="c1"># get noise around y observations</span>
+<span class="n">yNormal</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">distributions</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">yNoise</span>  <span class="o">=</span> <span class="n">yNormal</span><span class="o">.</span><span class="n">sample</span><span class="p">([</span><span class="n">nObs</span><span class="p">])</span>
 
-# get observations
-xObs = 10*torch.rand([nObs])-5    # uniform from [-5,5]
-yObs = xObs**3 - xObs**2 + 25 * torch.sin(2*xObs) + yNoise
+<span class="c1"># get observations</span>
+<span class="n">xObs</span> <span class="o">=</span> <span class="mi">10</span><span class="o">*</span><span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">([</span><span class="n">nObs</span><span class="p">])</span><span class="o">-</span><span class="mi">5</span>    <span class="c1"># uniform from [-5,5]</span>
+<span class="n">yObs</span> <span class="o">=</span> <span class="n">xObs</span><span class="o">**</span><span class="mi">3</span> <span class="o">-</span> <span class="n">xObs</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">25</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">xObs</span><span class="p">)</span> <span class="o">+</span> <span class="n">yNoise</span>
 
-# plot the data
-d = pd.DataFrame({&#39;xObs&#39; : xObs, &#39;yObs&#39; : yObs})
-sns.scatterplot(data = d, x = &#39;xObs&#39;, y = &#39;yObs&#39;)
-plt.show()
+<span class="c1"># plot the data</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;xObs&#39;</span> <span class="p">:</span> <span class="n">xObs</span><span class="p">,</span> <span class="s1">&#39;yObs&#39;</span> <span class="p">:</span> <span class="n">yObs</span><span class="p">})</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">d</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;xObs&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;yObs&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -703,13 +703,13 @@ We therefore have a neural network whith input and output dimension set to 1.
 In between <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span>, we will use three hidden layers <span class="math notranslate nohighlight">\(h_{1}, h_{2}, h_{3}\)</span> each with dimension 10:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
-## network dimension parameters
-##################################################
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##################################################</span>
+<span class="c1">## network dimension parameters</span>
+<span class="c1">##################################################</span>
 
-nInput  = 1
-nHidden = 10
-nOutput = 1
+<span class="n">nInput</span>  <span class="o">=</span> <span class="mi">1</span>
+<span class="n">nHidden</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">nOutput</span> <span class="o">=</span> <span class="mi">1</span>
 </pre></div>
 </div>
 </div>
@@ -718,22 +718,22 @@ nOutput = 1
 The first embedding is called <span class="math notranslate nohighlight">\(U\)</span>, the following two hidden-to-hidden transformations are <span class="math notranslate nohighlight">\(V_{1}\)</span> and <span class="math notranslate nohighlight">\(V_{2}\)</span>, the hidden-to-output mapping is given by matrix <span class="math notranslate nohighlight">\(W\)</span>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
-## trainable (matrix &amp; slope) parameters
-##           --initializing weights --
-##################################################
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##################################################</span>
+<span class="c1">## trainable (matrix &amp; slope) parameters</span>
+<span class="c1">##           --initializing weights --</span>
+<span class="c1">##################################################</span>
 
-U  = torch.tensor(np.random.rand(nHidden,nInput)   * 2 - 1,
-                  requires_grad=True)
-V1 = torch.tensor(np.random.rand(nHidden, nHidden) * 2 - 1,
-                  requires_grad=True)
-V2 = torch.tensor(np.random.rand(nHidden, nHidden) * 2 - 1,
-                  requires_grad=True)
-W  = torch.tensor(np.random.rand(nOutput, nHidden) * 2 - 1,
-                  requires_grad=True)
-b1 = torch.zeros((nHidden,1), requires_grad=True)
-b2 = torch.zeros((nHidden,1), requires_grad=True)
-b3 = torch.zeros((nHidden,1), requires_grad=True)
+<span class="n">U</span>  <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">nHidden</span><span class="p">,</span><span class="n">nInput</span><span class="p">)</span>   <span class="o">*</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
+                  <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">V1</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">nHidden</span><span class="p">,</span> <span class="n">nHidden</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
+                  <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">V2</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">nHidden</span><span class="p">,</span> <span class="n">nHidden</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
+                  <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">W</span>  <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">nOutput</span><span class="p">,</span> <span class="n">nHidden</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
+                  <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">b1</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">nHidden</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">b2</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">nHidden</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">b3</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">nHidden</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -741,33 +741,33 @@ b3 = torch.zeros((nHidden,1), requires_grad=True)
 <p>Next, we will define the forward pass.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
-## forward pass
-##################################################
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##################################################</span>
+<span class="c1">## forward pass</span>
+<span class="c1">##################################################</span>
 
-activationFun = F.relu # use ReLU fct from PyTorch
+<span class="n">activationFun</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span> <span class="c1"># use ReLU fct from PyTorch</span>
 
-# this function takes a /single/ observation for x as input
-#   and it outputs a /single/ observation for y
-#   we will NOT use this one, but include for better understanding
-def singleForwardPass(x):
-    h1 = activationFun(U*x + b1)
-    h2 = activationFun(torch.mm(V1,h1) + b2)
-    h3 = activationFun(torch.mm(V2,h2) + b3)
-    y  = torch.mm(W,h3)
-    return(y[0,0])
+<span class="c1"># this function takes a /single/ observation for x as input</span>
+<span class="c1">#   and it outputs a /single/ observation for y</span>
+<span class="c1">#   we will NOT use this one, but include for better understanding</span>
+<span class="k">def</span> <span class="nf">singleForwardPass</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">h1</span> <span class="o">=</span> <span class="n">activationFun</span><span class="p">(</span><span class="n">U</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="n">b1</span><span class="p">)</span>
+    <span class="n">h2</span> <span class="o">=</span> <span class="n">activationFun</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">mm</span><span class="p">(</span><span class="n">V1</span><span class="p">,</span><span class="n">h1</span><span class="p">)</span> <span class="o">+</span> <span class="n">b2</span><span class="p">)</span>
+    <span class="n">h3</span> <span class="o">=</span> <span class="n">activationFun</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">mm</span><span class="p">(</span><span class="n">V2</span><span class="p">,</span><span class="n">h2</span><span class="p">)</span> <span class="o">+</span> <span class="n">b3</span><span class="p">)</span>
+    <span class="n">y</span>  <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">mm</span><span class="p">(</span><span class="n">W</span><span class="p">,</span><span class="n">h3</span><span class="p">)</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
 
-# this function takes a /vector/ of observations for x as input
-#   and it outputs a /vector/ of observations for y
-#   we will use this function as it is massively more efficient in training
-def singleForwardPassBatched(xObs):
-    xObsBatched = xObs.reshape(100,1,1)       # 100 1x1 matrices
-    h1 = activationFun(U @ xObsBatched + b1)  # 100 column vectors
-    h2 = activationFun(V1 @ h1 + b2)
-    h3 = activationFun(V2 @ h2 + b3)
-    y  = W @ h3
-    yReshaped = torch.reshape(y,(-1,))
-    return(yReshaped)
+<span class="c1"># this function takes a /vector/ of observations for x as input</span>
+<span class="c1">#   and it outputs a /vector/ of observations for y</span>
+<span class="c1">#   we will use this function as it is massively more efficient in training</span>
+<span class="k">def</span> <span class="nf">singleForwardPassBatched</span><span class="p">(</span><span class="n">xObs</span><span class="p">):</span>
+    <span class="n">xObsBatched</span> <span class="o">=</span> <span class="n">xObs</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>       <span class="c1"># 100 1x1 matrices</span>
+    <span class="n">h1</span> <span class="o">=</span> <span class="n">activationFun</span><span class="p">(</span><span class="n">U</span> <span class="o">@</span> <span class="n">xObsBatched</span> <span class="o">+</span> <span class="n">b1</span><span class="p">)</span>  <span class="c1"># 100 column vectors</span>
+    <span class="n">h2</span> <span class="o">=</span> <span class="n">activationFun</span><span class="p">(</span><span class="n">V1</span> <span class="o">@</span> <span class="n">h1</span> <span class="o">+</span> <span class="n">b2</span><span class="p">)</span>
+    <span class="n">h3</span> <span class="o">=</span> <span class="n">activationFun</span><span class="p">(</span><span class="n">V2</span> <span class="o">@</span> <span class="n">h2</span> <span class="o">+</span> <span class="n">b3</span><span class="p">)</span>
+    <span class="n">y</span>  <span class="o">=</span> <span class="n">W</span> <span class="o">@</span> <span class="n">h3</span>
+    <span class="n">yReshaped</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">y</span><span class="p">,(</span><span class="o">-</span><span class="mi">1</span><span class="p">,))</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">yReshaped</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -787,40 +787,40 @@ Ideally, produce outputs from ’singleForwardPass’ for all elements of ’xOb
 <p>Next, we will define the ’forward pass’, i.e., a function that computes the predicted <span class="math notranslate nohighlight">\(y\)</span> for a given input <span class="math notranslate nohighlight">\(x\)</span> based on the current model parameters.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
-## optimizer &amp; training loop
-##################################################
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##################################################</span>
+<span class="c1">## optimizer &amp; training loop</span>
+<span class="c1">##################################################</span>
 
-# initialize optimizer: Adam optimizer
-loss_function = nn.MSELoss()
-opt = torch.optim.Adam([U,V1,V2,W,b1,b2,b3], lr=1e-4)
+<span class="c1"># initialize optimizer: Adam optimizer</span>
+<span class="n">loss_function</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">MSELoss</span><span class="p">()</span>
+<span class="n">opt</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">([</span><span class="n">U</span><span class="p">,</span><span class="n">V1</span><span class="p">,</span><span class="n">V2</span><span class="p">,</span><span class="n">W</span><span class="p">,</span><span class="n">b1</span><span class="p">,</span><span class="n">b2</span><span class="p">,</span><span class="n">b3</span><span class="p">],</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">)</span>
 
-epochs = 100000
-for i in range(epochs+1):
-    if (i == 0):
-        print(&quot;\n&quot;)
-    yPred = singleForwardPassBatched(xObs)
-    loss  = loss_function(yPred, yObs)
-    # loss  = torch.mean((yPred - yObs)**2)
-    if (i == 0 or i % 5000 == 0):
-        print(&#39;Iteration: {:5d} | Loss: {:12}&#39;.format(i, loss.detach().numpy().round(0)))
-        # print(&quot;Iteration: &quot;, i, &quot; Loss: &quot;, loss.detach().numpy())
-    loss.backward()
-    opt.step()
-    opt.zero_grad()
+<span class="n">epochs</span> <span class="o">=</span> <span class="mi">100000</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">yPred</span> <span class="o">=</span> <span class="n">singleForwardPassBatched</span><span class="p">(</span><span class="n">xObs</span><span class="p">)</span>
+    <span class="n">loss</span>  <span class="o">=</span> <span class="n">loss_function</span><span class="p">(</span><span class="n">yPred</span><span class="p">,</span> <span class="n">yObs</span><span class="p">)</span>
+    <span class="c1"># loss  = torch.mean((yPred - yObs)**2)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">5000</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Iteration: </span><span class="si">{:5d}</span><span class="s1"> | Loss: </span><span class="si">{:12}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">loss</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">0</span><span class="p">)))</span>
+        <span class="c1"># print(&quot;Iteration: &quot;, i, &quot; Loss: &quot;, loss.detach().numpy())</span>
+    <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+    <span class="n">opt</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+    <span class="n">opt</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
 
-yPred = singleForwardPassBatched(xObs)
+<span class="n">yPred</span> <span class="o">=</span> <span class="n">singleForwardPassBatched</span><span class="p">(</span><span class="n">xObs</span><span class="p">)</span>
 
-# plot the data
-d = pd.DataFrame({&#39;xObs&#39; : xObs.detach().numpy(),
-                  &#39;yObs&#39; : yObs.detach().numpy(),
-                  &#39;yPred&#39;: yPred.detach().numpy()})
-dWide = pd.melt(d, id_vars = &#39;xObs&#39;, value_vars= [&#39;yObs&#39;, &#39;yPred&#39;])
-sns.scatterplot(data = dWide, x = &#39;xObs&#39;, y = &#39;value&#39;, hue = &#39;variable&#39;, alpha = 0.7)
-x = np.linspace(start = -5, stop =5, num = 1000)
-y = goalFun(x)
-plt.plot(x,y, color=&#39;g&#39;, alpha = 0.5)
-plt.show()
+<span class="c1"># plot the data</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;xObs&#39;</span> <span class="p">:</span> <span class="n">xObs</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span>
+                  <span class="s1">&#39;yObs&#39;</span> <span class="p">:</span> <span class="n">yObs</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span>
+                  <span class="s1">&#39;yPred&#39;</span><span class="p">:</span> <span class="n">yPred</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()})</span>
+<span class="n">dWide</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">id_vars</span> <span class="o">=</span> <span class="s1">&#39;xObs&#39;</span><span class="p">,</span> <span class="n">value_vars</span><span class="o">=</span> <span class="p">[</span><span class="s1">&#39;yObs&#39;</span><span class="p">,</span> <span class="s1">&#39;yPred&#39;</span><span class="p">])</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">dWide</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;xObs&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">hue</span> <span class="o">=</span> <span class="s1">&#39;variable&#39;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.7</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">start</span> <span class="o">=</span> <span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="n">stop</span> <span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">num</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">goalFun</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>

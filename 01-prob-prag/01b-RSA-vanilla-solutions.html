@@ -525,12 +525,12 @@ title="Print to PDF"
 <p>Imports:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import numpy as np
-import seaborn as sns
-import pandas as pd
-import matplotlib.pyplot as plt
-import warnings
-warnings.filterwarnings(&#39;ignore&#39;)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -538,20 +538,20 @@ warnings.filterwarnings(&#39;ignore&#39;)
 <p>Context model:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
-## defining the context
-##################################################
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##################################################</span>
+<span class="c1">## defining the context</span>
+<span class="c1">##################################################</span>
 
-object_names    = [&#39;blue_circle&#39;, &#39;green_square&#39;, &#39;blue_square&#39;]
-utterance_names = [&#39;blue&#39;, &#39;circle&#39;, &#39;green&#39;, &#39;square&#39;]
+<span class="n">object_names</span>    <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;blue_circle&#39;</span><span class="p">,</span> <span class="s1">&#39;green_square&#39;</span><span class="p">,</span> <span class="s1">&#39;blue_square&#39;</span><span class="p">]</span>
+<span class="n">utterance_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="s1">&#39;circle&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="s1">&#39;square&#39;</span><span class="p">]</span>
 
-semantic_meaning = np.array(
-    # blue circle, green square, blue square
-    [[1, 0, 1],  # blue
-     [1, 0, 0],  # circle
-     [0, 1, 0],  # green
-     [0, 1, 1]]  # square,
-    )
+<span class="n">semantic_meaning</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+    <span class="c1"># blue circle, green square, blue square</span>
+    <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>  <span class="c1"># blue</span>
+     <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>  <span class="c1"># circle</span>
+     <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>  <span class="c1"># green</span>
+     <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>  <span class="c1"># square,</span>
+    <span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -559,33 +559,33 @@ semantic_meaning = np.array(
 <p>Helper functions:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
-## helper functions
-##################################################
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##################################################</span>
+<span class="c1">## helper functions</span>
+<span class="c1">##################################################</span>
 
-def softmax(x, axis=1):
-    &quot;&quot;&quot;
-    Softmax function in numpy
-    Parameters
-    ----------
-    x: array
-        An array with any dimensionality
-    axis: int
-        The axis along which to apply the softmax
-    Returns
-    -------
-    array
-        Same shape as x
-    &quot;&quot;&quot;
-    e_x = np.exp(x - np.max(x, axis, keepdims=True))
-    return e_x / e_x.sum(axis=axis, keepdims=True)
+<span class="k">def</span> <span class="nf">softmax</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Softmax function in numpy</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x: array</span>
+<span class="sd">        An array with any dimensionality</span>
+<span class="sd">    axis: int</span>
+<span class="sd">        The axis along which to apply the softmax</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    array</span>
+<span class="sd">        Same shape as x</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">e_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">e_x</span> <span class="o">/</span> <span class="n">e_x</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 
-def normalize(arr, axis=1):
-    &quot;&quot;&quot;
-    Normalize arr along axis
-    &quot;&quot;&quot;
-    return arr / arr.sum(axis, keepdims=True)
+<span class="k">def</span> <span class="nf">normalize</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Normalize arr along axis</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">arr</span> <span class="o">/</span> <span class="n">arr</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -600,31 +600,31 @@ def normalize(arr, axis=1):
 </div></blockquote>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
-## solutions here for exercise 1.1.1
-##################################################
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##################################################</span>
+<span class="c1">## solutions here for exercise 1.1.1</span>
+<span class="c1">##################################################</span>
 
-# 1.
-print(&quot;Part 1&quot;)
-m1 = np.array([[1,2], [3,4]])
-print(&quot;starting point:\n&quot;, m1)
-print(&quot;row-stochastic:\n&quot;, normalize(m1,1))
-print(&quot;col-stochastic:\n&quot;, normalize(m1,0))
+<span class="c1"># 1.</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Part 1&quot;</span><span class="p">)</span>
+<span class="n">m1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">]])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;starting point:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">m1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;row-stochastic:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">normalize</span><span class="p">(</span><span class="n">m1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;col-stochastic:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">normalize</span><span class="p">(</span><span class="n">m1</span><span class="p">,</span><span class="mi">0</span><span class="p">))</span>
 
-# 2.
-print(&quot;\nPart 2&quot;)
-m2 = np.array([[1,2], [3,4], [5,6]])
-print(&quot;starting point:\n&quot;, m2)
-print(&quot;row-stochastic:\n&quot;, softmax(m2,1))
-print(&quot;col-stochastic:\n&quot;, softmax(m2,0))
+<span class="c1"># 2.</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Part 2&quot;</span><span class="p">)</span>
+<span class="n">m2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">]])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;starting point:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">m2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;row-stochastic:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">softmax</span><span class="p">(</span><span class="n">m2</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;col-stochastic:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">softmax</span><span class="p">(</span><span class="n">m2</span><span class="p">,</span><span class="mi">0</span><span class="p">))</span>
 
-# 3.
+<span class="c1"># 3.</span>
 
-print(&quot;\nPart 3&quot;)
-v = np.array([1,2,3])
-print(&quot;starting point:\n&quot;, v)
-print(&quot;softmax:\n&quot;, softmax(np.array([v]),1)[0])
-print(&quot;normalize:\n&quot;, normalize(np.array([v]),1)[0])
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Part 3&quot;</span><span class="p">)</span>
+<span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;starting point:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;softmax:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">softmax</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">v</span><span class="p">]),</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;normalize:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">normalize</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">v</span><span class="p">]),</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -687,76 +687,76 @@ P_L( s \mid u) &amp; \propto P_{sal}(s) \ P_S( u \mid s)
 <p>Implementation:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
-## model parameters
-##################################################
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##################################################</span>
+<span class="c1">## model parameters</span>
+<span class="c1">##################################################</span>
 
-alpha              = 1
-cost_adjectives    = 0.1
-salience_prior_flt = np.array([1,1,1])     # flat
-salience_prior_emp = np.array([71,139,30]) # empirical
+<span class="n">alpha</span>              <span class="o">=</span> <span class="mi">1</span>
+<span class="n">cost_adjectives</span>    <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">salience_prior_flt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>     <span class="c1"># flat</span>
+<span class="n">salience_prior_emp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">71</span><span class="p">,</span><span class="mi">139</span><span class="p">,</span><span class="mi">30</span><span class="p">])</span> <span class="c1"># empirical</span>
 
-##################################################
-## RSA model predictions
-##################################################
+<span class="c1">##################################################</span>
+<span class="c1">## RSA model predictions</span>
+<span class="c1">##################################################</span>
 
 
-def RSA(alpha, cost_adjectives, salience_prior):
-    &quot;&quot;&quot;
-    predictions of the vanilla RSA model for reference game
-    Parameters
-    ----------
-    alpha: float
-        Optimality parameter
-    cost_adjectives: float
-        Differential cost for production of adjectives
-    salience_prior: array
-        Prior over objects
-    Returns
-    -------
-    dictionary
-        Dictionary with keys &#39;speaker&#39; and &#39;listener&#39;
-    &quot;&quot;&quot;
-    costs              = np.array([1.0, 0, 1.0, 0]) * cost_adjectives
-    literal_listener   = normalize(semantic_meaning)
-    util_speaker       = np.log(np.transpose(literal_listener)) - costs
-    pragmatic_speaker  = softmax(alpha * util_speaker)
-    pragmatic_listener = normalize(np.transpose(pragmatic_speaker) * salience_prior)
-    return({&#39;speaker&#39;: pragmatic_speaker, &#39;listener&#39;: pragmatic_listener})
+<span class="k">def</span> <span class="nf">RSA</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">cost_adjectives</span><span class="p">,</span> <span class="n">salience_prior</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    predictions of the vanilla RSA model for reference game</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    alpha: float</span>
+<span class="sd">        Optimality parameter</span>
+<span class="sd">    cost_adjectives: float</span>
+<span class="sd">        Differential cost for production of adjectives</span>
+<span class="sd">    salience_prior: array</span>
+<span class="sd">        Prior over objects</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dictionary</span>
+<span class="sd">        Dictionary with keys &#39;speaker&#39; and &#39;listener&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">costs</span>              <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="o">*</span> <span class="n">cost_adjectives</span>
+    <span class="n">literal_listener</span>   <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">semantic_meaning</span><span class="p">)</span>
+    <span class="n">util_speaker</span>       <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">literal_listener</span><span class="p">))</span> <span class="o">-</span> <span class="n">costs</span>
+    <span class="n">pragmatic_speaker</span>  <span class="o">=</span> <span class="n">softmax</span><span class="p">(</span><span class="n">alpha</span> <span class="o">*</span> <span class="n">util_speaker</span><span class="p">)</span>
+    <span class="n">pragmatic_listener</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">pragmatic_speaker</span><span class="p">)</span> <span class="o">*</span> <span class="n">salience_prior</span><span class="p">)</span>
+    <span class="k">return</span><span class="p">({</span><span class="s1">&#39;speaker&#39;</span><span class="p">:</span> <span class="n">pragmatic_speaker</span><span class="p">,</span> <span class="s1">&#39;listener&#39;</span><span class="p">:</span> <span class="n">pragmatic_listener</span><span class="p">})</span>
 
-RSA_predictions = RSA(alpha, cost_adjectives, salience_prior_flt)
+<span class="n">RSA_predictions</span> <span class="o">=</span> <span class="n">RSA</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">cost_adjectives</span><span class="p">,</span> <span class="n">salience_prior_flt</span><span class="p">)</span>
 
-##################################################
-## cast model predictions to DataFrames
-##################################################
+<span class="c1">##################################################</span>
+<span class="c1">## cast model predictions to DataFrames</span>
+<span class="c1">##################################################</span>
 
-speaker  = pd.DataFrame(data = RSA_predictions[&#39;speaker&#39;],
-                        index = object_names,
-                        columns = utterance_names)
-speaker[&#39;object&#39;] = speaker.index
-print(speaker.round(2))
+<span class="n">speaker</span>  <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">RSA_predictions</span><span class="p">[</span><span class="s1">&#39;speaker&#39;</span><span class="p">],</span>
+                        <span class="n">index</span> <span class="o">=</span> <span class="n">object_names</span><span class="p">,</span>
+                        <span class="n">columns</span> <span class="o">=</span> <span class="n">utterance_names</span><span class="p">)</span>
+<span class="n">speaker</span><span class="p">[</span><span class="s1">&#39;object&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">speaker</span><span class="o">.</span><span class="n">index</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">speaker</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
 
-listener = pd.DataFrame(data    = RSA_predictions[&#39;listener&#39;],
-                        index   = utterance_names,
-                        columns = object_names)
-listener[&#39;utterance&#39;] = listener.index
-print(listener.round(2))
+<span class="n">listener</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span>    <span class="o">=</span> <span class="n">RSA_predictions</span><span class="p">[</span><span class="s1">&#39;listener&#39;</span><span class="p">],</span>
+                        <span class="n">index</span>   <span class="o">=</span> <span class="n">utterance_names</span><span class="p">,</span>
+                        <span class="n">columns</span> <span class="o">=</span> <span class="n">object_names</span><span class="p">)</span>
+<span class="n">listener</span><span class="p">[</span><span class="s1">&#39;utterance&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">listener</span><span class="o">.</span><span class="n">index</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">listener</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
 
-##################################################
-## plotting the results
-##################################################
+<span class="c1">##################################################</span>
+<span class="c1">## plotting the results</span>
+<span class="c1">##################################################</span>
 
-speaker_long = speaker.melt(id_vars = &quot;object&quot;, var_name = &quot;utterance&quot;,
-                            value_name = &quot;probability&quot;, ignore_index = False)
-speaker_plot = sns.FacetGrid(speaker_long, col=&quot;object&quot;)
-speaker_plot.map(sns.barplot, &quot;utterance&quot;, &quot;probability&quot;)
-plt.show()
+<span class="n">speaker_long</span> <span class="o">=</span> <span class="n">speaker</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">id_vars</span> <span class="o">=</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span> <span class="n">var_name</span> <span class="o">=</span> <span class="s2">&quot;utterance&quot;</span><span class="p">,</span>
+                            <span class="n">value_name</span> <span class="o">=</span> <span class="s2">&quot;probability&quot;</span><span class="p">,</span> <span class="n">ignore_index</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+<span class="n">speaker_plot</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">FacetGrid</span><span class="p">(</span><span class="n">speaker_long</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="s2">&quot;object&quot;</span><span class="p">)</span>
+<span class="n">speaker_plot</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">,</span> <span class="s2">&quot;utterance&quot;</span><span class="p">,</span> <span class="s2">&quot;probability&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
-listener_long = listener.melt(id_vars = &quot;utterance&quot;, var_name = &quot;object&quot;,
-                              value_name = &quot;probability&quot;, ignore_index = False)
-listener_plot = sns.FacetGrid(listener_long, col=&quot;utterance&quot;)
-listener_plot.map(sns.barplot, &quot;object&quot;, &quot;probability&quot;)
-plt.show()
+<span class="n">listener_long</span> <span class="o">=</span> <span class="n">listener</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">id_vars</span> <span class="o">=</span> <span class="s2">&quot;utterance&quot;</span><span class="p">,</span> <span class="n">var_name</span> <span class="o">=</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span>
+                              <span class="n">value_name</span> <span class="o">=</span> <span class="s2">&quot;probability&quot;</span><span class="p">,</span> <span class="n">ignore_index</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+<span class="n">listener_plot</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">FacetGrid</span><span class="p">(</span><span class="n">listener_long</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="s2">&quot;utterance&quot;</span><span class="p">)</span>
+<span class="n">listener_plot</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">,</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span> <span class="s2">&quot;probability&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -797,70 +797,70 @@ The previous RSA function was (deliberately!?!) written in such a way that we ca
 </div></blockquote>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
-## defining the context
-##################################################
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##################################################</span>
+<span class="c1">## defining the context</span>
+<span class="c1">##################################################</span>
 
-object_names    = [&#39;blue_circle&#39;, &#39;green_square&#39;, &#39;blue_square&#39;, &#39;red triangle&#39;]
-utterance_names = [&#39;blue&#39;, &#39;circle&#39;, &#39;green&#39;, &#39;square&#39;, &#39;red&#39;, &#39;triangle&#39;]
+<span class="n">object_names</span>    <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;blue_circle&#39;</span><span class="p">,</span> <span class="s1">&#39;green_square&#39;</span><span class="p">,</span> <span class="s1">&#39;blue_square&#39;</span><span class="p">,</span> <span class="s1">&#39;red triangle&#39;</span><span class="p">]</span>
+<span class="n">utterance_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="s1">&#39;circle&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="s1">&#39;square&#39;</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;triangle&#39;</span><span class="p">]</span>
 
-semantic_meaning = np.array(
-    # blue circle, green square, blue square, red triangle
-    [[1, 0, 1, 0],  # blue
-     [1, 0, 0, 0],  # circle
-     [0, 1, 0, 0],  # green
-     [0, 1, 1, 0],  # square
-     [0, 0, 0, 1],  # red,
-     [0, 0, 0, 1]]  # triangle
-    )
+<span class="n">semantic_meaning</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+    <span class="c1"># blue circle, green square, blue square, red triangle</span>
+    <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>  <span class="c1"># blue</span>
+     <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>  <span class="c1"># circle</span>
+     <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>  <span class="c1"># green</span>
+     <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>  <span class="c1"># square</span>
+     <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>  <span class="c1"># red,</span>
+     <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>  <span class="c1"># triangle</span>
+    <span class="p">)</span>
 
-cost_adjectives = 0.1
+<span class="n">cost_adjectives</span> <span class="o">=</span> <span class="mf">0.1</span>
 
-context_model = {
-    &#39;object_names&#39;     : object_names,
-    &#39;utterance_names&#39;  : utterance_names,
-    &#39;semantic_meaning&#39; : semantic_meaning,
-    &#39;costs&#39;            : np.array([1.0, 0, 1.0, 0, 1.0, 0]) * cost_adjectives,
-    &#39;salience_prior&#39;   : np.array([1.0, 1.0, 10.0, 1.0]) / 4
-}
+<span class="n">context_model</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;object_names&#39;</span>     <span class="p">:</span> <span class="n">object_names</span><span class="p">,</span>
+    <span class="s1">&#39;utterance_names&#39;</span>  <span class="p">:</span> <span class="n">utterance_names</span><span class="p">,</span>
+    <span class="s1">&#39;semantic_meaning&#39;</span> <span class="p">:</span> <span class="n">semantic_meaning</span><span class="p">,</span>
+    <span class="s1">&#39;costs&#39;</span>            <span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="o">*</span> <span class="n">cost_adjectives</span><span class="p">,</span>
+    <span class="s1">&#39;salience_prior&#39;</span>   <span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])</span> <span class="o">/</span> <span class="mi">4</span>
+<span class="p">}</span>
 
-def RSARev(alpha, context_model):
-    &quot;&quot;&quot;
-    predictions of the vanilla RSA model for reference game
-    Parameters
-    ----------
-    alpha: float
-        Optimality parameter
-    context_model: dict
-        Objects &amp; their salience, utterances &amp; their meanings &amp; costs
-    Returns
-    -------
-    dictionary
-        Dictionary with keys &#39;speaker&#39; and &#39;listener&#39;
-    &quot;&quot;&quot;
-    costs              = context_model[&#39;costs&#39;]
-    literal_listener   = normalize(context_model[&#39;semantic_meaning&#39;])
-    util_speaker       = np.log(np.transpose(literal_listener)) - costs
-    pragmatic_speaker  = softmax(alpha * util_speaker)
-    pragmatic_listener = normalize(np.transpose(pragmatic_speaker) *
-                                   context_model[&#39;salience_prior&#39;])
-    return({&#39;speaker&#39;: pragmatic_speaker, &#39;listener&#39;: pragmatic_listener})
+<span class="k">def</span> <span class="nf">RSARev</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">context_model</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    predictions of the vanilla RSA model for reference game</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    alpha: float</span>
+<span class="sd">        Optimality parameter</span>
+<span class="sd">    context_model: dict</span>
+<span class="sd">        Objects &amp; their salience, utterances &amp; their meanings &amp; costs</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dictionary</span>
+<span class="sd">        Dictionary with keys &#39;speaker&#39; and &#39;listener&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">costs</span>              <span class="o">=</span> <span class="n">context_model</span><span class="p">[</span><span class="s1">&#39;costs&#39;</span><span class="p">]</span>
+    <span class="n">literal_listener</span>   <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">context_model</span><span class="p">[</span><span class="s1">&#39;semantic_meaning&#39;</span><span class="p">])</span>
+    <span class="n">util_speaker</span>       <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">literal_listener</span><span class="p">))</span> <span class="o">-</span> <span class="n">costs</span>
+    <span class="n">pragmatic_speaker</span>  <span class="o">=</span> <span class="n">softmax</span><span class="p">(</span><span class="n">alpha</span> <span class="o">*</span> <span class="n">util_speaker</span><span class="p">)</span>
+    <span class="n">pragmatic_listener</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">pragmatic_speaker</span><span class="p">)</span> <span class="o">*</span>
+                                   <span class="n">context_model</span><span class="p">[</span><span class="s1">&#39;salience_prior&#39;</span><span class="p">])</span>
+    <span class="k">return</span><span class="p">({</span><span class="s1">&#39;speaker&#39;</span><span class="p">:</span> <span class="n">pragmatic_speaker</span><span class="p">,</span> <span class="s1">&#39;listener&#39;</span><span class="p">:</span> <span class="n">pragmatic_listener</span><span class="p">})</span>
 
-RSA_predictions = RSARev(alpha, context_model)
+<span class="n">RSA_predictions</span> <span class="o">=</span> <span class="n">RSARev</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">context_model</span><span class="p">)</span>
 
-##################################################
-## cast model predictions to DataFrames
-##################################################
+<span class="c1">##################################################</span>
+<span class="c1">## cast model predictions to DataFrames</span>
+<span class="c1">##################################################</span>
 
-speakerRev  = pd.DataFrame(data = RSA_predictions[&#39;speaker&#39;],
-                        index = object_names,
-                        columns = utterance_names)
-print(speakerRev.round(2))
+<span class="n">speakerRev</span>  <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">RSA_predictions</span><span class="p">[</span><span class="s1">&#39;speaker&#39;</span><span class="p">],</span>
+                        <span class="n">index</span> <span class="o">=</span> <span class="n">object_names</span><span class="p">,</span>
+                        <span class="n">columns</span> <span class="o">=</span> <span class="n">utterance_names</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">speakerRev</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
 
-listener = pd.DataFrame(data    = RSA_predictions[&#39;listener&#39;],
-                        index   = utterance_names,
-                        columns = object_names)
-print(listener.round(2))
+<span class="n">listener</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span>    <span class="o">=</span> <span class="n">RSA_predictions</span><span class="p">[</span><span class="s1">&#39;listener&#39;</span><span class="p">],</span>
+                        <span class="n">index</span>   <span class="o">=</span> <span class="n">utterance_names</span><span class="p">,</span>
+                        <span class="n">columns</span> <span class="o">=</span> <span class="n">object_names</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">listener</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -891,14 +891,14 @@ triangle         0.00          0.00         0.00           1.0
 </div></blockquote>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>eps = 0.0001
-semantic_meaning = np.array(
-    # blue circle, green square, blue square
-    [[1-eps, eps  , 1-eps]  ,  # blue
-     [1-eps, eps  , eps]    ,  # circle
-     [eps  , 1-eps, eps]    ,  # green
-     [eps  , 1-eps, 1-eps]]  # square,
-   )
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eps</span> <span class="o">=</span> <span class="mf">0.0001</span>
+<span class="n">semantic_meaning</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+    <span class="c1"># blue circle, green square, blue square</span>
+    <span class="p">[[</span><span class="mi">1</span><span class="o">-</span><span class="n">eps</span><span class="p">,</span> <span class="n">eps</span>  <span class="p">,</span> <span class="mi">1</span><span class="o">-</span><span class="n">eps</span><span class="p">]</span>  <span class="p">,</span>  <span class="c1"># blue</span>
+     <span class="p">[</span><span class="mi">1</span><span class="o">-</span><span class="n">eps</span><span class="p">,</span> <span class="n">eps</span>  <span class="p">,</span> <span class="n">eps</span><span class="p">]</span>    <span class="p">,</span>  <span class="c1"># circle</span>
+     <span class="p">[</span><span class="n">eps</span>  <span class="p">,</span> <span class="mi">1</span><span class="o">-</span><span class="n">eps</span><span class="p">,</span> <span class="n">eps</span><span class="p">]</span>    <span class="p">,</span>  <span class="c1"># green</span>
+     <span class="p">[</span><span class="n">eps</span>  <span class="p">,</span> <span class="mi">1</span><span class="o">-</span><span class="n">eps</span><span class="p">,</span> <span class="mi">1</span><span class="o">-</span><span class="n">eps</span><span class="p">]]</span>  <span class="c1"># square,</span>
+   <span class="p">)</span>
 </pre></div>
 </div>
 </div>

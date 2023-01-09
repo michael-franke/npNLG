@@ -655,11 +655,11 @@ We also will use `seaborn` for plotting, and `matplotlib` for showing the plots.
 Finally, we use the `warnings` package to suppress all warning messages in the notebook.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import torch
-import seaborn as sns
-import matplotlib.pyplot as plt
-import warnings
-warnings.filterwarnings(&#39;ignore&#39;)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -673,10 +673,10 @@ The `torch.distributions` package contains ready-made probability distributions 
 So, here we define the true distribution, and take `nObs` samples from it, the set of which we call “training data”.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>nObs           = 10000
-trueLocation   = 0 # mean of a normal
-trueDist       = torch.distributions.Normal(loc=trueLocation, scale=1.0)
-trainData      = trueDist.sample([nObs])
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nObs</span>           <span class="o">=</span> <span class="mi">10000</span>
+<span class="n">trueLocation</span>   <span class="o">=</span> <span class="mi">0</span> <span class="c1"># mean of a normal</span>
+<span class="n">trueDist</span>       <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">distributions</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">trueLocation</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="n">trainData</span>      <span class="o">=</span> <span class="n">trueDist</span><span class="o">.</span><span class="n">sample</span><span class="p">([</span><span class="n">nObs</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -685,8 +685,8 @@ trainData      = trueDist.sample([nObs])
 The empirical mean need not be identical to the true mean!</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>empirical_mean = torch.mean(trainData)
-print(&#39;Empirical mean (mean of training data): %.5f&#39; % empirical_mean.item())
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">empirical_mean</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">trainData</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Empirical mean (mean of training data): </span><span class="si">%.5f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">empirical_mean</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
@@ -699,8 +699,8 @@ print(&#39;Empirical mean (mean of training data): %.5f&#39; % empirical_mean.it
 <p>Here is a density plot of the training data:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>sns.kdeplot(trainData)
-plt.show()
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">kdeplot</span><span class="p">(</span><span class="n">trainData</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -721,8 +721,8 @@ Since we want to “massage it” through updating, we must tell PyTorch that it
 (NB: For numerical stability we require this parameter to be a 64 bit float. You may try out the exercises below with the default float32 format and compare.)</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>location = torch.tensor(1.0, requires_grad=True, dtype=torch.float64)
-print( location)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">location</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span> <span class="n">location</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -741,8 +741,8 @@ To instantiate it, we need to tell it two things:</p>
 </ol>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>learningRate = 0.0000001
-opt          = torch.optim.SGD([location], lr=learningRate)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">learningRate</span> <span class="o">=</span> <span class="mf">0.0000001</span>
+<span class="n">opt</span>          <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">SGD</span><span class="p">([</span><span class="n">location</span><span class="p">],</span> <span class="n">lr</span><span class="o">=</span><span class="n">learningRate</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -782,7 +782,7 @@ A training step consists of the following parts:</p>
 We obtain our “current best model” by instantiating a distribution like so:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>prediction = torch.distributions.Normal(loc=location, scale=1.0)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">prediction</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">distributions</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">location</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -795,8 +795,8 @@ Goodness can be measured in many ways.
 Here we consider the likelihood: how likely is the training data under the current model?</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>loss     = -torch.sum(prediction.log_prob(trainData))
-print(loss)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">loss</span>     <span class="o">=</span> <span class="o">-</span><span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">prediction</span><span class="o">.</span><span class="n">log_prob</span><span class="p">(</span><span class="n">trainData</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">loss</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -817,8 +817,8 @@ This is the so-called backpropagation step.</p>
 <p>Concretely, at the outset, the gradient information for `location` is “NONE”.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>print(f&quot;Value (initial)                = { location.item()}&quot;)
-print(f&quot;Gradient information (initial) = { location.grad}&quot;)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Value (initial)                = </span><span class="si">{</span><span class="w"> </span><span class="n">location</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Gradient information (initial) = </span><span class="si">{</span><span class="w"> </span><span class="n">location</span><span class="o">.</span><span class="n">grad</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -832,9 +832,9 @@ Gradient information (initial) = None
 <p>We must actively tell the system to backpropagate the information in the gradients, like so:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>loss.backward()
-print(f&quot;Value (after backprop)                = { location.item()}&quot;)
-print(f&quot;Gradient information (after backprop) = { location.grad}&quot;)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Value (after backprop)                = </span><span class="si">{</span><span class="w"> </span><span class="n">location</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Gradient information (after backprop) = </span><span class="si">{</span><span class="w"> </span><span class="n">location</span><span class="o">.</span><span class="n">grad</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -853,9 +853,9 @@ This is what the optimizer does.
 It knows which parameters to update (we told it), so the relevant update function is one associated with the optimizer itself.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>opt.step()
-print(f&quot;Value (after step)                = { location.item()}&quot;)
-print(f&quot;Gradient information (after step) = { location.grad}&quot;)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">opt</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Value (after step)                = </span><span class="si">{</span><span class="w"> </span><span class="n">location</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Gradient information (after step) = </span><span class="si">{</span><span class="w"> </span><span class="n">location</span><span class="o">.</span><span class="n">grad</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -874,9 +874,9 @@ This is because otherwise information would just accumulate in the gradients.
 This zero-ing of the gradients is again something we do holistically (for all parameters to train) through the optimizer object:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>opt.zero_grad()
-print(f&quot;Value (after zero-ing)                = { location.item()}&quot;)
-print(f&quot;Gradient information (after zero-ing) = { location.grad}&quot;)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">opt</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Value (after zero-ing)                = </span><span class="si">{</span><span class="w"> </span><span class="n">location</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Gradient information (after zero-ing) = </span><span class="si">{</span><span class="w"> </span><span class="n">location</span><span class="o">.</span><span class="n">grad</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -894,19 +894,19 @@ Gradient information (after zero-ing) = 0.0
 <p>After having gone through our cycle of parameter updating step-by-step, let’s iterate this in a training loop consisting of `nTrainingSteps`.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>nTrainingSteps= 10000
-print(&#39;\n%5s %24s %15s %15s&#39; %
-      (&quot;step&quot;, &quot;loss&quot;, &quot;estimate&quot;, &quot;diff. target&quot;) )
-for i in range(nTrainingSteps):
-    prediction = torch.distributions.Normal(loc=location, scale=1.0)
-    loss       = -torch.sum(prediction.log_prob(trainData))
-    loss.backward()
-    if (i+1) % 500 == 0:
-        print(&#39;%5d %24.3f %15.5f %15.5f&#39; %
-              (i + 1, loss.item(), location.item(),
-               abs(location.item() - empirical_mean) ) )
-    opt.step()
-    opt.zero_grad()
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nTrainingSteps</span><span class="o">=</span> <span class="mi">10000</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="si">%5s</span><span class="s1"> </span><span class="si">%24s</span><span class="s1"> </span><span class="si">%15s</span><span class="s1"> </span><span class="si">%15s</span><span class="s1">&#39;</span> <span class="o">%</span>
+      <span class="p">(</span><span class="s2">&quot;step&quot;</span><span class="p">,</span> <span class="s2">&quot;loss&quot;</span><span class="p">,</span> <span class="s2">&quot;estimate&quot;</span><span class="p">,</span> <span class="s2">&quot;diff. target&quot;</span><span class="p">)</span> <span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nTrainingSteps</span><span class="p">):</span>
+    <span class="n">prediction</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">distributions</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">location</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+    <span class="n">loss</span>       <span class="o">=</span> <span class="o">-</span><span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">prediction</span><span class="o">.</span><span class="n">log_prob</span><span class="p">(</span><span class="n">trainData</span><span class="p">))</span>
+    <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">500</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%5d</span><span class="s1"> </span><span class="si">%24.3f</span><span class="s1"> </span><span class="si">%15.5f</span><span class="s1"> </span><span class="si">%15.5f</span><span class="s1">&#39;</span> <span class="o">%</span>
+              <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span> <span class="n">location</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span>
+               <span class="nb">abs</span><span class="p">(</span><span class="n">location</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="o">-</span> <span class="n">empirical_mean</span><span class="p">)</span> <span class="p">)</span> <span class="p">)</span>
+    <span class="n">opt</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+    <span class="n">opt</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>

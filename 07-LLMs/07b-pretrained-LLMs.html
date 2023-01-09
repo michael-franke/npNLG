@@ -632,16 +632,16 @@ In particular, we import two modules from the ’transformers’ package which g
 We need ’torch’ for tensor manipulations and ’textwrap’ to prettify output.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
-## import packages
-##################################################
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##################################################</span>
+<span class="c1">## import packages</span>
+<span class="c1">##################################################</span>
 
-from transformers import GPT2TokenizerFast, GPT2LMHeadModel
-from datasets import load_dataset
-import torch
-import textwrap
-import warnings
-warnings.filterwarnings(&#39;ignore&#39;)
+<span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">GPT2TokenizerFast</span><span class="p">,</span> <span class="n">GPT2LMHeadModel</span>
+<span class="kn">from</span> <span class="nn">datasets</span> <span class="kn">import</span> <span class="n">load_dataset</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">textwrap</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -652,13 +652,13 @@ warnings.filterwarnings(&#39;ignore&#39;)
 <p>Here is a small helper function for prettier (?) printing of generated output text:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
-## helper function (nicer printing)
-##################################################
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##################################################</span>
+<span class="c1">## helper function (nicer printing)</span>
+<span class="c1">##################################################</span>
 
-def pretty_print(s):
-    print(&quot;Output:\n&quot; + 80 * &#39;-&#39;)
-    print(textwrap.fill(tokenizer.decode(s, skip_special_tokens=True),80))
+<span class="k">def</span> <span class="nf">pretty_print</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Output:</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="mi">80</span> <span class="o">*</span> <span class="s1">&#39;-&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">textwrap</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">skip_special_tokens</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span><span class="mi">80</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -677,26 +677,26 @@ Here we use the ’gpt2-large’ instance, just because.</p>
 <p>Since different (language) models also use different tokenization, we also use the corresponding tokenizer from the module ’GPT2TokenizerFast’.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
-## instantiating LLM &amp; its tokenizer
-##################################################
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##################################################</span>
+<span class="c1">## instantiating LLM &amp; its tokenizer</span>
+<span class="c1">##################################################</span>
 
-# model_to_use = &quot;gpt2&quot;
-model_to_use = &quot;gpt2-large&quot;
+<span class="c1"># model_to_use = &quot;gpt2&quot;</span>
+<span class="n">model_to_use</span> <span class="o">=</span> <span class="s2">&quot;gpt2-large&quot;</span>
 
-print(&quot;Using model: &quot;, model_to_use)
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Using model: &quot;</span><span class="p">,</span> <span class="n">model_to_use</span><span class="p">)</span>
 
-# get the tokenizer for the pre-trained LM you would like to use
-tokenizer = GPT2TokenizerFast.from_pretrained(model_to_use)
+<span class="c1"># get the tokenizer for the pre-trained LM you would like to use</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">GPT2TokenizerFast</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">model_to_use</span><span class="p">)</span>
 
-# instantiate a model (causal LM)
-model = GPT2LMHeadModel.from_pretrained(model_to_use,
-                                        output_scores=True,
-                                        pad_token_id=tokenizer.eos_token_id)
+<span class="c1"># instantiate a model (causal LM)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">GPT2LMHeadModel</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">model_to_use</span><span class="p">,</span>
+                                        <span class="n">output_scores</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                        <span class="n">pad_token_id</span><span class="o">=</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">eos_token_id</span><span class="p">)</span>
 
-# inspecting the (default) model configuration
-# (it is possible to created models with different configurations)
-print(model.config)
+<span class="c1"># inspecting the (default) model configuration</span>
+<span class="c1"># (it is possible to created models with different configurations)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -757,25 +757,25 @@ First, the input prompt must be translated into tokens, then fed into ’generat
 The output is a tensor of tokens, which must be translated back into human-intelligible words for output.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
-## autoregressive generation
-##################################################
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##################################################</span>
+<span class="c1">## autoregressive generation</span>
+<span class="c1">##################################################</span>
 
-# text to expand
-prompt = &quot;Once a vampire fell in love with a pixie so that they&quot;
+<span class="c1"># text to expand</span>
+<span class="n">prompt</span> <span class="o">=</span> <span class="s2">&quot;Once a vampire fell in love with a pixie so that they&quot;</span>
 
-# translate the prompt into tokens
-input_tokens = tokenizer(prompt, return_tensors=&quot;pt&quot;).input_ids
-print(input_tokens)
+<span class="c1"># translate the prompt into tokens</span>
+<span class="n">input_tokens</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s2">&quot;pt&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">input_ids</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">input_tokens</span><span class="p">)</span>
 
-outputs = model.generate(input_tokens,
-                         max_new_tokens=100,
-                         do_sample=True,
-                         top_k=50,
-                       )
+<span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">input_tokens</span><span class="p">,</span>
+                         <span class="n">max_new_tokens</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+                         <span class="n">do_sample</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                         <span class="n">top_k</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+                       <span class="p">)</span>
 
-print(&quot;\nTop-k sampling:\n&quot;)
-pretty_print(outputs[0])
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Top-k sampling:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">pretty_print</span><span class="p">(</span><span class="n">outputs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -803,15 +803,15 @@ witch
 <p>We can also use beam search through ’generate’ by setting the parameter ’num<sub>beams</sub>’.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>outputs = model.generate(input_tokens,
-                         max_new_tokens=100,
-                         num_beams=6,
-                         no_repeat_ngram_size=4,
-                         early_stopping=True
-                         )
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">input_tokens</span><span class="p">,</span>
+                         <span class="n">max_new_tokens</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+                         <span class="n">num_beams</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+                         <span class="n">no_repeat_ngram_size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+                         <span class="n">early_stopping</span><span class="o">=</span><span class="kc">True</span>
+                         <span class="p">)</span>
 
-print(&quot;\nBeam search:\n&quot;)
-pretty_print(outputs[0])
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Beam search:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">pretty_print</span><span class="p">(</span><span class="n">outputs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -844,22 +844,22 @@ NB: The <span class="math notranslate nohighlight">\(i\)</span>-th word in the s
 The returned object is of type ’<a class="reference external" href="https://huggingface.co/docs/transformers/main/en/main_classes/output#transformers.modeling_outputs.CausalLMOutputWithCrossAttentions">CausalLMOutputWithCrossAttentions</a>’.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
-## retrieving next-word surprisals from GPT-2
-##################################################
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##################################################</span>
+<span class="c1">## retrieving next-word surprisals from GPT-2</span>
+<span class="c1">##################################################</span>
 
-# NB: we can supply tensors of labels (token ids for next-words, no need to right-shift)
-# using -100 in the labels means: &quot;don&#39;t compute this one&quot;
-labels        = torch.clone(input_tokens)
-labels[0,0]   = -100
-output_word2  = model(input_tokens[:,0:2], labels= labels[:,0:2])
-output_prompt = model(input_tokens, labels=input_tokens)
+<span class="c1"># NB: we can supply tensors of labels (token ids for next-words, no need to right-shift)</span>
+<span class="c1"># using -100 in the labels means: &quot;don&#39;t compute this one&quot;</span>
+<span class="n">labels</span>        <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">clone</span><span class="p">(</span><span class="n">input_tokens</span><span class="p">)</span>
+<span class="n">labels</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>   <span class="o">=</span> <span class="o">-</span><span class="mi">100</span>
+<span class="n">output_word2</span>  <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">input_tokens</span><span class="p">[:,</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">],</span> <span class="n">labels</span><span class="o">=</span> <span class="n">labels</span><span class="p">[:,</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">output_prompt</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">input_tokens</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">input_tokens</span><span class="p">)</span>
 
-# negative log-likelihood of provided labels
-nll_word2  = output_word2.loss
-nll_output = output_prompt.loss * input_tokens.size(1)
-print(&quot;NLL of second word: &quot;, nll_word2.item())
-print(&quot;NLL of whole output:&quot;, nll_output.item())
+<span class="c1"># negative log-likelihood of provided labels</span>
+<span class="n">nll_word2</span>  <span class="o">=</span> <span class="n">output_word2</span><span class="o">.</span><span class="n">loss</span>
+<span class="n">nll_output</span> <span class="o">=</span> <span class="n">output_prompt</span><span class="o">.</span><span class="n">loss</span> <span class="o">*</span> <span class="n">input_tokens</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;NLL of second word: &quot;</span><span class="p">,</span> <span class="n">nll_word2</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;NLL of whole output:&quot;</span><span class="p">,</span> <span class="n">nll_output</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
@@ -873,10 +873,10 @@ NLL of whole output: 51.008323669433594
 <p>We can also retrieve the logits (= non-normalized weights prior to the final softmax operation) from the returned object, and so derive the next-word probabilities:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># logits of provided labels
-print(output_word2.logits)
-# next-word log probabilities:
-print(torch.nn.functional.log_softmax(output_word2.logits, dim = 1))
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># logits of provided labels</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">output_word2</span><span class="o">.</span><span class="n">logits</span><span class="p">)</span>
+<span class="c1"># next-word log probabilities:</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">functional</span><span class="o">.</span><span class="n">log_softmax</span><span class="p">(</span><span class="n">output_word2</span><span class="o">.</span><span class="n">logits</span><span class="p">,</span> <span class="n">dim</span> <span class="o">=</span> <span class="mi">1</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -898,20 +898,20 @@ tensor([[[-0.0361, -0.3569, -0.7985,  ..., -0.8819, -0.5188, -0.2351],
 Here is how to access it:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
-## retrieving sequence embedding
-##################################################
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##################################################</span>
+<span class="c1">## retrieving sequence embedding</span>
+<span class="c1">##################################################</span>
 
-# set flag &#39;output_hidden_states&#39; to true
-output = model(input_tokens, output_hidden_states = True)
+<span class="c1"># set flag &#39;output_hidden_states&#39; to true</span>
+<span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">input_tokens</span><span class="p">,</span> <span class="n">output_hidden_states</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
 
-# this is a tuple with first element the embeddings of each token in the input
-hidden_states = output.hidden_states
-# so, access the first object from the tuple
-embeddings = hidden_states[0]
-# and print its size and content
-print(embeddings.size())
-print(&quot;Embedding of last word in input:\n&quot;, embeddings[0,0-1])
+<span class="c1"># this is a tuple with first element the embeddings of each token in the input</span>
+<span class="n">hidden_states</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">hidden_states</span>
+<span class="c1"># so, access the first object from the tuple</span>
+<span class="n">embeddings</span> <span class="o">=</span> <span class="n">hidden_states</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="c1"># and print its size and content</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">embeddings</span><span class="o">.</span><span class="n">size</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Embedding of last word in input:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">embeddings</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -931,19 +931,19 @@ Embedding of last word in input:
 <p>Here is a brief example of how to load a data set of text from Wikipedia, which we need to pre-process a bit (conjoin lines, tokenize) and then feed into the LLM to access the average negative log-likelihood of the sequence.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>##################################################
-## working with datasets
-##################################################
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##################################################</span>
+<span class="c1">## working with datasets</span>
+<span class="c1">##################################################</span>
 
-test = load_dataset(&quot;wikitext&quot;, &quot;wikitext-2-raw-v1&quot;, split=&quot;test&quot;)
-encodings = tokenizer(&quot;\n\n&quot;.join(test[&quot;text&quot;]), return_tensors=&quot;pt&quot;)
+<span class="n">test</span> <span class="o">=</span> <span class="n">load_dataset</span><span class="p">(</span><span class="s2">&quot;wikitext&quot;</span><span class="p">,</span> <span class="s2">&quot;wikitext-2-raw-v1&quot;</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="s2">&quot;test&quot;</span><span class="p">)</span>
+<span class="n">encodings</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">]),</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s2">&quot;pt&quot;</span><span class="p">)</span>
 
-input_tokens = encodings.input_ids[:,10:50]
+<span class="n">input_tokens</span> <span class="o">=</span> <span class="n">encodings</span><span class="o">.</span><span class="n">input_ids</span><span class="p">[:,</span><span class="mi">10</span><span class="p">:</span><span class="mi">50</span><span class="p">]</span>
 
-pretty_print(input_tokens[0])
+<span class="n">pretty_print</span><span class="p">(</span><span class="n">input_tokens</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 
-output = model(input_tokens, labels = input_tokens)
-print(&quot;Average NLL for wikipedia chunk&quot;, output.loss.item())
+<span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">input_tokens</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">input_tokens</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Average NLL for wikipedia chunk&quot;</span><span class="p">,</span> <span class="n">output</span><span class="o">.</span><span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>

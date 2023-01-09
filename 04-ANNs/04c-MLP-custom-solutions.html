@@ -566,8 +566,8 @@ Ideally, produce outputs from ’singleForwardPass’ for all elements of ’xOb
 </div></blockquote>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>print([singleForwardPass(x).detach().numpy().round(2) for x in xObs])
-print(singleForwardPassBatched(xObs))
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">([</span><span class="n">singleForwardPass</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">xObs</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">singleForwardPassBatched</span><span class="p">(</span><span class="n">xObs</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>

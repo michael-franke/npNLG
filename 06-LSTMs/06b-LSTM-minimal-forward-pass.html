@@ -631,10 +631,10 @@ We will also learn about the output of that function.</p>
 <p>We import torch and the neural network library.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import torch
-import torch.nn as nn
-# import time
-# import math
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+<span class="c1"># import time</span>
+<span class="c1"># import math</span>
 </pre></div>
 </div>
 </div>
@@ -645,9 +645,9 @@ import torch.nn as nn
 <p>Our raw input consists of just two sentences.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># starting point: raw text input
-input_raw1 = &quot;Colin was here.&quot;
-input_raw2 = &quot;Colin went away subito.&quot;
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># starting point: raw text input</span>
+<span class="n">input_raw1</span> <span class="o">=</span> <span class="s2">&quot;Colin was here.&quot;</span>
+<span class="n">input_raw2</span> <span class="o">=</span> <span class="s2">&quot;Colin went away subito.&quot;</span>
 </pre></div>
 </div>
 </div>
@@ -662,11 +662,11 @@ In order to achieve  this, we need to collect <em>all</em> words (that are relev
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># vocab definition: all units that we want to model
-# include special tokens:
-# like &quot;[UNK]&quot; for unknown words (here: &quot;subito&quot;)
-vocabulary = [&quot;Colin&quot;, &quot;was&quot;, &quot;here&quot;, &quot;went&quot;, &quot;away&quot;, &quot;[UNK]&quot;, &quot;[EOS]&quot;, &quot;[PAD]&quot;]
-n_vocab = len(vocabulary)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># vocab definition: all units that we want to model</span>
+<span class="c1"># include special tokens:</span>
+<span class="c1"># like &quot;[UNK]&quot; for unknown words (here: &quot;subito&quot;)</span>
+<span class="n">vocabulary</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Colin&quot;</span><span class="p">,</span> <span class="s2">&quot;was&quot;</span><span class="p">,</span> <span class="s2">&quot;here&quot;</span><span class="p">,</span> <span class="s2">&quot;went&quot;</span><span class="p">,</span> <span class="s2">&quot;away&quot;</span><span class="p">,</span> <span class="s2">&quot;[UNK]&quot;</span><span class="p">,</span> <span class="s2">&quot;[EOS]&quot;</span><span class="p">,</span> <span class="s2">&quot;[PAD]&quot;</span><span class="p">]</span>
+<span class="n">n_vocab</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">vocabulary</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -677,13 +677,13 @@ NB: we make sure that all input sequences are of equal length by  adding [PAD] t
 (It is also possible to process various-length sequences, but here we will use padding.)</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># tokenization: sequence of tokens from the vocabulary
-input_tok1 = [&quot;Colin&quot;, &quot;was&quot;, &quot;here&quot;, &quot;[EOS]&quot;, &quot;[PAD]&quot;]
-input_tok2 = [&quot;Colin&quot;, &quot;went&quot;, &quot;away&quot;, &quot;subito&quot;, &quot;[EOS]&quot;]
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># tokenization: sequence of tokens from the vocabulary</span>
+<span class="n">input_tok1</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Colin&quot;</span><span class="p">,</span> <span class="s2">&quot;was&quot;</span><span class="p">,</span> <span class="s2">&quot;here&quot;</span><span class="p">,</span> <span class="s2">&quot;[EOS]&quot;</span><span class="p">,</span> <span class="s2">&quot;[PAD]&quot;</span><span class="p">]</span>
+<span class="n">input_tok2</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Colin&quot;</span><span class="p">,</span> <span class="s2">&quot;went&quot;</span><span class="p">,</span> <span class="s2">&quot;away&quot;</span><span class="p">,</span> <span class="s2">&quot;subito&quot;</span><span class="p">,</span> <span class="s2">&quot;[EOS]&quot;</span><span class="p">]</span>
 
-# indexing: represent input as tensor of indices
-input_ind1 = torch.tensor([0,1,2,6,7])
-input_ind2 = torch.tensor([0,3,4,5,6])
+<span class="c1"># indexing: represent input as tensor of indices</span>
+<span class="n">input_ind1</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">])</span>
+<span class="n">input_ind2</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -692,11 +692,11 @@ input_ind2 = torch.tensor([0,3,4,5,6])
 A batch is, essentially, a list of index-sequences.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>batch_size = 2
-sequence_length = 5
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">batch_size</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">sequence_length</span> <span class="o">=</span> <span class="mi">5</span>
 
-batched_input = torch.cat([input_ind1, input_ind2]).reshape(batch_size, sequence_length)
-print(batched_input)
+<span class="n">batched_input</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">input_ind1</span><span class="p">,</span> <span class="n">input_ind2</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">sequence_length</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">batched_input</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -723,13 +723,13 @@ print(batched_input)
 On instantiation, the embedding is initialized randomly.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># embedding: vector-representation of each word
-# needs parameter for the size of the embedding
-n_embbeding_size = 3
-embedding = nn.Embedding(n_vocab, n_embbeding_size)
-# embedding is a matrix of size (n_vocab, n_embedding_size)
-for p in embedding.parameters():
-    print(p)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># embedding: vector-representation of each word</span>
+<span class="c1"># needs parameter for the size of the embedding</span>
+<span class="n">n_embbeding_size</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">embedding</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Embedding</span><span class="p">(</span><span class="n">n_vocab</span><span class="p">,</span> <span class="n">n_embbeding_size</span><span class="p">)</span>
+<span class="c1"># embedding is a matrix of size (n_vocab, n_embedding_size)</span>
+<span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">embedding</span><span class="o">.</span><span class="n">parameters</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -757,9 +757,9 @@ tensor([[-1.6845,  1.0559, -0.1922],
 Check the dimensions of the output:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># the &#39;embedding&#39; takes batched input
-input_embedding = embedding(batched_input)
-print(input_embedding)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># the &#39;embedding&#39; takes batched input</span>
+<span class="n">input_embedding</span> <span class="o">=</span> <span class="n">embedding</span><span class="p">(</span><span class="n">batched_input</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">input_embedding</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -794,14 +794,14 @@ tensor([[[-1.6845,  1.0559, -0.1922],
 NB: we define a <strong>stacked</strong> LSTM, with two layers; we must declare to use ’batch first’ mode, which expects the input batches in the first dimension of the input (which is how we have set up the input).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>n_hidden_size = 4
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n_hidden_size</span> <span class="o">=</span> <span class="mi">4</span>
 
-# instantiate an LSTM
-lstm = nn.LSTM(input_size  = n_embbeding_size,
-               hidden_size = n_hidden_size,  # size of hidden state
-               num_layers  = 2,              # number of stacked layers
-               batch_first = True            # expect input in format (batch, sequence, token)
-               )
+<span class="c1"># instantiate an LSTM</span>
+<span class="n">lstm</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">LSTM</span><span class="p">(</span><span class="n">input_size</span>  <span class="o">=</span> <span class="n">n_embbeding_size</span><span class="p">,</span>
+               <span class="n">hidden_size</span> <span class="o">=</span> <span class="n">n_hidden_size</span><span class="p">,</span>  <span class="c1"># size of hidden state</span>
+               <span class="n">num_layers</span>  <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>              <span class="c1"># number of stacked layers</span>
+               <span class="n">batch_first</span> <span class="o">=</span> <span class="kc">True</span>            <span class="c1"># expect input in format (batch, sequence, token)</span>
+               <span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -814,16 +814,16 @@ lstm = nn.LSTM(input_size  = n_embbeding_size,
 </ol>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># apply LSTM function (initial hidden state and initial cell state default to all 0s)
-# LSTM maps a (batched) sequence of embeddings, onto a triple:
-#   outcome: sequence of hidden states in final layer for each word
-#   hidden:  hidden states of last word for each layer
-#   cell:    cell states of last word for each layer
-output, (hidden, cell) = lstm(input = input_embedding)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># apply LSTM function (initial hidden state and initial cell state default to all 0s)</span>
+<span class="c1"># LSTM maps a (batched) sequence of embeddings, onto a triple:</span>
+<span class="c1">#   outcome: sequence of hidden states in final layer for each word</span>
+<span class="c1">#   hidden:  hidden states of last word for each layer</span>
+<span class="c1">#   cell:    cell states of last word for each layer</span>
+<span class="n">output</span><span class="p">,</span> <span class="p">(</span><span class="n">hidden</span><span class="p">,</span> <span class="n">cell</span><span class="p">)</span> <span class="o">=</span> <span class="n">lstm</span><span class="p">(</span><span class="nb">input</span> <span class="o">=</span> <span class="n">input_embedding</span><span class="p">)</span>
 
-print(&quot;\nLSTM embeddings in last layer for each word:\n&quot;, output)
-print(&quot;\nHidden state of last word for each layer:\n&quot;, hidden)
-print(&quot;\nCell state of last word for each layer:\n&quot;, cell)
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">LSTM embeddings in last layer for each word:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">output</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Hidden state of last word for each layer:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">hidden</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Cell state of last word for each layer:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">cell</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -874,8 +874,8 @@ Cell state of last word for each layer:
 We therefore map the LSTM embeddings of the last word onto a vector of the same length as the vocabulary size.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>linear_map = nn.Linear(n_hidden_size, n_vocab)
-weights = linear_map(output)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">linear_map</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">n_hidden_size</span><span class="p">,</span> <span class="n">n_vocab</span><span class="p">)</span>
+<span class="n">weights</span> <span class="o">=</span> <span class="n">linear_map</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -886,13 +886,13 @@ weights = linear_map(output)
 <p>Finally, we map the non-normalized weights onto next-word probabilities with a softmax transformation:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># get probabilities from output weights
-def next_word_probabilities(weights):
-    softmax = torch.nn.Softmax(dim=2)
-    return(softmax(weights).detach().numpy().round(4))
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># get probabilities from output weights</span>
+<span class="k">def</span> <span class="nf">next_word_probabilities</span><span class="p">(</span><span class="n">weights</span><span class="p">):</span>
+    <span class="n">softmax</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Softmax</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">softmax</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
 
-# without any training: next word weights have high entropy
-print(next_word_probabilities(weights))
+<span class="c1"># without any training: next word weights have high entropy</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">next_word_probabilities</span><span class="p">(</span><span class="n">weights</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
