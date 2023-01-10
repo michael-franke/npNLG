@@ -16,5 +16,5 @@ We will visit a neural image captioner written from scratch, and also consult wa
 
 ## Slides
 
-Here are the [slides for this session]().
+Here are the [slides for this session](<https://michael-franke.github.io/npNLG/08-grounded-LMs.pdf>).
 
