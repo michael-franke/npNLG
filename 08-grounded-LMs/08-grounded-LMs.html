@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Schedule &#8212; Neural Pragmatic Natural Language Generation</title>
+    <title>Grounded Language Models &#8212; Neural Pragmatic Natural Language Generation</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -52,8 +52,8 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Slides from session 1" href="00d-slides.html" />
-    <link rel="prev" title="Practicalities" href="00b-practicalities.html" />
+    <link rel="next" title="Sheet 8.1: An LSTM-based image captioner for the annotated 3D-Shapes data set" href="08b-LSTM-3DShapes.html" />
+    <link rel="prev" title="Sheet 7.1: Using pretrained LLMs w/ the ‘transformers’ package" href="../07-LLMs/07b-pretrained-LLMs.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -118,24 +118,24 @@ const thebe_selector_output = ".output, .cell_output"
   00 organization
  </span>
 </p>
-<ul class="current nav bd-sidenav">
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="00a-overview.html">
+  <a class="reference internal" href="../00-organization/00a-overview.html">
    Course overview
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="00b-practicalities.html">
+  <a class="reference internal" href="../00-organization/00b-practicalities.html">
    Practicalities
   </a>
  </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../00-organization/00c-schedule.html">
    Schedule
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="00d-slides.html">
+  <a class="reference internal" href="../00-organization/00d-slides.html">
    Slides from session 1
   </a>
  </li>
@@ -299,19 +299,19 @@ const thebe_selector_output = ".output, .cell_output"
   08 Grounded language models
  </span>
 </p>
-<ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../08-grounded-LMs/08-grounded-LMs.html">
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
    Grounded Language Models
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../08-grounded-LMs/08b-LSTM-3DShapes.html">
+  <a class="reference internal" href="08b-LSTM-3DShapes.html">
    Sheet 8.1: An LSTM-based image captioner for the annotated 3D-Shapes data set
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../08-grounded-LMs/08c-NIC-pretrained.html">
+  <a class="reference internal" href="08c-NIC-pretrained.html">
    Sheet 8.2: Using 🤗’s pretrained models for image captioning
   </a>
  </li>
@@ -405,7 +405,7 @@ title="Source repository"
       </li>
       
       <li>
-        <a href="https://github.com/michael-franke/npNLG/issues/new?title=Issue%20on%20page%20%2F00-organization/00c-schedule.html&body=Your%20issue%20content%20here."
+        <a href="https://github.com/michael-franke/npNLG/issues/new?title=Issue%20on%20page%20%2F08-grounded-LMs/08-grounded-LMs.html&body=Your%20issue%20content%20here."
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -433,7 +433,7 @@ title="Open an issue"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="../_sources/00-organization/00c-schedule.md"
+        <a href="../_sources/08-grounded-LMs/08-grounded-LMs.md"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -493,13 +493,13 @@ title="Print to PDF"
     <nav id="bd-toc-nav" aria-label="Page">
         <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#references">
-   References
+  <a class="reference internal nav-link" href="#learning-goals-for-this-session">
+   Learning goals for this session
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#list-of-change-stamps">
-   List of change stamps
+  <a class="reference internal nav-link" href="#slides">
+   Slides
   </a>
  </li>
 </ul>
@@ -511,7 +511,7 @@ title="Print to PDF"
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Schedule</h1>
+                <h1>Grounded Language Models</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -522,13 +522,13 @@ title="Print to PDF"
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#references">
-   References
+  <a class="reference internal nav-link" href="#learning-goals-for-this-session">
+   Learning goals for this session
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#list-of-change-stamps">
-   List of change stamps
+  <a class="reference internal nav-link" href="#slides">
+   Slides
   </a>
  </li>
 </ul>
@@ -541,94 +541,22 @@ title="Print to PDF"
                 
               <div>
                 
-  <section class="tex2jax_ignore mathjax_ignore" id="schedule">
-<h1>Schedule<a class="headerlink" href="#schedule" title="Permalink to this headline">#</a></h1>
-<p>Caveat: Schedule is bound to change. See change stamps below.</p>
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<colgroup>
-<col  class="org-right" />
-<col  class="org-left" />
-<col  class="org-left" />
-<col  class="org-left" />
-<col  class="org-left" />
-</colgroup>
-<thead>
-<tr>
-<th scope="col" class="org-right">session</th>
-<th scope="col" class="org-left">date</th>
-<th scope="col" class="org-left">topic</th>
-<th scope="col" class="org-left">resource</th>
-<th scope="col" class="org-left">&#xa0;</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="org-right">1</td>
-<td class="org-left">Oct 26</td>
-<td class="org-left">overview: course &amp; NLG</td>
-<td class="org-left"><a href="http://dx.doi.org/10.1613/jair.5477">Gatt &amp; Krahmer (2018)</a></td>
-<td class="org-left">&#xa0;</td>
-</tr>
-<tr>
-<td class="org-right">2</td>
-<td class="org-left">Nov 2</td>
-<td class="org-left">pragmatics, reference games, RSA</td>
-<td class="org-left"><a href="https://arxiv.org/abs/2105.09867">Scontras et al. (2021)</a></td>
-<td class="org-left">&#xa0;</td>
-</tr>
-<tr>
-<td class="org-right">3</td>
-<td class="org-left">Nov 9</td>
-<td class="org-left">PyTorch basics</td>
-<td class="org-left"><a href="https://pytorch.org/tutorials/beginner/basics/intro.html">PyTorch tutorial</a></td>
-<td class="org-left">&#xa0;</td>
-</tr>
-<tr>
-<td class="org-right">4</td>
-<td class="org-left">Nov 16</td>
-<td class="org-left">Optimization</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-<tr>
-<td class="org-right">5</td>
-<td class="org-left">Nov 23</td>
-<td class="org-left">ANNs</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-<tr>
-<td class="org-right">6</td>
-<td class="org-left">Dec 7</td>
-<td class="org-left">RNNs</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-<tr>
-<td class="org-right">7</td>
-<td class="org-left">Dec 14</td>
-<td class="org-left">LSTMs, decoding &amp; train regimes</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-<tr>
-<td class="org-right">8</td>
-<td class="org-left">Dec 21</td>
-<td class="org-left">transformers</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-</tbody>
-</table>
-<section id="references">
-<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">#</a></h2>
-<p>Gatt, A., &amp; Krahmer, E. (2018). Survey of the state of the art in natural language generation: core tasks, applications and evaluation. Journal of Artificial Intelligence Research, 61, 65–170. <a class="reference external" href="http://dx.doi.org/10.1613/jair.5477">http://dx.doi.org/10.1613/jair.5477</a></p>
-<p>Scontras, G., Tessler, M. H., &amp; Franke, M. (2021). A practical introduction to the rational speech act modeling framework. <a class="reference external" href="https://arxiv.org/abs/2105.09867">https://arxiv.org/abs/2105.09867</a></p>
+  <section class="tex2jax_ignore mathjax_ignore" id="grounded-language-models">
+<h1>Grounded Language Models<a class="headerlink" href="#grounded-language-models" title="Permalink to this headline">#</a></h1>
+<p>A grounded language model is a language model that generates language for some meaningful representation like a table, an image or a video.
+We will focus on image captioning, i.e., models that produce a text-based description of an image, a so-called <em>image caption</em>.</p>
+<p>We will visit a neural image captioner written from scratch, and also consult ways of fine-tuning pre-trained large image processing models and language models for image captioning.</p>
+<section id="learning-goals-for-this-session">
+<h2>Learning goals for this session<a class="headerlink" href="#learning-goals-for-this-session" title="Permalink to this headline">#</a></h2>
+<ol class="simple">
+<li><p>understand basic architectures for grounded LMs (with a focus on neural image captioning)</p></li>
+<li><p>critically assess research papers on (grounded) LMs</p></li>
+<li><p>interpret and apply common evaluation metrics</p></li>
+</ol>
 </section>
-<section id="list-of-change-stamps">
-<h2>List of change stamps<a class="headerlink" href="#list-of-change-stamps" title="Permalink to this headline">#</a></h2>
-<p>Last change: <span class="timestamp-wrapper"><span class="timestamp">[2022-12-07 Wed]</span></span></p>
-<p>Previous changes:   <span class="timestamp-wrapper"><span class="timestamp">[2022-11-09 Wed] </span></span> , <span class="timestamp-wrapper"><span class="timestamp">[2022-11-01 Tue]</span></span>, <span class="timestamp-wrapper"><span class="timestamp">[2022-10-15 Sat]</span></span></p>
+<section id="slides">
+<h2>Slides<a class="headerlink" href="#slides" title="Permalink to this headline">#</a></h2>
+<p>Here are the <span class="xref myst">slides for this session</span>.</p>
 </section>
 </section>
 
@@ -645,7 +573,7 @@ title="Print to PDF"
         },
         kernelOptions: {
             kernelName: "python3",
-            path: "./00-organization"
+            path: "./08-grounded-LMs"
         },
         predefinedOutput: true
     }
@@ -659,17 +587,17 @@ title="Print to PDF"
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="00b-practicalities.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="../07-LLMs/07b-pretrained-LLMs.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Practicalities</p>
+            <p class="prev-next-title">Sheet 7.1: Using pretrained LLMs w/ the ‘transformers’ package</p>
         </div>
     </a>
-    <a class='right-next' id="next-link" href="00d-slides.html" title="next page">
+    <a class='right-next' id="next-link" href="08b-LSTM-3DShapes.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Slides from session 1</p>
+        <p class="prev-next-title">Sheet 8.1: An LSTM-based image captioner for the annotated 3D-Shapes data set</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>

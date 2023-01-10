@@ -1,0 +1,1082 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Sheet 8.2: Using 🤗’s pretrained models for image captioning &#8212; Neural Pragmatic Natural Language Generation</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Sheet 8.1: An LSTM-based image captioner for the annotated 3D-Shapes data set" href="08b-LSTM-3DShapes.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/npNLG-logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Neural Pragmatic Natural Language Generation</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../000-intro.html">
+                    Pragmatic Natural Language Generation with Neural Language Models
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  00 organization
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../00-organization/00a-overview.html">
+   Course overview
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../00-organization/00b-practicalities.html">
+   Practicalities
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../00-organization/00c-schedule.html">
+   Schedule
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../00-organization/00d-slides.html">
+   Slides from session 1
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  01 Probabilistic pragmatics
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../01-prob-prag/01a-prob-prag.html">
+   Probabilistic pragmatics
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../01-prob-prag/01b-RSA-vanilla.html">
+   Sheet 1.1: Vanilla RSA
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../01-prob-prag/01c-RSA-politeness.html">
+   Sheet 1.2: RSA with politeness
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  02 PyTorch Basics
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../02-pytorch/02a-pytorch-basics.html">
+   Basics of PyTorch
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../02-pytorch/02b-pytorch-intro.html">
+   Sheet 2.1: PyTorch essentials
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../02-pytorch/02c-MLE.html">
+   Sheet 2.2: ML-estimation
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  03 Optimization
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../03-optimization/03a-optimization.html">
+   Optimization in PyTorch
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../03-optimization/03b-gradient-descent.html">
+   Sheet 3.1: Gradient descent by hand
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../03-optimization/03c-RSA-pytorch.html">
+   Sheet 3.2: Optimizing an RSA model
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  04 ANNs in PyTorch
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../04-ANNs/04a-ANNs.html">
+   Artificial neural networks
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../04-ANNs/04b-algebra.html">
+   Linear algebra
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../04-ANNs/04c-MLP-custom.html">
+   Sheet 4.1: Non-linear regression (custom MLP)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../04-ANNs/04d-MLP-pytorch.html">
+   Sheet 4.2: Non-linear regression (MLP w/ PyTorch modules)
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  05 RNNs in PyTorch
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../05-RNNs/05a-RNNs.html">
+   Recurrent neural networks
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../05-RNNs/05b-char-level-RNN.html">
+   Sheet 5.1: Character-level sequence modeling w/ RNNs
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  06 LSTMs in PyTorch
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../06-LSTMs/06a-LSTMs.html">
+   Long-Short Term Memory (LSTM) models
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../06-LSTMs/06b-LSTM-minimal-forward-pass.html">
+   Sheet 6.1: Anatomy of a single LSTM forward pass
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../06-LSTMs/06c-char-level-LSTM.html">
+   Sheet 6.2: Character-level sequence modeling w/ LSTMs
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../06-LSTMs/06d-decoding-GPT2.html">
+   Sheet 6.3: Decoding strategies
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  07 Large language models
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../07-LLMs/07a-LLMs.html">
+   Large Language Models
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../07-LLMs/07b-pretrained-LLMs.html">
+   Sheet 7.1: Using pretrained LLMs w/ the ‘transformers’ package
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  08 Grounded language models
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="08-grounded-LMs.html">
+   Grounded Language Models
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="08b-LSTM-3DShapes.html">
+   Sheet 8.1: An LSTM-based image captioner for the annotated 3D-Shapes data set
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Sheet 8.2: Using 🤗’s pretrained models for image captioning
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/michael-franke/npNLG/main?urlpath=tree/neural_pragmatic_nlg/08-grounded-LMs/08c-NIC-pretrained.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://colab.research.google.com/github/michael-franke/npNLG/blob/main/neural_pragmatic_nlg/08-grounded-LMs/08c-NIC-pretrained.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Colab"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../_static/images/logo_colab.png">
+  </span>
+<span class="headerbtn__text-container">Colab</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/michael-franke/npNLG"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/michael-franke/npNLG/issues/new?title=Issue%20on%20page%20%2F08-grounded-LMs/08c-NIC-pretrained.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../_sources/08-grounded-LMs/08c-NIC-pretrained.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#packages">
+   Packages
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#loading-the-pretrained-model-and-its-helper-components">
+   Loading the pretrained model and its helper components
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#generating-captions">
+   Generating captions
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#fine-tuning-on-the-a3ds-data-set">
+   Fine-tuning on the A3DS data set
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#the-dataset-object">
+     The ’Dataset’ object
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#creating-a-dataloader">
+     Creating a ’DataLoader’
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#fine-tuning-training">
+     Fine-tuning training
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Sheet 8.2: Using 🤗’s pretrained models for image captioning</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#packages">
+   Packages
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#loading-the-pretrained-model-and-its-helper-components">
+   Loading the pretrained model and its helper components
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#generating-captions">
+   Generating captions
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#fine-tuning-on-the-a3ds-data-set">
+   Fine-tuning on the A3DS data set
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#the-dataset-object">
+     The ’Dataset’ object
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#creating-a-dataloader">
+     Creating a ’DataLoader’
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#fine-tuning-training">
+     Fine-tuning training
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section class="tex2jax_ignore mathjax_ignore" id="sheet-8-2-using-s-pretrained-models-for-image-captioning">
+<h1>Sheet 8.2: Using 🤗’s pretrained models for image captioning<a class="headerlink" href="#sheet-8-2-using-s-pretrained-models-for-image-captioning" title="Permalink to this headline">#</a></h1>
+<p><strong>Author:</strong> Michael Franke</p>
+<p>In this tutorial, we will learn how to use 🤗’s ’transformers’ package to access large and powerful pre-trained image processing and language models.
+We learn how to instantiate a pre-trained architecture, how to get predictions for arbitrary input, and how to fine-tune the pre-trained models for the A3DS data set.</p>
+<p>We use the “nlpconnect/vit-gpt2-image-captioning” pre-trained image captioner, which uses an instance of VIT for image encoding and GTP-2 for decoding via causal language modeling.</p>
+<section id="packages">
+<h2>Packages<a class="headerlink" href="#packages" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##################################################</span>
+<span class="c1">## import packages</span>
+<span class="c1">##################################################</span>
+
+<span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">GPT2TokenizerFast</span><span class="p">,</span> <span class="n">ViTImageProcessor</span><span class="p">,</span> <span class="n">VisionEncoderDecoderModel</span>
+<span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">Dataset</span>
+<span class="kn">from</span> <span class="nn">torchtext.data</span> <span class="kn">import</span> <span class="n">get_tokenizer</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+<span class="c1"># from torchvision import transforms</span>
+<span class="c1"># from datasets import load_dataset</span>
+<span class="c1"># import torch.nn as nn</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We need to import the general ’VisionEncoderDecoderModel’ module from the ’transformers’ package, as well as the tokenizer for the decoder and the image processor for the encoder component (here GPT2 and VIT).
+The ’requests’ package allows us to open pictures from URLs (which is tons of fun when generating captions for images).</p>
+</section>
+<section id="loading-the-pretrained-model-and-its-helper-components">
+<h2>Loading the pretrained model and its helper components<a class="headerlink" href="#loading-the-pretrained-model-and-its-helper-components" title="Permalink to this headline">#</a></h2>
+<p>We load the pre-trained neural image captioner like so:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model_raw</span> <span class="o">=</span> <span class="n">VisionEncoderDecoderModel</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;nlpconnect/vit-gpt2-image-captioning&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>In order to be able to feed this image+language model with images and language, we need an image processor and a tokenizer that fits the model components used for encoding and decoding.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">image_processor</span> <span class="o">=</span> <span class="n">ViTImageProcessor</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;nlpconnect/vit-gpt2-image-captioning&quot;</span><span class="p">)</span>
+<span class="n">tokenizer</span>       <span class="o">=</span> <span class="n">GPT2TokenizerFast</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;nlpconnect/vit-gpt2-image-captioning&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="generating-captions">
+<h2>Generating captions<a class="headerlink" href="#generating-captions" title="Permalink to this headline">#</a></h2>
+<p>You can insert URLs for pictures of your liking in this code to generate captions:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">show_n_generate</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">greedy</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">model</span> <span class="o">=</span> <span class="n">model_raw</span><span class="p">):</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">stream</span> <span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">raw</span><span class="p">)</span>
+    <span class="n">pixel_values</span>   <span class="o">=</span> <span class="n">image_processor</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">return_tensors</span> <span class="o">=</span><span class="s2">&quot;pt&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">pixel_values</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">image</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">greedy</span><span class="p">:</span>
+        <span class="n">generated_ids</span>  <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">pixel_values</span><span class="p">,</span> <span class="n">max_new_tokens</span> <span class="o">=</span> <span class="mi">30</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">generated_ids</span>  <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span>
+            <span class="n">pixel_values</span><span class="p">,</span>
+            <span class="n">do_sample</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">max_new_tokens</span> <span class="o">=</span> <span class="mi">30</span><span class="p">,</span>
+            <span class="n">top_k</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">generated_text</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">batch_decode</span><span class="p">(</span><span class="n">generated_ids</span><span class="p">,</span> <span class="n">skip_special_tokens</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">generated_text</span><span class="p">)</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;http://images.cocodataset.org/val2017/000000039769.jpg&quot;</span>
+<span class="c1"># url = &quot;https://raw.githubusercontent.com/michael-franke/npNLG/main/neural_pragmatic_nlg/pics/06-3DS-example.jpg&quot;</span>
+<span class="c1"># url = &quot;https://img.welt.de/img/sport/mobile102025155/9292509877-ci102l-w1024/hrubesch-rummenigge-BM-Berlin-Gijon-jpg.jpg&quot;</span>
+<span class="c1"># url = &quot;https://faroutmagazine.co.uk/static/uploads/2021/09/The-Cover-Uncovered-The-severity-of-Rage-Against-the-Machines-political-message.jpg&quot;</span>
+<span class="c1"># url = &quot;https://media.npr.org/assets/img/2022/03/13/2ukraine-stamp_custom-30c6e3889c98487086d76869f8ba6a8bfd2fd5a1.jpg&quot;</span>
+
+<span class="n">show_n_generate</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">greedy</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>two cat laying on a bed and one is sleeping
+</pre></div>
+</div>
+<img alt="../_images/08c-NIC-pretrained_12_1.png" src="../_images/08c-NIC-pretrained_12_1.png" />
+</div>
+</div>
+<blockquote>
+<div><p><strong><span style=&ldquo;color:#D83D2B;&rdquo;>Exercise 8.2.1: Explore predictions of pre-trained model</span></strong></p>
+<ol class="simple">
+<li><p>[Just for yourselves] Explore the predictions for different pictures. Make sure to also try out stochastic predictions (setting the parameter ’greedy’ to ’False’) for the 3D-shape picture. How truthful / adequate are the descriptions in general? Do they tell you a bit about what this model was trained on?</p></li>
+</ol>
+</div></blockquote>
+</section>
+<section id="fine-tuning-on-the-a3ds-data-set">
+<h2>Fine-tuning on the A3DS data set<a class="headerlink" href="#fine-tuning-on-the-a3ds-data-set" title="Permalink to this headline">#</a></h2>
+<p>The following code gives us PyTorch ’Dataset’ and ’DataLoader’ objects, with which to handle a 1k-subset of images and annotations from the A3DS data set.
+It is the same as in Sheet 8.1.</p>
+<section id="the-dataset-object">
+<h3>The ’Dataset’ object<a class="headerlink" href="#the-dataset-object" title="Permalink to this headline">#</a></h3>
+<p>Here is the definition of the ’Dataset’ object.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">A3DS</span><span class="p">(</span><span class="n">Dataset</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Dataset class for loading the dataset of images and captions from the 3dshapes dataset.</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">    ---------</span>
+<span class="sd">    num_labels: int</span>
+<span class="sd">        Number of distinct captions to sample for each image. Relevant for using the dataloader for training models.</span>
+<span class="sd">    labels_type: str</span>
+<span class="sd">        &quot;long&quot; or &quot;short&quot;. Indicates whether long or short captions should be used.</span>
+<span class="sd">    run_inference: bool</span>
+<span class="sd">        Flag indicating whether this dataset will be used for performing inference with a trained image captioner.</span>
+<span class="sd">    batch_size: int</span>
+<span class="sd">        Batch size. Has to be 1 in order to save the example image-caption pairs.</span>
+<span class="sd">    vocab_file: str</span>
+<span class="sd">        Name of vocab file.</span>
+<span class="sd">    start_token: str</span>
+<span class="sd">        Start token.</span>
+<span class="sd">    end_token: str</span>
+<span class="sd">        End token.</span>
+<span class="sd">    unk_token: str</span>
+<span class="sd">        Token to be used when encoding unknown tokens.</span>
+<span class="sd">    pad_token: str</span>
+<span class="sd">        Pad token to be used for padding captions tp max_sequence_length.</span>
+<span class="sd">    max_sequence_length: int</span>
+<span class="sd">        Length to which all captions are padded / truncated.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">path</span><span class="o">=</span><span class="s2">&quot;A3DS&quot;</span><span class="p">,</span>
+            <span class="n">num_labels</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="c1"># number of ground truth labels to retrieve per image</span>
+            <span class="n">labels_type</span><span class="o">=</span><span class="s2">&quot;long&quot;</span><span class="p">,</span> <span class="c1"># alternative: short</span>
+            <span class="n">run_inference</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="c1"># depending on this flag, check presence of model weights</span>
+            <span class="n">batch_size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+            <span class="n">vocab_file</span><span class="o">=</span><span class="s2">&quot;vocab.pkl&quot;</span><span class="p">,</span>
+            <span class="n">start_token</span><span class="o">=</span><span class="s2">&quot;START&quot;</span><span class="p">,</span>  <span class="c1"># might be unnecessary since vocab file is fixed anyways</span>
+            <span class="n">end_token</span><span class="o">=</span><span class="s2">&quot;END&quot;</span><span class="p">,</span>
+            <span class="n">unk_token</span><span class="o">=</span><span class="s2">&quot;UNK&quot;</span><span class="p">,</span>
+            <span class="n">pad_token</span><span class="o">=</span><span class="s2">&quot;PAD&quot;</span><span class="p">,</span>
+            <span class="n">max_sequence_length</span><span class="o">=</span><span class="mi">26</span><span class="p">,</span> <span class="c1"># important for padding length</span>
+        <span class="p">):</span>
+
+        <span class="c1"># check vocab file exists</span>
+        <span class="k">assert</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">vocab_file</span><span class="p">)),</span> <span class="s2">&quot;Make sure the vocab file exists in the directory passed to the dataloader (see README)&quot;</span>
+
+        <span class="c1"># check if image file exists</span>
+        <span class="k">assert</span> <span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;sandbox_3Dshapes_1000.pkl&quot;</span><span class="p">))</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;sandbox_3Dshapes_resnet50_features_1000.pt&quot;</span><span class="p">)),</span> <span class="s2">&quot;Make sure the sandbox dataset exists in the directory passed to the dataloader (see README)&quot;</span>
+
+        <span class="k">if</span> <span class="n">labels_type</span> <span class="o">==</span> <span class="s2">&quot;long&quot;</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="n">num_labels</span> <span class="o">&lt;=</span> <span class="mi">20</span><span class="p">,</span> <span class="s2">&quot;Maximally 20 distinct image-long caption pairs can be created for one image&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="n">num_labels</span> <span class="o">&lt;=</span> <span class="mi">27</span><span class="p">,</span> <span class="s2">&quot;Maximally 27 distinct image-short caption pairs can be created for one image&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span> <span class="o">=</span> <span class="n">batch_size</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">vocab_file</span><span class="p">),</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">vf</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">vocab</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">vf</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_sequence_length</span> <span class="o">=</span> <span class="n">max_sequence_length</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">start_token</span> <span class="o">=</span> <span class="n">start_token</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">end_token</span> <span class="o">=</span> <span class="n">end_token</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">unk_token</span> <span class="o">=</span> <span class="n">unk_token</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pad_token</span> <span class="o">=</span> <span class="n">pad_token</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">get_tokenizer</span><span class="p">(</span><span class="s2">&quot;basic_english&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">embedded_imgs</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;sandbox_3Dshapes_resnet50_features_1000.pt&quot;</span><span class="p">))</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;sandbox_3Dshapes_1000.pkl&quot;</span><span class="p">),</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sandbox_file</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">images</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sandbox_file</span><span class="p">[</span><span class="s2">&quot;images&quot;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">numeric_labels</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sandbox_file</span><span class="p">[</span><span class="s2">&quot;labels_numeric&quot;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">labels_long</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sandbox_file</span><span class="p">[</span><span class="s2">&quot;labels_long&quot;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">labels_short</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sandbox_file</span><span class="p">[</span><span class="s2">&quot;labels_short&quot;</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">labels_type</span> <span class="o">==</span> <span class="s2">&quot;long&quot;</span><span class="p">:</span>
+            <span class="n">labels_ids_flat</span> <span class="o">=</span> <span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">labels_long</span><span class="p">[</span><span class="mi">0</span><span class="p">])),</span> <span class="n">num_labels</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">images</span><span class="p">))]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">labels_flat</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">labels_long</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">l</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">sublst</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">labels_ids_flat</span><span class="p">)</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">sublst</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">img_ids_flat</span> <span class="o">=</span> <span class="p">[</span><span class="nb">id</span> <span class="k">for</span> <span class="nb">id</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">images</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_labels</span><span class="p">)]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">labels_ids_flat</span> <span class="o">=</span> <span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">labels_short</span><span class="p">[</span><span class="mi">0</span><span class="p">])),</span> <span class="n">num_labels</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">images</span><span class="p">))]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">labels_flat</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">labels_short</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">l</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">sublst</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">labels_ids_flat</span><span class="p">)</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">sublst</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">img_ids_flat</span> <span class="o">=</span> <span class="p">[</span><span class="nb">id</span> <span class="k">for</span> <span class="nb">id</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">images</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_labels</span><span class="p">)]</span>
+
+        <span class="c1"># print(&quot;len labels ids flat &quot;, len(labels_ids_flat))</span>
+        <span class="c1"># print(&quot;len labels flat &quot;, len(self.labels_flat), self.labels_flat[:5])</span>
+        <span class="c1"># print(&quot;len image ids flat &quot;, len(self.img_ids_flat), self.img_ids_flat[:5])</span>
+
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns length of dataset.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">img_ids_flat</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Iterator over the dataset.</span>
+
+<span class="sd">        Arguments:</span>
+<span class="sd">        ---------</span>
+<span class="sd">        idx: int</span>
+<span class="sd">            Index for accessing the flat image-caption pairs.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">        -------</span>
+<span class="sd">        target_img: np.ndarray (64,64,3)</span>
+<span class="sd">            Original image.</span>
+<span class="sd">        target_features: torch.Tensor(2048,)</span>
+<span class="sd">            ResNet features of the image.</span>
+<span class="sd">        target_lbl: str</span>
+<span class="sd">            String caption.</span>
+<span class="sd">        numeric_lbl: np.ndarray (6,)</span>
+<span class="sd">            Original numeric image annotation.</span>
+<span class="sd">        target_caption: torch.Tensor(batch_size, 25)</span>
+<span class="sd">            Encoded caption.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># access raw image corresponding to the index in the entire dataset</span>
+        <span class="n">target_img</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">images</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">img_ids_flat</span><span class="p">[</span><span class="n">idx</span><span class="p">]]</span>
+        <span class="c1"># access caption</span>
+        <span class="n">target_lbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">labels_flat</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+        <span class="c1"># access original numeric annotation of the image</span>
+        <span class="n">numeric_lbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">numeric_labels</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">img_ids_flat</span><span class="p">[</span><span class="n">idx</span><span class="p">]]</span>
+        <span class="c1"># cast type</span>
+        <span class="n">target_img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">target_img</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;uint8&#39;</span><span class="p">)</span>
+        <span class="c1"># retrieve ResNet features, accessed through original image ID</span>
+        <span class="n">target_features</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">embedded_imgs</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">img_ids_flat</span><span class="p">[</span><span class="n">idx</span><span class="p">]]</span>
+        <span class="c1"># tokenize label</span>
+        <span class="n">tokens</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tokenizer</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">target_lbl</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">))</span>
+        <span class="c1"># Convert caption to tensor of word ids, append start and end tokens.</span>
+        <span class="n">target_caption</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tokenize_caption</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span>
+        <span class="c1"># convert to tensor</span>
+        <span class="n">target_caption</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">target_caption</span><span class="p">)</span><span class="o">.</span><span class="n">long</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">target_img</span><span class="p">,</span> <span class="n">target_features</span><span class="p">,</span> <span class="n">target_lbl</span><span class="p">,</span> <span class="n">numeric_lbl</span><span class="p">,</span> <span class="n">target_caption</span>
+
+    <span class="k">def</span> <span class="nf">tokenize_caption</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Helper for converting list of tokens into list of token IDs.</span>
+<span class="sd">        Expects tokenized caption as input.</span>
+
+<span class="sd">        Arguments:</span>
+<span class="sd">        --------</span>
+<span class="sd">        label: list</span>
+<span class="sd">            Tokenized caption.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">        -------</span>
+<span class="sd">        tokens: list</span>
+<span class="sd">            List of token IDs, prepended with start, end, padded to max length.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="n">label</span><span class="p">[:(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_sequence_length</span><span class="o">-</span><span class="mi">2</span><span class="p">)]</span>
+        <span class="n">tokens</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">vocab</span><span class="p">[</span><span class="s2">&quot;word2idx&quot;</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">start_token</span><span class="p">]]</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">label</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">tokens</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vocab</span><span class="p">[</span><span class="s2">&quot;word2idx&quot;</span><span class="p">][</span><span class="n">t</span><span class="p">])</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="n">tokens</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vocab</span><span class="p">[</span><span class="s2">&quot;word2idx&quot;</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">unk_token</span><span class="p">])</span>
+        <span class="n">tokens</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vocab</span><span class="p">[</span><span class="s2">&quot;word2idx&quot;</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">end_token</span><span class="p">])</span>
+        <span class="c1"># pad</span>
+        <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_sequence_length</span><span class="p">:</span>
+            <span class="n">tokens</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vocab</span><span class="p">[</span><span class="s2">&quot;word2idx&quot;</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">pad_token</span><span class="p">])</span>
+
+        <span class="k">return</span> <span class="n">tokens</span>
+
+    <span class="k">def</span> <span class="nf">get_labels_for_image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">caption_type</span><span class="o">=</span><span class="s2">&quot;long&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Helper for getting all annotations for a given image id.</span>
+
+<span class="sd">        Arguments:</span>
+<span class="sd">        ---------</span>
+<span class="sd">        id: int</span>
+<span class="sd">            Index of image caption pair containing the image</span>
+<span class="sd">            for which the full list of captions should be returned.</span>
+<span class="sd">        caption_type: str</span>
+<span class="sd">            &quot;long&quot; or &quot;short&quot;. Indicates type of captions to provide.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">        -------</span>
+<span class="sd">            List of all captions for given image.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">caption_type</span> <span class="o">==</span> <span class="s2">&quot;long&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">labels_long</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">img_ids_flat</span><span class="p">[</span><span class="nb">id</span><span class="p">]]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">labels_short</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">img_ids_flat</span><span class="p">[</span><span class="nb">id</span><span class="p">]]</span>
+
+<span class="n">A3DS_dataset</span> <span class="o">=</span> <span class="n">A3DS</span><span class="p">()</span>
+<span class="n">vocab</span> <span class="o">=</span> <span class="n">A3DS_dataset</span><span class="o">.</span><span class="n">vocab</span><span class="p">[</span><span class="s2">&quot;word2idx&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<span class="n">vocab_size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">vocab</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="creating-a-dataloader">
+<h3>Creating a ’DataLoader’<a class="headerlink" href="#creating-a-dataloader" title="Permalink to this headline">#</a></h3>
+<p>Let’s create a ’DataLoader’ for batches of a specified size, using a random shuffle of the data.
+(The current code requires a batch size of 1, unfortunately.)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">batch_size</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">A3DS_data_loader</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span>
+    <span class="n">dataset</span>    <span class="o">=</span> <span class="n">A3DS_dataset</span><span class="p">,</span>
+    <span class="n">batch_size</span> <span class="o">=</span> <span class="n">batch_size</span><span class="p">,</span>
+    <span class="n">shuffle</span>    <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="fine-tuning-training">
+<h3>Fine-tuning training<a class="headerlink" href="#fine-tuning-training" title="Permalink to this headline">#</a></h3>
+<p>For fine-tuning, we just iterate once through the whole 1k subset of the A3DS.
+(This might take some 15-20 minutes, depending on your machine.)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model_trained</span> <span class="o">=</span> <span class="n">VisionEncoderDecoderModel</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;nlpconnect/vit-gpt2-image-captioning&quot;</span><span class="p">)</span>
+
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">model_trained</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">A3DS_data_loader</span><span class="o">.</span><span class="n">dataset</span><span class="p">))):</span>
+    <span class="c1"># get the next training instance</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">A3DS_data_loader</span><span class="p">))</span>
+
+    <span class="c1"># retrieve and preprocess image</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">fromarray</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span> <span class="c1"># TODO: necessary?</span>
+    <span class="n">pixel_values</span> <span class="o">=</span> <span class="n">image_processor</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s2">&quot;pt&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">pixel_values</span>
+
+    <span class="c1"># retrieve and preprocess labels</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s2">&quot;pt&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">input_ids</span>
+
+    <span class="c1"># compute loss</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">model_trained</span><span class="p">(</span><span class="n">pixel_values</span><span class="o">=</span><span class="n">pixel_values</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">)</span><span class="o">.</span><span class="n">loss</span>
+
+    <span class="c1"># parameter update</span>
+    <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100% 1000/1000 [12:42&lt;00:00,  1.31it/s]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s try again the model predictions with the previous example (which is not in the training data set):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://raw.githubusercontent.com/michael-franke/npNLG/main/neural_pragmatic_nlg/pics/06-3DS-example.jpg&quot;</span>
+
+<span class="n">show_n_generate</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">greedy</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">model</span> <span class="o">=</span> <span class="n">model_trained</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>the pink pill on medium blue floor close to the middle in front of a medium blue wall is small-sized pink wall in the middle is small-
+</pre></div>
+</div>
+<img alt="../_images/08c-NIC-pretrained_26_1.png" src="../_images/08c-NIC-pretrained_26_1.png" />
+</div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./08-grounded-LMs"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="08b-LSTM-3DShapes.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Sheet 8.1: An LSTM-based image captioner for the annotated 3D-Shapes data set</p>
+        </div>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Michael Franke<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>
