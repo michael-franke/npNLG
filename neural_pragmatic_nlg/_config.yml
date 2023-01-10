@@ -26,7 +26,7 @@ bibtex_bibfiles:
 
 sphinx:
   config:
-    html_extra_path: ['slides']
+    html_extra_path: ['slides', 'data']
     mathjax_path: https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
 
 # Information about where the book exists on the web
