@@ -1,0 +1,16 @@
+* Grounded Language Models
+
+A grounded language model is a language model that generates language for some meaningful representation like a table, an image or a video.
+We will focus on image captioning, i.e., models that produce a text-based description of an image, a so-called /image caption/.
+
+We will visit a neural image captioner written from scratch, and also consult ways of fine-tuning pre-trained large image processing models and language models for image captioning.
+
+** Learning goals for this session
+
+1. understand basic architectures for grounded LMs (with a focus on neural image captioning)
+2. critically assess research papers on (grounded) LMs
+3. interpret and apply common evaluation metrics
+
+** Slides
+
+Here are the [slides for this session]().

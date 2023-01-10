@@ -1,5 +1,5 @@
 #+title:     Sheet 8.2: Using 🤗's pretrained models for image captioning
-#+author:    Michael Franke & Polina Tsvilodub
+#+author:    Michael Franke
 
 
 In this tutorial, we will learn how to use 🤗's 'transformers' package to access large and powerful pre-trained image processing and language models.

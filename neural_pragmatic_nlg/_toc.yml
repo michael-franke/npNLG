@@ -53,3 +53,9 @@ parts:
   chapters:
   - file: 07-LLMs/07a-LLMs
   - file: 07-LLMs/07b-pretrained-LLMs
+
+- caption: 08 Grounded language models
+  chapters:
+  - file: 08-grounded-LMs/08-grounded-LMs
+  - file: 08-grounded-LMs/08b-LSTM-3DShapes
+  - file: 08-grounded-LMs/08c-NIC-pretrained
