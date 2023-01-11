@@ -7,6 +7,19 @@ We learn how to instantiate a pre-trained architecture, how to get predictions f
 
 We use the "nlpconnect/vit-gpt2-image-captioning" pre-trained image captioner, which uses an instance of VIT for image encoding and GTP-2 for decoding via causal language modeling.
 
+* Necessary files
+
+You need additional files to run the code in this notebook.
+If you are on CoLab use these commands to install.
+(Check if the files are installed in the right directory ('A3DS') after unzipping).
+
+#+begin_src jupyter-python
+
+# !wget https://github.com/michael-franke/npNLG/raw/main/neural_pragmatic_nlg/data/A3DS/A3DS.zip
+# !unzip A3DS.zip
+
+#+end_src
+
 * Packages
 
 #+begin_src jupyter-python

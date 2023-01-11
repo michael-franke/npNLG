@@ -16,6 +16,19 @@ In contrast, using the A3DS data set, makes it easier to judge, on intuitive gro
 The material presented in this tutorial is in large part based on work conducted by Polina Tsvilodub for her 2022 MSc thesis "Language Drift of Multi-Agent Communication Systems in Reference Games".
 In particular, the annotated 3D Shapes data set and the LSTM-based architecture stems from this thesis.
 
+* Necessary files
+
+You need additional files to run the code in this notebook.
+If you are on CoLab use these commands to install.
+(Check if the files are installed in the right directory ('A3DS') after unzipping).
+
+#+begin_src jupyter-python
+
+# !wget https://github.com/michael-franke/npNLG/raw/main/neural_pragmatic_nlg/data/A3DS/A3DS.zip
+# !unzip A3DS.zip
+
+#+end_src
+
 * Packages
 
 On top of the usual suspects, we will use the 'Image' and 'torchvision' package to process image data.
