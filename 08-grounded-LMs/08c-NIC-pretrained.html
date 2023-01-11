@@ -539,6 +539,11 @@ title="Print to PDF"
     <nav id="bd-toc-nav" aria-label="Page">
         <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#necessary-files">
+   Necessary files
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#packages">
    Packages
   </a>
@@ -595,6 +600,11 @@ title="Print to PDF"
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#necessary-files">
+   Necessary files
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#packages">
    Packages
   </a>
@@ -647,6 +657,20 @@ title="Print to PDF"
 <p>In this tutorial, we will learn how to use 🤗’s ’transformers’ package to access large and powerful pre-trained image processing and language models.
 We learn how to instantiate a pre-trained architecture, how to get predictions for arbitrary input, and how to fine-tune the pre-trained models for the A3DS data set.</p>
 <p>We use the “nlpconnect/vit-gpt2-image-captioning” pre-trained image captioner, which uses an instance of VIT for image encoding and GTP-2 for decoding via causal language modeling.</p>
+<section id="necessary-files">
+<h2>Necessary files<a class="headerlink" href="#necessary-files" title="Permalink to this headline">#</a></h2>
+<p>You need additional files to run the code in this notebook.
+If you are on CoLab use these commands to install.
+(Check if the files are installed in the right directory (’A3DS’) after unzipping).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># !wget https://github.com/michael-franke/npNLG/raw/main/neural_pragmatic_nlg/data/A3DS/A3DS.zip</span>
+<span class="c1"># !unzip A3DS.zip</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
 <section id="packages">
 <h2>Packages<a class="headerlink" href="#packages" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
@@ -735,7 +759,7 @@ The ’requests’ package allows us to open pictures from URLs (which is tons o
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>two cat laying on a bed and one is sleeping
 </pre></div>
 </div>
-<img alt="../_images/08c-NIC-pretrained_12_1.png" src="../_images/08c-NIC-pretrained_12_1.png" />
+<img alt="../_images/08c-NIC-pretrained_15_1.png" src="../_images/08c-NIC-pretrained_15_1.png" />
 </div>
 </div>
 <blockquote>
@@ -1013,7 +1037,7 @@ It is the same as in Sheet 8.1.</p>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>the pink pill on medium blue floor close to the middle in front of a medium blue wall is small-sized pink wall in the middle is small-
 </pre></div>
 </div>
-<img alt="../_images/08c-NIC-pretrained_26_1.png" src="../_images/08c-NIC-pretrained_26_1.png" />
+<img alt="../_images/08c-NIC-pretrained_29_1.png" src="../_images/08c-NIC-pretrained_29_1.png" />
 </div>
 </div>
 </section>
