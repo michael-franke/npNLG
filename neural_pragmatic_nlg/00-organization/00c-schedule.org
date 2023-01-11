@@ -12,6 +12,9 @@ Caveat: Schedule is bound to change. See change stamps below.
 |       6 | Dec 7  | RNNs                             |                        |   |
 |       7 | Dec 14 | LSTMs, decoding & train regimes  |                        |   |
 |       8 | Dec 21 | transformers                     |                        |   |
+|       9 | Jan 11 | grounded LMs                     |                        |   |
+|      10 | Jan 18 | pragmatic NLG                    |                        |   |
+|      12 | Jan 25 | pragmatic NLG                    |                        |   |
 
 ** References
 
@@ -21,7 +24,7 @@ Scontras, G., Tessler, M. H., & Franke, M. (2021). A practical introduction to t
 
 ** List of change stamps
 
-Last change: [2022-12-07 Wed]
+Last change: [2023-01-11 Wed]
 
 
-Previous changes:   [2022-11-09 Wed] , [2022-11-01 Tue], [2022-10-15 Sat]
+Previous changes:  [2022-12-07 Wed], [2022-11-09 Wed] , [2022-11-01 Tue], [2022-10-15 Sat]

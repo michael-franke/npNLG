@@ -98,6 +98,33 @@ Caveat: Schedule is bound to change. See change stamps below.
 <td class="org-left">&#xa0;</td>
 <td class="org-left">&#xa0;</td>
 </tr>
+
+
+<tr>
+<td class="org-right">9</td>
+<td class="org-left">Jan 11</td>
+<td class="org-left">grounded LMs</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+
+<tr>
+<td class="org-right">10</td>
+<td class="org-left">Jan 18</td>
+<td class="org-left">pragmatic NLG</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+
+<tr>
+<td class="org-right">12</td>
+<td class="org-left">Jan 25</td>
+<td class="org-left">pragmatic NLG</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
 </tbody>
 </table>
 
@@ -111,7 +138,7 @@ Scontras, G., Tessler, M. H., & Franke, M. (2021). A practical introduction to t
 
 ## List of change stamps
 
-Last change: <span class="timestamp-wrapper"><span class="timestamp">[2022-12-07 Wed]</span></span>
+Last change: <span class="timestamp-wrapper"><span class="timestamp">[2023-01-11 Wed]</span></span>
 
-Previous changes:   <span class="timestamp-wrapper"><span class="timestamp">[2022-11-09 Wed] </span></span> , <span class="timestamp-wrapper"><span class="timestamp">[2022-11-01 Tue]</span></span>, <span class="timestamp-wrapper"><span class="timestamp">[2022-10-15 Sat]</span></span>
+Previous changes:  <span class="timestamp-wrapper"><span class="timestamp">[2022-12-07 Wed]</span></span>, <span class="timestamp-wrapper"><span class="timestamp">[2022-11-09 Wed] </span></span> , <span class="timestamp-wrapper"><span class="timestamp">[2022-11-01 Tue]</span></span>, <span class="timestamp-wrapper"><span class="timestamp">[2022-10-15 Sat]</span></span>
 
