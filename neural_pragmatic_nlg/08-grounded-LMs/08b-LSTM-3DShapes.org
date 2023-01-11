@@ -29,6 +29,8 @@ If you are on CoLab use these commands to install.
 
 #+end_src
 
+#+RESULTS:
+
 * Packages
 
 On top of the usual suspects, we will use the 'Image' and 'torchvision' package to process image data.
@@ -357,6 +359,7 @@ print(caption_text)
 #+end_src
 
 #+RESULTS:
+: the picture shows a small orange cylinder on red floor in the left corner in front of a purple wall
 
 There are actually long and short captions for each image.
 We have created an instance of the data set with one random long caption per image.
@@ -711,9 +714,8 @@ print(caption_indx)
 #+end_src
 
 #+RESULTS:
-: tensor([ 0,  9, 38, 28,  8,  9, 27, 11, 15,  6, 16,  8, 12, 13,  4, 45, 14, 20,
-:         31,  1,  3,  3,  3,  3,  3,  3])
-: hi!
+: tensor([ 0,  9, 17, 18,  4, 31, 38, 28, 15,  6, 16,  8,  9, 27, 11,  8, 12, 13,
+:          4, 45, 14,  1,  3,  3,  3,  3])
 
 The current NIC module was actually trained for later use of two pictures (contrastive image captioning).
 Therefore, we need to input the picture to be described not once, but twice.
@@ -763,6 +765,30 @@ print(clean_sentence(output))
 #+end_src
 
 #+RESULTS:
+: The picture shows a small orange cylinder in the left corner in front of a purple wall on red floor
+
+Here is how we can compute the BLEU score for such generations:
+
+#+begin_src jupyter-python
+
+from torchtext.data.metrics import bleu_score
+
+cleaned_sentence = clean_sentence(output)
+bleu1 = bleu_score([cleaned_sentence.split()], [ [s.split() for s in all_long_caps]], max_n=1, weights = [1])
+print("BLEU 1 ", bleu1)
+
+bleu2 = bleu_score([cleaned_sentence.split()], [ [s.split() for s in all_long_caps]], max_n=2, weights = [0.5, 0.5])
+print("BLEU 2 ", bleu2)
+
+#+end_src
+
+#+RESULTS:
+: BLEU 1  0.949999988079071
+: BLEU 2  0.9486833214759827
+
+#+begin_src jupyter-python
+
+#+end_src
 
 > <strong><span style=&ldquo;color:#D83D2B;&rdquo;>Exercise 8.1.1: </span></strong>
 >
