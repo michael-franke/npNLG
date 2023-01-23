@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>&lt;no title&gt; &#8212; Neural Pragmatic Natural Language Generation</title>
+    <title>Neural pragmatic Natural Language Generation &#8212; Neural Pragmatic Natural Language Generation</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -52,6 +52,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Sheet 8.2: Using 🤗’s pretrained models for image captioning" href="../08-grounded-LMs/08c-NIC-pretrained.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -211,22 +212,22 @@ const thebe_selector_output = ".output, .cell_output"
 </p>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="04a-ANNs.html">
+  <a class="reference internal" href="../04-ANNs/04a-ANNs.html">
    Artificial neural networks
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="04b-algebra.html">
+  <a class="reference internal" href="../04-ANNs/04b-algebra.html">
    Linear algebra
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="04c-MLP-custom.html">
+  <a class="reference internal" href="../04-ANNs/04c-MLP-custom.html">
    Sheet 4.1: Non-linear regression (custom MLP)
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="04d-MLP-pytorch.html">
+  <a class="reference internal" href="../04-ANNs/04d-MLP-pytorch.html">
    Sheet 4.2: Non-linear regression (MLP w/ PyTorch modules)
   </a>
  </li>
@@ -319,9 +320,9 @@ const thebe_selector_output = ".output, .cell_output"
   09 neural-pragmatic NLG
  </span>
 </p>
-<ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../09-np-NLG/09a-np-NLG.html">
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
    Neural pragmatic Natural Language Generation
   </a>
  </li>
@@ -376,53 +377,6 @@ title="Toggle navigation"
         
     </div>
     <div class="header-article__right">
-<div class="menu-dropdown menu-dropdown-launch-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Launch interactive content">
-      <i class="fas fa-rocket"></i>
-  </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="https://mybinder.org/v2/gh/michael-franke/npNLG/main?urlpath=tree/neural_pragmatic_nlg/04-ANNs/04d-MLP-pytorch-solutions.ipynb"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Launch on Binder"
->
-  
-
-<span class="headerbtn__icon-container">
-  
-    <img src="../_static/images/logo_binder.svg">
-  </span>
-<span class="headerbtn__text-container">Binder</span>
-</a>
-
-      </li>
-      
-      <li>
-        <a href="https://colab.research.google.com/github/michael-franke/npNLG/blob/main/neural_pragmatic_nlg/04-ANNs/04d-MLP-pytorch-solutions.ipynb"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Launch on Colab"
->
-  
-
-<span class="headerbtn__icon-container">
-  
-    <img src="../_static/images/logo_colab.png">
-  </span>
-<span class="headerbtn__text-container">Colab</span>
-</a>
-
-      </li>
-      
-    </ul>
-  </div>
-</div>
-
 <button onclick="toggleFullScreen()"
   class="headerbtn"
   data-toggle="tooltip"
@@ -462,7 +416,7 @@ title="Source repository"
       </li>
       
       <li>
-        <a href="https://github.com/michael-franke/npNLG/issues/new?title=Issue%20on%20page%20%2F04-ANNs/04d-MLP-pytorch-solutions.html&body=Your%20issue%20content%20here."
+        <a href="https://github.com/michael-franke/npNLG/issues/new?title=Issue%20on%20page%20%2F09-np-NLG/09a-np-NLG.html&body=Your%20issue%20content%20here."
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -490,7 +444,7 @@ title="Open an issue"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="../_sources/04-ANNs/04d-MLP-pytorch-solutions.ipynb"
+        <a href="../_sources/09-np-NLG/09a-np-NLG.md"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -501,7 +455,7 @@ title="Download source file"
 <span class="headerbtn__icon-container">
   <i class="fas fa-file"></i>
   </span>
-<span class="headerbtn__text-container">.ipynb</span>
+<span class="headerbtn__text-container">.md</span>
 </a>
 
       </li>
@@ -548,7 +502,22 @@ title="Print to PDF"
         <i class="fas fa-list"></i> Contents
     </div>
     <nav id="bd-toc-nav" aria-label="Page">
-        <ul class="simple visible nav section-nav flex-column">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#learning-goals-for-this-session">
+   Learning goals for this session
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#slides">
+   Slides
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#papers">
+   Papers
+  </a>
+ </li>
 </ul>
 
     </nav>
@@ -558,7 +527,7 @@ title="Print to PDF"
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1><no title></h1>
+                <h1>Neural pragmatic Natural Language Generation</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -567,7 +536,22 @@ title="Print to PDF"
                             <h2> Contents </h2>
                         </div>
                         <nav aria-label="Page">
-                            <ul class="simple visible nav section-nav flex-column">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#learning-goals-for-this-session">
+   Learning goals for this session
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#slides">
+   Slides
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#papers">
+   Papers
+  </a>
+ </li>
 </ul>
 
                         </nav>
@@ -578,20 +562,53 @@ title="Print to PDF"
                 
               <div>
                 
-  <blockquote>
-<div><p><strong><span style=&ldquo;color:#D83D2B;&rdquo;>Exercise 4.2.1: Inspect the model’s parameters and their initial values</span></strong></p>
+  <section class="tex2jax_ignore mathjax_ignore" id="neural-pragmatic-natural-language-generation">
+<h1>Neural pragmatic Natural Language Generation<a class="headerlink" href="#neural-pragmatic-natural-language-generation" title="Permalink to this headline">#</a></h1>
+<p>The final part of this course covers recent work that combines ideas from or similar to probabilistic models of pragmatic reasoning (like the RSA model family) with neural natural language generation.
+The focus in on RSA-like ideas combined with neural image captioning models.</p>
+<p>The goal of injecting RSA-like ideas into neural NLG is to separate a context-neutral (semantic) model component from a context-dependent (pragmatic) component.
+This can mean different things.
+For one, it can mean learning a (contextually stable) semantic meaning representation through the lens of a generation model that approximates pragmatic language use in context (e.g., Monroe &amp; Potts 2015, Ohmer et al. 2022).
+For another, it can mean making a system that was trained in a task-neutral way more contextually flexible, e.g., by using simple image captioning data and yet coercing system generations to respond to context-dependent relevance of information.</p>
+<p>Combining probabilistic pragmatics and NLG essentially means taking a numerical measure of “pragmatic goodness”, e.g., contextual informativity, feeding it into the NLG model.
+This can happened at two places: (i) during training as (part of) the training objective, or (ii) during inference as (part of) the decoding scheme.
+The measure of “pragmatic goodness” can be more or less closely aligned with the models used in the RSA literature.
+Different measures can also affect training or decoding efficiency.
+The following diagram shows examples for these two strands of reasoning, classifying some prominent papers from the recent literature.</p>
+<p><img alt="img" src="../_images/09-pragmatic-NLG.png" /></p>
+<p>Some of the models we look implement the previously introduced “classic” RSA sequence (literal listener, pragmatic speaker, pragmatic listener), e.g., Monroe &amp; Potts (2015), Ohmer, König &amp; Franke (2022), Andreas &amp; Klein (2016).
+Other works rather use the “inverse” RSA sequence, which grounds out in a literal speaker, e.g., Vedantam et al. (2017), Cohn-Gordon et al. (2018), Nie et al. (2020).
+The latter is often easier to work with as a “literal speaker” can be straightforwardly approximated with a task-neutral image captioner.</p>
+<p><img alt="img" src="../_images/09-RSA-sequences.png" /></p>
+<section id="learning-goals-for-this-session">
+<h2>Learning goals for this session<a class="headerlink" href="#learning-goals-for-this-session" title="Permalink to this headline">#</a></h2>
 <ol class="simple">
-<li><p>Guess how the weights of the slope matrices are initialized (roughly). Same for the intercept vectors.</p></li>
+<li><p>become oriented in the landscape of pragmatic neural NLG</p></li>
+<li><p>understand different ways in which RSA(-like) ideas can be applied in NLG</p></li>
 </ol>
-<p><strong>Solution:</strong> The values seems scattered around 0, but can sometimes also be a bit farther away. Hunch: normal distribution around 0. (That’s indeed how they are in fact initialized).</p>
-</div></blockquote>
-<blockquote>
-<div><p><strong><span style=&ldquo;color:#D83D2B;&rdquo;>Exercise 4.2.2: Explore the model’s behavior</span></strong></p>
-<ol class="simple">
-<li><p>Above we used the DataLoader to train in 4 mini-batches. Change it so that there is only one batch containing all the data. Change the `shuffle` parameter so that data is not shuffled. Run the model and check if you observe any notable differences. Explain what your observations. (If you do not see anything, explain why you don’t. You might pay attention to the results of training)</p></li>
-</ol>
-<p><strong>Solution:</strong> With four mini-batches the training is less efficient. This is because the training signal that is backpropagated through the network based on just 25 observations is really rather weak.</p>
-</div></blockquote>
+</section>
+<section id="slides">
+<h2>Slides<a class="headerlink" href="#slides" title="Permalink to this headline">#</a></h2>
+<p>Here are the <a class="reference external" href="https://michael-franke.github.io/npNLG/09-pragmatic-NLG.pdf">slides for this session</a>.</p>
+</section>
+<section id="papers">
+<h2>Papers<a class="headerlink" href="#papers" title="Permalink to this headline">#</a></h2>
+<p>For course projects, the following papers are relevant as starting points for replication studies:</p>
+<ul class="simple">
+<li><p>Andreas, J., &amp; Klein, D. (2016). <a class="reference external" href="https://arxiv.org/abs/1604.00562">Reasoning about pragmatics with neural listeners and speakers</a>. In: Proceedings of the 2016 Conference on Empirical Methods in Natural Language Processing (pp. 1173–1182).</p></li>
+<li><p>Vedantam, R., Bengio, S., Murphy, K., Parikh, D., &amp; Chechik, G. (2017). <a class="reference external" href="https://arxiv.org/abs/1701.02870">Context-Aware Captions From Context-Agnostic Supervision</a>. In: Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR) (pp. 251–260).</p></li>
+<li><p>Cohn-Gordon, R., Goodman, N. D., &amp; Potts, C. (2019). <a class="reference external" href="https://arxiv.org/abs/1810.00367">An incremental iterated response model of pragmatics</a>. In: Proceedings of the Society for Computation in Linguistics (pp. 81–90).</p></li>
+<li><p>Nie, A., Cohn-Gordon, R., &amp; Potts, C. (2020). <a class="reference external" href="https://aclanthology.org/2020.findings-emnlp.173.pdf">Pragmatic Issue-Sensitive Image Captioning.</a> In: Findings of the Association for Computational Linguistics: EMNLP 2020 (pp. 1924–1938).</p></li>
+</ul>
+<p>Additional literature, not recommended as starting points for course projects is listed here:</p>
+<ul class="simple">
+<li><p>Monroe, W., &amp; Potts, C. (2015). <a class="reference external" href="https://arxiv.org/abs/1510.06807">Learning in the Rational Speech Acts model</a>. In: Proceedings of 20th Amsterdam Colloquium.</p></li>
+<li><p>Ohmer, X., Franke, M., &amp; König, Peter (2021). <a class="reference external" href="http://dx.doi.org/https://doi.org/10.1111/cogs.13069">Mutual exclusivity in pragmatic agents</a>. Cognitive Science, 46(1), 13069.</p></li>
+<li><p>Hendricks, L. A., Akata, Z., Rohrbach, M., Donahue, J., Schiele, B., &amp; Darrell, T. (2016). <a class="reference external" href="https://link.springer.com/chapter/10.1007/978-3-319-46493-0_1">Generating Visual Explanations</a>. In: Computer Vision – ECCV 2016 (pp. 3–19).</p></li>
+<li><p>Junhua Mao, Jonathan Huang, Alexander Toshev, Oana Camburu, Alan Yuille, &amp; Kevin Murphy (2016). <a class="reference external" href="https://arxiv.org/abs/1511.02283">Generation and comprehension of unambiguous object descriptions</a>. In: 2016 IEEE Conference on Computer Vision and Pattern Recognition (CVPR) (pp. 11–20).</p></li>
+</ul>
+</section>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -606,7 +623,7 @@ title="Print to PDF"
         },
         kernelOptions: {
             kernelName: "python3",
-            path: "./04-ANNs"
+            path: "./09-np-NLG"
         },
         predefinedOutput: true
     }
@@ -620,6 +637,13 @@ title="Print to PDF"
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="../08-grounded-LMs/08c-NIC-pretrained.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Sheet 8.2: Using 🤗’s pretrained models for image captioning</p>
+        </div>
+    </a>
 </div>
             </footer>
         </div>
