@@ -56,6 +56,10 @@ parts:
 
 - caption: 08 Grounded language models
   chapters:
-  - file: 08-grounded-LMs/08-grounded-LMs
+  - file: 08-grounded-LMs/08a-grounded-LMs
   - file: 08-grounded-LMs/08b-LSTM-3DShapes
   - file: 08-grounded-LMs/08c-NIC-pretrained
+
+- caption: 09 neural-pragmatic NLG
+  chapters:
+  - file: 09-np-NLG/09a-np-NLG
