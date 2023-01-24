@@ -63,3 +63,4 @@ parts:
 - caption: 09 neural-pragmatic NLG
   chapters:
   - file: 09-np-NLG/09a-np-NLG
+  - file: 09-np-NLG/09b-project-ideas
