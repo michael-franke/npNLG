@@ -1,7 +1,7 @@
 * Probabilistic pragmatics
 
 Probabilistic pragmatics is an approach to modelling a speaker's choice of expression and a listener's interpretation thereof, using tools from Bayesian decision theory.
-In simplified terms: the listener uses Bayes rule to infer (abduct) the most likely state that could have led the speaker to act in the way they did; the speaker chooses an expression that increases the chance that the listener (usually, to avoid circularity: under a literal interpretation) comes to belief the things that the speaker wants the listener to belief.
+In simplified terms: the listener uses Bayes rule to infer (abduct) the most likely state that could have led the speaker to act in the way they did; the speaker chooses an expression that increases the chance that the listener (usually, to avoid circularity: under a literal interpretation) comes to believe the things that the speaker wants the listener to believe.
 
 [[../pics/02-RSA-iteration.png]]
 
