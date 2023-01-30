@@ -43,7 +43,7 @@ For course projects, the following papers are relevant as starting points for re
 
 -   Vedantam, R., Bengio, S., Murphy, K., Parikh, D., & Chechik, G. (2017). [Context-Aware Captions From Context-Agnostic Supervision](https://arxiv.org/abs/1701.02870). In: Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR) (pp. 251–260).
 
--   Cohn-Gordon, R., Goodman, N. D., & Potts, C. (2019). [An incremental iterated response model of pragmatics](https://arxiv.org/abs/1810.00367). In: Proceedings of the Society for Computation in Linguistics (pp. 81–90).
+-   Cohn-Gordon, R., Goodman, N. D., & Potts, C. (2018). [Pragmatically informative image captioning with character-level inference](https://aclanthology.org/N18-2070/). In , Proceedings of NAACL (pp. 439–443).
 
 -   Nie, A., Cohn-Gordon, R., & Potts, C. (2020). [Pragmatic Issue-Sensitive Image Captioning.](https://aclanthology.org/2020.findings-emnlp.173.pdf) In: Findings of the Association for Computational Linguistics: EMNLP 2020 (pp. 1924–1938).
 
