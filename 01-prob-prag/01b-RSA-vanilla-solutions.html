@@ -1,48 +1,59 @@
 
+
 <!DOCTYPE html>
 
-<html>
+
+<html lang="en" >
+
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
     <title>Solutions Sheet 1.1: Vanilla RSA &#8212; Neural Pragmatic Natural Language Generation</title>
-    
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
 
-    
-  <link rel="stylesheet"
-    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
-    
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="../_static/togglebutton.js"></script>
-    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script src="../_static/design-tabs.js"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
 const thebe_selector = ".thebe,.cell"
@@ -52,59 +63,91 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '01-prob-prag/01b-RSA-vanilla-solutions';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="None">
-    
-
-    <!-- Google Analytics -->
-    
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
-<!-- Checkboxes to toggle the left sidebar -->
-<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
-<label class="overlay overlay-navbar" for="__navigation">
-    <div class="visually-hidden">Toggle navigation sidebar</div>
-</label>
-<!-- Checkboxes to toggle the in-page toc -->
-<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
-<label class="overlay overlay-pagetoc" for="__page-toc">
-    <div class="visually-hidden">Toggle in-page Table of Contents</div>
-</label>
-<!-- Headers at the top -->
-<div class="announcement header-item noprint"></div>
-<div class="header header-item noprint"></div>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
-    
-    <div class="container-fluid" id="banner"></div>
-
-    
-
-    <div class="container-xl">
-      <div class="row">
-          
-<!-- Sidebar -->
-<div class="bd-sidebar noprint" id="site-navigation">
-    <div class="bd-sidebar__content">
-        <div class="bd-sidebar__top"><div class="navbar-brand-box">
-    <a class="navbar-brand text-wrap" href="../index.html">
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
       
-        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+      <div class="bd-sidebar-primary bd-sidebar">
         
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../000-intro.html">
+  
+  
+  
+  
+    
+    
       
-      
-      <img src="../_static/npNLG-logo.png" class="logo" alt="logo">
-      
-      
-      <h1 class="site-logo" id="site-title">Neural Pragmatic Natural Language Generation</h1>
-      
-    </a>
-</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
-  <i class="icon fas fa-search"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
-</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
-    <div class="bd-toc-item active">
+    
+    
+    <img src="../_static/npNLG-logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/npNLG-logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
         
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1">
@@ -113,453 +156,294 @@ const thebe_selector_output = ".output, .cell_output"
                 </a>
             </li>
         </ul>
-        <p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  00 organization
- </span>
-</p>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">00 organization</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../00-organization/00a-overview.html">
-   Course overview
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../00-organization/00b-practicalities.html">
-   Practicalities
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../00-organization/00c-schedule.html">
-   Schedule
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../00-organization/00d-slides.html">
-   Slides from session 1
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="../00-organization/00a-overview.html">Course overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../00-organization/00b-practicalities.html">Practicalities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../00-organization/00c-schedule.html">Schedule</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../00-organization/00d-slides.html">Slides from session 1</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  01 Probabilistic pragmatics
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">01 Probabilistic pragmatics</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="01a-prob-prag.html">
-   Probabilistic pragmatics
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="01b-RSA-vanilla.html">
-   Sheet 1.1: Vanilla RSA
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="01c-RSA-politeness.html">
-   Sheet 1.2: RSA with politeness
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="01a-prob-prag.html">Probabilistic pragmatics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01b-RSA-vanilla.html">Sheet 1.1: Vanilla RSA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01c-RSA-politeness.html">Sheet 1.2: RSA with politeness</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  02 PyTorch Basics
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">02 PyTorch Basics</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../02-pytorch/02a-pytorch-basics.html">
-   Basics of PyTorch
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../02-pytorch/02b-pytorch-intro.html">
-   Sheet 2.1: PyTorch essentials
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../02-pytorch/02c-MLE.html">
-   Sheet 2.2: ML-estimation
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="../02-pytorch/02a-pytorch-basics.html">Basics of PyTorch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-pytorch/02b-pytorch-intro.html">Sheet 2.1: PyTorch essentials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-pytorch/02c-MLE.html">Sheet 2.2: ML-estimation</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  03 Optimization
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">03 Optimization</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../03-optimization/03a-optimization.html">
-   Optimization in PyTorch
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../03-optimization/03b-gradient-descent.html">
-   Sheet 3.1: Gradient descent by hand
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../03-optimization/03c-RSA-pytorch.html">
-   Sheet 3.2: Optimizing an RSA model
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="../03-optimization/03a-optimization.html">Optimization in PyTorch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-optimization/03b-gradient-descent.html">Sheet 3.1: Gradient descent by hand</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-optimization/03c-RSA-pytorch.html">Sheet 3.2: Optimizing an RSA model</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  04 ANNs in PyTorch
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">04 ANNs in PyTorch</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../04-ANNs/04a-ANNs.html">
-   Artificial neural networks
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../04-ANNs/04b-algebra.html">
-   Linear algebra
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../04-ANNs/04c-MLP-custom.html">
-   Sheet 4.1: Non-linear regression (custom MLP)
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../04-ANNs/04d-MLP-pytorch.html">
-   Sheet 4.2: Non-linear regression (MLP w/ PyTorch modules)
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="../04-ANNs/04a-ANNs.html">Artificial neural networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-ANNs/04b-algebra.html">Linear algebra</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-ANNs/04c-MLP-custom.html">Sheet 4.1: Non-linear regression (custom MLP)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-ANNs/04d-MLP-pytorch.html">Sheet 4.2: Non-linear regression (MLP w/ PyTorch modules)</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  05 RNNs in PyTorch
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">05 RNNs in PyTorch</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../05-RNNs/05a-RNNs.html">
-   Recurrent neural networks
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../05-RNNs/05b-char-level-RNN.html">
-   Sheet 5.1: Character-level sequence modeling w/ RNNs
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="../05-RNNs/05a-RNNs.html">Recurrent neural networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../05-RNNs/05b-char-level-RNN.html">Sheet 5.1: Character-level sequence modeling w/ RNNs</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  06 LSTMs in PyTorch
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">06 LSTMs in PyTorch</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../06-LSTMs/06a-LSTMs.html">
-   Long-Short Term Memory (LSTM) models
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../06-LSTMs/06b-LSTM-minimal-forward-pass.html">
-   Sheet 6.1: Anatomy of a single LSTM forward pass
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../06-LSTMs/06c-char-level-LSTM.html">
-   Sheet 6.2: Character-level sequence modeling w/ LSTMs
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../06-LSTMs/06d-decoding-GPT2.html">
-   Sheet 6.3: Decoding strategies
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="../06-LSTMs/06a-LSTMs.html">Long-Short Term Memory (LSTM) models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../06-LSTMs/06b-LSTM-minimal-forward-pass.html">Sheet 6.1: Anatomy of a single LSTM forward pass</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../06-LSTMs/06c-char-level-LSTM.html">Sheet 6.2: Character-level sequence modeling w/ LSTMs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../06-LSTMs/06d-decoding-GPT2.html">Sheet 6.3: Decoding strategies</a></li>
+
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  07 Large language models
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">07 Large language models</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../07-LLMs/07a-LLMs.html">
-   Large Language Models
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../07-LLMs/07b-pretrained-LLMs.html">
-   Sheet 7.1: Using pretrained LLMs w/ the ‘transformers’ package
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="../07-LLMs/07a-LLMs.html">Large Language Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../07-LLMs/07b-pretrained-LLMs.html">Sheet 7.1: Using pretrained LLMs w/ the ‘transformers’ package</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  08 Grounded language models
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">08 Grounded language models</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../08-grounded-LMs/08a-grounded-LMs.html">
-   Grounded Language Models
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../08-grounded-LMs/08b-LSTM-3DShapes.html">
-   Sheet 8.1: An LSTM-based image captioner for the annotated 3D-Shapes data set
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../08-grounded-LMs/08c-NIC-pretrained.html">
-   Sheet 8.2: Using 🤗’s pretrained models for image captioning
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="../08-grounded-LMs/08a-grounded-LMs.html">Grounded Language Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../08-grounded-LMs/08b-LSTM-3DShapes.html">Sheet 8.1: An LSTM-based image captioner for the annotated 3D-Shapes data set</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../08-grounded-LMs/08c-NIC-pretrained.html">Sheet 8.2: Using 🤗’s pretrained models for image captioning</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  09 neural-pragmatic NLG
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">09 neural-pragmatic NLG</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../09-np-NLG/09a-np-NLG.html">
-   Neural pragmatic Natural Language Generation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../09-np-NLG/09b-project-ideas.html">
-   Project ideas
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="../09-np-NLG/09a-np-NLG.html">Neural pragmatic Natural Language Generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../09-np-NLG/09b-project-ideas.html">Project ideas</a></li>
 </ul>
 
     </div>
 </nav></div>
-        <div class="bd-sidebar__bottom">
-             <!-- To handle the deprecated key -->
-            
-            <div class="navbar_extra_footer">
-            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
-            </div>
-            
-        </div>
     </div>
-    <div id="rtd-footer-container"></div>
-</div>
-
-
-          
-
-
-          
-<!-- A tiny helper pixel to detect if we've scrolled -->
-<div class="sbt-scroll-pixel-helper"></div>
-<!-- Main content -->
-<div class="col py-0 content-container">
-    
-    <div class="header-article row sticky-top noprint">
-        
-
-
-
-<div class="col py-1 d-flex header-article-main">
-    <div class="header-article__left">
-        
-        <label for="__navigation"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="right"
-title="Toggle navigation"
->
   
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-bars"></i>
-  </span>
-
-</label>
-
-        
-    </div>
-    <div class="header-article__right">
-<div class="menu-dropdown menu-dropdown-launch-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Launch interactive content">
-      <i class="fas fa-rocket"></i>
-  </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="https://mybinder.org/v2/gh/michael-franke/npNLG/main?urlpath=tree/neural_pragmatic_nlg/01-prob-prag/01b-RSA-vanilla-solutions.ipynb"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Launch on Binder"
->
   
-
-<span class="headerbtn__icon-container">
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
   
-    <img src="../_static/images/logo_binder.svg">
-  </span>
-<span class="headerbtn__text-container">Binder</span>
-</a>
+  <div id="rtd-footer-container"></div>
 
-      </li>
+
+      </div>
       
-      <li>
-        <a href="https://colab.research.google.com/github/michael-franke/npNLG/blob/main/neural_pragmatic_nlg/01-prob-prag/01b-RSA-vanilla-solutions.ipynb"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Launch on Colab"
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/michael-franke/npNLG/blob/main/neural_pragmatic_nlg/01-prob-prag/01b-RSA-vanilla-solutions.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onColab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
 
-<span class="headerbtn__icon-container">
+<span class="btn__icon-container">
   
     <img src="../_static/images/logo_colab.png">
   </span>
-<span class="headerbtn__text-container">Colab</span>
+<span class="btn__text-container">Colab</span>
 </a>
-
-      </li>
+</li>
       
-    </ul>
-  </div>
+  </ul>
 </div>
 
-<button onclick="toggleFullScreen()"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="bottom"
-title="Fullscreen mode"
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/michael-franke/npNLG" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
 
-<span class="headerbtn__icon-container">
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/michael-franke/npNLG/issues/new?title=Issue%20on%20page%20%2F01-prob-prag/01b-RSA-vanilla-solutions.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/01-prob-prag/01b-RSA-vanilla-solutions.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
   <i class="fas fa-expand"></i>
   </span>
 
 </button>
 
-<div class="menu-dropdown menu-dropdown-repository-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Source repositories">
-      <i class="fab fa-github"></i>
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
   </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="https://github.com/michael-franke/npNLG"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Source repository"
->
-  
+`);
+</script>
 
-<span class="headerbtn__icon-container">
-  <i class="fab fa-github"></i>
-  </span>
-<span class="headerbtn__text-container">repository</span>
-</a>
-
-      </li>
-      
-      <li>
-        <a href="https://github.com/michael-franke/npNLG/issues/new?title=Issue%20on%20page%20%2F01-prob-prag/01b-RSA-vanilla-solutions.html&body=Your%20issue%20content%20here."
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Open an issue"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-lightbulb"></i>
-  </span>
-<span class="headerbtn__text-container">open issue</span>
-</a>
-
-      </li>
-      
-    </ul>
-  </div>
-</div>
-
-<div class="menu-dropdown menu-dropdown-download-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Download this page">
-      <i class="fas fa-download"></i>
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
   </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="../_sources/01-prob-prag/01b-RSA-vanilla-solutions.ipynb"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Download source file"
->
-  
+`);
+</script>
 
-<span class="headerbtn__icon-container">
-  <i class="fas fa-file"></i>
-  </span>
-<span class="headerbtn__text-container">.ipynb</span>
-</a>
-
-      </li>
+</div></div>
       
-      <li>
-        
-<button onclick="printPdf(this)"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="left"
-title="Print to PDF"
->
+    </div>
   
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-file-pdf"></i>
-  </span>
-<span class="headerbtn__text-container">.pdf</span>
-</button>
-
-      </li>
-      
-    </ul>
-  </div>
 </div>
+</div>
+              
+              
 
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Solutions Sheet 1.1: Vanilla RSA</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
     </div>
 </div>
 
-<!-- Table of contents -->
-<div class="col-md-3 bd-toc show noprint">
-</div>
-    </div>
-    <div class="article row">
-        <div class="col pl-md-3 pl-lg-5 content-container">
-            <!-- Table of contents that is only displayed when printing the page -->
-            <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Solutions Sheet 1.1: Vanilla RSA</h1>
-                <!-- Table of contents -->
-                <div id="print-main-content">
-                    <div id="jb-print-toc">
-                        
-                    </div>
-                </div>
-            </div>
-            <main id="main-content" role="main">
+              
                 
-              <div>
-                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
   <section class="tex2jax_ignore mathjax_ignore" id="solutions-sheet-1-1-vanilla-rsa">
-<h1>Solutions Sheet 1.1: Vanilla RSA<a class="headerlink" href="#solutions-sheet-1-1-vanilla-rsa" title="Permalink to this headline">#</a></h1>
+<h1>Solutions Sheet 1.1: Vanilla RSA<a class="headerlink" href="#solutions-sheet-1-1-vanilla-rsa" title="Permalink to this heading">#</a></h1>
 <p><strong>Author:</strong> Michael Franke</p>
 <p>Imports:</p>
 <div class="cell docutils container">
@@ -631,7 +515,7 @@ title="Print to PDF"
 </div>
 <blockquote>
 <div><p><strong><span style=&ldquo;color:#D83D2B;&rdquo;>Exercise 1.1.1: Apply the helper functions</span></strong></p>
-<ol class="simple">
+<ol class="arabic simple">
 <li><p>Normalize the following matrix to a row-stochastic and a column-stochastic matrix for the matrix: <span class="math notranslate nohighlight">\([[1,2], [3,4]]\)</span>.</p></li>
 <li><p>Apply softmax to the following matrix to obtain a row-stochastic and a column-stochastic matrix:  <span class="math notranslate nohighlight">\([[1,2], [3,4], [5,6]]\)</span>.</p></li>
 <li><p>Compute the soft-max and the normalized stochastic vector for the vector <span class="math notranslate nohighlight">\([1,2,3]\)</span>. (NB: the definitions do <em>not</em> expect vector input, so … what do you do?)</p></li>
@@ -811,13 +695,13 @@ green           0.0           1.0          0.0     green
 square          0.0           0.4          0.6    square
 </pre></div>
 </div>
-<img alt="../_images/01b-RSA-vanilla-solutions_10_1.png" src="../_images/01b-RSA-vanilla-solutions_10_1.png" />
-<img alt="../_images/01b-RSA-vanilla-solutions_10_2.png" src="../_images/01b-RSA-vanilla-solutions_10_2.png" />
+<img alt="../_images/341d75e145fdc1cce839746a7586cddaa704a58f58d86f1594fb3a7d348d08d6.png" src="../_images/341d75e145fdc1cce839746a7586cddaa704a58f58d86f1594fb3a7d348d08d6.png" />
+<img alt="../_images/f2edf5526b2cbc5084560a224c4cd8861796e5052de1358917e693d2d7da8d1d.png" src="../_images/f2edf5526b2cbc5084560a224c4cd8861796e5052de1358917e693d2d7da8d1d.png" />
 </div>
 </div>
 <blockquote>
 <div><p><strong><span style=&ldquo;color:#D83D2B;&rdquo;>Exercise 1.1.3: Explore the vanilla RSA model</span></strong></p>
-<ol class="simple">
+<ol class="arabic simple" start="0">
 <li><p>[for your own sake only; no written answer required] Go through the whole last code block. Try to understand every single line in the function `RSA<sub>predictions</sub>`. Ask if anything is unclear. (It is muss less important to understand the details of the subsequent data wrangling and plotting.)</p></li>
 <li><p>Explore what happens if you make the speaker more optimal. Does that also affect the listener’s inferences? Why? Is that intuitive?</p></li>
 <li><p>Add another object to the context, namely a red triangle. Add any relevant utterances, their semantics and costs as well. What do you predict will happen to the model’s predictions for the “old” objects and utterances? Test your predictions (= understanding of the model) and report the results.</p></li>
@@ -827,7 +711,7 @@ square          0.0           0.4          0.6    square
 </div></blockquote>
 <blockquote>
 <div><p><strong><span style=&ldquo;color:#D83D2B;&rdquo;>Solutions for Exercise 1.1.3</span></strong></p>
-<ol class="simple">
+<ol class="arabic simple">
 <li><p>Making the speaker more optimal is achieved by increasing the value of <span class="math notranslate nohighlight">\(\alpha\)</span>. The higher <span class="math notranslate nohighlight">\(\alpha\)</span>, the more the speaker rule approximates a purely rational agent who always chooses the (or an) utterance that maximizes the utility score. As the listener is defined in terms of Bayes rule, with <span class="math notranslate nohighlight">\(P_{S}\)</span> as a likelihood function, changes of <span class="math notranslate nohighlight">\(\alpha\)</span> also affect the listener’s interpretation. This is intuitive because my interpretation of an utterance almost certainly changes if my belief about the rationality (or idioticity) of the speaker changes.</p></li>
 <li><p>We predict that adding a red triangle and words ’red’ and ’triangle’ will not change the predictions for the “old part” of the context model, because the new words will all be false of all the old objects.
 Adding another object gives us a new context model.
@@ -923,7 +807,7 @@ triangle         0.00          0.00         0.00           1.0
 </div>
 </div>
 <blockquote>
-<div><ol class="simple">
+<div><ol class="arabic simple" start="3">
 <li><p>Increasing the cost parameter makes the speaker prefer nouns more strongly over adjectives. If we set it to negative values, the pattern is reversed. This parameter also affects the listener part. For example, if costs of adjectives are very high, the speaker will prefer to also choose “square” for the green square, thus overriding the pressure to be informative. As a result, when the listener hears “square” they will think that it is (roughly) equally likely that the speaker is referring to the “green square” or the “blue square”.</p></li>
 <li><p>A simple way to achieve this result is to use what is sometimes called a “soft-semantics”, where truth values are not 0 or 1, but something close to these extremes. For example:</p></li>
 </ol>
@@ -967,36 +851,73 @@ triangle         0.00          0.00         0.00           1.0
     </script>
     <script>kernelName = 'python3'</script>
 
-              </div>
+                </article>
               
-            </main>
-            <footer class="footer-article noprint">
-                
-    <!-- Previous / next buttons -->
-<div class='prev-next-area'>
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
 </div>
-            </footer>
-        </div>
-    </div>
-    <div class="footer-content row">
-        <footer class="col footer"><p>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
   
-    By Michael Franke<br/>
-  
-      &copy; Copyright 2022.<br/>
-</p>
-        </footer>
-    </div>
+  <div class="footer-item">
     
+<p class="component-author">
+By Michael Franke
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
 </div>
+          </footer>
+        
 
-
-      </div>
+      </main>
     </div>
+  </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
 
-
+  <footer class="bd-footer">
+  </footer>
   </body>
 </html>
